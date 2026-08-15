@@ -74,6 +74,10 @@ Link to:
 
 > Van hasonló problémája?
 
+## Fact status
+
+"Known" below reflects internal working understanding used to shape the narrative, not confirmed publication-ready fact. Every publication-facing claim remains gated by the "TO VERIFY" list for its case study and by `13-CONTENT-GAPS-AND-VALIDATION.md`.
+
 ## Case Study 01
 
 Working title:

@@ -89,6 +89,7 @@ Expected content themes:
 - roles and permissions;
 - partner/work/project/work-order examples;
 - mobile operational work;
+- process digitalization framing where relevant;
 - real project proof;
 - CTA.
 

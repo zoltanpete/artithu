@@ -91,7 +91,7 @@ Examples:
 CASE / 02
 
 STATUS        ACTIVE
-SINCE         2004
+SINCE         20XX
 LIFECYCLE     20+ YEARS
 ```
 

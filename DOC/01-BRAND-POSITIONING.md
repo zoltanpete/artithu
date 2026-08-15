@@ -139,7 +139,7 @@ Proof inventory includes:
 - systems in operation for 20+ years;
 - a custom application that survived multiple surrounding ERP generations.
 
-All public longevity numbers must be verified before publication.
+All longevity and long-term-use claims in this inventory — including exact durations, the continuous-daily-use claim, and the ERP-survival claim — must be verified before publication. See `13-CONTENT-GAPS-AND-VALIDATION.md`.
 
 ### Own product
 

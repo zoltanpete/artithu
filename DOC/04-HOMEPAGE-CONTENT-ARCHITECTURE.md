@@ -38,7 +38,7 @@ Proof direction:
 - 10+ év — continuous daily use
 - Tardify — own business software
 
-All longevity numbers: TO VERIFY before publication.
+All longevity and continuous-use claims above: TO VERIFY before publication. See `13-CONTENT-GAPS-AND-VALIDATION.md`.
 
 Visual:
 
@@ -125,6 +125,8 @@ Featured Case 02:
 
 Use real software screenshots as evidence.
 
+Featured Case headlines are working titles; the underlying claims (ERP-survival, continuous co-growth with the business) remain TO VERIFY per `13-CONTENT-GAPS-AND-VALIDATION.md`.
+
 ## 05 — Longevity
 
 Headline:
@@ -141,7 +143,7 @@ Large data typography + engineering metadata.
 
 Potential dark section.
 
-Numbers must be verified.
+All numbers and long-term-use claims must be verified. See `13-CONTENT-GAPS-AND-VALIDATION.md`.
 
 ## 06 — Tardify
 
