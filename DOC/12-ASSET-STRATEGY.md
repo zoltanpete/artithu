@@ -34,10 +34,15 @@ TBD:
 
 - current ARTIT logo;
 - vector versions;
-- brand accent source;
 - favicon/app icons.
 
 Do not assume legacy WordPress visual styling should be retained.
+
+**Brand accent source — resolved as a new design-system proposal (Task 004A/004B)**: no historical ARTIT accent color exists anywhere in this repository (verified by a full repo search before proposing anything). The implemented accent (`#2b5d4b`, deep restrained green) is a new website design-system choice, not a recovered or claimed brand color — see `07-DESIGN-SYSTEM.md`. Logo and favicon remain genuinely TBD; no logo work was done in Task 004A/004B.
+
+## Typeface assets (Task 004B)
+
+Work Sans (primary) and Space Mono (metadata) are self-hosted under `src/fonts/`, sourced from the official Google Fonts-distributed builds, SIL OFL 1.1 licensed. Provenance and license text are kept alongside the font files (`src/fonts/PROVENANCE.md` and the `*-OFL.txt` files) rather than only in documentation, so the license travels with the asset. See `09-TECHNICAL-ARCHITECTURE.md` for delivery details.
 
 ## People
 

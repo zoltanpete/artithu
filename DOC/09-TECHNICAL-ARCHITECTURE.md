@@ -77,6 +77,25 @@ src/
 
 `src/assets/`, `src/components/`, `src/utils/` do not exist yet — nothing in the repository needs them yet. Create them when real components/utilities/processable images exist, following this same source-of-truth structure.
 
+### Implementation status (Task 004B)
+
+Added:
+
+```text
+src/
+├── components/
+│   └── layout/
+│       └── Container.astro   — reading/standard/wide width primitive
+├── fonts/                    — self-hosted Work Sans + Space Mono WOFF2 files + license/provenance
+├── pages/
+│   └── design-foundation.astro   — internal, noindex design-foundation fixture
+└── styles/
+    ├── fonts.css        — @font-face declarations
+    └── foundation.css   — typography/links/buttons/containers/surfaces/screenshot-frame CSS
+```
+
+`src/components/` now exists with exactly one primitive (`Container.astro`) — introduced because containers are used repeatedly across the fixture and will be used site-wide. No other component subdirectory (`case-study/`, `content/`, `navigation/`, `typography/`, `ui/`) was created; each is still empty of real need.
+
 ## Public assets
 
 Use `public/` only for assets that should bypass Astro processing or need fixed public paths.
@@ -98,6 +117,14 @@ Final CSS strategy must be selected in Task 003 based on current Astro capabilit
 Chosen: plain global CSS, no framework. `src/styles/tokens.css` defines the semantic custom-property architecture from `07-DESIGN-SYSTEM.md`; `src/styles/global.css` imports it and adds a minimal reset (box-sizing, body margin, media defaults, form-control font inheritance, visible focus, `prefers-reduced-motion` handling). `BaseLayout.astro` imports `global.css` once.
 
 Token *values* (colors, spacing scale, font stacks) are conservative foundation placeholders only — final calibration is Task 004's job, not this one.
+
+### Implementation status (Task 004B)
+
+CSS split into four small files, each with one concern: `tokens.css` (semantic custom properties, now with final calibrated values — see `07-DESIGN-SYSTEM.md`), `fonts.css` (`@font-face` only), `foundation.css` (typography element styles, links, buttons, containers, section rhythm, dark-section variant, screenshot-frame placeholders), `global.css` (reset/base, now also imports the other three). No CSS framework, Sass, CSS-in-JS, or utility framework was added — native CSS throughout, per the task's explicit preference.
+
+### Implementation status (Task 004C)
+
+Same four-file architecture, no new files. Changes confined to `tokens.css` (two-tier section-spacing tokens) and `foundation.css` (`.section--major` modifier, H3/lead weight). See `07-DESIGN-SYSTEM.md` for the calibrated values and the visual reasoning behind each change.
 
 ## JavaScript
 
@@ -162,6 +189,18 @@ Specific fonts: TBD.
 
 `--font-sans`/`--font-mono` tokens currently hold system-font-stack placeholders (`system-ui, sans-serif` / `ui-monospace, monospace`) purely so the foundation renders with zero font-loading cost. Real typeface selection remains Task 004's decision per the Font rule in `TASK/004-design-tokens-typography-foundation.md`.
 
+### Implementation status (Task 004B)
+
+**Work Sans** (primary, variable, weights 400/500/600/700) and **Space Mono** (metadata only, static, Regular 400) are implemented and self-hosted. Both are SIL OFL 1.1, sourced from the same `google/fonts` upstream builds verified in Task 004A.
+
+- Files: `src/fonts/work-sans-variable-{latin,latin-ext}.woff2`, `src/fonts/space-mono-400-{latin,latin-ext}.woff2` — 4 files, ~118KB combined. Two subsets per family (basic Latin + Latin Extended-A) because Hungarian text needs both — this mirrors Google's own delivery split rather than shipping one fat merged file.
+- License/provenance preserved at `src/fonts/PROVENANCE.md`, `src/fonts/WORK-SANS-OFL.txt`, `src/fonts/SPACE-MONO-OFL.txt`.
+- Manually vendored rather than via an `@fontsource-*` npm package — kept the file count and provenance trivial enough that a package added no real benefit, per this document's dependency rule.
+- `font-display: swap` on every `@font-face` rule.
+- Work Sans's two subset files are preloaded in `BaseLayout.astro` (`<link rel="preload" as="font">`) since Work Sans carries nearly all text on every page; Space Mono is not preloaded, per the task brief.
+- Confirmed zero runtime request to `fonts.googleapis.com`/`fonts.gstatic.com` — verified directly against the production `dist/` output.
+- Hungarian glyph coverage (Ő/ő/Ű/ű) was verified two ways: directly parsing the un-subsetted upstream `.ttf` binaries' `cmap` tables (Task 004A), and confirming the vendored subset files' declared `unicode-range` covers U+0150–0151/0170–0171 (Task 004B). Visually re-confirmed by rendering the fixture in a real Chromium browser via Playwright and inspecting screenshots at four viewport widths — no missing-glyph ("tofu") boxes.
+
 ## SEO primitives
 
 Create reusable infrastructure for:
@@ -194,6 +233,10 @@ Accepted Hungarian routes are defined in `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`.
 ### Implementation status (Task 003)
 
 Only `/` and `/404` exist, both minimal structural placeholders (no homepage sections, no real copy). No other route from the accepted sitemap has been built yet.
+
+### Implementation status (Task 004B)
+
+Added `/design-foundation` — an internal, `noindex` design-foundation fixture (not part of the accepted sitemap, not linked from any navigation). It exists to let the owner visually review typography/color/spacing before homepage implementation begins. Note: `src/pages/_design.astro` (the task's suggested underscore-prefixed name) was deliberately **not** used — Astro's file-based router excludes any `_`-prefixed file in `src/pages/` from routing entirely (confirmed against current official docs), so that name would silently produce no route at all. `design-foundation` was chosen instead, exactly as the task's own fallback allowed ("another clearly internal development route... with noindex").
 
 ## Forms
 
@@ -236,6 +279,10 @@ At minimum:
 ### Implementation status (Task 003)
 
 `npm run build` (production build) and `npm run check` (`astro check`, via `@astrojs/check`) both run and pass with 0 errors/warnings. `npm run dev` starts correctly and serves `/` (200) and unknown paths (404). Accessibility/responsive/structured-data/performance review remain for later tasks once there is real UI to review.
+
+### Implementation status (Task 004B)
+
+`npm run check`/`npm run build` re-verified after implementation: 0 errors, 0 warnings, 1 informational hint (`Container.astro`'s `Props` interface flagged as "unused" by plain TypeScript — expected and harmless; Astro's compiler consumes it for `Astro.props` typing even though it isn't referenced via an explicit type annotation). Production build output inspected directly for font references, external requests, and generated JS. Real-browser visual QA was performed with Playwright (Chromium, already available in the environment, not added as a project dependency) at 360/768/1280/1680px, which caught and fixed one real bug: `align-items: stretch` (flexbox default) was overriding the screenshot-frame placeholders' individual `aspect-ratio` values — fixed with a dedicated `.screenshot-row { align-items: flex-start }` class instead of reusing the generic `.meta-row`.
 
 ## Documentation rule
 

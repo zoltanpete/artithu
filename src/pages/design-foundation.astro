@@ -1,0 +1,170 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+---
+
+<BaseLayout
+	title="Design Foundation (internal, dev-only)"
+	description="Belső fejlesztői nézet a design-alapozás ellenőrzéséhez. Nem publikus tartalom."
+	noindex={true}
+>
+	<main>
+		<Container width="standard">
+			<div class="section">
+				<p class="meta">INTERNAL / DEV-ONLY / NOINDEX</p>
+				<h1>Design Foundation</h1>
+				<p class="lead">
+					Task 004B belső ellenőrző oldala: tipográfia, szín, térköz, konténerek és
+					állapotok — nem a végleges kezdőlap.
+				</p>
+			</div>
+		</Container>
+
+		<hr class="divider" />
+
+		<!-- Typography -->
+		<Container width="standard">
+			<div class="section">
+				<p class="meta">01 / TIPOGRÁFIA</p>
+
+				<p class="text-display" style="margin-block-end: var(--space-md);">
+					Árvíztűrő tükörfúrógép
+				</p>
+				<h2 style="margin-block-end: var(--space-md);">Egyedi üzleti szoftverfejlesztés</h2>
+				<h3 style="margin-block-end: var(--space-md);">
+					A szoftver alkalmazkodjon a vállalkozásához
+				</h3>
+				<p class="lead" style="margin-block-end: var(--space-md);">
+					Ő ő Ű ű — vezető bekezdés, amely a szakaszok bevezetőjét mutatja be, kicsit
+					nagyobb és levegősebb, mint a törzsszöveg.
+				</p>
+				<p style="max-width: var(--content-reading); margin-block-end: var(--space-md);">
+					Törzsszöveg hosszabb, olvasásra optimalizált változatban. Árvíztűrő
+					tükörfúrógép — az ékezetes magyar karakterek (á é í ó ö ő ú ü ű) helyes
+					megjelenítésének ellenőrzésére. Ez a bekezdés a `reading` konténer szélességét
+					és a sortávolságot mutatja be hosszabb, üzleti jellegű szövegen.
+				</p>
+				<p class="text-small" style="margin-block-end: var(--space-md);">
+					Kisebb, másodlagos szöveg — jegyzetek, kiegészítő információk megjelenítésére.
+				</p>
+				<p class="meta">CASE / XX &nbsp; STATUS ACTIVE &nbsp; LIFECYCLE XX+ ÉV</p>
+			</div>
+		</Container>
+
+		<hr class="divider" />
+
+		<!-- Links -->
+		<Container width="standard">
+			<div class="section">
+				<p class="meta">02 / HIVATKOZÁSOK</p>
+				<p style="margin-block-end: var(--space-md);">
+					Ez egy <a href="#">szövegbe ágyazott hivatkozás</a> egy mondat közepén, amely
+					a normál olvasási folyamban jelenik meg.
+				</p>
+				<a href="#" class="link-standalone">Önálló akció-hivatkozás →</a>
+			</div>
+		</Container>
+
+		<hr class="divider" />
+
+		<!-- Buttons -->
+		<Container width="standard">
+			<div class="section">
+				<p class="meta">03 / GOMBOK</p>
+				<div class="meta-row" style="margin-block-start: var(--space-md);">
+					<button type="button" class="btn btn-primary">Elsődleges CTA</button>
+					<button type="button" class="btn btn-secondary">Másodlagos</button>
+					<button type="button" class="btn btn-primary" disabled>Inaktív</button>
+				</div>
+			</div>
+		</Container>
+
+		<hr class="divider" />
+
+		<!-- Surfaces -->
+		<Container width="standard">
+			<div class="section">
+				<p class="meta">04 / FELÜLETEK</p>
+				<div class="meta-row" style="margin-block-start: var(--space-md);">
+					<div
+						style="flex: 1; min-width: 200px; padding: var(--space-lg); border: 1px solid var(--color-border); background: var(--color-bg);"
+					>
+						<p class="meta">BACKGROUND</p>
+					</div>
+					<div
+						style="flex: 1; min-width: 200px; padding: var(--space-lg); background: var(--color-surface);"
+					>
+						<p class="meta">SURFACE</p>
+					</div>
+				</div>
+			</div>
+		</Container>
+
+		<hr class="divider" />
+
+		<!-- Containers -->
+		<div class="section">
+			<Container width="standard">
+				<p class="meta" style="margin-block-end: var(--space-md);">05 / KONTÉNEREK</p>
+			</Container>
+			<Container width="reading">
+				<div style="border: 1px solid var(--color-border); padding: var(--space-sm); margin-block-end: var(--space-sm);">
+					<p class="text-small">reading — {'~65ch'}</p>
+				</div>
+			</Container>
+			<Container width="standard">
+				<div style="border: 1px solid var(--color-border); padding: var(--space-sm); margin-block-end: var(--space-sm);">
+					<p class="text-small">standard — {'75rem'}</p>
+				</div>
+			</Container>
+			<Container width="wide">
+				<div style="border: 1px solid var(--color-border); padding: var(--space-sm);">
+					<p class="text-small">wide — {'90rem'}</p>
+				</div>
+			</Container>
+		</div>
+
+		<hr class="divider" />
+
+		<!-- Screenshot compatibility -->
+		<Container width="wide">
+			<div class="section">
+				<p class="meta" style="margin-block-end: var(--space-md);">
+					06 / SCREENSHOT KERETEK (PLACEHOLDER, NEM VALÓS UI)
+				</p>
+				<div class="screenshot-row">
+					<div class="screenshot-frame" style="flex: 2; min-width: 280px;">
+						REAL SOFTWARE SCREENSHOT
+					</div>
+					<div class="screenshot-frame screenshot-frame--legacy" style="flex: 1; min-width: 220px;">
+						LEGACY UI EVIDENCE
+					</div>
+					<div class="screenshot-frame" style="flex: 1; min-width: 220px;">
+						TARDIFY PRODUCT UI
+					</div>
+				</div>
+			</div>
+		</Container>
+
+		<hr class="divider" />
+
+		<!-- Dark section -->
+		<div class="section section--major section--dark">
+			<Container width="standard">
+				<p class="meta">07 / SÖTÉT SZAKASZ (PL. LONGEVITY)</p>
+				<h2 style="margin-block: var(--space-md);">20+ év működő rendszerek</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-end: var(--space-md);">
+					A hosszú táv nálunk nem marketingígéret — ez a szakasz azt mutatja be, hogyan
+					viselkedik a rendszer sötét háttéren.
+				</p>
+				<p class="meta" style="margin-block-end: var(--space-md);">
+					STATUS ACTIVE &nbsp; LIFECYCLE XX+ ÉV
+				</p>
+				<div class="meta-row">
+					<a href="#" class="link-standalone">Kapcsolódó hivatkozás →</a>
+					<button type="button" class="btn btn-primary">Sötét szakasz CTA</button>
+				</div>
+			</Container>
+		</div>
+	</main>
+</BaseLayout>

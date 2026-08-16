@@ -61,9 +61,13 @@ Variants:
 
 Avoid excessive nested containers.
 
+**Implemented (Task 004B)**: `src/components/layout/Container.astro`. Props: `width` (`'reading' | 'standard' | 'wide'`, default `'standard'`), `as` (tag name, default `'div'`). Renders `<Tag class="container container--{width}">`; the actual widths live in `foundation.css` as semantic tokens (`--content-reading/standard/wide`), not hardcoded in the component.
+
 #### `Section`
 
 Provides semantic section spacing/layout primitives without forcing a visual card.
+
+Foundation stage (Task 004B) uses a plain `.section` CSS class (`padding-block: var(--space-section)`) rather than a component — no prop-driven variation was needed yet. Promote to a component if real section composition later demonstrates a need.
 
 ### Navigation / actions
 
@@ -74,9 +78,13 @@ Likely variants:
 - primary;
 - secondary if genuinely needed.
 
+Foundation stage (Task 004B) uses CSS classes (`.btn`, `.btn-primary`, `.btn-secondary`) applied directly to real `<button>`/`<a>` elements rather than an Astro component — no reusable prop surface was justified yet (no shared icon/loading-state logic exists). Promote to a component if real usage demonstrates a need.
+
 #### `TextLink`
 
 Arrow/reveal interaction permitted.
+
+Foundation stage (Task 004B): `.link-standalone` CSS class, same reasoning as `Button` above.
 
 #### `Breadcrumbs`
 
@@ -106,6 +114,8 @@ LIFECYCLE     XX+ YEARS
 ```
 
 Never use fake decorative values.
+
+Foundation stage (Task 004B): `.meta` CSS class (Space Mono, small, uppercase, wide tracking) demonstrates the treatment in `design-foundation.astro` using illustrative placeholder values only (`STATUS ACTIVE`, `LIFECYCLE XX+ ÉV`). Promote to a component once real case-study metadata exists to drive its props.
 
 #### `ProofStat`
 

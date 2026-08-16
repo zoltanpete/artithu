@@ -35,8 +35,12 @@ npm run preview   # preview the production build locally
 npm run check     # Astro type/content validation
 ```
 
+Fonts (Work Sans, Space Mono) are self-hosted under `src/fonts/` — no Google Fonts CDN request at runtime. See `src/fonts/PROVENANCE.md` for license/source.
+
+Visit `/design-foundation` in dev/preview to review the implemented typography/color/spacing foundation. It's an internal, `noindex` fixture — not a real page, not linked from navigation.
+
 ## Status
 
-Technical foundation: minimal Astro/TypeScript scaffold in place (Task 003). No homepage, navigation, or page content is implemented yet — see `DOC/09-TECHNICAL-ARCHITECTURE.md` for what exists and `TASK/` for what's next.
+Design foundation: typography, color, spacing, containers and interaction states implemented (Task 004B). Homepage sections, navigation and footer are not implemented yet — see `DOC/09-TECHNICAL-ARCHITECTURE.md` for what exists and `TASK/` for what's next.
 
 No legacy WordPress implementation is to be migrated. Existing ARTIT content/assets may be reused only after explicit review.

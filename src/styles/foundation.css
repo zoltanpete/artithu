@@ -1,0 +1,235 @@
+/* Task 004B — typography, containers, links, buttons, surfaces, screenshot frames. */
+
+/* --- Headings & body text ------------------------------------------------ */
+
+h1,
+.text-display {
+	font-size: var(--text-display);
+	line-height: var(--leading-tight);
+	letter-spacing: var(--tracking-tight);
+	font-weight: 600;
+	margin: 0;
+}
+
+h2 {
+	font-size: var(--text-h2);
+	line-height: var(--leading-tight);
+	letter-spacing: var(--tracking-tight);
+	font-weight: 600;
+	margin: 0;
+}
+
+h3 {
+	font-size: var(--text-h3);
+	line-height: var(--leading-snug);
+	font-weight: 500;
+	margin: 0;
+}
+
+p {
+	margin: 0;
+}
+
+.lead {
+	font-size: var(--text-lead);
+	line-height: var(--leading-relaxed);
+	font-weight: 500;
+	color: var(--color-text);
+}
+
+.text-small {
+	font-size: var(--text-small);
+	line-height: var(--leading-normal);
+	color: var(--color-text-muted);
+}
+
+/* --- Metadata (Space Mono) — restrained, secondary voice only ------------ */
+
+.meta {
+	font-family: var(--font-mono);
+	font-size: var(--text-meta);
+	line-height: var(--leading-normal);
+	letter-spacing: var(--tracking-wide);
+	text-transform: uppercase;
+	color: var(--color-text-muted);
+}
+
+.meta-row {
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-xs) var(--space-lg);
+}
+
+/* --- Links ----------------------------------------------------------------*/
+
+a {
+	text-underline-offset: 0.15em;
+}
+
+.link-standalone {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-xs);
+	color: var(--color-text);
+	text-decoration: none;
+	border-bottom: 1px solid var(--color-border);
+	padding-block-end: 0.05em;
+	transition: border-color 0.15s ease, gap 0.15s ease;
+}
+
+.link-standalone:hover {
+	border-color: var(--color-accent);
+	gap: var(--space-sm);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.link-standalone {
+		transition: none;
+	}
+}
+
+/* --- Buttons ---------------------------------------------------------------*/
+
+.btn {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-sm);
+	font-family: var(--font-sans);
+	font-size: var(--text-body);
+	font-weight: 500;
+	line-height: 1;
+	padding: 0.875rem 1.5rem;
+	border-radius: var(--radius-sm);
+	border: 1px solid transparent;
+	cursor: pointer;
+	text-decoration: none;
+	transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.btn {
+		transition: none;
+	}
+}
+
+.btn-primary {
+	background: var(--color-accent);
+	color: #ffffff;
+}
+
+.btn-primary:hover {
+	background: var(--color-accent-strong);
+}
+
+.btn-secondary {
+	background: transparent;
+	color: var(--color-text);
+	border-color: var(--color-border);
+}
+
+.btn-secondary:hover {
+	border-color: var(--color-accent);
+	color: var(--color-accent);
+}
+
+.btn:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+/* --- Containers ------------------------------------------------------------*/
+
+.container {
+	margin-inline: auto;
+	padding-inline: var(--space-lg);
+}
+
+.container--reading {
+	max-width: var(--content-reading);
+}
+
+.container--standard {
+	max-width: var(--content-standard);
+}
+
+.container--wide {
+	max-width: var(--content-wide);
+}
+
+/* --- Section rhythm / surfaces ---------------------------------------------*/
+
+.section {
+	padding-block: var(--space-section);
+}
+
+.section--major {
+	padding-block: var(--space-section-lg);
+}
+
+.surface {
+	background: var(--color-surface);
+}
+
+.divider {
+	border: none;
+	border-top: 1px solid var(--color-border);
+	margin: 0;
+}
+
+.section--dark {
+	background: var(--color-dark-bg);
+	color: var(--color-dark-text);
+}
+
+.section--dark .text-small,
+.section--dark .meta {
+	color: var(--color-dark-text-muted);
+}
+
+.section--dark a {
+	color: var(--color-accent);
+}
+
+.section--dark .link-standalone {
+	color: var(--color-dark-text);
+	border-color: var(--color-dark-text-muted);
+}
+
+.section--dark .link-standalone:hover {
+	border-color: var(--color-accent);
+}
+
+.section--dark .btn-secondary {
+	color: var(--color-dark-text);
+	border-color: var(--color-dark-text-muted);
+}
+
+/* --- Screenshot-evidence frames (bounding boxes only, no fake UI) ----------*/
+
+.screenshot-frame {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-md);
+	background: var(--color-surface);
+	color: var(--color-text-muted);
+	aspect-ratio: 16 / 10;
+	font-family: var(--font-mono);
+	font-size: var(--text-meta);
+	letter-spacing: var(--tracking-wide);
+	text-transform: uppercase;
+	text-align: center;
+	padding: var(--space-md);
+}
+
+.screenshot-frame--legacy {
+	aspect-ratio: 4 / 3;
+}
+
+.screenshot-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-start;
+	gap: var(--space-lg);
+}

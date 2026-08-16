@@ -1,0 +1,12 @@
+---
+interface Props {
+	width?: 'reading' | 'standard' | 'wide';
+	as?: keyof HTMLElementTagNameMap;
+}
+
+const { width = 'standard', as: Tag = 'div' } = Astro.props;
+---
+
+<Tag class={`container container--${width}`}>
+	<slot />
+</Tag>

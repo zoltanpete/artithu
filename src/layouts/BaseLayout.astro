@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import workSansLatin from '../fonts/work-sans-variable-latin.woff2?url';
+import workSansLatinExt from '../fonts/work-sans-variable-latin-ext.woff2?url';
 
 interface Props {
 	title: string;
@@ -29,6 +31,12 @@ const canonicalURL = Astro.site && path ? new URL(path, Astro.site) : undefined;
 		<meta property="og:type" content="website" />
 		{canonicalURL && <meta property="og:url" content={canonicalURL} />}
 		{ogImage && <meta property="og:image" content={ogImage} />}
+
+		<!-- Work Sans carries almost all page text on a Hungarian-first site, so both
+		     glyph subsets (basic Latin + Latin Extended-A for Ő/ő/Ű/ű) are preloaded.
+		     Space Mono is metadata-only and far lower-usage, so it is not preloaded. -->
+		<link rel="preload" href={workSansLatin} as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href={workSansLatinExt} as="font" type="font/woff2" crossorigin />
 	</head>
 	<body>
 		<slot />
