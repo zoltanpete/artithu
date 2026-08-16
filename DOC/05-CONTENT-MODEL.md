@@ -98,6 +98,27 @@ Body content should remain flexible Markdown/MDX where appropriate.
 
 Avoid modeling every paragraph as a structured field.
 
+#### Implemented foundation schema (Task 003)
+
+The Task 003 `case-studies` collection implements only the following subset, defined in `src/content.config.ts`:
+
+```text
+title
+summary
+industry
+companySize
+status
+lifecycle
+featured
+services[]
+heroImage
+seo { title, description, noindex }
+```
+
+`slug` is not a schema field: the collection's `glob()` loader generates entry IDs from filenames.
+
+`screenshots`, `timeline` and `relatedServices` were intentionally deferred — there is no real image/timeline data yet, and adding them now would model structure ahead of need. Add them when a real case study is first implemented.
+
 ### Screenshot
 
 Potential structure:
@@ -165,11 +186,14 @@ seo
 
 ## Content collections
 
-Expected:
+Implemented (Task 003):
 
 ```text
-src/content/case-studies/
+src/content.config.ts        — collection config (current Astro convention)
+src/content/case-studies/    — case study entries
 ```
+
+The `case-studies` collection uses the `glob()` loader (`astro/loaders`) with a Zod schema imported from `astro/zod`. This is the current official Content Collections pattern and is the convention future collections should follow.
 
 Future:
 
@@ -189,3 +213,9 @@ For project facts use explicit editorial status when needed:
 - `DO_NOT_PUBLISH`
 
 Do not expose validation metadata in production UI unless intentional.
+
+Note: the `CaseStudy.status` schema field (Task 003) is an operational/lifecycle status (e.g. system still active), not this editorial validation state. Keep the two concepts separate if a dedicated validation-state field is added later.
+
+## Development fixtures
+
+Content collections may contain an unmistakably non-public fixture entry (filename prefixed `_dev-`, title/summary stating it is dev-only) to validate the schema/pipeline when no real, verified entries exist yet. Never route or render a dev fixture on a real page, and never use it as a source of ARTIT facts.

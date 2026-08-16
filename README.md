@@ -23,8 +23,20 @@ Read:
 
 Work is tracked in `TASK/`.
 
+## Development
+
+Requires Node.js `>=22.12.0` and npm.
+
+```bash
+npm install
+npm run dev       # start dev server at http://localhost:4321
+npm run build     # production build to dist/
+npm run preview   # preview the production build locally
+npm run check     # Astro type/content validation
+```
+
 ## Status
 
-Repository foundation: prepared for greenfield initialization.
+Technical foundation: minimal Astro/TypeScript scaffold in place (Task 003). No homepage, navigation, or page content is implemented yet — see `DOC/09-TECHNICAL-ARCHITECTURE.md` for what exists and `TASK/` for what's next.
 
 No legacy WordPress implementation is to be migrated. Existing ARTIT content/assets may be reused only after explicit review.

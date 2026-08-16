@@ -74,7 +74,7 @@ Contextualize them using verified metadata such as:
 
 ```text
 STATUS / ACTIVE
-IN USE / 10+ YEARS
+IN USE / XX+ YEARS
 ```
 
 The age is part of the proof.

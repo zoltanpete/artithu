@@ -92,7 +92,7 @@ CASE / 02
 
 STATUS        ACTIVE
 SINCE         20XX
-LIFECYCLE     20+ YEARS
+LIFECYCLE     XX+ YEARS
 ```
 
 Do not use monospace for normal body content.
@@ -242,7 +242,7 @@ Egy üzleti rendszer,
 amely együtt nőtt
 a vállalkozással.
 
-10+ YEARS
+XX+ YEARS
 ACTIVE
 
 [REAL SOFTWARE]
@@ -257,7 +257,7 @@ large numbers + engineering metadata.
 Example:
 
 ```text
-20+
+XX+
 YEARS
 
 OLDEST ACTIVE CLIENT SYSTEM

@@ -102,7 +102,7 @@ Example:
 
 ```text
 STATUS        ACTIVE
-LIFECYCLE     20+ YEARS
+LIFECYCLE     XX+ YEARS
 ```
 
 Never use fake decorative values.
