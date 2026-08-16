@@ -43,6 +43,16 @@ p {
 	color: var(--color-text-muted);
 }
 
+.eyebrow {
+	display: inline-block;
+	font-size: var(--text-small);
+	font-weight: 500;
+	letter-spacing: var(--tracking-wide);
+	text-transform: uppercase;
+	color: var(--color-accent);
+	margin: 0;
+}
+
 /* --- Metadata (Space Mono) — restrained, secondary voice only ------------ */
 
 .meta {
@@ -204,6 +214,140 @@ a {
 	border-color: var(--color-dark-text-muted);
 }
 
+/* --- Site header / navigation -----------------------------------------------
+   Dropdown and mobile menu use native <details>/<summary> — click/keyboard
+   activated (no hover-only interaction), no client JS required. */
+
+.site-header {
+	border-bottom: 1px solid var(--color-border);
+	background: var(--color-bg);
+}
+
+.site-header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: var(--space-lg);
+	padding-block: var(--space-md);
+}
+
+.site-header__logo {
+	font-weight: 600;
+	font-size: var(--text-h3);
+	color: var(--color-text);
+	text-decoration: none;
+}
+
+.site-nav {
+	display: none;
+}
+
+.site-nav__list {
+	display: flex;
+	align-items: center;
+	gap: var(--space-lg);
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.site-nav__list > li > a {
+	color: var(--color-text);
+	text-decoration: none;
+}
+
+.site-nav__list > li > a:hover {
+	color: var(--color-accent);
+}
+
+.nav-dropdown {
+	position: relative;
+}
+
+.nav-dropdown summary {
+	cursor: pointer;
+	color: var(--color-text);
+	list-style: none;
+}
+
+.nav-dropdown summary::-webkit-details-marker {
+	display: none;
+}
+
+.nav-dropdown[open] summary {
+	color: var(--color-accent);
+}
+
+.nav-dropdown ul {
+	position: absolute;
+	top: calc(100% + var(--space-sm));
+	left: 0;
+	z-index: 10;
+	min-width: 14rem;
+	margin: 0;
+	padding: var(--space-sm);
+	list-style: none;
+	background: var(--color-bg);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+}
+
+.nav-dropdown ul li a {
+	display: block;
+	padding: var(--space-xs) var(--space-sm);
+	color: var(--color-text);
+	text-decoration: none;
+	font-size: var(--text-small);
+}
+
+.nav-dropdown ul li a:hover {
+	color: var(--color-accent);
+}
+
+.site-header__cta {
+	display: none;
+}
+
+.mobile-menu summary {
+	cursor: pointer;
+	list-style: none;
+	color: var(--color-text);
+	font-weight: 500;
+}
+
+.mobile-menu summary::-webkit-details-marker {
+	display: none;
+}
+
+.mobile-menu__list {
+	list-style: none;
+	margin: var(--space-md) 0 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-md);
+}
+
+.mobile-menu__list a {
+	color: var(--color-text);
+	text-decoration: none;
+	font-size: var(--text-lead);
+}
+
+@media (min-width: 900px) {
+	.site-nav {
+		display: block;
+	}
+
+	.site-header__cta {
+		display: inline-flex;
+	}
+
+	.mobile-menu {
+		display: none;
+	}
+}
+
 /* --- Screenshot-evidence frames (bounding boxes only, no fake UI) ----------*/
 
 .screenshot-frame {
@@ -232,4 +376,54 @@ a {
 	flex-wrap: wrap;
 	align-items: flex-start;
 	gap: var(--space-lg);
+}
+
+/* --- Homepage: Problem/Recognition quote composition -----------------------
+   Editorial statements, not cards. Controlled asymmetry on desktop via an
+   offset second column; linear single-column order on mobile. */
+
+.problem-grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-lg);
+	margin-block: var(--space-xl) 0;
+}
+
+.problem-grid__statement {
+	font-size: var(--text-lead);
+	font-weight: 500;
+	line-height: var(--leading-snug);
+	margin: 0;
+}
+
+@media (min-width: 768px) {
+	.problem-grid {
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-xl);
+	}
+
+	.problem-grid__statement:nth-child(even) {
+		margin-block-start: var(--space-2xl);
+	}
+}
+
+/* --- Homepage: Decision two-path split -------------------------------------- */
+
+.decision-paths {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-xl);
+	margin-block-start: var(--space-xl);
+}
+
+.decision-paths__path {
+	padding-block-start: var(--space-lg);
+	border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 768px) {
+	.decision-paths {
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-2xl);
+	}
 }

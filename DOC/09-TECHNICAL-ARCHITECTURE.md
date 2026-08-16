@@ -96,6 +96,10 @@ src/
 
 `src/components/` now exists with exactly one primitive (`Container.astro`) — introduced because containers are used repeatedly across the fixture and will be used site-wide. No other component subdirectory (`case-study/`, `content/`, `navigation/`, `typography/`, `ui/`) was created; each is still empty of real need.
 
+### Implementation status (Task 005A)
+
+Added `src/components/navigation/SiteHeader.astro` — real cross-page reuse justified it (already documented as a planned component in `08-COMPONENT-LIBRARY.md`). It is deliberately used from `index.astro` only, not hoisted into `BaseLayout.astro`, so `/404` and the internal `/design-foundation` fixture remain exactly as Task 004C left them — hoisting it would have visually altered the fixture, which Task 005A's brief said not to do. Revisit once more real pages exist and a sitewide header genuinely needs a single source of truth. `case-study/`, `content/`, `typography/`, `ui/` still don't exist — still no real need.
+
 ## Public assets
 
 Use `public/` only for assets that should bypass Astro processing or need fixed public paths.
@@ -144,6 +148,10 @@ Do not hydrate static marketing content.
 ### Implementation status (Task 003)
 
 Confirmed: the built `/` and `/404` pages emit zero client-side JavaScript (no `<script>` tags, no `_astro/*.js` bundle in `dist/`). No framework integration was added.
+
+### Implementation status (Task 005A)
+
+Still zero client JS, re-confirmed after adding real header navigation. The header's dropdown and mobile menu use native `<details>`/`<summary>` — a case the "Add islands only for real interactive requirements: mobile nav; dropdown if JS is required" rule above anticipated, and it turned out JS wasn't required at all: `<details>` provides click/keyboard activation and correct focus/ARIA semantics natively. Verified via keyboard-only activation (`Enter` on a focused `<summary>`) in a real browser, not just code inspection.
 
 ## Content Collections
 
@@ -233,6 +241,10 @@ Accepted Hungarian routes are defined in `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`.
 ### Implementation status (Task 003)
 
 Only `/` and `/404` exist, both minimal structural placeholders (no homepage sections, no real copy). No other route from the accepted sitemap has been built yet.
+
+### Implementation status (Task 005A)
+
+`/` is now a real production homepage (Sections 01–03; see `03-SITEMAP-AND-PAGE-ARCHITECTURE.md` for the full page-spec record). `/404` is unchanged from Task 003. No other route exists yet — `/egyedi-fejlesztes/`, `/munkaink/`, `/tardify/`, `/rolunk/`, `/kapcsolat/`, and the two `/egyedi-fejlesztes/` sub-pages are all linked from the homepage per the accepted sitemap but not yet built, so those links currently 404. This is expected at this stage of the rollout, not a defect.
 
 ### Implementation status (Task 004B)
 

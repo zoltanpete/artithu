@@ -1,14 +1,128 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Container from '../components/layout/Container.astro';
+import SiteHeader from '../components/navigation/SiteHeader.astro';
 ---
 
 <BaseLayout
-	title="ARTIT.hu"
-	description="Egyedi üzleti szoftverfejlesztés senior tapasztalattal."
+	title="ARTIT — Egyedi üzleti szoftverfejlesztés senior tapasztalattal"
+	description="Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy egy kompromisszumos kész rendszerhez."
 	path="/"
 >
+	<SiteHeader />
+
 	<main>
-		<h1>ARTIT.hu</h1>
-		<p>Technikai alapozás — a végleges kezdőlap még nem készült el.</p>
+		<!-- 01 — Hero -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Amikor a kész szoftver már nem elég.</p>
+				<h1 style="margin-block-start: var(--space-sm);">
+					A szoftver alkalmazkodjon a vállalkozásához. Ne fordítva.
+				</h1>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+					vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy egy
+					kompromisszumos kész rendszerhez.
+				</p>
+				<div class="meta-row" style="margin-block-start: var(--space-xl);">
+					<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+					<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 02 — Problem / Recognition -->
+		<section class="section">
+			<Container width="standard">
+				<p class="eyebrow">Ismerős helyzet?</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+					szeretnénk”.
+				</h2>
+
+				<div class="problem-grid">
+					<p class="problem-grid__statement">„Ezt Excelben vezetjük.”</p>
+					<p class="problem-grid__statement">„Innen kézzel átmásoljuk oda.”</p>
+					<p class="problem-grid__statement">„Erre van egy külön rendszerünk.”</p>
+					<p class="problem-grid__statement">
+						„Ezt csak egy ember tudja, hogyan működik.”
+					</p>
+					<p class="problem-grid__statement">
+						„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+						folyamatunkat.”
+					</p>
+					<p class="problem-grid__statement">
+						„A rendszereink működnek, csak éppen nem kommunikálnak egymással.”
+					</p>
+				</div>
+
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+					Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van szükség.
+					Azt viszont gyakran jelzik, hogy a vállalkozás működése és az azt támogató
+					eszközök már nincsenek összhangban.
+				</p>
+
+				<a
+					href="/egyedi-fejlesztes/"
+					class="link-standalone"
+					style="margin-block-start: var(--space-lg);"
+				>
+					Mikor érdemes egyedi fejlesztésben gondolkodni? →
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 03 — Decision / What ARTIT does -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					Nem minden problémára kell egyedi szoftver.
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+					Amire viszont igen, arra pontosan illeszkedőt építünk.
+				</p>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					Ha a jelenlegi kész szoftver jól támogatja a működést, nincs értelme
+					újraépíteni. Előbb azt érdemes megérteni, hogyan működik ma a
+					vállalkozás — utána dönthető el, milyen szoftverre van ténylegesen
+					szükség.
+				</p>
+
+				<div class="decision-paths">
+					<div class="decision-paths__path">
+						<h3>Egyedi üzleti alkalmazások</h3>
+						<p style="margin-block-start: var(--space-sm);">
+							Ha a folyamat különleges, és a kész rendszerek kompromisszumra
+							kényszerítik a működést.
+						</p>
+						<a
+							href="/egyedi-fejlesztes/uzleti-alkalmazasok/"
+							class="link-standalone"
+							style="margin-block-start: var(--space-md);"
+						>
+							Egyedi üzleti alkalmazások →
+						</a>
+					</div>
+					<div class="decision-paths__path">
+						<h3>Rendszerintegráció és automatizáció</h3>
+						<p style="margin-block-start: var(--space-sm);">
+							Ha a rendszerek külön-külön már megvannak, csak éppen nem
+							kommunikálnak egymással.
+						</p>
+						<a
+							href="/egyedi-fejlesztes/rendszerintegracio/"
+							class="link-standalone"
+							style="margin-block-start: var(--space-md);"
+						>
+							Rendszerintegráció és automatizáció →
+						</a>
+					</div>
+				</div>
+			</Container>
+		</section>
 	</main>
 </BaseLayout>

@@ -25,6 +25,10 @@ Site-level:
 - stable URLs;
 - production 404 behavior.
 
+### Implementation status (Task 005A)
+
+Homepage (`/`): title "ARTIT — Egyedi üzleti szoftverfejlesztés senior tapasztalattal" and meta description reuse the approved Hero lead copy verbatim — neither was invented. Canonical/OG-URL remain unrendered (same conditional logic since Task 003 — `Astro.site` is still unset, production domain still unresolved per `13-CONTENT-GAPS-AND-VALIDATION.md`). Heading hierarchy verified in a real browser: exactly one `<h1>`, sequential `<h2>`/`<h3>`, no skipped levels. No structured data (JSON-LD) was added — no verified Organization/entity facts exist yet to populate it correctly, consistent with this document's "do not invent or publish incomplete guesses" rule.
+
 ## E-E-A-T
 
 Treat E-E-A-T as a content quality/trust framework, not a single ranking factor.

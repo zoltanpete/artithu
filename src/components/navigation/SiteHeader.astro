@@ -1,0 +1,44 @@
+---
+import Container from '../layout/Container.astro';
+---
+
+<header class="site-header">
+	<Container width="wide" as="div">
+		<div class="site-header__inner">
+			<a href="/" class="site-header__logo">ARTIT</a>
+
+			<nav class="site-nav" aria-label="Fő navigáció">
+				<ul class="site-nav__list">
+					<li>
+						<details class="nav-dropdown">
+							<summary>Egyedi fejlesztés</summary>
+							<ul>
+								<li><a href="/egyedi-fejlesztes/">Áttekintés</a></li>
+								<li><a href="/egyedi-fejlesztes/uzleti-alkalmazasok/">Üzleti alkalmazások</a></li>
+								<li><a href="/egyedi-fejlesztes/rendszerintegracio/">Rendszerintegráció</a></li>
+							</ul>
+						</details>
+					</li>
+					<li><a href="/munkaink/">Munkáink</a></li>
+					<li><a href="/tardify/">Tardify</a></li>
+					<li><a href="/rolunk/">Rólunk</a></li>
+				</ul>
+			</nav>
+
+			<a href="/kapcsolat/" class="btn btn-primary site-header__cta">Beszéljünk →</a>
+
+			<details class="mobile-menu">
+				<summary class="mobile-menu__trigger" aria-label="Menü megnyitása">Menü</summary>
+				<ul class="mobile-menu__list">
+					<li><a href="/egyedi-fejlesztes/">Egyedi fejlesztés — Áttekintés</a></li>
+					<li><a href="/egyedi-fejlesztes/uzleti-alkalmazasok/">Üzleti alkalmazások</a></li>
+					<li><a href="/egyedi-fejlesztes/rendszerintegracio/">Rendszerintegráció</a></li>
+					<li><a href="/munkaink/">Munkáink</a></li>
+					<li><a href="/tardify/">Tardify</a></li>
+					<li><a href="/rolunk/">Rólunk</a></li>
+					<li><a href="/kapcsolat/">Beszéljünk →</a></li>
+				</ul>
+			</details>
+		</div>
+	</Container>
+</header>

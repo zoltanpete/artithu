@@ -6,6 +6,14 @@ The homepage should follow:
 
 > recognition → understanding → solution → evidence → trust → contact
 
+## Implementation status (Task 005A)
+
+Sections 01–03 (Hero, Problem recognition, Decision) are implemented in `src/pages/index.astro`, using the approved copy below verbatim. Sections 04–09 are not implemented yet; the page intentionally ends after Section 03.
+
+Hero's "Proof direction" bullets were **not** published — they remain gated `TO VERIFY` (see below and `13-CONTENT-GAPS-AND-VALIDATION.md`), and Task 005A's brief explicitly required omitting unverified evidence in production rather than showing placeholder/fake values. Add them once the underlying facts are verified.
+
+Section 03's "Key copy" (packaged-software/understand-the-business-first direction) is documented here only as message architecture, not exact Hungarian copy — the implemented working copy is faithful to it but is not a verbatim quote from this file.
+
 ## 01 — Hero
 
 Purpose:
