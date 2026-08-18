@@ -1,0 +1,657 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+---
+
+<BaseLayout
+	title="Art Direction A4.1 — Living System Map (kísérleti, dev-only)"
+	description="Kísérleti art-direction irány — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION A4.1 — LIVING SYSTEM MAP" />
+
+	<div class="ad-a41">
+		<SiteHeader />
+
+		<main>
+			<!-- Hero -->
+			<section class="ad-a41-hero">
+				<Container width="wide" as="div">
+					<p class="ad-a41-coord">SEC / 01 — POZÍCIONÁLÁS</p>
+
+					<div class="ad-a41-hero__grid">
+						<span class="ad-a41-guide" aria-hidden="true">
+							<span class="ad-a41-guide__tick">01</span>
+							<span class="ad-a41-guide__line"></span>
+							<span class="ad-a41-guide__tick">02</span>
+						</span>
+
+						<div class="ad-a41-hero__main">
+							<p class="eyebrow">Amikor a kész szoftver már nem elég.</p>
+							<h1 style="margin-block-start: var(--space-sm);">
+								A szoftver alkalmazkodjon a vállalkozásához.<br />Ne fordítva.
+							</h1>
+							<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+								Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+								vállalkozásoknak, amelyek működése már túl speciális az Excelhez
+								vagy egy kompromisszumos kész rendszerhez.
+							</p>
+							<div class="meta-row" style="margin-block-start: var(--space-xl);">
+								<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+								<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+							</div>
+						</div>
+
+						<div class="ad-a41-system" id="ad-a41-system">
+							<svg
+								class="ad-a41-system__svg ad-a41-system__svg--desktop"
+								viewBox="0 0 720 640"
+								role="img"
+								aria-label="Élő rendszertérkép: Excel, e-mail, külön rendszer és adat — szétszórt üzleti bemenetek — egy közös folyamaton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak. A folyamat, a jóváhagyás és a számlázás csomópont a diagram alatti vezérlőkkel kiemelhető."
+							>
+								<path class="ad-a41-line" data-belongs="excel" d="M45,70 C140,150 240,250 372,326" />
+								<path class="ad-a41-line" data-belongs="email" d="M360,25 C368,120 374,220 380,326" />
+								<path class="ad-a41-line" data-belongs="kulon" d="M130,170 C220,220 300,275 372,330" />
+								<path class="ad-a41-line ad-a41-line--kink" data-belongs="adat" d="M630,160 L500,220 L388,326" />
+
+								<circle class="ad-a41-node-dot" data-belongs="excel" cx="45" cy="70" r="5" />
+								<circle class="ad-a41-node-dot" data-belongs="email" cx="360" cy="25" r="5" />
+								<circle class="ad-a41-node-dot" data-belongs="kulon" cx="130" cy="170" r="5" />
+								<circle class="ad-a41-node-dot" data-belongs="adat" cx="630" cy="160" r="5" />
+
+								<text class="ad-a41-label" data-belongs="excel" x="58" y="65">EXCEL</text>
+								<text class="ad-a41-label" data-belongs="email" x="372" y="20">E-MAIL</text>
+								<text class="ad-a41-label" data-belongs="kulon" x="142" y="188">KÜLÖN RENDSZER</text>
+								<text class="ad-a41-label" data-belongs="adat" x="560" y="178">ADAT</text>
+
+								<rect
+									class="ad-a41-node-core"
+									data-belongs="excel email kulon adat jovahagyas szamlazas"
+									x="310"
+									y="326"
+									width="140"
+									height="64"
+								/>
+								<text
+									class="ad-a41-label ad-a41-label--core"
+									data-belongs="excel email kulon adat jovahagyas szamlazas"
+									x="380"
+									y="363"
+									text-anchor="middle"
+								>
+									FOLYAMAT
+								</text>
+
+								<path class="ad-a41-line ad-a41-line--resolved" data-belongs="jovahagyas" d="M380,390 L380,432 L282,494" />
+								<path class="ad-a41-line ad-a41-line--resolved" data-belongs="szamlazas" d="M380,390 L380,432 L478,494" />
+
+								<circle class="ad-a41-node-status" data-belongs="jovahagyas" cx="282" cy="494" r="5" />
+								<circle class="ad-a41-node-status" data-belongs="szamlazas" cx="478" cy="494" r="5" />
+
+								<rect class="ad-a41-node-output" data-belongs="jovahagyas" x="212" y="500" width="140" height="50" />
+								<rect class="ad-a41-node-output" data-belongs="szamlazas" x="408" y="500" width="140" height="50" />
+								<text class="ad-a41-label" data-belongs="jovahagyas" x="226" y="530">JÓVÁHAGYÁS</text>
+								<text class="ad-a41-label" data-belongs="szamlazas" x="422" y="530">SZÁMLÁZÁS</text>
+							</svg>
+
+							<!-- Mobile: an intentionally recomposed, simpler map — 2 inputs
+							     instead of 4, not the desktop diagram scaled down. -->
+							<svg
+								class="ad-a41-system__svg ad-a41-system__svg--mobile"
+								viewBox="0 0 380 520"
+								role="img"
+								aria-label="Élő rendszertérkép: Excel és külön rendszer — üzleti bemenetek — egy közös folyamaton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak. A jóváhagyás és a számlázás csomópont a diagram alatti vezérlőkkel kiemelhető."
+							>
+								<path class="ad-a41-line" data-belongs="excel" d="M70,45 C110,100 150,150 185,190" />
+								<path class="ad-a41-line" data-belongs="kulon" d="M300,65 C260,110 220,150 200,190" />
+
+								<circle class="ad-a41-node-dot" data-belongs="excel" cx="70" cy="45" r="5" />
+								<circle class="ad-a41-node-dot" data-belongs="kulon" cx="300" cy="65" r="5" />
+
+								<text class="ad-a41-label" data-belongs="excel" x="83" y="41">EXCEL</text>
+								<text class="ad-a41-label" data-belongs="kulon" x="288" y="61" text-anchor="end">KÜLÖN RENDSZER</text>
+
+								<rect
+									class="ad-a41-node-core"
+									data-belongs="excel kulon jovahagyas szamlazas"
+									x="130"
+									y="190"
+									width="120"
+									height="54"
+								/>
+								<text
+									class="ad-a41-label ad-a41-label--core"
+									data-belongs="excel kulon jovahagyas szamlazas"
+									x="190"
+									y="222"
+									text-anchor="middle"
+								>
+									FOLYAMAT
+								</text>
+
+								<path class="ad-a41-line ad-a41-line--resolved" data-belongs="jovahagyas" d="M190,244 L190,290 L110,350" />
+								<path class="ad-a41-line ad-a41-line--resolved" data-belongs="szamlazas" d="M190,244 L190,290 L270,350" />
+
+								<circle class="ad-a41-node-status" data-belongs="jovahagyas" cx="110" cy="350" r="5" />
+								<circle class="ad-a41-node-status" data-belongs="szamlazas" cx="270" cy="350" r="5" />
+
+								<rect class="ad-a41-node-output" data-belongs="jovahagyas" x="50" y="356" width="120" height="44" />
+								<rect class="ad-a41-node-output" data-belongs="szamlazas" x="210" y="356" width="120" height="44" />
+								<text class="ad-a41-label" data-belongs="jovahagyas" x="62" y="382">JÓVÁHAGYÁS</text>
+								<text class="ad-a41-label" data-belongs="szamlazas" x="222" y="382">SZÁMLÁZÁS</text>
+							</svg>
+
+							<button
+								type="button"
+								class="ad-a41-node-btn ad-a41-node-btn--desktop"
+								data-node="excel"
+								style="left: 6.25%; top: 10.9%; width: 110px; height: 60px;"
+								aria-pressed="false"
+								aria-label="EXCEL bemenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a41-node-btn ad-a41-node-btn--desktop"
+								data-node="jovahagyas"
+								style="left: 37.8%; top: 81.6%; width: 150px; height: 60px;"
+								aria-pressed="false"
+								aria-label="JÓVÁHAGYÁS kimenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a41-node-btn ad-a41-node-btn--desktop"
+								data-node="szamlazas"
+								style="left: 65.6%; top: 81.6%; width: 150px; height: 60px;"
+								aria-pressed="false"
+								aria-label="SZÁMLÁZÁS kimenet kiemelése"
+							></button>
+
+							<button
+								type="button"
+								class="ad-a41-node-btn ad-a41-node-btn--mobile"
+								data-node="excel"
+								style="left: 18.4%; top: 8.6%; width: 90px; height: 50px;"
+								aria-pressed="false"
+								aria-label="EXCEL bemenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a41-node-btn ad-a41-node-btn--mobile"
+								data-node="jovahagyas"
+								style="left: 28.9%; top: 71.7%; width: 120px; height: 44px;"
+								aria-pressed="false"
+								aria-label="JÓVÁHAGYÁS kimenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a41-node-btn ad-a41-node-btn--mobile"
+								data-node="szamlazas"
+								style="left: 71.1%; top: 71.7%; width: 120px; height: 44px;"
+								aria-pressed="false"
+								aria-label="SZÁMLÁZÁS kimenet kiemelése"
+							></button>
+
+							<p class="ad-a41-system__caption">BEMENETEK → FOLYAMAT → KIMENET</p>
+						</div>
+					</div>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Problem / Recognition — pulled back toward editorial elegance -->
+			<section class="section ad-a41-problem">
+				<Container width="wide" as="div">
+					<p class="ad-a41-coord">SEC / 02 — DIAGNOSZTIKA</p>
+
+					<div class="ad-a41-problem__intro">
+						<p class="eyebrow">Ismerős helyzet?</p>
+						<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+							szeretnénk”.
+						</h2>
+					</div>
+
+					<div class="ad-a41-signals">
+						<div class="ad-a41-signals__dense">
+							<ol class="ad-a41-signal-list">
+								<li>
+									<span class="meta">JEL / 01</span>
+									<p>„Ezt Excelben vezetjük.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 02</span>
+									<p>„Innen kézzel átmásoljuk oda.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 03</span>
+									<p>„Erre van egy külön rendszerünk.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 04</span>
+									<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+								</li>
+							</ol>
+						</div>
+						<div class="ad-a41-signals__open">
+							<ol class="ad-a41-signal-list">
+								<li>
+									<span class="meta">JEL / 05</span>
+									<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+									folyamatunkat.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 06</span>
+									<p>„A rendszereink működnek, csak éppen nem kommunikálnak
+									egymással.”</p>
+								</li>
+							</ol>
+						</div>
+					</div>
+
+					<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+						Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van
+						szükség. Azt viszont gyakran jelzik, hogy a vállalkozás működése és az
+						azt támogató eszközök már nincsenek összhangban.
+					</p>
+
+					<a
+						href="/egyedi-fejlesztes/"
+						class="link-standalone"
+						style="margin-block-start: var(--space-lg);"
+					>
+						Mikor érdemes egyedi fejlesztésben gondolkodni? →
+					</a>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Decision — the quiet resolution -->
+			<section class="section ad-a41-decision">
+				<Container width="standard">
+					<p class="ad-a41-coord">SEC / 03 — TISZTÁZÁS</p>
+					<h2 style="max-width: var(--content-reading);">
+						Nem minden problémára kell egyedi szoftver.
+					</h2>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+						Amire viszont igen, arra pontosan illeszkedőt építünk.
+					</p>
+				</Container>
+			</section>
+		</main>
+	</div>
+</BaseLayout>
+
+<script>
+	const wrapper = document.getElementById('ad-a41-system');
+	if (wrapper) {
+		const buttons = Array.from(wrapper.querySelectorAll<HTMLButtonElement>('.ad-a41-node-btn'));
+		let committed: string | null = null;
+
+		function applyFocus(id: string | null) {
+			if (id) {
+				wrapper!.setAttribute('data-focus', id);
+			} else {
+				wrapper!.removeAttribute('data-focus');
+			}
+		}
+
+		buttons.forEach((btn) => {
+			const id = btn.dataset.node ?? '';
+			btn.addEventListener('mouseenter', () => applyFocus(id));
+			btn.addEventListener('focus', () => applyFocus(id));
+			btn.addEventListener('mouseleave', () => applyFocus(committed));
+			btn.addEventListener('blur', () => applyFocus(committed));
+			btn.addEventListener('click', () => {
+				committed = committed === id ? null : id;
+				buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.node === committed)));
+				applyFocus(committed);
+			});
+		});
+	}
+</script>
+
+<style>
+	/*
+	 * A4.1 — experimental. Same Ink / Deep Blue-Violet working accent as A4
+	 * (#37325C / #282442), unchanged, plus the same tint derivation (#E7E5E7).
+	 * No new accent search — only tonal roles for the interactive graph are
+	 * new here, and they reuse these two existing values plus opacity, not
+	 * additional hex colors.
+	 */
+	.ad-a41 {
+		--color-accent: #37325c;
+		--color-accent-strong: #282442;
+		--ad-a41-tint: #e7e5e7;
+		--ad-a41-transition: 220ms ease;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ad-a41 {
+			--ad-a41-transition: 1ms linear;
+		}
+	}
+
+	.ad-a41-coord {
+		margin: 0 0 var(--space-md);
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+	}
+
+	.ad-a41-hero {
+		padding-block-start: var(--space-section-lg);
+		padding-block-end: var(--space-2xl);
+	}
+
+	.ad-a41-hero__grid {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		align-items: start;
+	}
+
+	/* A coordinate guide spanning the full Hero width, just above the copy
+	   and graph — the primary device tying typography and graph into one
+	   composition. Numbered ticks make it read as a deliberate Swiss-grid
+	   reference rather than a stray rule; positioned above all content, so
+	   it can never cross letterforms. */
+	.ad-a41-guide {
+		display: none;
+	}
+
+	.ad-a41-guide__line {
+		display: block;
+		flex: 1;
+		height: 1px;
+		background: var(--color-border);
+	}
+
+	.ad-a41-guide__tick {
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+	}
+
+	.ad-a41-system {
+		position: relative;
+	}
+
+	.ad-a41-system__svg {
+		width: 100%;
+		height: auto;
+	}
+
+	.ad-a41-system__svg--mobile {
+		display: block;
+	}
+
+	.ad-a41-system__svg--desktop {
+		display: none;
+	}
+
+	.ad-a41-node-btn--desktop {
+		display: none;
+	}
+
+	.ad-a41-node-btn--mobile {
+		display: block;
+	}
+
+	.ad-a41-line {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+		transition: stroke var(--ad-a41-transition), stroke-width var(--ad-a41-transition), opacity var(--ad-a41-transition);
+	}
+
+	.ad-a41-line--kink {
+		stroke-dasharray: 3 3;
+	}
+
+	.ad-a41-line--resolved {
+		stroke: var(--color-accent);
+		stroke-width: 1.75;
+	}
+
+	.ad-a41-node-dot {
+		fill: var(--color-bg);
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		transition: opacity var(--ad-a41-transition);
+	}
+
+	.ad-a41-node-status {
+		fill: var(--color-accent);
+		transition: opacity var(--ad-a41-transition);
+	}
+
+	.ad-a41-node-core {
+		fill: var(--color-surface);
+		stroke: var(--color-border);
+		stroke-width: 1;
+		transition: stroke var(--ad-a41-transition), opacity var(--ad-a41-transition);
+	}
+
+	.ad-a41-node-output {
+		fill: var(--color-bg);
+		stroke: var(--color-accent);
+		stroke-width: 1;
+		transition: stroke var(--ad-a41-transition), stroke-width var(--ad-a41-transition), opacity var(--ad-a41-transition);
+	}
+
+	.ad-a41-label {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		fill: var(--color-text-muted);
+		transition: opacity var(--ad-a41-transition), fill var(--ad-a41-transition);
+	}
+
+	.ad-a41-label--core {
+		fill: var(--color-text);
+		font-size: 13px;
+	}
+
+	.ad-a41-system__caption {
+		margin: var(--space-md) 0 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+		text-align: center;
+	}
+
+	/* Interactive overlay controls — real <button> elements, not raw SVG
+	   interactivity, for robust keyboard/screen-reader behavior. Visually
+	   transparent; the SVG's own labels already provide the visible cue. */
+	.ad-a41-node-btn {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		cursor: pointer;
+	}
+
+	.ad-a41-node-btn:hover,
+	.ad-a41-node-btn:focus-visible {
+		outline: 1px dashed var(--color-accent);
+		outline-offset: 4px;
+	}
+
+	/* Default: nothing de-emphasized. Once one of the three interactive nodes
+	   (excel / jovahagyas / szamlazas) is focused via the data-focus
+	   attribute (set by the small page-scoped script below), every element
+	   NOT tagged with that node's data-belongs token recedes — opacity and
+	   stroke-width move together, so emphasis never depends on color alone.
+	   The FOLYAMAT core is tagged with all three tokens, so it stays fully
+	   visible under every state (it is genuinely relevant to all of them). */
+	.ad-a41-system[data-focus='excel'] [data-belongs]:not([data-belongs~='excel']),
+	.ad-a41-system[data-focus='jovahagyas'] [data-belongs]:not([data-belongs~='jovahagyas']),
+	.ad-a41-system[data-focus='szamlazas'] [data-belongs]:not([data-belongs~='szamlazas']) {
+		opacity: 0.32;
+	}
+
+	.ad-a41-system[data-focus='excel'] [data-belongs~='excel'],
+	.ad-a41-system[data-focus='jovahagyas'] [data-belongs~='jovahagyas'],
+	.ad-a41-system[data-focus='szamlazas'] [data-belongs~='szamlazas'] {
+		opacity: 1;
+	}
+
+	.ad-a41-system[data-focus='excel'] .ad-a41-line[data-belongs~='excel'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2;
+	}
+
+	.ad-a41-system[data-focus='excel'] .ad-a41-node-dot[data-belongs~='excel'] {
+		stroke: var(--color-accent-strong);
+	}
+
+	.ad-a41-system[data-focus='excel'] .ad-a41-label[data-belongs~='excel'],
+	.ad-a41-system[data-focus='jovahagyas'] .ad-a41-label[data-belongs~='jovahagyas'],
+	.ad-a41-system[data-focus='szamlazas'] .ad-a41-label[data-belongs~='szamlazas'] {
+		fill: var(--color-text);
+	}
+
+	.ad-a41-system[data-focus='jovahagyas'] .ad-a41-line--resolved[data-belongs~='jovahagyas'],
+	.ad-a41-system[data-focus='szamlazas'] .ad-a41-line--resolved[data-belongs~='szamlazas'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2.5;
+	}
+
+	.ad-a41-system[data-focus='jovahagyas'] .ad-a41-node-output[data-belongs~='jovahagyas'],
+	.ad-a41-system[data-focus='szamlazas'] .ad-a41-node-output[data-belongs~='szamlazas'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2;
+	}
+
+	/* --- Problem section: pulled back toward editorial elegance ----------- */
+
+	.ad-a41-problem {
+		padding-block-start: var(--space-xl);
+	}
+
+	.ad-a41-problem__intro {
+		max-width: var(--content-reading);
+	}
+
+	.ad-a41-signals {
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-block-start: var(--space-xl);
+	}
+
+	.ad-a41-signals__dense {
+		background: var(--ad-a41-tint);
+		padding: var(--space-lg);
+	}
+
+	.ad-a41-signals__open {
+		padding-block-start: var(--space-lg);
+	}
+
+	.ad-a41-signal-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ad-a41-signal-list li {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+		padding-block: var(--space-md);
+		border-left: 2px solid var(--color-border);
+	}
+
+	.ad-a41-signal-list li::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: calc(var(--space-md) + 0.4em);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	.ad-a41-signal-list li .meta {
+		display: block;
+		margin-block-end: var(--space-xs);
+	}
+
+	.ad-a41-signal-list li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	/* --- Decision: deliberately the quietest section ----------------------- */
+
+	.ad-a41-decision {
+		background: var(--ad-a41-tint);
+	}
+
+	@media (min-width: 900px) {
+		.ad-a41-hero__grid {
+			grid-template-columns: 5fr 7fr;
+			gap: var(--space-2xl);
+		}
+
+		.ad-a41-guide {
+			display: flex;
+			align-items: center;
+			gap: var(--space-md);
+			grid-column: 1 / -1;
+			margin-block-end: var(--space-xl);
+		}
+
+		.ad-a41-system__svg--mobile {
+			display: none;
+		}
+
+		.ad-a41-system__svg--desktop {
+			display: block;
+		}
+
+		.ad-a41-node-btn--mobile {
+			display: none;
+		}
+
+		.ad-a41-node-btn--desktop {
+			display: block;
+		}
+
+		.ad-a41-system {
+			margin-block-start: var(--space-lg);
+			/* Pulls the graph left into the column gap (bounded to less than
+			   the gap's own --space-2xl width, so it can never reach the text
+			   column's actual edge) so the two zones visibly overlap instead
+			   of reading as independent columns, plus the existing right/
+			   bottom bleed toward the container edge and past the section
+			   boundary. */
+			margin-inline-start: calc(-1 * var(--space-xl));
+			margin-inline-end: calc(-1 * var(--space-lg));
+			margin-block-end: calc(-1 * var(--space-xl));
+			position: relative;
+			z-index: 1;
+		}
+
+		.ad-a41-signals {
+			grid-template-columns: 3fr 2fr;
+			column-gap: var(--space-2xl);
+		}
+
+		.ad-a41-signals__open {
+			margin-block-start: var(--space-xl);
+			padding-block-start: 0;
+		}
+	}
+</style>

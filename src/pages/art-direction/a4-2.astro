@@ -1,0 +1,733 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+---
+
+<BaseLayout
+	title="Art Direction A4.2 — System Map as Brand Asset (kísérleti, dev-only)"
+	description="Kísérleti art-direction irány — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION A4.2 — SYSTEM MAP AS BRAND ASSET" />
+
+	<div class="ad-a42">
+		<SiteHeader />
+
+		<main>
+			<!-- Hero -->
+			<section class="ad-a42-hero">
+				<Container width="wide" as="div">
+					<div class="ad-a42-hero__grid">
+						<div class="ad-a42-hero__main">
+							<p class="eyebrow">Amikor a kész szoftver már nem elég.</p>
+							<h1 style="margin-block-start: var(--space-sm);">
+								A szoftver alkalmazkodjon a vállalkozásához.<br />Ne fordítva.
+							</h1>
+							<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+								Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+								vállalkozásoknak, amelyek működése már túl speciális az Excelhez
+								vagy egy kompromisszumos kész rendszerhez.
+							</p>
+							<div class="meta-row" style="margin-block-start: var(--space-xl);">
+								<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+								<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+							</div>
+						</div>
+
+						<div class="ad-a42-system" id="ad-a42-system">
+							<!-- Percentage-positioned buttons below resolve against THIS
+							     stage element's own box, which contains only the SVG(s) —
+							     not the caption after it. (A4.1's focus-outline bug traced
+							     back to buttons resolving against a taller box that included
+							     trailing caption text, silently shifting every percentage
+							     downward by the caption's height.) -->
+							<div class="ad-a42-system__stage">
+							<svg
+								class="ad-a42-system__svg ad-a42-system__svg--desktop"
+								viewBox="0 0 820 700"
+								role="img"
+								aria-label="Élő rendszertérkép: Excel, e-mail, külön rendszer, kézi adat, API és egyéb szétszórt üzleti bemenetek egy közös FOLYAMAT csomóponton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak. Az Excel bemenet és a két kimenet a diagram alatti vezérlőkkel kiemelhető."
+							>
+								<!-- Subtle architectural construction guides — quieter than the
+								     graph itself, no visible labels. -->
+								<line class="ad-a42-guideline" x1="450" y1="15" x2="450" y2="660" />
+								<line class="ad-a42-guideline" x1="30" y1="360" x2="790" y2="360" />
+								<path class="ad-a42-tick" d="M440,360 L460,360 M450,350 L450,370" />
+
+								<!-- Halo / technical marker behind FOLYAMAT -->
+								<circle class="ad-a42-halo" cx="450" cy="400" r="150" />
+								<circle class="ad-a42-halo" cx="450" cy="400" r="112" />
+								<circle class="ad-a42-halo" cx="450" cy="400" r="78" />
+								<circle class="ad-a42-marker-ring" cx="450" cy="400" r="112" />
+
+								<!-- Quiet secondary source -->
+								<path class="ad-a42-line ad-a42-line--quiet" data-belongs="other" d="M195,300 C280,325 360,345 448,362" />
+								<text class="ad-a42-label ad-a42-label--quiet" data-belongs="other" x="195" y="294">…ÉS MINDEN MÁS FORRÁS</text>
+
+								<path class="ad-a42-line ad-a42-line--critical" data-belongs="excel" d="M40,70 C160,170 300,280 450,360" />
+								<path class="ad-a42-line" data-belongs="email" d="M300,20 C350,140 410,260 450,360" />
+								<path class="ad-a42-line" data-belongs="kulon" d="M540,35 C500,150 470,260 450,360" />
+								<path class="ad-a42-line" data-belongs="kezi" d="M140,180 C250,250 350,310 450,360" />
+								<path class="ad-a42-line ad-a42-line--kink" data-belongs="api" d="M700,150 L580,240 L452,360" />
+
+								<circle class="ad-a42-node-dot ad-a42-node-dot--critical" data-belongs="excel" cx="40" cy="70" r="5" />
+								<circle class="ad-a42-node-dot" data-belongs="email" cx="300" cy="20" r="5" />
+								<circle class="ad-a42-node-dot" data-belongs="kulon" cx="540" cy="35" r="5" />
+								<circle class="ad-a42-node-dot" data-belongs="kezi" cx="140" cy="180" r="5" />
+								<circle class="ad-a42-node-dot" data-belongs="api" cx="700" cy="150" r="5" />
+
+								<text class="ad-a42-label" data-belongs="excel" x="53" y="65">EXCEL</text>
+								<text class="ad-a42-label" data-belongs="email" x="312" y="15">E-MAIL</text>
+								<text class="ad-a42-label" data-belongs="kulon" x="552" y="30">KÜLÖN RENDSZER</text>
+								<text class="ad-a42-label" data-belongs="kezi" x="152" y="198">KÉZI ADAT</text>
+								<text class="ad-a42-label" data-belongs="api" x="655" y="146">API</text>
+
+								<rect
+									class="ad-a42-node-core"
+									data-belongs="excel email kulon kezi api jovahagyas szamlazas"
+									x="365"
+									y="360"
+									width="170"
+									height="80"
+								/>
+								<text
+									class="ad-a42-label ad-a42-label--core"
+									data-belongs="excel email kulon kezi api jovahagyas szamlazas"
+									x="450"
+									y="405"
+									text-anchor="middle"
+								>
+									FOLYAMAT
+								</text>
+
+								<path class="ad-a42-line ad-a42-line--resolved" data-belongs="jovahagyas" d="M450,440 L450,520 L330,594" />
+								<path class="ad-a42-line ad-a42-line--resolved" data-belongs="szamlazas" d="M450,440 L450,520 L570,594" />
+
+								<circle class="ad-a42-node-status" data-belongs="jovahagyas" cx="330" cy="594" r="5" />
+								<circle class="ad-a42-node-status" data-belongs="szamlazas" cx="570" cy="594" r="5" />
+
+								<rect class="ad-a42-node-output" data-belongs="jovahagyas" x="255" y="594" width="150" height="52" />
+								<rect class="ad-a42-node-output" data-belongs="szamlazas" x="495" y="594" width="150" height="52" />
+								<text class="ad-a42-label" data-belongs="jovahagyas" x="270" y="626">JÓVÁHAGYÁS</text>
+								<text class="ad-a42-label" data-belongs="szamlazas" x="510" y="626">SZÁMLÁZÁS</text>
+							</svg>
+
+							<!-- Mobile: an intentionally recomposed, simpler map — 2 inputs,
+							     a lighter halo, not the desktop diagram scaled down. -->
+							<svg
+								class="ad-a42-system__svg ad-a42-system__svg--mobile"
+								viewBox="0 0 380 540"
+								role="img"
+								aria-label="Élő rendszertérkép: Excel és külön rendszer egy közös FOLYAMAT csomóponton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak. Az Excel bemenet és a két kimenet a diagram alatti vezérlőkkel kiemelhető."
+							>
+								<circle class="ad-a42-halo" cx="190" cy="228" r="78" />
+								<circle class="ad-a42-halo" cx="190" cy="228" r="55" />
+								<circle class="ad-a42-marker-ring" cx="190" cy="228" r="66" />
+
+								<path class="ad-a42-line ad-a42-line--critical" data-belongs="excel" d="M65,50 C110,110 150,160 190,200" />
+								<path class="ad-a42-line" data-belongs="kulon" d="M310,70 C270,120 220,160 195,200" />
+
+								<circle class="ad-a42-node-dot ad-a42-node-dot--critical" data-belongs="excel" cx="65" cy="50" r="5" />
+								<circle class="ad-a42-node-dot" data-belongs="kulon" cx="310" cy="70" r="5" />
+
+								<text class="ad-a42-label" data-belongs="excel" x="78" y="46">EXCEL</text>
+								<text class="ad-a42-label" data-belongs="kulon" x="298" y="66" text-anchor="end">KÜLÖN RENDSZER</text>
+
+								<rect
+									class="ad-a42-node-core"
+									data-belongs="excel kulon jovahagyas szamlazas"
+									x="125"
+									y="200"
+									width="130"
+									height="56"
+								/>
+								<text
+									class="ad-a42-label ad-a42-label--core"
+									data-belongs="excel kulon jovahagyas szamlazas"
+									x="190"
+									y="233"
+									text-anchor="middle"
+								>
+									FOLYAMAT
+								</text>
+
+								<path class="ad-a42-line ad-a42-line--resolved" data-belongs="jovahagyas" d="M190,256 L190,320 L110,380" />
+								<path class="ad-a42-line ad-a42-line--resolved" data-belongs="szamlazas" d="M190,256 L190,320 L270,380" />
+
+								<circle class="ad-a42-node-status" data-belongs="jovahagyas" cx="110" cy="380" r="5" />
+								<circle class="ad-a42-node-status" data-belongs="szamlazas" cx="270" cy="380" r="5" />
+
+								<rect class="ad-a42-node-output" data-belongs="jovahagyas" x="45" y="380" width="130" height="46" />
+								<rect class="ad-a42-node-output" data-belongs="szamlazas" x="205" y="380" width="130" height="46" />
+								<text class="ad-a42-label" data-belongs="jovahagyas" x="57" y="408">JÓVÁHAGYÁS</text>
+								<text class="ad-a42-label" data-belongs="szamlazas" x="217" y="408">SZÁMLÁZÁS</text>
+							</svg>
+
+							<!-- Interactive overlay controls — percentage-sized to match each
+							     visible node's actual rendered size exactly (fixes the A4.1
+							     bug where fixed-pixel button dimensions drifted out of sync
+							     with the fluidly-scaling SVG at other viewport widths). -->
+							<button
+								type="button"
+								class="ad-a42-node-btn ad-a42-node-btn--desktop"
+								data-node="excel"
+								style="left: 11.59%; top: 10%; width: 17.07%; height: 7.14%;"
+								aria-pressed="false"
+								aria-label="EXCEL bemenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a42-node-btn ad-a42-node-btn--desktop"
+								data-node="jovahagyas"
+								style="left: 40.24%; top: 88.57%; width: 18.29%; height: 7.43%;"
+								aria-pressed="false"
+								aria-label="JÓVÁHAGYÁS kimenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a42-node-btn ad-a42-node-btn--desktop"
+								data-node="szamlazas"
+								style="left: 69.51%; top: 88.57%; width: 18.29%; height: 7.43%;"
+								aria-pressed="false"
+								aria-label="SZÁMLÁZÁS kimenet kiemelése"
+							></button>
+
+							<button
+								type="button"
+								class="ad-a42-node-btn ad-a42-node-btn--mobile"
+								data-node="excel"
+								style="left: 24.21%; top: 9.26%; width: 26.32%; height: 7.41%;"
+								aria-pressed="false"
+								aria-label="EXCEL bemenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a42-node-btn ad-a42-node-btn--mobile"
+								data-node="jovahagyas"
+								style="left: 28.95%; top: 74.63%; width: 34.21%; height: 8.52%;"
+								aria-pressed="false"
+								aria-label="JÓVÁHAGYÁS kimenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a42-node-btn ad-a42-node-btn--mobile"
+								data-node="szamlazas"
+								style="left: 71.05%; top: 74.63%; width: 34.21%; height: 8.52%;"
+								aria-pressed="false"
+								aria-label="SZÁMLÁZÁS kimenet kiemelése"
+							></button>
+							</div>
+
+							<p class="ad-a42-system__caption">BEMENETEK → FOLYAMAT → KIMENET</p>
+						</div>
+					</div>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Problem / Recognition — structured diagnosis, in dialogue with the Hero -->
+			<section class="section ad-a42-problem">
+				<Container width="wide" as="div">
+					<div class="ad-a42-problem__intro">
+						<p class="eyebrow">Ismerős helyzet?</p>
+						<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+							szeretnénk”.
+						</h2>
+					</div>
+
+					<div class="ad-a42-signals">
+						<div class="ad-a42-signals__dense">
+							<ol class="ad-a42-signal-list">
+								<li>
+									<span class="meta">JEL / 01</span>
+									<p>„Ezt Excelben vezetjük.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 02</span>
+									<p>„Innen kézzel átmásoljuk oda.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 03</span>
+									<p>„Erre van egy külön rendszerünk.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 04</span>
+									<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+								</li>
+							</ol>
+						</div>
+						<div class="ad-a42-signals__open">
+							<ol class="ad-a42-signal-list">
+								<li>
+									<span class="meta">JEL / 05</span>
+									<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+									folyamatunkat.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 06</span>
+									<p>„A rendszereink működnek, csak éppen nem kommunikálnak
+									egymással.”</p>
+								</li>
+							</ol>
+						</div>
+					</div>
+
+					<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+						Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van
+						szükség. Azt viszont gyakran jelzik, hogy a vállalkozás működése és az
+						azt támogató eszközök már nincsenek összhangban.
+					</p>
+
+					<a
+						href="/egyedi-fejlesztes/"
+						class="link-standalone"
+						style="margin-block-start: var(--space-lg);"
+					>
+						Mikor érdemes egyedi fejlesztésben gondolkodni? →
+					</a>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Decision — the quiet resolution -->
+			<section class="section ad-a42-decision">
+				<Container width="standard">
+					<h2 style="max-width: var(--content-reading);">
+						Nem minden problémára kell egyedi szoftver.
+					</h2>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+						Amire viszont igen, arra pontosan illeszkedőt építünk.
+					</p>
+				</Container>
+			</section>
+		</main>
+	</div>
+</BaseLayout>
+
+<script>
+	const wrapper = document.getElementById('ad-a42-system');
+	if (wrapper) {
+		const buttons = Array.from(wrapper.querySelectorAll<HTMLButtonElement>('.ad-a42-node-btn'));
+		let committed: string | null = null;
+
+		function applyFocus(id: string | null) {
+			if (id) {
+				wrapper!.setAttribute('data-focus', id);
+			} else {
+				wrapper!.removeAttribute('data-focus');
+			}
+		}
+
+		buttons.forEach((btn) => {
+			const id = btn.dataset.node ?? '';
+			btn.addEventListener('mouseenter', () => applyFocus(id));
+			btn.addEventListener('focus', () => applyFocus(id));
+			btn.addEventListener('mouseleave', () => applyFocus(committed));
+			btn.addEventListener('blur', () => applyFocus(committed));
+			btn.addEventListener('click', () => {
+				committed = committed === id ? null : id;
+				buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.node === committed)));
+				applyFocus(committed);
+			});
+		});
+	}
+</script>
+
+<style>
+	/*
+	 * A4.2 — experimental. Same Ink / Deep Blue-Violet working accent as
+	 * A4/A4.1 (#37325C / #282442), unchanged, plus the same tint derivation
+	 * (#E7E5E7). One additional narrow semantic role: --ad-a42-status-green
+	 * reuses the ORIGINAL locked site accent (#2b5d4b, extensively contrast-
+	 * verified earlier in this project) purely as a small "resolved/
+	 * operational" status-dot marker on the two outputs — not a new hue,
+	 * and explicitly not the brand accent, which stays blue-violet.
+	 */
+	.ad-a42 {
+		--color-accent: #37325c;
+		--color-accent-strong: #282442;
+		--ad-a42-tint: #e7e5e7;
+		--ad-a42-status-green: #2b5d4b;
+		--ad-a42-transition: 220ms ease;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ad-a42 {
+			--ad-a42-transition: 1ms linear;
+		}
+	}
+
+	.ad-a42-hero {
+		padding-block-start: var(--space-section-lg);
+		padding-block-end: var(--space-2xl);
+	}
+
+	.ad-a42-hero__grid {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		align-items: start;
+	}
+
+	.ad-a42-system {
+		position: relative;
+	}
+
+	.ad-a42-system__stage {
+		position: relative;
+	}
+
+	.ad-a42-system__svg {
+		width: 100%;
+		height: auto;
+	}
+
+	.ad-a42-system__svg--mobile {
+		display: block;
+	}
+
+	.ad-a42-system__svg--desktop {
+		display: none;
+	}
+
+	.ad-a42-node-btn--desktop {
+		display: none;
+	}
+
+	.ad-a42-node-btn--mobile {
+		display: block;
+	}
+
+	/* Architectural construction guides — quieter than the graph, no labels. */
+	.ad-a42-guideline {
+		stroke: var(--color-border);
+		stroke-width: 1;
+		stroke-dasharray: 2 4;
+		opacity: 0.35;
+	}
+
+	.ad-a42-tick {
+		stroke: var(--color-text-muted);
+		stroke-width: 1;
+		opacity: 0.4;
+	}
+
+	/* Halo behind FOLYAMAT — layered low-opacity fills approximate a soft
+	   glow without an SVG blur filter (simpler, more predictable across
+	   browsers). Kept restrained: max opacity stays under 10%. */
+	.ad-a42-halo {
+		fill: var(--color-accent);
+		stroke: none;
+		transition: opacity var(--ad-a42-transition);
+	}
+
+	.ad-a42-halo:nth-of-type(1) {
+		opacity: 0.035;
+	}
+
+	.ad-a42-halo:nth-of-type(2) {
+		opacity: 0.05;
+	}
+
+	.ad-a42-halo:nth-of-type(3) {
+		opacity: 0.08;
+	}
+
+	.ad-a42-marker-ring {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 1;
+		opacity: 0.25;
+	}
+
+	.ad-a42-line {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+		transition: stroke var(--ad-a42-transition), stroke-width var(--ad-a42-transition), opacity var(--ad-a42-transition);
+	}
+
+	.ad-a42-line--quiet {
+		stroke-width: 0.75;
+		opacity: 0.5;
+	}
+
+	.ad-a42-line--kink {
+		stroke-dasharray: 3 3;
+	}
+
+	/* The one critical path visible even at rest, per the brief's "one or two
+	   paths should receive the blue-violet accent... make the graph easier
+	   to read without making it colourful everywhere" — a static hierarchy
+	   decision, not only an interaction result. */
+	.ad-a42-line--critical {
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	.ad-a42-line--resolved {
+		stroke: var(--color-accent);
+		stroke-width: 1.75;
+	}
+
+	.ad-a42-node-dot {
+		fill: var(--color-bg);
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		transition: opacity var(--ad-a42-transition);
+	}
+
+	.ad-a42-node-dot--critical {
+		stroke: var(--color-accent);
+		stroke-width: 1.5;
+	}
+
+	.ad-a42-node-status {
+		fill: var(--ad-a42-status-green);
+		transition: opacity var(--ad-a42-transition);
+	}
+
+	.ad-a42-node-core {
+		fill: var(--color-surface);
+		stroke: var(--color-accent);
+		stroke-width: 1.5;
+		transition: stroke var(--ad-a42-transition), opacity var(--ad-a42-transition), transform var(--ad-a42-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.ad-a42-node-output {
+		fill: var(--color-bg);
+		stroke: var(--color-accent);
+		stroke-width: 1;
+		transition: stroke var(--ad-a42-transition), stroke-width var(--ad-a42-transition), opacity var(--ad-a42-transition), transform var(--ad-a42-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.ad-a42-label {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		fill: var(--color-text-muted);
+		transition: opacity var(--ad-a42-transition), fill var(--ad-a42-transition);
+	}
+
+	.ad-a42-label--quiet {
+		font-size: 10px;
+		opacity: 0.55;
+	}
+
+	.ad-a42-label--core {
+		fill: var(--color-text);
+		font-size: 14px;
+	}
+
+	.ad-a42-system__caption {
+		margin: var(--space-md) 0 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+		text-align: center;
+	}
+
+	/* Interactive overlay controls — real <button> elements. */
+	.ad-a42-node-btn {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		cursor: pointer;
+	}
+
+	.ad-a42-node-btn:hover,
+	.ad-a42-node-btn:focus-visible {
+		outline: 1px dashed var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	/* Default: nothing de-emphasized. Once one of the three interactive nodes
+	   is focused via data-focus (set by the page-scoped script below), every
+	   element NOT tagged with that node's data-belongs token recedes —
+	   opacity and stroke-width move together, never color alone. FOLYAMAT is
+	   tagged with every token, so it stays fully visible under every state
+	   and additionally gets a restrained "recomposition" pulse (slight
+	   scale-up + stronger halo) confirming it as the active transformation
+	   centre, per the brief's "system reorganizes around the thing I'm
+	   inspecting" feeling — implemented as a deterministic CSS state, not a
+	   physics simulation. */
+	.ad-a42-system[data-focus='excel'] [data-belongs]:not([data-belongs~='excel']),
+	.ad-a42-system[data-focus='jovahagyas'] [data-belongs]:not([data-belongs~='jovahagyas']),
+	.ad-a42-system[data-focus='szamlazas'] [data-belongs]:not([data-belongs~='szamlazas']) {
+		opacity: 0.28;
+	}
+
+	.ad-a42-system[data-focus='excel'] [data-belongs~='excel'],
+	.ad-a42-system[data-focus='jovahagyas'] [data-belongs~='jovahagyas'],
+	.ad-a42-system[data-focus='szamlazas'] [data-belongs~='szamlazas'] {
+		opacity: 1;
+	}
+
+	.ad-a42-system[data-focus] .ad-a42-node-core {
+		transform: scale(1.04);
+	}
+
+	.ad-a42-system[data-focus] .ad-a42-halo:nth-of-type(1) {
+		opacity: 0.06;
+	}
+
+	.ad-a42-system[data-focus] .ad-a42-halo:nth-of-type(2) {
+		opacity: 0.08;
+	}
+
+	.ad-a42-system[data-focus] .ad-a42-halo:nth-of-type(3) {
+		opacity: 0.13;
+	}
+
+	.ad-a42-system[data-focus='excel'] .ad-a42-line[data-belongs~='excel'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2.5;
+	}
+
+	.ad-a42-system[data-focus='excel'] .ad-a42-label[data-belongs~='excel'],
+	.ad-a42-system[data-focus='jovahagyas'] .ad-a42-label[data-belongs~='jovahagyas'],
+	.ad-a42-system[data-focus='szamlazas'] .ad-a42-label[data-belongs~='szamlazas'] {
+		fill: var(--color-text);
+	}
+
+	.ad-a42-system[data-focus='jovahagyas'] .ad-a42-line--resolved[data-belongs~='jovahagyas'],
+	.ad-a42-system[data-focus='szamlazas'] .ad-a42-line--resolved[data-belongs~='szamlazas'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2.75;
+	}
+
+	.ad-a42-system[data-focus='jovahagyas'] .ad-a42-node-output[data-belongs~='jovahagyas'],
+	.ad-a42-system[data-focus='szamlazas'] .ad-a42-node-output[data-belongs~='szamlazas'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2;
+		transform: scale(1.05);
+	}
+
+	/* --- Problem section ---------------------------------------------------- */
+
+	.ad-a42-problem {
+		padding-block-start: var(--space-xl);
+	}
+
+	.ad-a42-problem__intro {
+		max-width: var(--content-reading);
+	}
+
+	.ad-a42-signals {
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-block-start: var(--space-xl);
+	}
+
+	.ad-a42-signals__dense {
+		background: var(--ad-a42-tint);
+		padding: var(--space-lg);
+	}
+
+	.ad-a42-signals__open {
+		padding-block-start: var(--space-lg);
+	}
+
+	.ad-a42-signal-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ad-a42-signal-list li {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+		padding-block: var(--space-md);
+		border-left: 2px solid var(--color-border);
+	}
+
+	.ad-a42-signal-list li::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: calc(var(--space-md) + 0.4em);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	.ad-a42-signal-list li .meta {
+		display: block;
+		margin-block-end: var(--space-xs);
+	}
+
+	.ad-a42-signal-list li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	/* --- Decision: deliberately the quietest section ------------------------ */
+
+	.ad-a42-decision {
+		background: var(--ad-a42-tint);
+	}
+
+	@media (min-width: 900px) {
+		.ad-a42-hero__grid {
+			grid-template-columns: 4fr 8fr;
+			gap: var(--space-xl);
+		}
+
+		.ad-a42-system__svg--mobile {
+			display: none;
+		}
+
+		.ad-a42-system__svg--desktop {
+			display: block;
+		}
+
+		.ad-a42-node-btn--mobile {
+			display: none;
+		}
+
+		.ad-a42-node-btn--desktop {
+			display: block;
+		}
+
+		.ad-a42-system {
+			margin-block-start: var(--space-md);
+			/* Pulled further left than A4.1 and allowed to bleed further right
+			   — the graph now occupies most of the right half and reaches
+			   toward the centre, per this task's explicit brief. Still bounded
+			   to less than the column gap, so it can never reach the text
+			   column's actual edge, and verified overflow-safe at every
+			   required width. */
+			margin-inline-start: calc(-1 * var(--space-2xl));
+			margin-inline-end: calc(-1 * var(--space-lg));
+			margin-block-end: calc(-1 * var(--space-xl));
+			position: relative;
+			z-index: 1;
+		}
+
+		.ad-a42-signals {
+			grid-template-columns: 3fr 2fr;
+			column-gap: var(--space-2xl);
+		}
+
+		.ad-a42-signals__open {
+			margin-block-start: var(--space-xl);
+			padding-block-start: 0;
+		}
+	}
+</style>

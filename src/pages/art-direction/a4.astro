@@ -1,0 +1,443 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+---
+
+<BaseLayout
+	title="Art Direction A4 — Swiss Systems / Structured Complexity (kísérleti, dev-only)"
+	description="Kísérleti art-direction irány — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION A4 — SWISS SYSTEMS / STRUCTURED COMPLEXITY" />
+
+	<div class="ad-a4">
+		<SiteHeader />
+
+		<main>
+			<!-- Hero -->
+			<section class="ad-a4-hero">
+				<Container width="wide" as="div">
+					<p class="ad-a4-coord">SEC / 01 — POZÍCIONÁLÁS</p>
+
+					<div class="ad-a4-hero__grid">
+						<div class="ad-a4-hero__main">
+							<p class="eyebrow">Amikor a kész szoftver már nem elég.</p>
+							<h1 style="margin-block-start: var(--space-sm);">
+								A szoftver alkalmazkodjon a vállalkozásához.<br />Ne fordítva.
+							</h1>
+							<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+								Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+								vállalkozásoknak, amelyek működése már túl speciális az Excelhez
+								vagy egy kompromisszumos kész rendszerhez.
+							</p>
+							<div class="meta-row" style="margin-block-start: var(--space-xl);">
+								<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+								<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+							</div>
+						</div>
+
+						<div class="ad-a4-system">
+							<!-- Desktop system diagram -->
+							<svg
+								class="ad-a4-system__svg ad-a4-system__svg--desktop"
+								viewBox="0 0 640 600"
+								role="img"
+								aria-label="Rendszerarchitektúra vázlat: szétszórt bemenetek — érdeklődés, ügyfél, munkalap, adat — egy strukturált folyamaton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak."
+							>
+								<path class="ad-a4-line" d="M60,50 C160,110 250,190 322,262" />
+								<path class="ad-a4-line" d="M430,40 C380,110 340,190 326,262" />
+								<path class="ad-a4-line" d="M150,140 C220,190 270,225 320,262" />
+								<path class="ad-a4-line ad-a4-line--kink" d="M540,140 L440,190 L332,262" />
+
+								<circle class="ad-a4-node-dot" cx="60" cy="50" r="4" />
+								<circle class="ad-a4-node-dot" cx="430" cy="40" r="4" />
+								<circle class="ad-a4-node-dot" cx="150" cy="140" r="4" />
+								<circle class="ad-a4-node-dot" cx="540" cy="140" r="4" />
+
+								<text class="ad-a4-label" x="72" y="46">ÉRDEKLŐDÉS</text>
+								<text class="ad-a4-label" x="442" y="36">ÜGYFÉL</text>
+								<text class="ad-a4-label" x="162" y="158">MUNKALAP</text>
+								<text class="ad-a4-label" x="470" y="158">ADAT</text>
+
+								<rect class="ad-a4-node-core" x="270" y="262" width="120" height="56" rx="2" />
+								<text class="ad-a4-label ad-a4-label--core" x="330" y="295" text-anchor="middle">FOLYAMAT</text>
+
+								<path class="ad-a4-line ad-a4-line--resolved" d="M330,318 L330,360 L235,420" />
+								<path class="ad-a4-line ad-a4-line--resolved" d="M330,318 L330,360 L425,420" />
+
+								<circle class="ad-a4-node-status" cx="235" cy="420" r="4" />
+								<circle class="ad-a4-node-status" cx="425" cy="420" r="4" />
+
+								<rect class="ad-a4-node-output" x="175" y="428" width="120" height="44" rx="2" />
+								<rect class="ad-a4-node-output" x="365" y="428" width="120" height="44" rx="2" />
+								<text class="ad-a4-label" x="187" y="454">JÓVÁHAGYÁS</text>
+								<text class="ad-a4-label" x="377" y="454">SZÁMLÁZÁS</text>
+							</svg>
+
+							<!-- Mobile system diagram — simplified, redesigned for a vertical read, not a shrunk desktop diagram -->
+							<svg
+								class="ad-a4-system__svg ad-a4-system__svg--mobile"
+								viewBox="0 0 380 460"
+								role="img"
+								aria-label="Rendszerarchitektúra vázlat: érdeklődés és ügyfél bemenet egy strukturált folyamaton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakul."
+							>
+								<path class="ad-a4-line" d="M50,50 C95,95 135,135 178,168" />
+								<path class="ad-a4-line" d="M325,95 C270,125 220,150 202,168" />
+
+								<circle class="ad-a4-node-dot" cx="50" cy="50" r="4" />
+								<circle class="ad-a4-node-dot" cx="325" cy="95" r="4" />
+
+								<text class="ad-a4-label" x="62" y="46">ÉRDEKLŐDÉS</text>
+								<text class="ad-a4-label" x="313" y="91" text-anchor="end">ÜGYFÉL</text>
+
+								<rect class="ad-a4-node-core" x="130" y="168" width="120" height="52" rx="2" />
+								<text class="ad-a4-label ad-a4-label--core" x="190" y="200" text-anchor="middle">FOLYAMAT</text>
+
+								<path class="ad-a4-line ad-a4-line--resolved" d="M190,220 L190,258 L110,310" />
+								<path class="ad-a4-line ad-a4-line--resolved" d="M190,220 L190,258 L270,310" />
+
+								<circle class="ad-a4-node-status" cx="110" cy="310" r="4" />
+								<circle class="ad-a4-node-status" cx="270" cy="310" r="4" />
+
+								<rect class="ad-a4-node-output" x="50" y="318" width="120" height="44" rx="2" />
+								<rect class="ad-a4-node-output" x="210" y="318" width="120" height="44" rx="2" />
+								<text class="ad-a4-label" x="62" y="344">JÓVÁHAGYÁS</text>
+								<text class="ad-a4-label" x="222" y="344">SZÁMLÁZÁS</text>
+							</svg>
+
+							<p class="ad-a4-system__caption">BEMENETEK → FOLYAMAT → KIMENET</p>
+						</div>
+					</div>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Problem / Recognition — reinterpreted as system diagnosis -->
+			<section class="section ad-a4-problem">
+				<Container width="wide" as="div">
+					<p class="ad-a4-coord">SEC / 02 — DIAGNOSZTIKA</p>
+
+					<div class="ad-a4-problem__intro">
+						<p class="eyebrow">Ismerős helyzet?</p>
+						<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+							szeretnénk”.
+						</h2>
+					</div>
+
+					<div class="ad-a4-signals">
+						<div class="ad-a4-signals__dense">
+							<p class="ad-a4-signals__header">DIAGNOSZTIKAI MEZŐ — AKTÍV</p>
+							<ol class="ad-a4-signal-list">
+								<li>
+									<span class="meta">JEL / 01</span>
+									<p>„Ezt Excelben vezetjük.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 02</span>
+									<p>„Innen kézzel átmásoljuk oda.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 03</span>
+									<p>„Erre van egy külön rendszerünk.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 04</span>
+									<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+								</li>
+							</ol>
+						</div>
+						<div class="ad-a4-signals__open">
+							<p class="ad-a4-signals__header ad-a4-signals__header--quiet">KAPCSOLÓDÓ JELEK</p>
+							<ol class="ad-a4-signal-list">
+								<li>
+									<span class="meta">JEL / 05</span>
+									<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+									folyamatunkat.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 06</span>
+									<p>„A rendszereink működnek, csak éppen nem kommunikálnak
+									egymással.”</p>
+								</li>
+							</ol>
+						</div>
+					</div>
+
+					<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+						Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van
+						szükség. Azt viszont gyakran jelzik, hogy a vállalkozás működése és az
+						azt támogató eszközök már nincsenek összhangban.
+					</p>
+
+					<a
+						href="/egyedi-fejlesztes/"
+						class="link-standalone"
+						style="margin-block-start: var(--space-lg);"
+					>
+						Mikor érdemes egyedi fejlesztésben gondolkodni? →
+					</a>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Decision — the quiet resolution -->
+			<section class="section ad-a4-decision">
+				<Container width="standard">
+					<p class="ad-a4-coord">SEC / 03 — TISZTÁZÁS</p>
+					<h2 style="max-width: var(--content-reading);">
+						Nem minden problémára kell egyedi szoftver.
+					</h2>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+						Amire viszont igen, arra pontosan illeszkedőt építünk.
+					</p>
+				</Container>
+			</section>
+		</main>
+	</div>
+</BaseLayout>
+
+<style>
+	/*
+	 * A4 — experimental. Working accent: the Ink / technical-blue family
+	 * from the Task 005C accent exploration (#37325C / #282442), used here
+	 * as the current working direction, NOT a locked decision. Tint is the
+	 * same 8%-into-bg derivation method as A2/A3's tint, recomputed for this
+	 * accent: #E7E5E7.
+	 */
+	.ad-a4 {
+		--color-accent: #37325c;
+		--color-accent-strong: #282442;
+		--ad-a4-tint: #e7e5e7;
+	}
+
+	.ad-a4-coord {
+		margin: 0 0 var(--space-md);
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+	}
+
+	/* Header → hero gap: intentionally the tighter A2/A3-corrected rhythm —
+	   only --space-section-lg, no additional local padding on top of it. */
+	.ad-a4-hero {
+		padding-block-start: var(--space-section-lg);
+		padding-block-end: var(--space-2xl);
+	}
+
+	.ad-a4-hero__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		align-items: start;
+	}
+
+	.ad-a4-system {
+		position: relative;
+	}
+
+	.ad-a4-system__svg {
+		width: 100%;
+		height: auto;
+		display: block;
+	}
+
+	.ad-a4-system__svg--mobile {
+		display: block;
+	}
+
+	.ad-a4-system__svg--desktop {
+		display: none;
+	}
+
+	.ad-a4-line {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 1;
+	}
+
+	.ad-a4-line--kink {
+		stroke-dasharray: 3 3;
+	}
+
+	.ad-a4-line--resolved {
+		stroke: var(--color-accent);
+		stroke-width: 1.5;
+	}
+
+	.ad-a4-node-dot {
+		fill: var(--color-bg);
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+	}
+
+	.ad-a4-node-status {
+		fill: var(--color-accent);
+	}
+
+	.ad-a4-node-core {
+		fill: var(--color-surface);
+		stroke: var(--color-border);
+		stroke-width: 1;
+	}
+
+	.ad-a4-node-output {
+		fill: var(--color-bg);
+		stroke: var(--color-accent);
+		stroke-width: 1;
+	}
+
+	.ad-a4-label {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.06em;
+		fill: var(--color-text-muted);
+	}
+
+	.ad-a4-label--core {
+		fill: var(--color-text);
+		font-size: 12px;
+	}
+
+	/* The mobile diagram's viewBox renders at a smaller physical width than
+	   desktop's, so the same viewBox-unit font-size would end up smaller in
+	   actual rendered pixels. Compensate so labels stay legible on a real
+	   phone screen. */
+	.ad-a4-system__svg--mobile .ad-a4-label {
+		font-size: 15px;
+	}
+
+	.ad-a4-system__svg--mobile .ad-a4-label--core {
+		font-size: 16px;
+	}
+
+	.ad-a4-system__caption {
+		margin: var(--space-md) 0 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+		text-align: center;
+	}
+
+	/* --- Problem section: diagnostic field -------------------------------- */
+
+	.ad-a4-problem {
+		padding-block-start: var(--space-xl);
+	}
+
+	.ad-a4-problem__intro {
+		max-width: var(--content-reading);
+	}
+
+	.ad-a4-signals {
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-block-start: var(--space-xl);
+	}
+
+	.ad-a4-signals__header {
+		margin: 0 0 var(--space-md);
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-accent);
+		border-bottom: 1px solid var(--color-border);
+		padding-block-end: var(--space-sm);
+	}
+
+	.ad-a4-signals__header--quiet {
+		color: var(--color-text-muted);
+	}
+
+	.ad-a4-signals__dense {
+		background: var(--ad-a4-tint);
+		padding: var(--space-lg);
+	}
+
+	.ad-a4-signals__open {
+		padding-block-start: var(--space-lg);
+	}
+
+	.ad-a4-signal-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ad-a4-signal-list li {
+		padding-block: var(--space-md);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.ad-a4-signal-list li:last-child {
+		border-bottom: none;
+	}
+
+	.ad-a4-signal-list li .meta {
+		display: block;
+		margin-block-end: var(--space-xs);
+	}
+
+	.ad-a4-signal-list li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	/* --- Decision: deliberately the quietest section ----------------------- */
+
+	.ad-a4-decision {
+		background: var(--ad-a4-tint);
+	}
+
+	@media (min-width: 900px) {
+		.ad-a4-hero__grid {
+			grid-template-columns: 5fr 7fr;
+			gap: var(--space-2xl);
+		}
+
+		.ad-a4-system__svg--mobile {
+			display: none;
+		}
+
+		.ad-a4-system__svg--desktop {
+			display: block;
+		}
+
+		.ad-a4-system {
+			margin-block-start: var(--space-lg);
+		}
+
+		.ad-a4-signals {
+			grid-template-columns: 3fr 2fr;
+			column-gap: var(--space-2xl);
+		}
+
+		.ad-a4-signals__open {
+			margin-block-start: var(--space-xl);
+			padding-block-start: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: no-preference) {
+		.ad-a4-node-status {
+			animation: ad-a4-pulse 3.2s ease-in-out infinite;
+		}
+	}
+
+	@keyframes ad-a4-pulse {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.45;
+		}
+	}
+</style>

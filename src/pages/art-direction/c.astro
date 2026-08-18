@@ -1,0 +1,211 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+---
+
+<BaseLayout
+	title="Art Direction C — Contemporary Industrial Digital (kísérleti, dev-only)"
+	description="Kísérleti art-direction összehasonlítás — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION C — CONTEMPORARY INDUSTRIAL DIGITAL" />
+	<SiteHeader />
+
+	<main class="ad-c">
+		<!-- Hero — full-bleed dark panel, breaks out of the standard container -->
+		<section class="ad-c-hero">
+			<div class="ad-c-hero__light">
+				<Container width="standard" as="div">
+					<p class="eyebrow">Amikor a kész szoftver már nem elég.</p>
+					<h1 style="margin-block-start: var(--space-sm);">
+						A szoftver alkalmazkodjon a vállalkozásához. Ne fordítva.
+					</h1>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+						Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+						vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy
+						egy kompromisszumos kész rendszerhez.
+					</p>
+				</Container>
+			</div>
+			<div class="ad-c-hero__dark">
+				<p class="meta">ARTIT / 01</p>
+				<div class="ad-c-hero__dark-actions">
+					<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+					<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+				</div>
+			</div>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Problem / Recognition -->
+		<section class="section">
+			<Container width="wide" as="div">
+				<p class="eyebrow">Ismerős helyzet?</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+					szeretnénk”.
+				</h2>
+
+				<ul class="ad-c-symptoms">
+					<li>
+						<span class="ad-c-symptoms__index">01</span>
+						<p>„Ezt Excelben vezetjük.”</p>
+					</li>
+					<li>
+						<span class="ad-c-symptoms__index">02</span>
+						<p>„Innen kézzel átmásoljuk oda.”</p>
+					</li>
+					<li>
+						<span class="ad-c-symptoms__index">03</span>
+						<p>„Erre van egy külön rendszerünk.”</p>
+					</li>
+					<li>
+						<span class="ad-c-symptoms__index">04</span>
+						<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+					</li>
+					<li>
+						<span class="ad-c-symptoms__index">05</span>
+						<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+						folyamatunkat.”</p>
+					</li>
+					<li>
+						<span class="ad-c-symptoms__index">06</span>
+						<p>„A rendszereink működnek, csak éppen nem kommunikálnak egymással.”</p>
+					</li>
+				</ul>
+
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+					Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van szükség.
+					Azt viszont gyakran jelzik, hogy a vállalkozás működése és az azt támogató
+					eszközök már nincsenek összhangban.
+				</p>
+
+				<a
+					href="/egyedi-fejlesztes/"
+					class="link-standalone"
+					style="margin-block-start: var(--space-lg);"
+				>
+					Mikor érdemes egyedi fejlesztésben gondolkodni? →
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Decision — transition preview only -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					Nem minden problémára kell egyedi szoftver.
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+					Amire viszont igen, arra pontosan illeszkedőt építünk.
+				</p>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.ad-c-hero {
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.ad-c-hero__light {
+		padding-block: var(--space-section-lg);
+	}
+
+	.ad-c-hero__dark {
+		background: var(--color-dark-bg);
+		color: var(--color-dark-text);
+		padding: var(--space-xl) var(--space-lg);
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		gap: var(--space-lg);
+	}
+
+	.ad-c-hero__dark-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-lg);
+	}
+
+	.ad-c-hero__dark .link-standalone {
+		color: var(--color-dark-text);
+		border-color: var(--color-dark-text-muted);
+	}
+
+	.ad-c-hero__dark .link-standalone:hover {
+		border-color: var(--color-accent);
+	}
+
+	.ad-c-symptoms {
+		list-style: none;
+		margin: var(--space-xl) 0 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.ad-c-symptoms li {
+		display: flex;
+		align-items: baseline;
+		gap: var(--space-lg);
+		padding: var(--space-lg);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.ad-c-symptoms__index {
+		font-family: var(--font-mono);
+		font-size: var(--text-h2);
+		line-height: 1;
+		color: var(--color-border);
+		flex-shrink: 0;
+	}
+
+	.ad-c-symptoms li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	.ad-c-symptoms li:nth-child(3n+2) {
+		background: var(--color-dark-bg);
+		border-bottom-color: var(--color-dark-bg);
+	}
+
+	.ad-c-symptoms li:nth-child(3n+2) p {
+		color: var(--color-dark-text);
+	}
+
+	.ad-c-symptoms li:nth-child(3n+2) .ad-c-symptoms__index {
+		color: var(--color-dark-text-muted);
+	}
+
+	@media (min-width: 900px) {
+		.ad-c-hero {
+			grid-template-columns: 1.6fr 1fr;
+			min-height: 32rem;
+		}
+
+		.ad-c-hero__light {
+			display: flex;
+			align-items: center;
+			padding-block: 0;
+		}
+
+		.ad-c-hero__dark {
+			padding-inline: var(--space-2xl) var(--space-xl);
+		}
+
+		.ad-c-symptoms li {
+			padding-inline: var(--space-xl);
+		}
+	}
+</style>

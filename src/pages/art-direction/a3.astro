@@ -1,0 +1,323 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+---
+
+<BaseLayout
+	title="Art Direction A3 — Editorial Engineering × Software Evidence (kísérleti, dev-only)"
+	description="Kísérleti art-direction iteráció, A és A2 ötvözete — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION A3 — EDITORIAL ENGINEERING × SOFTWARE EVIDENCE" />
+	<SiteHeader />
+
+	<main class="ad-a3">
+		<!-- Hero -->
+		<section class="ad-a3-hero">
+			<Container width="wide" as="div">
+				<div class="ad-a3-hero__grid">
+					<div class="ad-a3-hero__main">
+						<p class="ad-a3-flowline">FOLYAMAT → ALKALMAZÁS → INTEGRÁCIÓ → ADAT</p>
+						<p class="eyebrow" style="margin-block-start: var(--space-md);">
+							Amikor a kész szoftver már nem elég.
+						</p>
+						<h1 style="margin-block-start: var(--space-sm);">
+							A szoftver alkalmazkodjon a vállalkozásához. Ne fordítva.
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+							Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+							vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy
+							egy kompromisszumos kész rendszerhez.
+						</p>
+						<div class="meta-row" style="margin-block-start: var(--space-xl);">
+							<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+							<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+						</div>
+					</div>
+
+					<div class="ad-a3-evidence">
+						<div class="ad-a3-evidence__secondary">
+							<p class="ad-a3-evidence__caption-small">RÉSZLET / 02</p>
+						</div>
+						<div class="ad-a3-evidence__main">
+							<p class="ad-a3-evidence__caption">VALÓS SZOFTVER RÉSZLET — HELYŐRZŐ</p>
+						</div>
+						<p class="ad-a3-evidence__tag">RÉSZLET / 01</p>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider ad-a3-divider" />
+
+		<!-- Problem / Recognition -->
+		<section class="section ad-a3-problem">
+			<Container width="wide" as="div">
+				<div class="ad-a3-problem__intro">
+					<p class="eyebrow">Ismerős helyzet?</p>
+					<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+						A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+						szeretnénk”.
+					</h2>
+				</div>
+
+				<div class="ad-a3-symptoms">
+					<div class="ad-a3-symptoms__dense">
+						<ol class="ad-a3-spine">
+							<li>
+								<span class="meta">TÜNET / 01</span>
+								<p>„Ezt Excelben vezetjük.”</p>
+							</li>
+							<li>
+								<span class="meta">TÜNET / 02</span>
+								<p>„Innen kézzel átmásoljuk oda.”</p>
+							</li>
+							<li>
+								<span class="meta">TÜNET / 03</span>
+								<p>„Erre van egy külön rendszerünk.”</p>
+							</li>
+							<li>
+								<span class="meta">TÜNET / 04</span>
+								<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+							</li>
+						</ol>
+					</div>
+					<div class="ad-a3-symptoms__open">
+						<ol class="ad-a3-spine">
+							<li>
+								<span class="meta">TÜNET / 05</span>
+								<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+								folyamatunkat.”</p>
+							</li>
+							<li>
+								<span class="meta">TÜNET / 06</span>
+								<p>„A rendszereink működnek, csak éppen nem kommunikálnak
+								egymással.”</p>
+							</li>
+						</ol>
+					</div>
+				</div>
+
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+					Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van szükség.
+					Azt viszont gyakran jelzik, hogy a vállalkozás működése és az azt támogató
+					eszközök már nincsenek összhangban.
+				</p>
+
+				<a
+					href="/egyedi-fejlesztes/"
+					class="link-standalone"
+					style="margin-block-start: var(--space-lg);"
+				>
+					Mikor érdemes egyedi fejlesztésben gondolkodni? →
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Decision — transition preview only -->
+		<section class="section ad-a3-decision">
+			<Container width="standard">
+				<div class="ad-a3-decision__inner">
+					<h2 style="max-width: var(--content-reading);">
+						Nem minden problémára kell egyedi szoftver.
+					</h2>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+						Amire viszont igen, arra pontosan illeszkedőt építünk.
+					</p>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	/*
+	 * A3 — experimental, provisional values only (same derivation as A2):
+	 * --ad-a3-tint = 8% --color-accent mixed into --color-bg (#e6e9e6).
+	 * Contrast verified: body text on tint 14.2:1 (AAA), accent text 6.2:1 (AA).
+	 * Not a new design-system token.
+	 */
+	.ad-a3 {
+		--ad-a3-tint: #e6e9e6;
+	}
+
+	.ad-a3-hero {
+		padding-block-start: var(--space-section-lg);
+		padding-block-end: var(--space-2xl);
+	}
+
+	.ad-a3-flowline {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+	}
+
+	.ad-a3-hero__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		align-items: start;
+	}
+
+	/* Evidence cluster: a dominant crop plus one smaller offset crop peeking
+	   out behind it — suggests a larger working system rather than a single
+	   screenshot placed beside the copy. */
+	.ad-a3-evidence {
+		position: relative;
+	}
+
+	.ad-a3-evidence__main {
+		position: relative;
+		z-index: 1;
+		aspect-ratio: 3 / 4;
+		border: 1px solid var(--color-border);
+		background: var(--color-surface);
+		display: flex;
+		align-items: flex-end;
+		padding: var(--space-lg);
+	}
+
+	.ad-a3-evidence__secondary {
+		display: none;
+	}
+
+	.ad-a3-evidence__caption,
+	.ad-a3-evidence__caption-small {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+		max-width: 14rem;
+	}
+
+	.ad-a3-evidence__tag {
+		display: inline-block;
+		margin-block-start: var(--space-sm);
+		padding: var(--space-xs) var(--space-sm);
+		background: var(--color-accent-strong);
+		color: #ffffff;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+	}
+
+	.ad-a3-problem {
+		padding-block-start: var(--space-xl);
+	}
+
+	.ad-a3-problem__intro {
+		max-width: var(--content-reading);
+	}
+
+	.ad-a3-symptoms {
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-block-start: var(--space-xl);
+	}
+
+	.ad-a3-symptoms__dense {
+		background: var(--ad-a3-tint);
+		padding: var(--space-lg);
+	}
+
+	.ad-a3-symptoms__open {
+		padding-block-start: var(--space-lg);
+	}
+
+	.ad-a3-spine {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ad-a3-spine li {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+		padding-block: var(--space-md);
+		border-left: 2px solid var(--color-border);
+	}
+
+	.ad-a3-spine li::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: calc(var(--space-md) + 0.4em);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	.ad-a3-spine li .meta {
+		display: block;
+		margin-block-end: var(--space-xs);
+	}
+
+	.ad-a3-spine li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	.ad-a3-decision {
+		background: var(--ad-a3-tint);
+	}
+
+	@media (min-width: 900px) {
+		.ad-a3-hero__grid {
+			grid-template-columns: 5fr 7fr;
+			gap: var(--space-2xl);
+		}
+
+		.ad-a3-hero__main {
+			padding-block-start: var(--space-lg);
+		}
+
+		.ad-a3-evidence {
+			/* Starts lower than the H1 so text and evidence interlock rather
+			   than reading as two parallel columns starting on the same line. */
+			margin-block-start: var(--space-2xl);
+			margin-inline-end: calc(-1 * var(--space-lg));
+			margin-block-end: calc(-1 * var(--space-2xl));
+		}
+
+		.ad-a3-evidence__main {
+			aspect-ratio: 4 / 5;
+		}
+
+		.ad-a3-evidence__secondary {
+			position: absolute;
+			z-index: 0;
+			left: -6%;
+			bottom: -5%;
+			width: 55%;
+			aspect-ratio: 4 / 3;
+			border: 1px solid var(--color-border);
+			background: var(--ad-a3-tint);
+			padding: var(--space-sm);
+			display: flex;
+			align-items: flex-end;
+		}
+
+		.ad-a3-symptoms {
+			grid-template-columns: 3fr 2fr;
+			column-gap: var(--space-2xl);
+		}
+
+		.ad-a3-symptoms__open {
+			margin-block-start: var(--space-2xl);
+			padding-block-start: 0;
+		}
+
+		.ad-a3-decision__inner {
+			margin-inline-start: 20%;
+		}
+	}
+</style>

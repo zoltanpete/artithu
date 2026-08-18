@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+import AccentVariantHomepage from '../../components/experimental/AccentVariantHomepage.astro';
+---
+
+<BaseLayout
+	title="Accent Variant 1 — Mineral / Steel Blue (kísérleti, dev-only)"
+	description="Kísérleti accent-szín összehasonlítás — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ACCENT VARIANT 1 — MINERAL / STEEL BLUE" />
+	<AccentVariantHomepage accent="#37536B" accentStrong="#283C4D" tint="#E7E8E8" />
+</BaseLayout>

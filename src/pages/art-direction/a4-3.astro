@@ -1,0 +1,842 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Desktop graph geometry (viewBox 0 0 960 640) — a left→right narrative:
+// inputs (left, vertical stack) → FOLYAMAT (centre) → outputs (right, vertical stack).
+const INPUT_X = 20;
+const INPUT_W = 210;
+const INPUT_H = 50;
+
+const desktopInputs = [
+	{ id: 'excel', label: 'EXCEL', icon: 'table', y: 157, critical: true },
+	{ id: 'email', label: 'E-MAIL', icon: 'mail', y: 221 },
+	{ id: 'kulon', label: 'KÜLÖN RENDSZER', icon: 'system', y: 285 },
+	{ id: 'kezi', label: 'KÉZI ADAT', icon: 'manual', y: 349 },
+	{ id: 'api', label: 'API', icon: 'api', y: 413 },
+];
+
+const CORE_ENTRY_X = 420;
+const CORE_ENTRY_Y = 310;
+const CORE_EXIT_X = 660;
+const CORE_EXIT_Y = 310;
+
+const OUTPUT_X = 740;
+const OUTPUT_W = 210;
+const OUTPUT_H = 64;
+
+const desktopOutputs = [
+	{ id: 'jovahagyas', label: 'JÓVÁHAGYÁS', y: 218 },
+	{ id: 'szamlazas', label: 'SZÁMLÁZÁS', y: 338 },
+];
+
+function inputPath(cy: number) {
+	return `M${INPUT_X + INPUT_W},${cy} C${INPUT_X + INPUT_W + 95},${cy} ${CORE_ENTRY_X - 45},${CORE_ENTRY_Y} ${CORE_ENTRY_X},${CORE_ENTRY_Y}`;
+}
+
+function outputPath(cy: number) {
+	const midY = CORE_EXIT_Y + (cy - CORE_EXIT_Y) * 0.62;
+	return `M${CORE_EXIT_X},${CORE_EXIT_Y} C${CORE_EXIT_X + 42},${CORE_EXIT_Y} ${OUTPUT_X - 25},${midY} ${OUTPUT_X},${cy}`;
+}
+---
+
+<BaseLayout
+	title="Art Direction A4.3 — Living Blueprint / Refined System Map (kísérleti, dev-only)"
+	description="Kísérleti art-direction irány — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION A4.3 — LIVING BLUEPRINT" />
+
+	<div class="ad-a43">
+		<SiteHeader />
+
+		<main>
+			<!-- Hero -->
+			<section class="ad-a43-hero">
+				<Container width="wide" as="div">
+					<div class="ad-a43-hero__grid">
+						<div class="ad-a43-hero__main">
+							<p class="eyebrow">Amikor a kész szoftver már nem elég.</p>
+							<h1 style="margin-block-start: var(--space-sm);">
+								A szoftver alkalmazkodjon a vállalkozásához.<br />Ne fordítva.
+							</h1>
+							<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+								Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+								vállalkozásoknak, amelyek működése már túl speciális az Excelhez
+								vagy egy kompromisszumos kész rendszerhez.
+							</p>
+							<div class="meta-row" style="margin-block-start: var(--space-xl);">
+								<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+								<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+							</div>
+						</div>
+
+						<div class="ad-a43-system" id="ad-a43-system">
+							<!-- Percentage-positioned buttons below resolve against THIS
+							     stage element's own box (SVG(s) only, not the caption). -->
+							<div class="ad-a43-system__stage">
+							<svg width="0" height="0" style="position:absolute;">
+								<defs>
+									<symbol id="a43-icon-table" viewBox="0 0 16 16">
+										<rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<line x1="1" y1="6.5" x2="15" y2="6.5" stroke="currentColor" stroke-width="1.1" />
+										<line x1="1" y1="11" x2="15" y2="11" stroke="currentColor" stroke-width="1.1" />
+										<line x1="8" y1="1" x2="8" y2="15" stroke="currentColor" stroke-width="1.1" />
+									</symbol>
+									<symbol id="a43-icon-mail" viewBox="0 0 16 16">
+										<rect x="1" y="3" width="14" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<path d="M1.5,4 L8,9.5 L14.5,4" fill="none" stroke="currentColor" stroke-width="1.3" />
+									</symbol>
+									<symbol id="a43-icon-system" viewBox="0 0 16 16">
+										<circle cx="3.5" cy="8" r="2.25" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<circle cx="12.5" cy="8" r="2.25" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<line x1="6.2" y1="8" x2="9.8" y2="8" stroke="currentColor" stroke-width="1.1" stroke-dasharray="1.4 1.4" />
+									</symbol>
+									<symbol id="a43-icon-manual" viewBox="0 0 16 16">
+										<path d="M4,1.5 L4,12.5 L6.6,10 L8.3,13.8 L10.1,13 L8.4,9.1 L11.4,8.9 Z" fill="currentColor" stroke="none" />
+									</symbol>
+									<symbol id="a43-icon-api" viewBox="0 0 16 16">
+										<path d="M5.6,2.5 L1.6,8 L5.6,13.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<path d="M10.4,2.5 L14.4,8 L10.4,13.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+									</symbol>
+									<symbol id="a43-icon-core" viewBox="0 0 16 16">
+										<circle cx="8" cy="8" r="5.4" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<circle cx="8" cy="8" r="1.7" fill="currentColor" stroke="none" />
+									</symbol>
+								</defs>
+							</svg>
+
+							<svg
+								class="ad-a43-system__svg ad-a43-system__svg--desktop"
+								viewBox="0 0 960 640"
+								role="img"
+								aria-label="Élő rendszertérkép: Excel, e-mail, külön rendszer, kézi adat, API és egyéb szétszórt üzleti bemenetek egy közös FOLYAMAT csomóponton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak, balról jobbra haladó folyamatként. Az Excel bemenet és a két kimenet a diagram alatti vezérlőkkel kiemelhető."
+							>
+								<!-- Subtle construction guides — quieter than the graph, no labels. -->
+								<line class="ad-a43-guideline" x1="10" y1="310" x2="950" y2="310" />
+								<line class="ad-a43-guideline" x1="540" y1="20" x2="540" y2="600" />
+								<path class="ad-a43-tick" d="M530,310 L550,310 M540,300 L540,320" />
+								<path class="ad-a43-reg-mark" d="M410,212 L410,196 L426,196" />
+								<path class="ad-a43-reg-mark" d="M670,408 L670,424 L654,424" />
+
+								<!-- Quiet secondary source -->
+								<path class="ad-a43-line ad-a43-line--quiet" data-belongs="other" d={inputPath(497)} />
+								<text class="ad-a43-label ad-a43-label--quiet" data-belongs="other" x="20" y="493">…ÉS MINDEN MÁS FORRÁS</text>
+
+								<!-- Input relationship paths (drawn before their containers so the
+								     containers visually terminate them). -->
+								{desktopInputs.map((input) => (
+									<path
+										class={`ad-a43-line${input.critical ? ' ad-a43-line--critical' : ''}`}
+										data-belongs={input.id}
+										d={inputPath(input.y + INPUT_H / 2)}
+									/>
+								))}
+
+								<!-- FOLYAMAT — layered container: quiet outer shell + registration
+								     ticks + inner blue-violet core. -->
+								<rect class="ad-a43-core-shell" x="420" y="222" width="240" height="176" rx="16" />
+								<path class="ad-a43-core-reg" d="M420,222 L436,222 M420,222 L420,238" />
+								<path class="ad-a43-core-reg" d="M660,398 L644,398 M660,398 L660,382" />
+								<rect class="ad-a43-core-inner" x="455" y="262" width="170" height="96" rx="10" />
+								<use href="#a43-icon-core" class="ad-a43-core-icon" x="490" y="302" width="16" height="16" />
+								<text class="ad-a43-core-label" x="514" y="315">FOLYAMAT</text>
+
+								<!-- Input containers (drawn after their paths and after the core
+								     shell so they read as the "source" ends of each connection). -->
+								{desktopInputs.map((input) => (
+									<g class="ad-a43-input__box-group" data-belongs={input.id}>
+										<rect
+											class={`ad-a43-input__box${input.critical ? ' ad-a43-input__box--critical' : ''}`}
+											x={INPUT_X}
+											y={input.y}
+											width={INPUT_W}
+											height={INPUT_H}
+											rx="7"
+										/>
+										<use
+											href={`#a43-icon-${input.icon}`}
+											class="ad-a43-input__icon"
+											x={INPUT_X + 14}
+											y={input.y + INPUT_H / 2 - 8}
+											width="16"
+											height="16"
+										/>
+										<text class="ad-a43-label" x={INPUT_X + 38} y={input.y + INPUT_H / 2 + 4}>{input.label}</text>
+										<circle class="ad-a43-input__dot" cx={INPUT_X + INPUT_W - 14} cy={input.y + INPUT_H / 2} r="3" />
+									</g>
+								))}
+
+								<!-- Output relationship paths + containers. -->
+								{desktopOutputs.map((output) => (
+									<path class="ad-a43-line ad-a43-line--resolved" data-belongs={output.id} d={outputPath(output.y + OUTPUT_H / 2)} />
+								))}
+								{desktopOutputs.map((output) => (
+									<g class="ad-a43-output__box-group" data-belongs={output.id}>
+										<rect class="ad-a43-output__box" x={OUTPUT_X} y={output.y} width={OUTPUT_W} height={OUTPUT_H} rx="9" />
+										<text class="ad-a43-label ad-a43-label--output" x={OUTPUT_X + 20} y={output.y + OUTPUT_H / 2 + 4}>{output.label}</text>
+										<circle class="ad-a43-output__dot" cx={OUTPUT_X + OUTPUT_W - 18} cy={output.y + OUTPUT_H / 2} r="4" />
+									</g>
+								))}
+							</svg>
+
+							<!-- Mobile: intentionally recomposed, compact vertical flow — 2
+							     inputs → FOLYAMAT → 2 outputs — not the desktop map scaled down. -->
+							<svg
+								class="ad-a43-system__svg ad-a43-system__svg--mobile"
+								viewBox="0 0 380 560"
+								role="img"
+								aria-label="Élő rendszertérkép: Excel és külön rendszer egy közös FOLYAMAT csomóponton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak. Az Excel bemenet és a két kimenet a diagram alatti vezérlőkkel kiemelhető."
+							>
+								<line class="ad-a43-guideline" x1="190" y1="10" x2="190" y2="550" />
+								<path class="ad-a43-tick" d="M180,280 L200,280 M190,270 L190,290" />
+
+								<!-- Side-by-side inputs, widened after a real-browser measurement
+								     (SVGTextElement.getBBox()) showed "KÜLÖN RENDSZER" needs
+								     ~113 user-units at this font size — a first attempt at 150-wide
+								     boxes clipped it; a second attempt (full-width stacked rows)
+								     fixed the width but routed EXCEL's path through the KÜLÖN
+								     RENDSZER box below it. 175-wide boxes with a tighter 10-unit
+								     gap give ~117 units of clear label room while keeping both
+								     rows side by side, so no path has to cross another container. -->
+								<path class="ad-a43-line ad-a43-line--critical" data-belongs="excel" d="M171,64 C171,140 190,180 190,225" />
+								<path class="ad-a43-line" data-belongs="kulon" d="M356,64 C356,140 220,180 190,225" />
+
+								<g class="ad-a43-input__box-group" data-belongs="excel">
+									<rect class="ad-a43-input__box ad-a43-input__box--critical" x="10" y="40" width="175" height="48" rx="7" />
+									<use href="#a43-icon-table" class="ad-a43-input__icon" x="24" y="56" width="16" height="16" />
+									<text class="ad-a43-label" x="48" y="68">EXCEL</text>
+									<circle class="ad-a43-input__dot" cx="171" cy="64" r="3" />
+								</g>
+								<g class="ad-a43-input__box-group" data-belongs="kulon">
+									<rect class="ad-a43-input__box" x="195" y="40" width="175" height="48" rx="7" />
+									<use href="#a43-icon-system" class="ad-a43-input__icon" x="209" y="56" width="16" height="16" />
+									<text class="ad-a43-label" x="233" y="68">KÜLÖN RENDSZER</text>
+									<circle class="ad-a43-input__dot" cx="356" cy="64" r="3" />
+								</g>
+
+								<rect class="ad-a43-core-shell" x="105" y="225" width="170" height="110" rx="14" />
+								<rect class="ad-a43-core-inner" x="125" y="253" width="130" height="64" rx="10" />
+								<use href="#a43-icon-core" class="ad-a43-core-icon" x="140" y="277" width="16" height="16" />
+								<text class="ad-a43-core-label" x="164" y="290">FOLYAMAT</text>
+
+								<path class="ad-a43-line ad-a43-line--resolved" data-belongs="jovahagyas" d="M190,335 C190,368 115,395 95,420" />
+								<path class="ad-a43-line ad-a43-line--resolved" data-belongs="szamlazas" d="M190,335 C190,368 265,395 285,420" />
+
+								<g class="ad-a43-output__box-group" data-belongs="jovahagyas">
+									<rect class="ad-a43-output__box" x="20" y="420" width="150" height="54" rx="9" />
+									<text class="ad-a43-label ad-a43-label--output" x="38" y="452">JÓVÁHAGYÁS</text>
+									<circle class="ad-a43-output__dot" cx="156" cy="447" r="4" />
+								</g>
+								<g class="ad-a43-output__box-group" data-belongs="szamlazas">
+									<rect class="ad-a43-output__box" x="210" y="420" width="150" height="54" rx="9" />
+									<text class="ad-a43-label ad-a43-label--output" x="228" y="452">SZÁMLÁZÁS</text>
+									<circle class="ad-a43-output__dot" cx="346" cy="447" r="4" />
+								</g>
+							</svg>
+
+							<!-- Interactive overlay controls — real <button> elements,
+							     percentage-sized against each container's exact viewBox rect. -->
+							<button
+								type="button"
+								class="ad-a43-node-btn ad-a43-node-btn--desktop"
+								data-node="excel"
+								style="left: 13.021%; top: 28.438%; width: 21.875%; height: 7.813%;"
+								aria-pressed="false"
+								aria-label="EXCEL bemenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a43-node-btn ad-a43-node-btn--desktop"
+								data-node="jovahagyas"
+								style="left: 88.021%; top: 39.063%; width: 21.875%; height: 10%;"
+								aria-pressed="false"
+								aria-label="JÓVÁHAGYÁS kimenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a43-node-btn ad-a43-node-btn--desktop"
+								data-node="szamlazas"
+								style="left: 88.021%; top: 57.813%; width: 21.875%; height: 10%;"
+								aria-pressed="false"
+								aria-label="SZÁMLÁZÁS kimenet kiemelése"
+							></button>
+
+							<button
+								type="button"
+								class="ad-a43-node-btn ad-a43-node-btn--mobile"
+								data-node="excel"
+								style="left: 25.658%; top: 11.429%; width: 46.053%; height: 8.571%;"
+								aria-pressed="false"
+								aria-label="EXCEL bemenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a43-node-btn ad-a43-node-btn--mobile"
+								data-node="jovahagyas"
+								style="left: 25%; top: 79.821%; width: 39.474%; height: 9.643%;"
+								aria-pressed="false"
+								aria-label="JÓVÁHAGYÁS kimenet kiemelése"
+							></button>
+							<button
+								type="button"
+								class="ad-a43-node-btn ad-a43-node-btn--mobile"
+								data-node="szamlazas"
+								style="left: 75%; top: 79.821%; width: 39.474%; height: 9.643%;"
+								aria-pressed="false"
+								aria-label="SZÁMLÁZÁS kimenet kiemelése"
+							></button>
+							</div>
+
+							<p class="ad-a43-system__caption">BEMENETEK → FOLYAMAT → KIMENET</p>
+							<p class="ad-a43-system__caption ad-a43-system__caption--sub">TISZTA. KAPCSOLÓDÓ. ÁTLÁTHATÓ.</p>
+						</div>
+					</div>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Problem / Recognition — unchanged from A4.2, structure preserved -->
+			<section class="section ad-a43-problem">
+				<Container width="wide" as="div">
+					<div class="ad-a43-problem__intro">
+						<p class="eyebrow">Ismerős helyzet?</p>
+						<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+							szeretnénk”.
+						</h2>
+					</div>
+
+					<div class="ad-a43-signals">
+						<div class="ad-a43-signals__dense">
+							<ol class="ad-a43-signal-list">
+								<li>
+									<span class="meta">JEL / 01</span>
+									<p>„Ezt Excelben vezetjük.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 02</span>
+									<p>„Innen kézzel átmásoljuk oda.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 03</span>
+									<p>„Erre van egy külön rendszerünk.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 04</span>
+									<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+								</li>
+							</ol>
+						</div>
+						<div class="ad-a43-signals__open">
+							<ol class="ad-a43-signal-list">
+								<li>
+									<span class="meta">JEL / 05</span>
+									<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+									folyamatunkat.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 06</span>
+									<p>„A rendszereink működnek, csak éppen nem kommunikálnak
+									egymással.”</p>
+								</li>
+							</ol>
+						</div>
+					</div>
+
+					<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+						Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van
+						szükség. Azt viszont gyakran jelzik, hogy a vállalkozás működése és az
+						azt támogató eszközök már nincsenek összhangban.
+					</p>
+
+					<a
+						href="/egyedi-fejlesztes/"
+						class="link-standalone"
+						style="margin-block-start: var(--space-lg);"
+					>
+						Mikor érdemes egyedi fejlesztésben gondolkodni? →
+					</a>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Decision — the quiet resolution -->
+			<section class="section ad-a43-decision">
+				<Container width="standard">
+					<h2 style="max-width: var(--content-reading);">
+						Nem minden problémára kell egyedi szoftver.
+					</h2>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+						Amire viszont igen, arra pontosan illeszkedőt építünk.
+					</p>
+				</Container>
+			</section>
+		</main>
+	</div>
+</BaseLayout>
+
+<script>
+	const wrapper = document.getElementById('ad-a43-system');
+	if (wrapper) {
+		const buttons = Array.from(wrapper.querySelectorAll<HTMLButtonElement>('.ad-a43-node-btn'));
+		let committed: string | null = null;
+
+		function applyFocus(id: string | null) {
+			if (id) {
+				wrapper!.setAttribute('data-focus', id);
+			} else {
+				wrapper!.removeAttribute('data-focus');
+			}
+		}
+
+		buttons.forEach((btn) => {
+			const id = btn.dataset.node ?? '';
+			btn.addEventListener('mouseenter', () => applyFocus(id));
+			btn.addEventListener('focus', () => applyFocus(id));
+			btn.addEventListener('mouseleave', () => applyFocus(committed));
+			btn.addEventListener('blur', () => applyFocus(committed));
+			btn.addEventListener('click', () => {
+				committed = committed === id ? null : id;
+				buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.node === committed)));
+				applyFocus(committed);
+			});
+		});
+	}
+</script>
+
+<style>
+	/*
+	 * A4.3 — experimental. Same Ink / Deep Blue-Violet working accent as
+	 * A4/A4.1/A4.2 (#37325C / #282442), unchanged, plus the same tint
+	 * derivation (#E7E5E7). Same narrow semantic role for the output status
+	 * dot: --ad-a43-status-green reuses the ORIGINAL locked site accent
+	 * (#2b5d4b) — not a new hue, and explicitly not the brand accent.
+	 */
+	.ad-a43 {
+		--color-accent: #37325c;
+		--color-accent-strong: #282442;
+		--ad-a43-tint: #e7e5e7;
+		--ad-a43-status-green: #2b5d4b;
+		--ad-a43-transition: 220ms ease;
+		--ad-a43-shift-transition: 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ad-a43 {
+			--ad-a43-transition: 1ms linear;
+			--ad-a43-shift-transition: 1ms linear;
+		}
+	}
+
+	.ad-a43-hero {
+		padding-block-start: var(--space-section-lg);
+		padding-block-end: var(--space-2xl);
+		/* The graph is allowed to bleed past its own grid column (see
+		   .ad-a43-system's negative inline margins below), but that bleed
+		   must never grow the document's own scrollable width. Clipping at
+		   the hero section's own edge (not `hidden`, so it doesn't create a
+		   stray scroll container) keeps the visual "larger than its
+		   bounding box" feeling without an actual horizontal scrollbar —
+		   confirmed via scrollWidth/clientWidth at 390/768/1440/1920px. */
+		overflow-x: clip;
+	}
+
+	.ad-a43-hero__grid {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		align-items: start;
+	}
+
+	.ad-a43-system {
+		position: relative;
+	}
+
+	.ad-a43-system__stage {
+		position: relative;
+	}
+
+	.ad-a43-system__svg {
+		width: 100%;
+		height: auto;
+		overflow: visible;
+	}
+
+	.ad-a43-system__svg--mobile {
+		display: block;
+	}
+
+	.ad-a43-system__svg--desktop {
+		display: none;
+	}
+
+	.ad-a43-node-btn--desktop {
+		display: none;
+	}
+
+	.ad-a43-node-btn--mobile {
+		display: block;
+	}
+
+	/* Construction guides — quieter than the graph, no readable labels. */
+	.ad-a43-guideline {
+		stroke: var(--color-border);
+		stroke-width: 1;
+		stroke-dasharray: 2 4;
+		opacity: 0.3;
+	}
+
+	.ad-a43-tick {
+		stroke: var(--color-text-muted);
+		stroke-width: 1;
+		opacity: 0.35;
+	}
+
+	.ad-a43-reg-mark {
+		fill: none;
+		stroke: var(--color-text-muted);
+		stroke-width: 1;
+		opacity: 0.3;
+	}
+
+	.ad-a43-core-reg {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 1;
+		opacity: 0.4;
+	}
+
+	/* --- Relationship paths ------------------------------------------------- */
+
+	.ad-a43-line {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+		transition: stroke var(--ad-a43-transition), stroke-width var(--ad-a43-transition), opacity var(--ad-a43-transition);
+	}
+
+	.ad-a43-line--quiet {
+		stroke-width: 0.75;
+		stroke-dasharray: 3 3;
+		opacity: 0.45;
+	}
+
+	/* One critical path visible even at rest — a static hierarchy decision,
+	   not only an interaction result, per the brief's "a few paths may use
+	   the accent to establish hierarchy; most should remain quiet." */
+	.ad-a43-line--critical {
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	.ad-a43-line--resolved {
+		stroke: var(--color-accent);
+		stroke-width: 1.75;
+	}
+
+	/* --- Input node family --------------------------------------------------- */
+
+	.ad-a43-input__box-group {
+		transition: transform var(--ad-a43-shift-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.ad-a43-input__box {
+		fill: var(--color-bg);
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+		transition: stroke var(--ad-a43-transition), opacity var(--ad-a43-transition);
+	}
+
+	.ad-a43-input__box--critical {
+		stroke: var(--color-accent);
+	}
+
+	.ad-a43-input__icon {
+		color: var(--color-text-muted);
+		transition: color var(--ad-a43-transition), opacity var(--ad-a43-transition);
+	}
+
+	.ad-a43-input__dot {
+		fill: var(--color-bg);
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		transition: opacity var(--ad-a43-transition);
+	}
+
+	/* --- FOLYAMAT — layered transformation node ------------------------------ */
+
+	.ad-a43-core-shell {
+		fill: var(--color-surface);
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+	}
+
+	.ad-a43-core-inner {
+		fill: var(--color-accent);
+		transition: transform var(--ad-a43-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.ad-a43-core-icon {
+		color: var(--color-dark-text);
+	}
+
+	.ad-a43-core-label {
+		font-family: var(--font-mono);
+		font-size: 14px;
+		letter-spacing: 0.06em;
+		fill: var(--color-dark-text);
+	}
+
+	/* --- Output node family --------------------------------------------------- */
+
+	.ad-a43-output__box-group {
+		transition: transform var(--ad-a43-shift-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.ad-a43-output__box {
+		fill: var(--color-bg);
+		stroke: var(--color-accent);
+		stroke-width: 1.25;
+		transition: stroke var(--ad-a43-transition), stroke-width var(--ad-a43-transition), opacity var(--ad-a43-transition);
+	}
+
+	.ad-a43-output__dot {
+		fill: var(--ad-a43-status-green);
+		transition: opacity var(--ad-a43-transition);
+	}
+
+	/* --- Labels --------------------------------------------------------------- */
+
+	.ad-a43-label {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		fill: var(--color-text-muted);
+		transition: opacity var(--ad-a43-transition), fill var(--ad-a43-transition);
+	}
+
+	.ad-a43-label--quiet {
+		font-size: 10px;
+		opacity: 0.5;
+	}
+
+	.ad-a43-label--output {
+		fill: var(--color-text);
+	}
+
+	.ad-a43-system__caption {
+		margin: var(--space-md) 0 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+		text-align: center;
+	}
+
+	.ad-a43-system__caption--sub {
+		margin-block-start: var(--space-xs);
+		opacity: 0.7;
+	}
+
+	/* --- Interactive overlay controls ----------------------------------------- */
+
+	.ad-a43-node-btn {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		left: 0;
+		top: 0;
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		cursor: pointer;
+	}
+
+	.ad-a43-node-btn:hover,
+	.ad-a43-node-btn:focus-visible {
+		outline: 1px dashed var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	/* Default: nothing de-emphasized. Once a node is focused (data-focus set
+	   by the page-scoped script), every element NOT tagged with that node's
+	   data-belongs recedes — opacity moves together with stroke-width, never
+	   colour alone. The selected input's own container nudges a few px
+	   toward FOLYAMAT; its path strengthens; the core responds with a
+	   restrained scale; the relevant output brightens and "resolves." No
+	   physics, no force layout — a deterministic CSS attribute state
+	   machine, same model as A4.1/A4.2. */
+	.ad-a43-system[data-focus='excel'] [data-belongs]:not([data-belongs='excel']),
+	.ad-a43-system[data-focus='jovahagyas'] [data-belongs]:not([data-belongs='jovahagyas']),
+	.ad-a43-system[data-focus='szamlazas'] [data-belongs]:not([data-belongs='szamlazas']) {
+		opacity: 0.28;
+	}
+
+	.ad-a43-system[data-focus] .ad-a43-core-inner {
+		transform: scale(1.045);
+	}
+
+	.ad-a43-system[data-focus='excel'] .ad-a43-line[data-belongs='excel'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2.5;
+	}
+
+	.ad-a43-system[data-focus='excel'] .ad-a43-input__box-group[data-belongs='excel'] {
+		transform: translateX(4px);
+	}
+
+	.ad-a43-system[data-focus='excel'] .ad-a43-label[data-belongs='excel'],
+	.ad-a43-system[data-focus='jovahagyas'] .ad-a43-label[data-belongs='jovahagyas'],
+	.ad-a43-system[data-focus='szamlazas'] .ad-a43-label[data-belongs='szamlazas'] {
+		fill: var(--color-text);
+	}
+
+	.ad-a43-system[data-focus='excel'] .ad-a43-input__icon[data-belongs='excel'] {
+		color: var(--color-text);
+	}
+
+	.ad-a43-system[data-focus='jovahagyas'] .ad-a43-line--resolved[data-belongs='jovahagyas'],
+	.ad-a43-system[data-focus='szamlazas'] .ad-a43-line--resolved[data-belongs='szamlazas'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2.75;
+	}
+
+	.ad-a43-system[data-focus='jovahagyas'] .ad-a43-output__box-group[data-belongs='jovahagyas'],
+	.ad-a43-system[data-focus='szamlazas'] .ad-a43-output__box-group[data-belongs='szamlazas'] {
+		transform: translateX(-4px);
+	}
+
+	.ad-a43-system[data-focus='jovahagyas'] .ad-a43-output__box[data-belongs='jovahagyas'],
+	.ad-a43-system[data-focus='szamlazas'] .ad-a43-output__box[data-belongs='szamlazas'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2;
+	}
+
+	/* --- Problem section (unchanged structure from A4.2) ---------------------- */
+
+	.ad-a43-problem {
+		padding-block-start: var(--space-xl);
+	}
+
+	.ad-a43-problem__intro {
+		max-width: var(--content-reading);
+	}
+
+	.ad-a43-signals {
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-block-start: var(--space-xl);
+	}
+
+	.ad-a43-signals__dense {
+		background: var(--ad-a43-tint);
+		padding: var(--space-lg);
+	}
+
+	.ad-a43-signals__open {
+		padding-block-start: var(--space-lg);
+	}
+
+	.ad-a43-signal-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ad-a43-signal-list li {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+		padding-block: var(--space-md);
+		border-left: 2px solid var(--color-border);
+	}
+
+	.ad-a43-signal-list li::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: calc(var(--space-md) + 0.4em);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	.ad-a43-signal-list li .meta {
+		display: block;
+		margin-block-end: var(--space-xs);
+	}
+
+	.ad-a43-signal-list li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	/* --- Decision: deliberately the quietest section --------------------------- */
+
+	.ad-a43-decision {
+		background: var(--ad-a43-tint);
+	}
+
+	@media (min-width: 900px) {
+		.ad-a43-hero__grid {
+			grid-template-columns: 4fr 8fr;
+			gap: var(--space-xl);
+		}
+
+		.ad-a43-system__svg--mobile {
+			display: none;
+		}
+
+		.ad-a43-system__svg--desktop {
+			display: block;
+		}
+
+		.ad-a43-node-btn--mobile {
+			display: none;
+		}
+
+		.ad-a43-node-btn--desktop {
+			display: block;
+		}
+
+		.ad-a43-system {
+			margin-block-start: var(--space-md);
+			/* Pulled left exactly to the column gap's own width (not beyond
+			   it, unlike A4.2's -2xl pull) — the chunky new input containers
+			   sit flush at the graph box's own left edge, so any further
+			   pull would drive them into the text column. Confirmed via
+			   Range.getClientRects() against the H1's own line boxes: -2xl
+			   caused a real ~97px overlap between "alkalmazkodjon" and the
+			   EXCEL container at 1440px; -xl (matching the gap exactly)
+			   removes it. */
+			margin-inline-start: calc(-1 * var(--space-xl));
+			margin-inline-end: calc(-1 * var(--space-xl));
+			margin-block-end: calc(-1 * var(--space-lg));
+			position: relative;
+			z-index: 1;
+		}
+
+		.ad-a43-signals {
+			grid-template-columns: 3fr 2fr;
+			column-gap: var(--space-2xl);
+		}
+
+		.ad-a43-signals__open {
+			margin-block-start: var(--space-xl);
+			padding-block-start: 0;
+		}
+	}
+</style>

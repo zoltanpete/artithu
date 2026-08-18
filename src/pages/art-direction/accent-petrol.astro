@@ -1,0 +1,14 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+import AccentVariantHomepage from '../../components/experimental/AccentVariantHomepage.astro';
+---
+
+<BaseLayout
+	title="Accent Variant 3 — Cool Petrol / Cyan-Blue (kísérleti, dev-only)"
+	description="Kísérleti accent-szín összehasonlítás — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ACCENT VARIANT 3 — COOL PETROL / CYAN-BLUE" />
+	<AccentVariantHomepage accent="#1F5570" accentStrong="#163D51" tint="#E5E8E9" />
+</BaseLayout>

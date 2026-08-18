@@ -1,0 +1,28 @@
+---
+interface Props {
+	label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<div class="experimental-banner">
+	<p class="experimental-banner__text">{label} — KÍSÉRLETI NÉZET, NEM VÉGLEGES</p>
+</div>
+
+<style>
+	.experimental-banner {
+		background: var(--color-accent-strong);
+		padding-block: var(--space-xs);
+	}
+
+	.experimental-banner__text {
+		margin: 0;
+		text-align: center;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--color-dark-text);
+	}
+</style>

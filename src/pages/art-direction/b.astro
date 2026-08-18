@@ -1,0 +1,209 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+---
+
+<BaseLayout
+	title="Art Direction B — Software as Evidence (kísérleti, dev-only)"
+	description="Kísérleti art-direction összehasonlítás — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION B — SOFTWARE AS EVIDENCE" />
+	<SiteHeader />
+
+	<main class="ad-b">
+		<!-- Hero -->
+		<section class="section section--major">
+			<Container width="wide" as="div">
+				<div class="ad-b-hero">
+					<div class="ad-b-hero__main">
+						<p class="eyebrow">Amikor a kész szoftver már nem elég.</p>
+						<h1 style="margin-block-start: var(--space-sm);">
+							A szoftver alkalmazkodjon a vállalkozásához. Ne fordítva.
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+							Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+							vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy
+							egy kompromisszumos kész rendszerhez.
+						</p>
+						<div class="meta-row" style="margin-block-start: var(--space-xl);">
+							<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+							<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+						</div>
+					</div>
+
+					<div class="ad-b-evidence">
+						<div class="ad-b-evidence__chrome">
+							<span class="ad-b-evidence__dot"></span>
+							<span class="ad-b-evidence__dot"></span>
+							<span class="ad-b-evidence__dot"></span>
+							<span class="meta">ALKALMAZÁS RÉSZLET</span>
+						</div>
+						<div class="ad-b-evidence__body">
+							<p class="meta">VALÓS SZOFTVER — KÉPERNYŐKÉP HELYE</p>
+						</div>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Problem / Recognition -->
+		<section class="section">
+			<Container width="wide" as="div">
+				<p class="eyebrow">Ismerős helyzet?</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+					szeretnénk”.
+				</h2>
+				<p class="meta" style="margin-block-start: var(--space-md); color: var(--color-accent);">
+					RENDSZERÁLLAPOT: ÖSSZEHANGOLATLAN
+				</p>
+
+				<ul class="ad-b-log">
+					<li>
+						<span class="meta">LOG / 01</span>
+						<p>„Ezt Excelben vezetjük.”</p>
+					</li>
+					<li>
+						<span class="meta">LOG / 02</span>
+						<p>„Innen kézzel átmásoljuk oda.”</p>
+					</li>
+					<li>
+						<span class="meta">LOG / 03</span>
+						<p>„Erre van egy külön rendszerünk.”</p>
+					</li>
+					<li>
+						<span class="meta">LOG / 04</span>
+						<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+					</li>
+					<li>
+						<span class="meta">LOG / 05</span>
+						<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+						folyamatunkat.”</p>
+					</li>
+					<li>
+						<span class="meta">LOG / 06</span>
+						<p>„A rendszereink működnek, csak éppen nem kommunikálnak egymással.”</p>
+					</li>
+				</ul>
+
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+					Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van szükség.
+					Azt viszont gyakran jelzik, hogy a vállalkozás működése és az azt támogató
+					eszközök már nincsenek összhangban.
+				</p>
+
+				<a
+					href="/egyedi-fejlesztes/"
+					class="link-standalone"
+					style="margin-block-start: var(--space-lg);"
+				>
+					Mikor érdemes egyedi fejlesztésben gondolkodni? →
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Decision — transition preview only -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					Nem minden problémára kell egyedi szoftver.
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+					Amire viszont igen, arra pontosan illeszkedőt építünk.
+				</p>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.ad-b-hero {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+	}
+
+	.ad-b-evidence {
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-surface);
+		overflow: hidden;
+	}
+
+	.ad-b-evidence__chrome {
+		display: flex;
+		align-items: center;
+		gap: var(--space-xs);
+		padding: var(--space-sm) var(--space-md);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.ad-b-evidence__dot {
+		width: 6px;
+		height: 6px;
+		border-radius: 50%;
+		background: var(--color-text-muted);
+		display: inline-block;
+	}
+
+	.ad-b-evidence__chrome .meta {
+		margin-inline-start: var(--space-sm);
+	}
+
+	.ad-b-evidence__body {
+		aspect-ratio: 16 / 11;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: var(--space-lg);
+		text-align: center;
+	}
+
+	.ad-b-log {
+		list-style: none;
+		margin: var(--space-lg) 0 0;
+		padding: 0;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.ad-b-log li {
+		display: grid;
+		grid-template-columns: 6rem 1fr;
+		gap: var(--space-lg);
+		align-items: baseline;
+		padding-block: var(--space-md);
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.ad-b-log li .meta {
+		color: var(--color-accent);
+	}
+
+	.ad-b-log li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	@media (max-width: 480px) {
+		.ad-b-log li {
+			grid-template-columns: 1fr;
+			gap: var(--space-xs);
+		}
+	}
+
+	@media (min-width: 900px) {
+		.ad-b-hero {
+			grid-template-columns: 3fr 2fr;
+			align-items: center;
+			gap: var(--space-2xl);
+		}
+	}
+</style>

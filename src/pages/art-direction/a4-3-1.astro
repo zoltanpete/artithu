@@ -1,0 +1,987 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Desktop graph geometry (viewBox 0 0 980 700) — left→right narrative,
+// widened and more spacious than A4.3 per this task's refinement brief.
+const INPUT_X = 20;
+const INPUT_W = 225;
+const INPUT_H = 48;
+const INPUT_GAP = 34;
+const INPUT_START_Y = 152;
+
+const desktopInputs = [
+	{ id: 'excel', label: 'EXCEL', icon: 'table', critical: true },
+	{ id: 'email', label: 'E-MAIL', icon: 'mail' },
+	{ id: 'kulon', label: 'KÜLÖN RENDSZER', icon: 'system' },
+	{ id: 'kezi', label: 'KÉZI ADAT', icon: 'manual' },
+	{ id: 'api', label: 'API', icon: 'api' },
+].map((input, i) => ({ ...input, y: INPUT_START_Y + i * (INPUT_H + INPUT_GAP) }));
+
+const QUIET_Y = desktopInputs[desktopInputs.length - 1].y + INPUT_H + 40;
+
+const CORE_CX = 560;
+const CORE_CY = 340;
+const SHELL_W = 280;
+const SHELL_H = 132;
+const SHELL_X = CORE_CX - SHELL_W / 2;
+const SHELL_Y = CORE_CY - SHELL_H / 2;
+const CORE_ENTRY_X = SHELL_X;
+const CORE_EXIT_X = SHELL_X + SHELL_W;
+const INNER_W = 210;
+const INNER_H = 64;
+const INNER_X = CORE_CX - INNER_W / 2;
+const INNER_Y = CORE_CY - INNER_H / 2;
+
+const OUTPUT_X = 760;
+const OUTPUT_W = 200;
+const OUTPUT_H = 66;
+
+const desktopOutputs = [
+	{ id: 'jovahagyas', label: 'JÓVÁHAGYÁS', cy: CORE_CY - 70 },
+	{ id: 'szamlazas', label: 'SZÁMLÁZÁS', cy: CORE_CY + 70 },
+];
+
+function inputPath(startY: number) {
+	return `M${INPUT_X + INPUT_W},${startY} C${INPUT_X + INPUT_W + 100},${startY} ${CORE_ENTRY_X - 50},${CORE_CY} ${CORE_ENTRY_X},${CORE_CY}`;
+}
+
+function outputPath(endCy: number) {
+	const midY = CORE_CY + (endCy - CORE_CY) * 0.62;
+	return `M${CORE_EXIT_X},${CORE_CY} C${CORE_EXIT_X + 44},${CORE_CY} ${OUTPUT_X - 26},${midY} ${OUTPUT_X},${endCy}`;
+}
+---
+
+<BaseLayout
+	title="Art Direction A4.3.1 — System Map Visual Refinement (kísérleti, dev-only)"
+	description="Kísérleti art-direction irány — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION A4.3.1 — SYSTEM MAP REFINEMENT" />
+
+	<div class="ad-a431">
+		<SiteHeader />
+
+		<main>
+			<!-- Hero -->
+			<section class="ad-a431-hero">
+				<Container width="wide" as="div">
+					<div class="ad-a431-hero__grid">
+						<div class="ad-a431-hero__main">
+							<p class="eyebrow">Amikor a kész szoftver már nem elég.</p>
+							<h1 class="ad-a431-hero__h1">
+								A szoftver alkalmazkodjon a vállalkozásához.<br />Ne fordítva.
+							</h1>
+							<p class="lead ad-a431-hero__lead" style="max-width: var(--content-reading);">
+								Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+								vállalkozásoknak, amelyek működése már túl speciális az Excelhez
+								vagy egy kompromisszumos kész rendszerhez.
+							</p>
+							<div class="meta-row ad-a431-hero__cta">
+								<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+								<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+							</div>
+						</div>
+
+						<div class="ad-a431-system" id="ad-a431-system">
+							<div class="ad-a431-system__stage">
+							<svg width="0" height="0" style="position:absolute;">
+								<defs>
+									<symbol id="a431-icon-table" viewBox="0 0 16 16">
+										<rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<line x1="1" y1="6.5" x2="15" y2="6.5" stroke="currentColor" stroke-width="1.1" />
+										<line x1="1" y1="11" x2="15" y2="11" stroke="currentColor" stroke-width="1.1" />
+										<line x1="8" y1="1" x2="8" y2="15" stroke="currentColor" stroke-width="1.1" />
+										<rect x="9" y="7.3" width="5.2" height="3.4" class="ad-a431-icon-accent" />
+									</symbol>
+									<symbol id="a431-icon-mail" viewBox="0 0 16 16">
+										<rect x="1" y="3" width="14" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<path d="M1.5,4 L8,9.5 L14.5,4" fill="none" stroke="currentColor" stroke-width="1.3" />
+									</symbol>
+									<symbol id="a431-icon-system" viewBox="0 0 16 16">
+										<rect x="1" y="5" width="9" height="5.4" rx="2.7" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<rect x="6.5" y="5.6" width="9" height="5.4" rx="2.7" fill="none" stroke="currentColor" stroke-width="1.3" />
+									</symbol>
+									<symbol id="a431-icon-manual" viewBox="0 0 16 16">
+										<path d="M4,1.5 L4,12.5 L6.6,10 L8.3,13.8 L10.1,13 L8.4,9.1 L11.4,8.9 Z" fill="currentColor" stroke="none" />
+									</symbol>
+									<symbol id="a431-icon-api" viewBox="0 0 16 16">
+										<path d="M5.6,2.5 L1.6,8 L5.6,13.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<path d="M10.4,2.5 L14.4,8 L10.4,13.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+									</symbol>
+									<symbol id="a431-icon-dots" viewBox="0 0 16 16">
+										<circle cx="3" cy="8" r="1.3" fill="currentColor" />
+										<circle cx="8" cy="8" r="1.3" fill="currentColor" />
+										<circle cx="13" cy="8" r="1.3" fill="currentColor" />
+									</symbol>
+									<symbol id="a431-icon-core" viewBox="0 0 16 16">
+										<circle cx="8" cy="8" r="5.4" fill="none" stroke="currentColor" stroke-width="1.3" />
+										<circle cx="8" cy="8" r="1.7" fill="currentColor" stroke="none" />
+									</symbol>
+
+									<marker id="a431-arrow-accent" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+										<path d="M0,0 L10,5 L0,10 Z" class="ad-a431-arrow-fill ad-a431-arrow-fill--accent" />
+									</marker>
+									<marker id="a431-arrow-neutral" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+										<path d="M0,0 L10,5 L0,10 Z" class="ad-a431-arrow-fill ad-a431-arrow-fill--neutral" />
+									</marker>
+								</defs>
+							</svg>
+
+							<svg
+								class="ad-a431-system__svg ad-a431-system__svg--desktop"
+								viewBox="0 0 980 700"
+								role="img"
+								aria-label="Élő rendszertérkép: Excel, e-mail, külön rendszer, kézi adat, API és egyéb szétszórt üzleti bemenetek egy közös FOLYAMAT csomóponton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak, balról jobbra haladó folyamatként. Minden bemenet és mindkét kimenet a diagram alatti vezérlőkkel kiemelhető."
+							>
+								<!-- Subliminal construction/coordinate layer — second-look detail. -->
+								<line class="ad-a431-guideline" x1="10" y1={CORE_CY} x2="970" y2={CORE_CY} />
+								<line class="ad-a431-guideline" x1={CORE_CX} y1="20" x2={CORE_CX} y2="660" />
+								<path class="ad-a431-tick" d={`M${CORE_CX - 10},${CORE_CY} L${CORE_CX + 10},${CORE_CY} M${CORE_CX},${CORE_CY - 10} L${CORE_CX},${CORE_CY + 10}`} />
+								<path class="ad-a431-tick ad-a431-tick--origin" d="M32,40 L48,40 M40,32 L40,48" />
+								<path class="ad-a431-reg-mark" d={`M${SHELL_X - 16},${SHELL_Y} L${SHELL_X - 16},${SHELL_Y - 16} L${SHELL_X},${SHELL_Y - 16}`} />
+								<path class="ad-a431-reg-mark" d={`M${CORE_EXIT_X + 16},${SHELL_Y + SHELL_H} L${CORE_EXIT_X + 16},${SHELL_Y + SHELL_H + 16} L${CORE_EXIT_X},${SHELL_Y + SHELL_H + 16}`} />
+								<text class="ad-a431-coord" x="16" y={CORE_CY - 8}>X / 01</text>
+								<text class="ad-a431-coord" x="964" y={CORE_CY - 8} text-anchor="end">X / 02</text>
+								<text class="ad-a431-coord" x={CORE_CX + 8} y="34">Y / 01</text>
+								<text class="ad-a431-coord" x={CORE_CX + 8} y="656">Y / 02</text>
+
+								<!-- Concentric violet rings behind FOLYAMAT — depth without glow. -->
+								<circle class="ad-a431-ring ad-a431-ring--fill1" cx={CORE_CX} cy={CORE_CY} r="195" />
+								<circle class="ad-a431-ring ad-a431-ring--fill2" cx={CORE_CX} cy={CORE_CY} r="165" />
+								<circle class="ad-a431-ring ad-a431-ring--fill3" cx={CORE_CX} cy={CORE_CY} r="135" />
+								<circle class="ad-a431-ring ad-a431-ring--fill4" cx={CORE_CX} cy={CORE_CY} r="105" />
+								<circle class="ad-a431-ring ad-a431-ring--stroke1" cx={CORE_CX} cy={CORE_CY} r="178" />
+								<circle class="ad-a431-ring ad-a431-ring--stroke2" cx={CORE_CX} cy={CORE_CY} r="148" />
+
+								<!-- Quiet secondary source -->
+								<path class="ad-a431-line ad-a431-line--quiet" data-belongs="other" d={inputPath(QUIET_Y)} />
+								<use href="#a431-icon-dots" class="ad-a431-input__icon ad-a431-input__icon--quiet" data-belongs="other" x={INPUT_X} y={QUIET_Y - 14} width="14" height="14" />
+								<text class="ad-a431-label ad-a431-label--quiet" data-belongs="other" x={INPUT_X + 22} y={QUIET_Y}>…ÉS MINDEN MÁS FORRÁS</text>
+
+								<!-- Input relationship paths -->
+								{desktopInputs.map((input) => (
+									<path
+										class={`ad-a431-line${input.critical ? ' ad-a431-line--critical' : ''}`}
+										data-belongs={input.id}
+										d={inputPath(input.y + INPUT_H / 2)}
+										marker-end={`url(#a431-arrow-${input.critical ? 'accent' : 'neutral'})`}
+									/>
+								))}
+
+								<!-- FOLYAMAT — wide, low, layered transformation node. -->
+								<rect class="ad-a431-core-shell" x={SHELL_X} y={SHELL_Y} width={SHELL_W} height={SHELL_H} rx="18" />
+								<rect class="ad-a431-core-inner" x={INNER_X} y={INNER_Y} width={INNER_W} height={INNER_H} rx="12" />
+								<text class="ad-a431-core-label" x={CORE_CX - 51} y={CORE_CY + 5}>FOLYAMAT</text>
+								<use href="#a431-icon-core" class="ad-a431-core-icon" x={CORE_CX + 34} y={CORE_CY - 8} width="16" height="16" />
+
+								<!-- Input containers -->
+								{desktopInputs.map((input) => (
+									<g class="ad-a431-input__box-group" data-belongs={input.id}>
+										<rect
+											class={`ad-a431-input__box${input.critical ? ' ad-a431-input__box--critical' : ''}`}
+											x={INPUT_X}
+											y={input.y}
+											width={INPUT_W}
+											height={INPUT_H}
+											rx="8"
+										/>
+										<use
+											href={`#a431-icon-${input.icon}`}
+											class="ad-a431-input__icon"
+											data-belongs={input.id}
+											x={INPUT_X + 16}
+											y={input.y + INPUT_H / 2 - 8}
+											width="16"
+											height="16"
+										/>
+										<text class="ad-a431-label" data-belongs={input.id} x={INPUT_X + 42} y={input.y + INPUT_H / 2 + 4}>{input.label}</text>
+										<circle class="ad-a431-port" data-belongs={input.id} cx={INPUT_X + INPUT_W} cy={input.y + INPUT_H / 2} r="4" />
+									</g>
+								))}
+
+								<!-- Output relationship paths + containers -->
+								{desktopOutputs.map((output) => (
+									<path class="ad-a431-line ad-a431-line--resolved" data-belongs={output.id} d={outputPath(output.cy)} marker-start="url(#a431-arrow-accent)" />
+								))}
+								{desktopOutputs.map((output) => (
+									<g class="ad-a431-output__box-group" data-belongs={output.id}>
+										<rect class="ad-a431-output__box" x={OUTPUT_X} y={output.cy - OUTPUT_H / 2} width={OUTPUT_W} height={OUTPUT_H} rx="10" />
+										<circle class="ad-a431-port ad-a431-port--output" data-belongs={output.id} cx={OUTPUT_X} cy={output.cy} r="4" />
+										<text class="ad-a431-label ad-a431-label--output" data-belongs={output.id} x={OUTPUT_X + 22} y={output.cy + 4}>{output.label}</text>
+										<circle class="ad-a431-output__status" data-belongs={output.id} cx={OUTPUT_X + OUTPUT_W - 20} cy={output.cy} r="4.5" />
+									</g>
+								))}
+							</svg>
+
+							<!-- Mobile: separately composed, vertical flow — 2 inputs → FOLYAMAT
+							     → 2 outputs, same refined grammar at a narrower scale. -->
+							<svg
+								class="ad-a431-system__svg ad-a431-system__svg--mobile"
+								viewBox="0 0 380 460"
+								role="img"
+								aria-label="Élő rendszertérkép: Excel és külön rendszer egy közös FOLYAMAT csomóponton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak. Minden bemenet és mindkét kimenet a diagram alatti vezérlőkkel kiemelhető."
+							>
+								<line class="ad-a431-guideline" x1="190" y1="10" x2="190" y2="450" />
+								<path class="ad-a431-tick" d="M180,230 L200,230 M190,220 L190,240" />
+
+								<circle class="ad-a431-ring ad-a431-ring--fill1" cx="190" cy="230" r="100" />
+								<circle class="ad-a431-ring ad-a431-ring--fill2" cx="190" cy="230" r="84" />
+								<circle class="ad-a431-ring ad-a431-ring--fill3" cx="190" cy="230" r="68" />
+								<circle class="ad-a431-ring ad-a431-ring--fill4" cx="190" cy="230" r="53" />
+								<circle class="ad-a431-ring ad-a431-ring--stroke1" cx="190" cy="230" r="90" />
+								<circle class="ad-a431-ring ad-a431-ring--stroke2" cx="190" cy="230" r="74" />
+
+								<path class="ad-a431-line ad-a431-line--critical" data-belongs="excel" d="M185,64 C185,140 190,160 190,180" marker-end="url(#a431-arrow-accent)" />
+								<path class="ad-a431-line" data-belongs="kulon" d="M370,64 C370,140 220,160 190,180" marker-end="url(#a431-arrow-neutral)" />
+
+								<g class="ad-a431-input__box-group" data-belongs="excel">
+									<rect class="ad-a431-input__box ad-a431-input__box--critical" x="10" y="40" width="175" height="48" rx="8" />
+									<use href="#a431-icon-table" class="ad-a431-input__icon" data-belongs="excel" x="26" y="56" width="16" height="16" />
+									<text class="ad-a431-label" data-belongs="excel" x="52" y="68">EXCEL</text>
+									<circle class="ad-a431-port" data-belongs="excel" cx="185" cy="64" r="4" />
+								</g>
+								<g class="ad-a431-input__box-group" data-belongs="kulon">
+									<rect class="ad-a431-input__box" x="195" y="40" width="175" height="48" rx="8" />
+									<use href="#a431-icon-system" class="ad-a431-input__icon" data-belongs="kulon" x="211" y="56" width="16" height="16" />
+									<text class="ad-a431-label" data-belongs="kulon" x="237" y="68">KÜLÖN RENDSZER</text>
+									<circle class="ad-a431-port" data-belongs="kulon" cx="370" cy="64" r="4" />
+								</g>
+
+								<rect class="ad-a431-core-shell" x="90" y="180" width="200" height="100" rx="16" />
+								<rect class="ad-a431-core-inner" x="115" y="205" width="150" height="50" rx="10" />
+								<text class="ad-a431-core-label" x="140" y="235">FOLYAMAT</text>
+								<use href="#a431-icon-core" class="ad-a431-core-icon" x="225" y="222" width="16" height="16" />
+
+								<path class="ad-a431-line ad-a431-line--resolved" data-belongs="jovahagyas" d="M190,280 C190,310 130,325 95,340" marker-start="url(#a431-arrow-accent)" />
+								<path class="ad-a431-line ad-a431-line--resolved" data-belongs="szamlazas" d="M190,280 C190,310 250,325 285,340" marker-start="url(#a431-arrow-accent)" />
+
+								<g class="ad-a431-output__box-group" data-belongs="jovahagyas">
+									<rect class="ad-a431-output__box" x="20" y="340" width="150" height="54" rx="10" />
+									<circle class="ad-a431-port ad-a431-port--output" data-belongs="jovahagyas" cx="95" cy="340" r="4" />
+									<text class="ad-a431-label ad-a431-label--output" data-belongs="jovahagyas" x="40" y="372">JÓVÁHAGYÁS</text>
+									<circle class="ad-a431-output__status" data-belongs="jovahagyas" cx="150" cy="367" r="4.5" />
+								</g>
+								<g class="ad-a431-output__box-group" data-belongs="szamlazas">
+									<rect class="ad-a431-output__box" x="210" y="340" width="150" height="54" rx="10" />
+									<circle class="ad-a431-port ad-a431-port--output" data-belongs="szamlazas" cx="285" cy="340" r="4" />
+									<text class="ad-a431-label ad-a431-label--output" data-belongs="szamlazas" x="230" y="372">SZÁMLÁZÁS</text>
+									<circle class="ad-a431-output__status" data-belongs="szamlazas" cx="340" cy="367" r="4.5" />
+								</g>
+							</svg>
+
+							<!-- Interactive overlay controls — real <button> elements,
+							     percentage-sized against each container's exact viewBox rect
+							     (centre-point convention: translate(-50%,-50%) on the button). -->
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--desktop" data-node="excel" style="left: 13.520%; top: 25.143%; width: 22.959%; height: 6.857%;" aria-pressed="false" aria-label="EXCEL bemenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--desktop" data-node="email" style="left: 13.520%; top: 36.857%; width: 22.959%; height: 6.857%;" aria-pressed="false" aria-label="E-MAIL bemenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--desktop" data-node="kulon" style="left: 13.520%; top: 48.571%; width: 22.959%; height: 6.857%;" aria-pressed="false" aria-label="KÜLÖN RENDSZER bemenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--desktop" data-node="kezi" style="left: 13.520%; top: 60.286%; width: 22.959%; height: 6.857%;" aria-pressed="false" aria-label="KÉZI ADAT bemenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--desktop" data-node="api" style="left: 13.520%; top: 72%; width: 22.959%; height: 6.857%;" aria-pressed="false" aria-label="API bemenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--desktop" data-node="jovahagyas" style="left: 87.755%; top: 38.571%; width: 20.408%; height: 9.429%;" aria-pressed="false" aria-label="JÓVÁHAGYÁS kimenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--desktop" data-node="szamlazas" style="left: 87.755%; top: 58.571%; width: 20.408%; height: 9.429%;" aria-pressed="false" aria-label="SZÁMLÁZÁS kimenet kiemelése"></button>
+
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--mobile" data-node="excel" style="left: 25.658%; top: 13.913%; width: 46.053%; height: 10.435%;" aria-pressed="false" aria-label="EXCEL bemenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--mobile" data-node="kulon" style="left: 74.342%; top: 13.913%; width: 46.053%; height: 10.435%;" aria-pressed="false" aria-label="KÜLÖN RENDSZER bemenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--mobile" data-node="jovahagyas" style="left: 25%; top: 79.783%; width: 39.474%; height: 11.739%;" aria-pressed="false" aria-label="JÓVÁHAGYÁS kimenet kiemelése"></button>
+							<button type="button" class="ad-a431-node-btn ad-a431-node-btn--mobile" data-node="szamlazas" style="left: 75%; top: 79.783%; width: 39.474%; height: 11.739%;" aria-pressed="false" aria-label="SZÁMLÁZÁS kimenet kiemelése"></button>
+							</div>
+
+							<div class="ad-a431-annotation">
+								<div class="ad-a431-legend">
+									<span class="ad-a431-legend__item">
+										<svg class="ad-a431-legend__swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="ad-a431-legend__stroke ad-a431-legend__stroke--primary" /></svg>
+										PRIMER ÚTVONAL
+									</span>
+									<span class="ad-a431-legend__item">
+										<svg class="ad-a431-legend__swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="ad-a431-legend__stroke ad-a431-legend__stroke--secondary" /></svg>
+										SZEKUNDER ÚTVONAL
+									</span>
+									<span class="ad-a431-legend__item">
+										<svg class="ad-a431-legend__swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="ad-a431-legend__stroke ad-a431-legend__stroke--exception" /></svg>
+										KIVÉTEL / ALTERNATÍV
+									</span>
+								</div>
+								<p class="ad-a431-system__caption">BEMENETEK → FOLYAMAT → KIMENETEK</p>
+								<p class="ad-a431-system__caption ad-a431-system__caption--sub">TISZTA. KAPCSOLÓDÓ. ÁTLÁTHATÓ.</p>
+							</div>
+						</div>
+					</div>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Problem / Recognition — unchanged from A4.3, structure preserved -->
+			<section class="section ad-a431-problem">
+				<Container width="wide" as="div">
+					<div class="ad-a431-problem__intro">
+						<p class="eyebrow">Ismerős helyzet?</p>
+						<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+							szeretnénk”.
+						</h2>
+					</div>
+
+					<div class="ad-a431-signals">
+						<div class="ad-a431-signals__dense">
+							<ol class="ad-a431-signal-list">
+								<li>
+									<span class="meta">JEL / 01</span>
+									<p>„Ezt Excelben vezetjük.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 02</span>
+									<p>„Innen kézzel átmásoljuk oda.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 03</span>
+									<p>„Erre van egy külön rendszerünk.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 04</span>
+									<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+								</li>
+							</ol>
+						</div>
+						<div class="ad-a431-signals__open">
+							<ol class="ad-a431-signal-list">
+								<li>
+									<span class="meta">JEL / 05</span>
+									<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+									folyamatunkat.”</p>
+								</li>
+								<li>
+									<span class="meta">JEL / 06</span>
+									<p>„A rendszereink működnek, csak éppen nem kommunikálnak
+									egymással.”</p>
+								</li>
+							</ol>
+						</div>
+					</div>
+
+					<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+						Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van
+						szükség. Azt viszont gyakran jelzik, hogy a vállalkozás működése és az
+						azt támogató eszközök már nincsenek összhangban.
+					</p>
+
+					<a
+						href="/egyedi-fejlesztes/"
+						class="link-standalone"
+						style="margin-block-start: var(--space-lg);"
+					>
+						Mikor érdemes egyedi fejlesztésben gondolkodni? →
+					</a>
+				</Container>
+			</section>
+
+			<hr class="divider" />
+
+			<!-- Decision — the quiet resolution -->
+			<section class="section ad-a431-decision">
+				<Container width="standard">
+					<h2 style="max-width: var(--content-reading);">
+						Nem minden problémára kell egyedi szoftver.
+					</h2>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+						Amire viszont igen, arra pontosan illeszkedőt építünk.
+					</p>
+				</Container>
+			</section>
+		</main>
+	</div>
+</BaseLayout>
+
+<script>
+	const wrapper = document.getElementById('ad-a431-system');
+	if (wrapper) {
+		const buttons = Array.from(wrapper.querySelectorAll<HTMLButtonElement>('.ad-a431-node-btn'));
+		let committed: string | null = null;
+
+		function applyFocus(id: string | null) {
+			if (id) {
+				wrapper!.setAttribute('data-focus', id);
+			} else {
+				wrapper!.removeAttribute('data-focus');
+			}
+		}
+
+		buttons.forEach((btn) => {
+			const id = btn.dataset.node ?? '';
+			btn.addEventListener('mouseenter', () => applyFocus(id));
+			btn.addEventListener('focus', () => applyFocus(id));
+			btn.addEventListener('mouseleave', () => applyFocus(committed));
+			btn.addEventListener('blur', () => applyFocus(committed));
+			btn.addEventListener('click', () => {
+				committed = committed === id ? null : id;
+				buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.node === committed)));
+				applyFocus(committed);
+			});
+		});
+	}
+</script>
+
+<style>
+	/*
+	 * A4.3.1 — experimental. Same Ink / Deep Blue-Violet working accent as
+	 * A4.3 (#37325C / #282442), unchanged, plus the same tint (#E7E5E7).
+	 * The output status green is brighter/more energetic than A4.3's
+	 * #2b5d4b per this task's explicit ask — still a narrow, non-brand
+	 * semantic role restricted to two small dots, never a label.
+	 */
+	.ad-a431 {
+		--color-accent: #37325c;
+		--color-accent-strong: #282442;
+		--ad-a431-tint: #e7e5e7;
+		--ad-a431-status-green: #22c55e;
+		--ad-a431-transition: 220ms ease;
+		--ad-a431-shift-transition: 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.ad-a431 {
+			--ad-a431-transition: 1ms linear;
+			--ad-a431-shift-transition: 1ms linear;
+		}
+	}
+
+	.ad-a431-hero {
+		padding-block-start: var(--space-section-lg);
+		padding-block-end: var(--space-2xl);
+		overflow-x: clip;
+	}
+
+	.ad-a431-hero__grid {
+		position: relative;
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		align-items: start;
+	}
+
+	/* One restrained typographic step down from the site's default H1 scale
+	   (clamp 40–88px) so the Hero graph — now larger and busier — has room
+	   to breathe without the headline overpowering it. */
+	.ad-a431-hero__h1 {
+		margin-block-start: var(--space-sm);
+		font-size: clamp(2.25rem, 1.85rem + 2.2vw, 4.75rem);
+	}
+
+	.ad-a431-hero__lead {
+		margin-block-start: calc(var(--space-lg) + 10px);
+	}
+
+	.ad-a431-hero__cta {
+		margin-block-start: calc(var(--space-xl) + 8px);
+	}
+
+	.ad-a431-system {
+		position: relative;
+	}
+
+	.ad-a431-system__stage {
+		position: relative;
+	}
+
+	.ad-a431-system__svg {
+		width: 100%;
+		height: auto;
+		overflow: visible;
+	}
+
+	.ad-a431-system__svg--mobile {
+		display: block;
+	}
+
+	.ad-a431-system__svg--desktop {
+		display: none;
+	}
+
+	.ad-a431-node-btn--desktop {
+		display: none;
+	}
+
+	.ad-a431-node-btn--mobile {
+		display: block;
+	}
+
+	/* --- Construction/coordinate layer — second-look detail only ------------- */
+
+	.ad-a431-guideline {
+		stroke: var(--color-border);
+		stroke-width: 1;
+		stroke-dasharray: 2 4;
+		opacity: 0.3;
+	}
+
+	.ad-a431-tick {
+		stroke: var(--color-text-muted);
+		stroke-width: 1;
+		opacity: 0.35;
+	}
+
+	.ad-a431-tick--origin {
+		opacity: 0.22;
+	}
+
+	.ad-a431-reg-mark {
+		fill: none;
+		stroke: var(--color-text-muted);
+		stroke-width: 1;
+		opacity: 0.3;
+	}
+
+	.ad-a431-coord {
+		font-family: var(--font-mono);
+		font-size: 8px;
+		letter-spacing: 0.08em;
+		fill: var(--color-text-muted);
+		opacity: 0.32;
+	}
+
+	/* --- Concentric violet rings — depth without blur or glow ---------------- */
+
+	.ad-a431-ring {
+		fill: var(--color-accent);
+		stroke: var(--color-accent);
+		transition: opacity var(--ad-a431-transition);
+	}
+
+	.ad-a431-ring--fill1 { stroke: none; opacity: 0.03; }
+	.ad-a431-ring--fill2 { stroke: none; opacity: 0.045; }
+	.ad-a431-ring--fill3 { stroke: none; opacity: 0.07; }
+	.ad-a431-ring--fill4 { stroke: none; opacity: 0.1; }
+	.ad-a431-ring--stroke1 { fill: none; stroke-width: 1; opacity: 0.16; }
+	.ad-a431-ring--stroke2 { fill: none; stroke-width: 1; opacity: 0.2; }
+
+	/* --- Relationship paths --------------------------------------------------- */
+
+	.ad-a431-line {
+		fill: none;
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+		transition: stroke var(--ad-a431-transition), stroke-width var(--ad-a431-transition), opacity var(--ad-a431-transition);
+	}
+
+	.ad-a431-line--quiet {
+		stroke-width: 0.75;
+		stroke-dasharray: 3 3;
+		opacity: 0.45;
+	}
+
+	.ad-a431-line--critical {
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	.ad-a431-line--resolved {
+		stroke: var(--color-accent);
+		stroke-width: 1.75;
+	}
+
+	.ad-a431-arrow-fill--accent {
+		fill: var(--color-accent-strong);
+	}
+
+	.ad-a431-arrow-fill--neutral {
+		fill: var(--color-text-muted);
+		opacity: 0.6;
+	}
+
+	/* --- Input node family ----------------------------------------------------- */
+
+	.ad-a431-input__box-group {
+		transition: transform var(--ad-a431-shift-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.ad-a431-input__box {
+		fill: var(--color-bg);
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+		transition: stroke var(--ad-a431-transition), opacity var(--ad-a431-transition);
+	}
+
+	.ad-a431-input__box--critical {
+		stroke: var(--color-accent);
+	}
+
+	.ad-a431-input__icon {
+		color: var(--color-text-muted);
+		transition: color var(--ad-a431-transition), opacity var(--ad-a431-transition);
+	}
+
+	.ad-a431-input__icon--quiet {
+		opacity: 0.55;
+	}
+
+	.ad-a431-icon-accent {
+		fill: var(--ad-a431-status-green);
+		opacity: 0.85;
+	}
+
+	/* Connection ports — small outlined circles exactly at the path/node
+	   junction (the path's own d starts/ends at the same coordinate). React
+	   subtly on hover/selection: slightly larger radius, accent stroke. */
+	.ad-a431-port {
+		fill: var(--color-bg);
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		transition: r var(--ad-a431-transition), stroke var(--ad-a431-transition), opacity var(--ad-a431-transition);
+	}
+
+	.ad-a431-port--output {
+		stroke: var(--color-accent);
+	}
+
+	/* --- FOLYAMAT — wide, low, layered transformation node ---------------------- */
+
+	.ad-a431-core-shell {
+		fill: var(--color-surface);
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+	}
+
+	.ad-a431-core-inner {
+		fill: var(--color-accent);
+		transition: transform var(--ad-a431-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.ad-a431-core-icon {
+		color: var(--color-dark-text);
+	}
+
+	.ad-a431-core-label {
+		font-family: var(--font-mono);
+		font-size: 14px;
+		letter-spacing: 0.06em;
+		fill: var(--color-dark-text);
+	}
+
+	/* --- Output node family ------------------------------------------------------ */
+
+	.ad-a431-output__box-group {
+		transition: transform var(--ad-a431-shift-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.ad-a431-output__box {
+		fill: var(--color-bg);
+		stroke: var(--color-accent);
+		stroke-width: 1.25;
+		transition: stroke var(--ad-a431-transition), stroke-width var(--ad-a431-transition), opacity var(--ad-a431-transition);
+	}
+
+	.ad-a431-output__status {
+		fill: var(--ad-a431-status-green);
+		transition: opacity var(--ad-a431-transition);
+	}
+
+	/* --- Labels ------------------------------------------------------------------- */
+
+	.ad-a431-label {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		fill: var(--color-text-muted);
+		transition: opacity var(--ad-a431-transition), fill var(--ad-a431-transition);
+	}
+
+	.ad-a431-label--quiet {
+		font-size: 10px;
+		opacity: 0.5;
+	}
+
+	.ad-a431-label--output {
+		fill: var(--color-text);
+	}
+
+	/* --- Legend + signature: one coherent lower annotation zone ------------------ */
+
+	.ad-a431-annotation {
+		margin-block-start: var(--space-md);
+	}
+
+	.ad-a431-legend {
+		display: flex;
+		flex-wrap: wrap;
+		gap: var(--space-xs) var(--space-lg);
+	}
+
+	.ad-a431-legend__item {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.ad-a431-legend__swatch {
+		flex-shrink: 0;
+		overflow: visible;
+	}
+
+	.ad-a431-legend__stroke--primary {
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	.ad-a431-legend__stroke--secondary {
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		opacity: 0.7;
+	}
+
+	.ad-a431-legend__stroke--exception {
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		stroke-dasharray: 3 3;
+		opacity: 0.7;
+	}
+
+	.ad-a431-system__caption {
+		margin: var(--space-sm) 0 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+		text-align: center;
+	}
+
+	.ad-a431-system__caption--sub {
+		margin-block-start: var(--space-xs);
+		opacity: 0.7;
+	}
+
+	/* --- Interactive overlay controls ---------------------------------------------- */
+
+	.ad-a431-node-btn {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		left: 0;
+		top: 0;
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		cursor: pointer;
+	}
+
+	.ad-a431-node-btn:hover,
+	.ad-a431-node-btn:focus-visible {
+		outline: 1px dashed var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	/* Deterministic CSS attribute state machine, same model as A4.1–A4.3 —
+	   now generalized to seven interactive nodes (five inputs, two outputs)
+	   instead of three, via one generic recede rule plus one linear (not
+	   combinatorial) highlight rule per behaviour category. */
+	.ad-a431-system[data-focus] [data-belongs] {
+		opacity: 0.28;
+	}
+
+	.ad-a431-system[data-focus='excel'] [data-belongs='excel'],
+	.ad-a431-system[data-focus='email'] [data-belongs='email'],
+	.ad-a431-system[data-focus='kulon'] [data-belongs='kulon'],
+	.ad-a431-system[data-focus='kezi'] [data-belongs='kezi'],
+	.ad-a431-system[data-focus='api'] [data-belongs='api'],
+	.ad-a431-system[data-focus='jovahagyas'] [data-belongs='jovahagyas'],
+	.ad-a431-system[data-focus='szamlazas'] [data-belongs='szamlazas'] {
+		opacity: 1;
+	}
+
+	.ad-a431-system[data-focus] .ad-a431-core-inner {
+		transform: scale(1.045);
+	}
+
+	.ad-a431-system[data-focus] .ad-a431-ring--stroke1 { opacity: 0.24; }
+	.ad-a431-system[data-focus] .ad-a431-ring--stroke2 { opacity: 0.3; }
+	.ad-a431-system[data-focus] .ad-a431-ring--fill4 { opacity: 0.14; }
+
+	.ad-a431-system[data-focus='excel'] .ad-a431-line[data-belongs='excel'],
+	.ad-a431-system[data-focus='email'] .ad-a431-line[data-belongs='email'],
+	.ad-a431-system[data-focus='kulon'] .ad-a431-line[data-belongs='kulon'],
+	.ad-a431-system[data-focus='kezi'] .ad-a431-line[data-belongs='kezi'],
+	.ad-a431-system[data-focus='api'] .ad-a431-line[data-belongs='api'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2.5;
+	}
+
+	.ad-a431-system[data-focus='excel'] .ad-a431-input__box-group[data-belongs='excel'],
+	.ad-a431-system[data-focus='email'] .ad-a431-input__box-group[data-belongs='email'],
+	.ad-a431-system[data-focus='kulon'] .ad-a431-input__box-group[data-belongs='kulon'],
+	.ad-a431-system[data-focus='kezi'] .ad-a431-input__box-group[data-belongs='kezi'],
+	.ad-a431-system[data-focus='api'] .ad-a431-input__box-group[data-belongs='api'] {
+		transform: translateX(4px);
+	}
+
+	.ad-a431-system[data-focus='excel'] .ad-a431-label[data-belongs='excel'],
+	.ad-a431-system[data-focus='email'] .ad-a431-label[data-belongs='email'],
+	.ad-a431-system[data-focus='kulon'] .ad-a431-label[data-belongs='kulon'],
+	.ad-a431-system[data-focus='kezi'] .ad-a431-label[data-belongs='kezi'],
+	.ad-a431-system[data-focus='api'] .ad-a431-label[data-belongs='api'],
+	.ad-a431-system[data-focus='jovahagyas'] .ad-a431-label[data-belongs='jovahagyas'],
+	.ad-a431-system[data-focus='szamlazas'] .ad-a431-label[data-belongs='szamlazas'] {
+		fill: var(--color-text);
+	}
+
+	.ad-a431-system[data-focus='excel'] .ad-a431-input__icon[data-belongs='excel'],
+	.ad-a431-system[data-focus='email'] .ad-a431-input__icon[data-belongs='email'],
+	.ad-a431-system[data-focus='kulon'] .ad-a431-input__icon[data-belongs='kulon'],
+	.ad-a431-system[data-focus='kezi'] .ad-a431-input__icon[data-belongs='kezi'],
+	.ad-a431-system[data-focus='api'] .ad-a431-input__icon[data-belongs='api'] {
+		color: var(--color-text);
+	}
+
+	.ad-a431-system[data-focus='excel'] .ad-a431-port[data-belongs='excel'],
+	.ad-a431-system[data-focus='email'] .ad-a431-port[data-belongs='email'],
+	.ad-a431-system[data-focus='kulon'] .ad-a431-port[data-belongs='kulon'],
+	.ad-a431-system[data-focus='kezi'] .ad-a431-port[data-belongs='kezi'],
+	.ad-a431-system[data-focus='api'] .ad-a431-port[data-belongs='api'],
+	.ad-a431-system[data-focus='jovahagyas'] .ad-a431-port[data-belongs='jovahagyas'],
+	.ad-a431-system[data-focus='szamlazas'] .ad-a431-port[data-belongs='szamlazas'] {
+		r: 5.5;
+		stroke: var(--color-accent-strong);
+	}
+
+	.ad-a431-system[data-focus='jovahagyas'] .ad-a431-line--resolved[data-belongs='jovahagyas'],
+	.ad-a431-system[data-focus='szamlazas'] .ad-a431-line--resolved[data-belongs='szamlazas'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2.75;
+	}
+
+	.ad-a431-system[data-focus='jovahagyas'] .ad-a431-output__box-group[data-belongs='jovahagyas'],
+	.ad-a431-system[data-focus='szamlazas'] .ad-a431-output__box-group[data-belongs='szamlazas'] {
+		transform: translateX(-4px);
+	}
+
+	.ad-a431-system[data-focus='jovahagyas'] .ad-a431-output__box[data-belongs='jovahagyas'],
+	.ad-a431-system[data-focus='szamlazas'] .ad-a431-output__box[data-belongs='szamlazas'] {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2;
+	}
+
+	/* --- Problem section (unchanged structure from A4.3) ------------------------- */
+
+	.ad-a431-problem {
+		padding-block-start: var(--space-xl);
+	}
+
+	.ad-a431-problem__intro {
+		max-width: var(--content-reading);
+	}
+
+	.ad-a431-signals {
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-block-start: var(--space-xl);
+	}
+
+	.ad-a431-signals__dense {
+		background: var(--ad-a431-tint);
+		padding: var(--space-lg);
+	}
+
+	.ad-a431-signals__open {
+		padding-block-start: var(--space-lg);
+	}
+
+	.ad-a431-signal-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ad-a431-signal-list li {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+		padding-block: var(--space-md);
+		border-left: 2px solid var(--color-border);
+	}
+
+	.ad-a431-signal-list li::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: calc(var(--space-md) + 0.4em);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	.ad-a431-signal-list li .meta {
+		display: block;
+		margin-block-end: var(--space-xs);
+	}
+
+	.ad-a431-signal-list li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	.ad-a431-decision {
+		background: var(--ad-a431-tint);
+	}
+
+	@media (min-width: 900px) {
+		.ad-a431-hero__grid {
+			grid-template-columns: 4fr 8fr;
+			gap: var(--space-xl);
+		}
+
+		.ad-a431-system__svg--mobile {
+			display: none;
+		}
+
+		.ad-a431-system__svg--desktop {
+			display: block;
+		}
+
+		.ad-a431-node-btn--mobile {
+			display: none;
+		}
+
+		.ad-a431-node-btn--desktop {
+			display: block;
+		}
+
+		.ad-a431-system {
+			margin-block-start: var(--space-md);
+			margin-inline-start: calc(-1 * var(--space-xl));
+			/* A4.3's -space-xl right bleed clipped real content here: the
+			   wider A4.3.1 outputs (OUTPUT_X + OUTPUT_W = 960 of a 980
+			   viewBox) pushed the JÓVÁHAGYÁS box ~12px past the 1440px
+			   viewport, so .ad-a431-hero's overflow-x:clip was hard-cutting
+			   its border instead of just suppressing a scrollbar. Measured
+			   via getBoundingClientRect() and confirmed comfortably inside
+			   the viewport with no right-edge bleed at all. */
+			margin-inline-end: 0;
+			margin-block-end: calc(-1 * var(--space-lg));
+			position: relative;
+			z-index: 1;
+		}
+
+		.ad-a431-signals {
+			grid-template-columns: 3fr 2fr;
+			column-gap: var(--space-2xl);
+		}
+
+		.ad-a431-signals__open {
+			margin-block-start: var(--space-xl);
+			padding-block-start: 0;
+		}
+	}
+</style>

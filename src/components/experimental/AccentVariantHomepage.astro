@@ -1,0 +1,320 @@
+---
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+
+interface Props {
+	accent: string;
+	accentStrong: string;
+	tint: string;
+}
+
+const { accent, accentStrong, tint } = Astro.props;
+---
+
+<!--
+  Single shared composition for the Task 005C accent-color experiment.
+  Composition is IDENTICAL across all three instantiations — only the
+  three color props differ. --color-accent / --color-accent-strong are
+  overridden here (scoped to this wrapper only) so every reused component
+  (SiteHeader's dropdown, .btn-primary, .link-standalone, .eyebrow, .meta)
+  automatically picks up the experimental accent via normal CSS cascade,
+  with no duplicated component/button/link CSS.
+-->
+<div class="ad-accent" style={`--color-accent: ${accent}; --color-accent-strong: ${accentStrong}; --ad-accent-tint: ${tint};`}>
+	<SiteHeader />
+
+	<main class="ad-accent-main">
+		<!-- Hero -->
+		<section class="ad-accent-hero">
+			<Container width="wide" as="div">
+				<div class="ad-accent-hero__grid">
+					<div class="ad-accent-hero__main">
+						<p class="ad-accent-flowline">FOLYAMAT → ALKALMAZÁS → INTEGRÁCIÓ → ADAT</p>
+						<p class="eyebrow" style="margin-block-start: var(--space-md);">
+							Amikor a kész szoftver már nem elég.
+						</p>
+						<h1 style="margin-block-start: var(--space-sm);">
+							A szoftver alkalmazkodjon a vállalkozásához. Ne fordítva.
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+							Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+							vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy
+							egy kompromisszumos kész rendszerhez.
+						</p>
+						<div class="meta-row" style="margin-block-start: var(--space-xl);">
+							<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+							<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+						</div>
+					</div>
+
+					<div class="ad-accent-evidence">
+						<div class="ad-accent-evidence__secondary">
+							<p class="ad-accent-evidence__caption-small">RÉSZLET / 02</p>
+						</div>
+						<div class="ad-accent-evidence__main">
+							<p class="ad-accent-evidence__caption">VALÓS SZOFTVER RÉSZLET — HELYŐRZŐ</p>
+						</div>
+						<p class="ad-accent-evidence__tag">RÉSZLET / 01</p>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Problem / Recognition -->
+		<section class="section ad-accent-problem">
+			<Container width="wide" as="div">
+				<div class="ad-accent-problem__intro">
+					<p class="eyebrow">Ismerős helyzet?</p>
+					<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+						A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+						szeretnénk”.
+					</h2>
+				</div>
+
+				<div class="ad-accent-symptoms">
+					<div class="ad-accent-symptoms__dense">
+						<ol class="ad-accent-spine">
+							<li>
+								<span class="meta">TÜNET / 01</span>
+								<p>„Ezt Excelben vezetjük.”</p>
+							</li>
+							<li>
+								<span class="meta">TÜNET / 02</span>
+								<p>„Innen kézzel átmásoljuk oda.”</p>
+							</li>
+							<li>
+								<span class="meta">TÜNET / 03</span>
+								<p>„Erre van egy külön rendszerünk.”</p>
+							</li>
+							<li>
+								<span class="meta">TÜNET / 04</span>
+								<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+							</li>
+						</ol>
+					</div>
+					<div class="ad-accent-symptoms__open">
+						<ol class="ad-accent-spine">
+							<li>
+								<span class="meta">TÜNET / 05</span>
+								<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+								folyamatunkat.”</p>
+							</li>
+							<li>
+								<span class="meta">TÜNET / 06</span>
+								<p>„A rendszereink működnek, csak éppen nem kommunikálnak
+								egymással.”</p>
+							</li>
+						</ol>
+					</div>
+				</div>
+
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+					Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van szükség.
+					Azt viszont gyakran jelzik, hogy a vállalkozás működése és az azt támogató
+					eszközök már nincsenek összhangban.
+				</p>
+
+				<a
+					href="/egyedi-fejlesztes/"
+					class="link-standalone"
+					style="margin-block-start: var(--space-lg);"
+				>
+					Mikor érdemes egyedi fejlesztésben gondolkodni? →
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Decision — transition preview only -->
+		<section class="section ad-accent-decision">
+			<Container width="standard">
+				<div class="ad-accent-decision__inner">
+					<h2 style="max-width: var(--content-reading);">
+						Nem minden problémára kell egyedi szoftver.
+					</h2>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+						Amire viszont igen, arra pontosan illeszkedőt építünk.
+					</p>
+				</div>
+			</Container>
+		</section>
+	</main>
+</div>
+
+<style>
+	/* Header → hero gap: A3 accidentally added an extra --space-lg on top of
+	   --space-section-lg via .hero__main's own padding-block-start, which is
+	   why A3 felt disconnected from the header. This composition intentionally
+	   omits that extra padding, restoring A2's tighter, correct relationship —
+	   only --space-section-lg (the same token every other section's "major"
+	   spacing uses) separates the header from the hero content. */
+	.ad-accent-hero {
+		padding-block-start: var(--space-section-lg);
+		padding-block-end: var(--space-2xl);
+	}
+
+	.ad-accent-flowline {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+	}
+
+	.ad-accent-hero__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		align-items: start;
+	}
+
+	.ad-accent-evidence {
+		position: relative;
+	}
+
+	.ad-accent-evidence__main {
+		position: relative;
+		z-index: 1;
+		aspect-ratio: 3 / 4;
+		border: 1px solid var(--color-border);
+		background: var(--color-surface);
+		display: flex;
+		align-items: flex-end;
+		padding: var(--space-lg);
+	}
+
+	.ad-accent-evidence__secondary {
+		display: none;
+	}
+
+	.ad-accent-evidence__caption,
+	.ad-accent-evidence__caption-small {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		color: var(--color-text-muted);
+		max-width: 14rem;
+	}
+
+	.ad-accent-evidence__tag {
+		display: inline-block;
+		margin-block-start: var(--space-sm);
+		padding: var(--space-xs) var(--space-sm);
+		background: var(--color-accent-strong);
+		color: #ffffff;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+	}
+
+	.ad-accent-problem {
+		padding-block-start: var(--space-xl);
+	}
+
+	.ad-accent-problem__intro {
+		max-width: var(--content-reading);
+	}
+
+	.ad-accent-symptoms {
+		display: grid;
+		grid-template-columns: 1fr;
+		margin-block-start: var(--space-xl);
+	}
+
+	.ad-accent-symptoms__dense {
+		background: var(--ad-accent-tint);
+		padding: var(--space-lg);
+	}
+
+	.ad-accent-symptoms__open {
+		padding-block-start: var(--space-lg);
+	}
+
+	.ad-accent-spine {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+	}
+
+	.ad-accent-spine li {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+		padding-block: var(--space-md);
+		border-left: 2px solid var(--color-border);
+	}
+
+	.ad-accent-spine li::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: calc(var(--space-md) + 0.4em);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	.ad-accent-spine li .meta {
+		display: block;
+		margin-block-end: var(--space-xs);
+	}
+
+	.ad-accent-spine li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	.ad-accent-decision {
+		background: var(--ad-accent-tint);
+	}
+
+	@media (min-width: 900px) {
+		.ad-accent-hero__grid {
+			grid-template-columns: 5fr 7fr;
+			gap: var(--space-2xl);
+		}
+
+		.ad-accent-evidence {
+			margin-block-start: var(--space-2xl);
+			margin-inline-end: calc(-1 * var(--space-lg));
+			margin-block-end: calc(-1 * var(--space-2xl));
+		}
+
+		.ad-accent-evidence__main {
+			aspect-ratio: 4 / 5;
+		}
+
+		.ad-accent-evidence__secondary {
+			position: absolute;
+			z-index: 0;
+			left: -6%;
+			bottom: -5%;
+			width: 55%;
+			aspect-ratio: 4 / 3;
+			border: 1px solid var(--color-border);
+			background: var(--ad-accent-tint);
+			padding: var(--space-sm);
+			display: flex;
+			align-items: flex-end;
+		}
+
+		.ad-accent-symptoms {
+			grid-template-columns: 3fr 2fr;
+			column-gap: var(--space-2xl);
+		}
+
+		.ad-accent-symptoms__open {
+			margin-block-start: var(--space-2xl);
+			padding-block-start: 0;
+		}
+
+		.ad-accent-decision__inner {
+			margin-inline-start: 20%;
+		}
+	}
+</style>

@@ -1,0 +1,227 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+---
+
+<BaseLayout
+	title="Art Direction A — Editorial Engineering (kísérleti, dev-only)"
+	description="Kísérleti art-direction összehasonlítás — nem publikus, nem végleges."
+	noindex={true}
+>
+	<ExperimentalBanner label="ART DIRECTION A — EDITORIAL ENGINEERING" />
+	<SiteHeader />
+
+	<main class="ad-a">
+		<!-- Hero -->
+		<section class="section section--major">
+			<Container width="wide" as="div">
+				<div class="ad-a-hero">
+					<div class="ad-a-hero__main">
+						<p class="meta ad-a-hero__kicker">SYSTEM / POZÍCIONÁLÁS</p>
+						<p class="eyebrow" style="margin-block-start: var(--space-md);">
+							Amikor a kész szoftver már nem elég.
+						</p>
+						<h1 style="margin-block-start: var(--space-sm);">
+							A szoftver alkalmazkodjon a vállalkozásához. Ne fordítva.
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+							Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan
+							vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy
+							egy kompromisszumos kész rendszerhez.
+						</p>
+						<div class="meta-row" style="margin-block-start: var(--space-xl);">
+							<a href="/kapcsolat/" class="btn btn-primary">Beszéljünk a projektről →</a>
+							<a href="/munkaink/" class="link-standalone">Munkáink megtekintése</a>
+						</div>
+					</div>
+
+					<aside class="ad-a-hero__system" aria-label="ARTIT munkamódszer: folyamattól az adatig">
+						<p class="meta">MUNKAMÓDSZER</p>
+						<ol class="ad-a-flow">
+							<li>FOLYAMAT</li>
+							<li>ALKALMAZÁS</li>
+							<li>INTEGRÁCIÓ</li>
+							<li>ADAT</li>
+						</ol>
+					</aside>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Problem / Recognition -->
+		<section class="section">
+			<Container width="wide" as="div">
+				<p class="eyebrow">Ismerős helyzet?</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert
+					szeretnénk”.
+				</h2>
+
+				<ol class="ad-a-spine">
+					<li>
+						<span class="meta">TÜNET / 01</span>
+						<p>„Ezt Excelben vezetjük.”</p>
+					</li>
+					<li>
+						<span class="meta">TÜNET / 02</span>
+						<p>„Innen kézzel átmásoljuk oda.”</p>
+					</li>
+					<li>
+						<span class="meta">TÜNET / 03</span>
+						<p>„Erre van egy külön rendszerünk.”</p>
+					</li>
+					<li>
+						<span class="meta">TÜNET / 04</span>
+						<p>„Ezt csak egy ember tudja, hogyan működik.”</p>
+					</li>
+					<li>
+						<span class="meta">TÜNET / 05</span>
+						<p>„Megnéztünk több kész rendszert, de egyik sem kezeli jól a
+						folyamatunkat.”</p>
+					</li>
+					<li>
+						<span class="meta">TÜNET / 06</span>
+						<p>„A rendszereink működnek, csak éppen nem kommunikálnak egymással.”</p>
+					</li>
+				</ol>
+
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+					Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van szükség.
+					Azt viszont gyakran jelzik, hogy a vállalkozás működése és az azt támogató
+					eszközök már nincsenek összhangban.
+				</p>
+
+				<a
+					href="/egyedi-fejlesztes/"
+					class="link-standalone"
+					style="margin-block-start: var(--space-lg);"
+				>
+					Mikor érdemes egyedi fejlesztésben gondolkodni? →
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Decision — transition preview only -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					Nem minden problémára kell egyedi szoftver.
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+					Amire viszont igen, arra pontosan illeszkedőt építünk.
+				</p>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.ad-a-hero {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+	}
+
+	.ad-a-hero__kicker {
+		border-bottom: 1px solid var(--color-border);
+		padding-block-end: var(--space-sm);
+	}
+
+	.ad-a-hero__system {
+		border-top: 1px solid var(--color-border);
+		padding-block-start: var(--space-lg);
+	}
+
+	.ad-a-flow {
+		list-style: none;
+		margin: var(--space-md) 0 0;
+		padding: 0;
+	}
+
+	.ad-a-flow li {
+		position: relative;
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		padding: var(--space-sm) var(--space-md);
+		border: 1px solid var(--color-border);
+		background: var(--color-bg);
+	}
+
+	.ad-a-flow li:not(:last-child) {
+		margin-block-end: var(--space-lg);
+	}
+
+	.ad-a-flow li:not(:last-child)::after {
+		content: '';
+		position: absolute;
+		left: var(--space-md);
+		bottom: calc(-1 * var(--space-lg));
+		width: 1px;
+		height: var(--space-lg);
+		background: var(--color-border);
+	}
+
+	.ad-a-spine {
+		list-style: none;
+		margin: var(--space-xl) 0 0;
+		padding: 0;
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.ad-a-spine li {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+		padding-block: var(--space-md);
+		border-left: 2px solid var(--color-border);
+	}
+
+	.ad-a-spine li::before {
+		content: '';
+		position: absolute;
+		left: -5px;
+		top: calc(var(--space-md) + 0.4em);
+		width: 8px;
+		height: 8px;
+		border-radius: 50%;
+		background: var(--color-accent);
+	}
+
+	.ad-a-spine li .meta {
+		display: block;
+		margin-block-end: var(--space-xs);
+	}
+
+	.ad-a-spine li p {
+		font-size: var(--text-lead);
+		font-weight: 500;
+		line-height: var(--leading-snug);
+	}
+
+	@media (min-width: 900px) {
+		.ad-a-hero {
+			grid-template-columns: 7fr 5fr;
+			align-items: start;
+			gap: var(--space-2xl);
+		}
+
+		.ad-a-hero__system {
+			border-top: none;
+			border-left: 1px solid var(--color-border);
+			padding-block-start: 0;
+			padding-inline-start: var(--space-xl);
+		}
+
+		.ad-a-spine {
+			grid-template-columns: 1fr 1fr;
+			column-gap: var(--space-2xl);
+		}
+	}
+</style>
