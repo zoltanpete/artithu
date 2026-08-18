@@ -119,6 +119,8 @@ Never use fake decorative values.
 
 Foundation stage (Task 004B): `.meta` CSS class (Space Mono, small, uppercase, wide tracking) demonstrates the treatment in `design-foundation.astro` using illustrative placeholder values only (`STATUS ACTIVE`, `LIFECYCLE XX+ ÉV`). Promote to a component once real case-study metadata exists to drive its props.
 
+**Related primitives (Task 006)**: `.technical-label` (a quieter, lower-opacity mono variant for background-layer "engineering residue" annotation — distinct from `.meta`'s normal-contrast metadata use) and `.panel-technical` (bordered specification-plate surface) were added to `foundation.css`, extracted from the Task 005C System Map exploration's legend/annotation treatment. Both are CSS classes, not components, for the same "no real reuse pressure yet" reason as `Button`/`TextLink` below. `.status-dot` / `.status-dot--success` (always paired with a text label, never color-only) demonstrates the new semantic-status color role. See `07-DESIGN-SYSTEM.md` → "Construction / blueprint layer" and "Colour language" for the design rationale.
+
 #### `ProofStat`
 
 Purpose:

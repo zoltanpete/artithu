@@ -130,6 +130,12 @@ CSS split into four small files, each with one concern: `tokens.css` (semantic c
 
 Same four-file architecture, no new files. Changes confined to `tokens.css` (two-tier section-spacing tokens) and `foundation.css` (`.section--major` modifier, H3/lead weight). See `07-DESIGN-SYSTEM.md` for the calibrated values and the visual reasoning behind each change.
 
+### Implementation status (Task 006)
+
+Still the same four-file architecture, no new files — the Task 005D Art Direction Lock's production migration fit entirely inside `tokens.css` (accent-value swap plus three new tokens) and `foundation.css` (two new bug-fix rules, five new small primitives). No new CSS file, no framework, no CSS-in-JS. Full accent-migration audit, new token values, and contrast results are in `07-DESIGN-SYSTEM.md`. Zero new dependencies.
+
+The one architectural decision this task made explicitly: **no `SystemMap` component was created.** The exploration's diagram-specific devices (guidelines, ports, node/path SVG structure) have nowhere to attach in production yet — no page has real System Map content — so productionizing them now would mean either freezing one prototype's incidental geometry into shared code, or building a generic graph-abstraction layer this project's own dependency rule forbids. Only the two genuinely content-agnostic pieces (`.technical-label`, `.panel-technical`) were promoted. See `07-DESIGN-SYSTEM.md` → "Production architecture decision (Task 006)" for the full rationale; this is Task 007's decision to pick back up once real homepage content/geometry exists.
+
 ## JavaScript
 
 Default:
@@ -152,6 +158,10 @@ Confirmed: the built `/` and `/404` pages emit zero client-side JavaScript (no `
 ### Implementation status (Task 005A)
 
 Still zero client JS, re-confirmed after adding real header navigation. The header's dropdown and mobile menu use native `<details>`/`<summary>` — a case the "Add islands only for real interactive requirements: mobile nav; dropdown if JS is required" rule above anticipated, and it turned out JS wasn't required at all: `<details>` provides click/keyboard activation and correct focus/ARIA semantics natively. Verified via keyboard-only activation (`Enter` on a focused `<summary>`) in a real browser, not just code inspection.
+
+### Implementation status (Task 006)
+
+Still zero client JS — confirmed directly against the production `dist/` output (`find dist -name "*.js"` → 0 files; no `<script>` tags in the rendered HTML of any page). Since the System Map interaction model was explicitly deferred to Task 007 (see "Styling" above), `/design-foundation` and `/` stay fully static this task, matching the brief's stated preferred outcome.
 
 ## Content Collections
 

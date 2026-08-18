@@ -84,19 +84,32 @@ import Container from '../components/layout/Container.astro';
 		<!-- Surfaces -->
 		<Container width="standard">
 			<div class="section">
-				<p class="meta">04 / FELÜLETEK</p>
+				<p class="meta">04 / FELÜLETEK ÉS SZÍN SZEREPEK</p>
 				<div class="meta-row" style="margin-block-start: var(--space-md);">
 					<div
-						style="flex: 1; min-width: 200px; padding: var(--space-lg); border: 1px solid var(--color-border); background: var(--color-bg);"
+						style="flex: 1; min-width: 180px; padding: var(--space-lg); border: 1px solid var(--color-border); background: var(--color-bg);"
 					>
 						<p class="meta">BACKGROUND</p>
 					</div>
 					<div
-						style="flex: 1; min-width: 200px; padding: var(--space-lg); background: var(--color-surface);"
+						style="flex: 1; min-width: 180px; padding: var(--space-lg); background: var(--color-surface);"
 					>
 						<p class="meta">SURFACE</p>
 					</div>
+					<div class="surface--tonal" style="flex: 1; min-width: 180px; padding: var(--space-lg);">
+						<p class="meta">TONAL ACCENT</p>
+					</div>
 				</div>
+				<p class="text-small" style="margin-block-start: var(--space-md); max-width: var(--content-reading);">
+					Négy szerep, nem négy szín: márka/operatív accent (CTA-k, linkek,
+					fókusz — lásd a gombokat fent), tonális accent (a fenti halvány lila
+					felület), semleges szerkezeti szín (háttér/felület/keret), és a lenti
+					szemantikus állapotjelző — utóbbi soha nem a márka accent.
+				</p>
+				<p class="meta" style="margin-block-start: var(--space-lg);">
+					<span class="status-dot status-dot--success" aria-hidden="true"></span>
+					&nbsp;STÁTUSZ: AKTÍV
+				</p>
 			</div>
 		</Container>
 
@@ -148,10 +161,30 @@ import Container from '../components/layout/Container.astro';
 
 		<hr class="divider" />
 
+		<!-- Technical / construction annotation (Task 006) -->
+		<Container width="standard">
+			<div class="section">
+				<p class="meta">07 / MŰSZAKI JELÖLÉS</p>
+				<p class="text-small" style="margin-block-start: var(--space-md); max-width: var(--content-reading);">
+					Visszafogott mérnöki rétegnyelv — a rendszertérkép-kísérletekben (005C)
+					bevált eszközök közül csak azok kerültek ide, amelyeknek konkrét,
+					tartalomtól független felhasználásuk van: háttérrétegű mono jelölés és
+					a legend-panelekből általánosított "specifikációs tábla" felület.
+					A vonalak/crosshair/regisztrációs jelek diagram-specifikusak maradnak —
+					l. `DOC/07-DESIGN-SYSTEM.md`.
+				</p>
+				<div class="panel-technical" style="margin-block-start: var(--space-lg); max-width: var(--content-reading);">
+					<p class="technical-label">X / 01 &nbsp;·&nbsp; PRIMER ÚTVONAL &nbsp;·&nbsp; Y / 02</p>
+				</div>
+			</div>
+		</Container>
+
+		<hr class="divider" />
+
 		<!-- Dark section -->
 		<div class="section section--major section--dark">
 			<Container width="standard">
-				<p class="meta">07 / SÖTÉT SZAKASZ (PL. LONGEVITY)</p>
+				<p class="meta">08 / SÖTÉT SZAKASZ (PL. LONGEVITY)</p>
 				<h2 style="margin-block: var(--space-md);">20+ év működő rendszerek</h2>
 				<p class="lead" style="max-width: var(--content-reading); margin-block-end: var(--space-md);">
 					A hosszú táv nálunk nem marketingígéret — ez a szakasz azt mutatja be, hogyan
@@ -159,6 +192,10 @@ import Container from '../components/layout/Container.astro';
 				</p>
 				<p class="meta" style="margin-block-end: var(--space-md);">
 					STATUS ACTIVE &nbsp; LIFECYCLE XX+ ÉV
+				</p>
+				<p style="margin-block-end: var(--space-md);">
+					Ez egy <a href="#">szövegbe ágyazott hivatkozás</a> sötét háttéren — a Task
+					006 accent-migráció után külön ellenőrzött kontraszttal.
 				</p>
 				<div class="meta-row">
 					<a href="#" class="link-standalone">Kapcsolódó hivatkozás →</a>

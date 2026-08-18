@@ -39,6 +39,32 @@ Contrast verified (WCAG relative-luminance formula, computed directly, not estim
 
 No color values changed in this task (only spacing and font-weight), so every contrast figure above still applies unchanged — re-confirmed by inspection, not recomputed. Re-verified with a programmatic overflow check (not just visual inspection) at 390/768/1440/1920px: `document.documentElement.scrollWidth` equals `clientWidth` at all four widths — zero horizontal overflow. `:focus-visible` and reduced-motion handling untouched.
 
+### Implementation status (Task 006) — accent migration contrast re-verification
+
+Color values *did* change in this task (the Task 005D-locked accent migrated from green to Ink / Deep Blue-Violet in production — see `07-DESIGN-SYSTEM.md`), so every accent-dependent figure was recalculated from scratch — by the WCAG relative-luminance formula, and cross-checked against `getComputedStyle()` on the actual rendered page in a real browser (Playwright/Chromium), not estimated:
+
+| Pair | Ratio | Grade |
+|---|---|---|
+| Body text on bg | 15.97:1 | AAA (unchanged) |
+| Muted text on bg | 5.56:1 | AA (unchanged) |
+| Accent-as-link-text on bg | 10.86:1 | AAA |
+| White on primary-accent CTA | 11.83:1 | AAA |
+| Focus outline (accent) vs. bg | 10.86:1 | AAA |
+| Focus outline (accent) vs. surface | 9.85:1 | AAA |
+| Body text on new tonal-accent surface (`--color-accent-tint`) | 13.88:1 | AAA |
+| Muted text on tonal-accent surface | 4.83:1 | AA |
+| Accent text on tonal-accent surface | 9.44:1 | AAA |
+| Dark-section text on dark bg | 15.42:1 | AAA (unchanged) |
+| Dark-section muted text on dark bg | 7.10:1 | AAA (unchanged) |
+| `--color-status-success` (new) on bg | 4.60:1 | AA |
+
+**Two accessibility bugs found by this recalculation and fixed** (full technical detail in `07-DESIGN-SYSTEM.md`; summarized here for the accessibility record):
+
+1. **Accent-colored text/borders/focus rings were effectively invisible inside `.section--dark`** — measured at ~1.47:1 against `--color-dark-bg`, failing WCAG 2.2 SC 1.4.11's 3:1 non-text minimum by a wide margin (and failing 4.5:1 text contrast even more badly). This affected any plain `<a>` inside a dark section, `.link-standalone`'s hover border, and — since `:focus-visible` was one global rule — **keyboard focus visibility for any focused element inside a dark section, sitewide**. The original green accent had the same defect (~2.30:1, also failing), so this was a latent, pre-existing gap that had never been caught, not a regression introduced by the migration. Fixed with a new `--color-accent-on-dark` token (the same hue, lightened) and three scoped overrides in `foundation.css`; re-verified at 7.91:1, and confirmed via `getComputedStyle()` that a keyboard-focused element inside `.section--dark` now actually renders the corrected outline color (not just that the CSS rule exists).
+2. **The A4.3.x exploration's brighter demo status-green (`#22c55e`) fails non-text contrast on the locked canvas** — ~2.09:1 against `--color-bg`, ~1.90:1 against `--color-surface`, both under the 3:1 minimum for a small non-text indicator such as a status dot. No live production usage existed yet, so nothing user-facing was broken, but shipping this exact value for Task 007's first real status indicator would have shipped a known-failing color. Production's `--color-status-success` was set to a deeper, still-clearly-green value (`#15803D`, 4.60:1) instead — see `07-DESIGN-SYSTEM.md` for the reasoning and the constraint this leaves for Task 007 if a brighter tone is ever wanted back.
+
+Reduced-motion, `:focus-visible` presence, and keyboard reachability were otherwise unaffected by this task (no interactive elements were added or removed; `/design-foundation` and `/` remain fully static — see `09-TECHNICAL-ARCHITECTURE.md`). Re-verified zero horizontal overflow at 390/768/1440/1920px on both `/design-foundation` and `/` after the shared-style changes, and zero console errors.
+
 ## Motion
 
 Respect:

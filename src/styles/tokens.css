@@ -1,6 +1,8 @@
 /*
  * Task 004B — approved direction: Work Sans + Space Mono + Restrained Industrial Neutral.
- * Values below are the calibrated implementation of the Task 004A proposal (see DOC/07).
+ * Task 006 — operating accent migrated from the original green to the Task 005D
+ * Art Direction Lock's Ink / Deep Blue-Violet (see DOC/07 "Art Direction Lock").
+ * Values below are the calibrated implementation; see DOC/07/DOC/11 for contrast figures.
  */
 :root {
 	/* Color */
@@ -9,8 +11,26 @@
 	--color-text: #1a1a1a;
 	--color-text-muted: #656260;
 	--color-border: #d9d6d1;
-	--color-accent: #2b5d4b;
-	--color-accent-strong: #1a3c30;
+	--color-accent: #37325c;
+	--color-accent-strong: #282442;
+	/* Tonal accent — 8% mix of --color-accent into --color-bg, the same
+	   derivation used consistently through the whole Task 005C exploration.
+	   For subtle technical surfaces/washes, never for text. */
+	--color-accent-tint: #e7e5e7;
+	/* A lighter tint of the same accent hue (not a new hue), for accent-role
+	   text/borders/focus rings on dark surfaces only. The raw --color-accent
+	   measures ~1.5:1 against --color-dark-bg — nowhere near WCAG's 3:1
+	   non-text minimum — so it is unsafe to reuse directly on dark. This
+	   value (60% white mixed into --color-accent) verified at ~7.9:1 against
+	   --color-dark-bg. See DOC/11 for the full calculation. */
+	--color-accent-on-dark: #afadbe;
+	/* Semantic status (success/resolved/healthy) — narrow role, never the
+	   brand accent. Deliberately not the brighter #22c55e explored as a
+	   System Map demo accent: that value measures ~2.1:1 against
+	   --color-bg/--color-surface as a small non-text indicator, failing
+	   WCAG 2.2 SC 1.4.11's 3:1 minimum. This deeper, still-clearly-green
+	   value verified at ~4.6:1 against --color-bg. See DOC/11. */
+	--color-status-success: #15803d;
 
 	--color-dark-bg: #1a1a1a;
 	--color-dark-text: #f2f1ef;

@@ -58,6 +58,15 @@ Avoid:
 - staged meeting imagery;
 - artificial "team collaboration" imagery.
 
+## System Maps vs. screenshot evidence (Task 006)
+
+These serve different purposes and should not substitute for one another:
+
+- **System Maps** (the Task 005C/005D-locked visual grammar — see `07-DESIGN-SYSTEM.md`) explain *structure and process*: how ARTIT turns heterogeneous, fragmented inputs into a coherent system. They are diagrams, not evidence — never a real screenshot, never implying they depict an actual running interface.
+- **Real product screenshots** (this section, below) provide *product evidence*: proof that a real system exists and works, in its own real UI.
+
+A case study or process page may reasonably use both — a System Map to explain how the underlying complexity was resolved, and a real screenshot to prove the resulting system is real — but one should never be dressed up to look like the other. Do not fabricate a screenshot-styled panel to imply a System Map is "the app," and do not decorate a real screenshot with System Map devices (ports, arrowheads, construction guides).
+
 ## Client system screenshots
 
 These are evidence assets.

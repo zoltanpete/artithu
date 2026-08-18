@@ -75,18 +75,60 @@ The rest of the neutral palette locked by Task 004A/004B is unchanged and still 
 
 The original green (`#2b5d4b`) is **retired as the brand/operating accent** and is not currently in production use for any role. A brighter green (`#22c55e`), introduced during the A4.3.x refinement specifically for output status dots, is the semantic-status colour demonstrated by the locked reference — narrow role (resolved/healthy output indicators only), never the brand accent, never implying live/fabricated telemetry.
 
-Four colour roles, going forward:
+Four colour roles:
 
 | Role | Value | Usage |
 |---|---|---|
 | Brand / operating accent | `#37325C` (`#282442` strong) | CTA, links, active state, primary diagram paths, transformation-field tint |
-| Tonal accent | violet at low opacity (3–28%, layered) | concentric transformation-field rings — depth, not decoration |
+| Tonal accent | `#E7E5E7` (8% mix of accent into bg) | subtle technical surfaces/washes — a resolution-feeling section background, an evidence-panel fill; never text |
 | Neutral structural colour | bg/surface/text/text-muted/border (Task 004A/004B values, unchanged) | canvas, body copy, secondary structure |
-| Semantic status colour | `#22c55e` | resolved/healthy output indicators only — never the brand accent, never a live-status claim |
+| Semantic status colour | `#15803D` (production value — see note below) | resolved/healthy output indicators only — never the brand accent, never a live-status claim |
 
-**Important — this is a documentation-level lock, not a code change.** `src/styles/tokens.css` still defines `--color-accent` as the original green; production `/` is unaffected by this task (per its explicit "documentation only" scope). Migrating `tokens.css` and production pages to the new accent is separate future implementation work, not performed here.
+**Implemented in production (Task 006).** `src/styles/tokens.css` now defines `--color-accent: #37325C`, `--color-accent-strong: #282442`, `--color-accent-tint: #E7E5E7`, `--color-accent-on-dark: #AFADBE`, and `--color-status-success: #15803D`. Every existing production usage of `--color-accent`/`--color-accent-strong` (CTA background, link color, `.eyebrow`, hover/active states, focus outline, nav-dropdown active state) was individually audited before the migration and confirmed to be a brand/interaction/focus role — none was a disguised status usage — so the migration is a token-*value* swap with zero consuming-CSS changes, not a blind hex find/replace. See "Colour-token migration and contrast verification (Task 006)" below for the full audit, the two accessibility bugs the migration surfaced, and why the production semantic-status value differs from the exploration's demo hex.
 
 Colour continues to gain power through scarcity — the system should remain predominantly neutral, with the accent appearing only where it earns attention.
+
+#### Colour-token migration and contrast verification (Task 006)
+
+**Audit of every existing production `--color-accent`/`--color-accent-strong` usage**, classified before remapping (per this task's explicit "audit every old accent usage, do not blind-replace" requirement):
+
+| Usage | File | Role |
+|---|---|---|
+| `a { color }` | `global.css` | Brand / link |
+| `:focus-visible { outline }` | `global.css` | Focus indicator |
+| `.eyebrow { color }` | `foundation.css` | Brand emphasis |
+| `.link-standalone:hover { border-color }` | `foundation.css` | Interaction/hover |
+| `.btn-primary { background }` / `:hover` | `foundation.css` | Brand / CTA |
+| `.btn-secondary:hover { border-color, color }` | `foundation.css` | Interaction/hover |
+| `.section--dark a { color }` | `foundation.css` | Brand / link (dark context — found broken, see below) |
+| `.section--dark .link-standalone:hover { border-color }` | `foundation.css` | Interaction/hover (dark context — found broken, see below) |
+| `.site-nav__list > li > a:hover { color }` | `foundation.css` | Interaction/hover |
+| `.nav-dropdown[open] summary { color }` / `:hover` | `foundation.css` | Active/interaction state |
+
+Every usage is brand, interaction, or focus — none needed to become the new semantic-status token instead. No production status usage of green (dot, badge, label) exists yet.
+
+**Contrast, recalculated (WCAG relative-luminance formula), not reused from Task 004** — verified both by manual computation and by re-reading the actual computed styles in a real rendered browser (Playwright/Chromium), which matched the manual figures:
+
+| Pair | Ratio | Grade |
+|---|---|---|
+| Body text on bg | 15.97:1 | AAA (unchanged) |
+| Muted text on bg | 5.56:1 | AA (unchanged) |
+| Accent-as-link-text on bg | 10.86:1 | AAA |
+| White on accent CTA | 11.83:1 | AAA |
+| Focus outline (accent) vs. bg / vs. surface | 10.86:1 / 9.85:1 | AAA / AAA |
+| Body text on tonal-accent surface | 13.88:1 | AAA |
+| Muted text on tonal-accent surface | 4.83:1 | AA |
+| Accent-as-text on tonal-accent surface | 9.44:1 | AAA |
+| Dark-section text on dark bg | 15.42:1 | AAA (unchanged) |
+| Dark-section muted text on dark bg | 7.10:1 | AAA (unchanged) |
+| `--color-status-success` on bg | 4.60:1 | AA (passes as text or as a non-text indicator) |
+
+**Two real accessibility bugs found by this recalculation, both fixed:**
+
+1. **Accent text/borders/focus outlines were near-invisible on dark sections.** `--color-accent` measures only **~1.47:1** against `--color-dark-bg` — nowhere near the WCAG 2.2 SC 1.4.11 non-text 3:1 minimum, let alone 4.5:1 for text. (The *original* green scored little better — ~2.30:1 — so this was a pre-existing, never-caught defect, not something the migration introduced.) It affected `.section--dark a`, `.section--dark .link-standalone:hover`'s border, and — because `:focus-visible` is a single global rule — any keyboard focus ring landing inside a dark section. Fixed by introducing `--color-accent-on-dark: #AFADBE` (the same accent hue, 60% mixed toward white — not a new hue) and scoping `.section--dark a`, `.section--dark .link-standalone:hover`, and a new `.section--dark :focus-visible` override to it. Re-verified in a real browser: `7.91:1` against `--color-dark-bg`, and the two rules' higher selector specificity (`.section--dark :focus-visible` vs. the global `:focus-visible`) confirmed to win regardless of source order.
+2. **The exploration's demo status-green (`#22c55e`) fails non-text contrast on the locked canvas.** Measured at only **~2.09:1** against `--color-bg` and **~1.90:1** against `--color-surface` — both fail SC 1.4.11's 3:1 minimum for a small non-text indicator (e.g. a status dot), regardless of the dot's size (the WCAG large-text size exemption applies to text, not non-text UI components). This was never caught during the exploration because no formal contrast check was run against a bare dot on the canvas — owner review was judging colour *vibrancy* inside a diagram, not running contrast math. Rather than carry forward a value that fails on first production use, `--color-status-success` was set to a deeper, still-clearly-"success"-green (`#15803D`) that clears 4.5:1 (safe for both text and non-text use). `#22c55e` remains documented above as the historical exploration/demo value, not the production one.
+
+**Constraint for Task 007+**: any future non-text status indicator (dot, badge) using `--color-status-success` is safe directly on `--color-bg`/`--color-surface` at the verified 4.60:1. If a *brighter*, more "energetic" green is ever wanted to match the exploration's original visual intent, it must be paired with a sufficiently contrasting outline/stroke or used at a scale/context where the surrounding fill (not the bare canvas) provides the needed contrast — verify before shipping, don't assume.
 
 ### 4. Geometry and surface language
 
@@ -113,6 +155,8 @@ Rules:
 - must never imply fabricated live data (this is why the exploration deliberately did **not** reproduce a generated reference's "RENDSZER / AKTÍV" status badge in A4.3 — see that entry's "Deviation from the brief" note below);
 - may disappear or simplify substantially on small screens;
 - fewer, meaningful marks — never a decorative grid covering the page. The exploration tried and rejected a more prominent version of this device (the `SEC / 01` / `01────02` ruler used in A4 and A4.1) after it read as content the visitor had to interpret rather than atmosphere; it must not return.
+
+**Implemented (Task 006)**: `.technical-label` (mono, low-opacity background-layer text) and `.panel-technical` (bordered specification-plate surface) in `foundation.css` — the only two devices from this layer with a genuine content-agnostic production use today. See "Production architecture decision (Task 006)" under "System Map — ARTIT brand asset" below for why the diagram-specific devices (guidelines, crosshairs, registration marks) were deliberately not productionized yet.
 
 ---
 
@@ -191,6 +235,16 @@ It is optional. Do not require a legend beside every System Map. On small screen
 > Complex editorial/system visuals should be **recomposed**, not merely scaled down.
 
 Desktop compositions may contain richer node counts, construction marks, a legend, a larger transformation field, and more whitespace-driven asymmetry. Mobile may deliberately use fewer nodes, simplified annotations, reduced construction detail, and a separately composed diagram (its own coordinate system, not the desktop SVG shrunk). The semantic story — heterogeneous inputs resolving into structure — must survive even when visual complexity is reduced.
+
+### Production architecture decision (Task 006) — Option A
+
+Task 006 deliberately chose **Option A**: productionize only the lower-level, content-agnostic primitives now; **defer the `SystemMap` component itself** until Task 007 supplies real homepage content and geometry. No `SystemMap` component, no graph library, no D3/canvas/visualization dependency was added.
+
+**Rationale**: every locked System Map principle above is explicit that node count, exact coordinates, exact labels, ring count/radius, and the current page-scoped JS are *not* locked — only the grammar is. Building a component now would have to choose between two bad options: hardcode A4.3.3's exact nine-node instance (freezing incidental prototype geometry into architecture, exactly what this task's brief warns against), or generalize prematurely into a schema meant to model any future diagram (a generic graph engine, explicitly forbidden). Neither serves Task 007, which is the task actually positioned to know the real content.
+
+**Productionized now** (see `foundation.css`): `.technical-label` (background-layer mono annotation text) and `.panel-technical` (the bordered "specification plate" surface the exploration's legend treatment converged on across A4.3.1–A4.3.3) — both genuinely content-agnostic, proven stable across three consecutive iterations, and usable today with zero diagram present, e.g. for a future `EngineeringMeta`-style component. `--color-accent-tint` / `.surface--tonal` (the Decision-section tonal wash, reused unchanged across nine iterations) and `--color-status-success` / `.status-dot` also promoted, for the same reason.
+
+**Deliberately deferred**: guideline/crosshair/registration-mark primitives. These are inherently SVG-diagram content — a guideline with nothing to guide is decoration, which this document's own construction-layer rule above forbids ("must not create interpretive noise... fewer, meaningful marks"). They will be designed once Task 007's real diagram exists to attach them to, not speculatively now. Also deferred: any node/port/path/arrowhead CSS or component — these only make sense bound to real SVG diagram markup, which doesn't exist in production yet.
 
 ---
 
@@ -602,7 +656,7 @@ No decorative gradients or glow.
 
 Direction 3 from Task 004A ("Restrained Industrial Neutral"), implemented as-proposed with no calibration needed — Task 004A's own WCAG contrast verification already showed AA/AAA across every real text usage:
 
-**Superseded (Task 005D) — accent only.** `--color-accent` / `--color-accent-strong` below are still what `src/styles/tokens.css` and production `/` currently implement, but the Task 005D Art Direction Lock has since locked a different operating accent (Ink / Deep Blue-Violet, `#37325C` / `#282442`) at the documentation/decision level — see "Art Direction Lock (Task 005D)" near the top of this document. The neutral values below (`--color-bg` through `--color-border`, and the dark-section values) are unaffected and remain locked as originally documented. Migrating `tokens.css` and production pages to the new accent is separate future implementation work.
+**Superseded and then migrated (Task 006) — accent only.** The Task 005D Art Direction Lock locked a different operating accent (Ink / Deep Blue-Violet) at the decision level without touching code; Task 006 has since implemented that migration in `src/styles/tokens.css` and production `/`. The values below reflect the current, live production state — see "Art Direction Lock → Colour language" near the top of this document for the full migration audit, the newly added tokens (`--color-accent-tint`, `--color-accent-on-dark`, `--color-status-success`), and the two accessibility bugs the migration surfaced and fixed. The neutral values below (`--color-bg` through `--color-border`, and the dark-section values) were unaffected by the migration and remain exactly as Task 004B calibrated them.
 
 ```text
 --color-bg              #f6f5f3
@@ -610,15 +664,15 @@ Direction 3 from Task 004A ("Restrained Industrial Neutral"), implemented as-pro
 --color-text             #1a1a1a
 --color-text-muted       #656260   (5.56:1 on bg — AA)
 --color-border           #d9d6d1   (decorative only — see accessibility note below)
---color-accent           #2b5d4b   (6.96:1 as text on bg — AA; 7.58:1 white-on-accent CTA — AAA) — superseded, see note above
---color-accent-strong    #1a3c30   (hover/active state) — superseded, see note above
+--color-accent           #37325c   (10.86:1 as text on bg — AAA; 11.83:1 white-on-accent CTA — AAA) — Task 006, see note above
+--color-accent-strong    #282442   (hover/active state) — Task 006, see note above
 
 --color-dark-bg          #1a1a1a
 --color-dark-text        #f2f1ef   (15.42:1 — AAA)
 --color-dark-text-muted  #a8a5a1   (7.10:1 — AAA)
 ```
 
-**Accessibility note on borders**: `--color-border` against `--color-bg`/`--color-surface` measures ~1.3:1, well under the WCAG 2.2 SC 1.4.11 non-text 3:1 minimum. This is intentional for decorative dividers (matches "subtle 1px neutral lines" above) but means a border must never be the *only* affordance for a required control boundary — focus states use `--color-accent` instead (4.78–8.39:1 against background across all three Task 004A directions), which is what `global.css`'s `:focus-visible` rule relies on.
+**Accessibility note on borders**: `--color-border` against `--color-bg`/`--color-surface` measures ~1.3:1, well under the WCAG 2.2 SC 1.4.11 non-text 3:1 minimum. This is intentional for decorative dividers (matches "subtle 1px neutral lines" above) but means a border must never be the *only* affordance for a required control boundary — focus states use `--color-accent` instead (10.86:1 on bg / 9.85:1 on surface, recalculated Task 006), which is what `global.css`'s `:focus-visible` rule relies on — except inside `.section--dark`, which overrides to `--color-accent-on-dark` (see Task 006 note above) since the base accent measures only ~1.47:1 against the dark background.
 
 ## Dark sections
 
@@ -643,6 +697,8 @@ Shadows:
 none by default.
 
 Use minimal depth only where required for screenshot separation.
+
+**Reviewed (Task 006)**: `--radius-sm` (2px) / `--radius-md` (4px) already support the locked direction without change — every diagram/system-object radius the exploration used lives inside SVG `rx` values, not CSS tokens, and every production surface primitive added by Task 006 (`.panel-technical`, `.surface--tonal`) reuses `--radius-md` directly rather than needing a new value. The locked direction's "small-radius technical containers are allowed" allowance is scoped to diagram objects (see "Art Direction Lock" above); general site radius stays exactly as calibrated in Task 004A/004B.
 
 ## Card policy
 
@@ -851,7 +907,7 @@ DO NOT use:
 - generic SaaS feature grids;
 - AI-startup visual clichés.
 
-## Semantic token architecture — implemented (Task 004B)
+## Semantic token architecture — implemented (Task 004B, extended Task 006)
 
 The token names below are implemented in `src/styles/tokens.css`. Actual values are documented inline in the "Typography" and "Color" sections above; see also `DOC/09-TECHNICAL-ARCHITECTURE.md`.
 
@@ -863,6 +919,9 @@ The token names below are implemented in `src/styles/tokens.css`. Actual values 
 --color-border;
 --color-accent;
 --color-accent-strong;
+--color-accent-tint;        /* Task 006 */
+--color-accent-on-dark;     /* Task 006 */
+--color-status-success;     /* Task 006 */
 
 --color-dark-bg;
 --color-dark-text;
