@@ -45,6 +45,18 @@ Requirements:
 
 **Implemented (Task 005A)**: `src/components/navigation/SiteHeader.astro`. Desktop (≥900px): logo, flat nav list with one native `<details>`/`<summary>` dropdown for "Egyedi fejlesztés" (Áttekintés/Üzleti alkalmazások/Rendszerintegráció), primary CTA button. Below 900px: a single `<details class="mobile-menu">` disclosure with all 7 links flattened. Both use native HTML disclosure semantics — no client JS, no hover-only interaction (click/keyboard-activated), correct built-in keyboard/focus behavior. Not sticky — no compact/scroll state implemented, no demonstrated need yet. Currently used on the homepage only, not hoisted into `BaseLayout.astro`, so it does not affect `/404` or the internal `/design-foundation` fixture — see `09-TECHNICAL-ARCHITECTURE.md` for the reasoning.
 
+**Updated (Task 007B)**: all copy now comes from the `nav`/`main` content entry (`src/content/nav/content.yaml`) instead of being hardcoded — see `09-TECHNICAL-ARCHITECTURE.md` "Localization". New props: `locale` (`Locale`, default `'hu'`) and `alternateLocalePath` (`string?`). When `alternateLocalePath` is provided, a small semantic language-switch link (`.site-header__lang`) renders in both the desktop header and mobile menu — real `<a>`, no client-side state, no flags. `index.astro` does not currently pass it, since `/en/` doesn't exist yet.
+
+#### `Homepage`
+
+Purpose:
+
+Shared, locale-parameterized renderer for the full homepage — one implementation for every locale, per Task 007B's content-architecture requirement (see `09-TECHNICAL-ARCHITECTURE.md` "Localization").
+
+**Implemented (Task 007B)**: `src/components/homepage/Homepage.astro`. Props: `locale` (`Locale`, required) and `alternateLocalePath` (`string?`, forwarded to `SiteHeader`). Loads the `pages/home` content entry itself via `getEntry()`, resolves every field through `localize()`/`localizeGated()`, and renders `BaseLayout` + `SiteHeader` + all nine homepage sections + the Hero `SystemMap` instance. Route files are thin wrappers: `src/pages/index.astro` is `<Homepage locale="hu" />`. No second copy of the markup or the System Map exists for other locales — a future `src/pages/en/index.astro` would be `<Homepage locale="en" />` plus its `alternateLocalePath`.
+
+Used on: `/` (Task 007B; not yet `/en/` — see `09-TECHNICAL-ARCHITECTURE.md`).
+
 #### `SiteFooter`
 
 Purpose:
@@ -213,6 +225,7 @@ mobileSourceIds [string, string]? — which two `sources` the separately-compose
 caption/captionSub  string? — the legend/signature zone's mono captions
 legend          boolean, default true
 ariaLabel       string — required, full accessible description of the diagram
+locale          Locale, default 'hu' (Task 007B) — see below
 ```
 
 Variants: none beyond the props above — no visual variant system, per this document's "keep APIs narrow" rule.
@@ -222,6 +235,8 @@ Responsive behavior: a genuinely separately-composed mobile diagram (its own coo
 Accessibility notes: every interactive node is a real `<button>` overlay (not raw interactive SVG), percentage-positioned from the exact same geometry the visual node uses (verified sub-0.02px alignment, not assumed from the formula). `aria-pressed` reflects committed selection; keyboard Tab+Enter fully parallels mouse/hover. Both SVGs carry `role="img"` and the same required `ariaLabel`. Interaction state (`.is-focused`/`.is-receded`/`.has-focus`, applied via `classList`, not inline styles) never relies on color alone — opacity, stroke-width and position all move together. `prefers-reduced-motion: reduce` collapses both transition variables to ~1ms.
 
 Used on: `/` (Hero, Task 007).
+
+**Updated (Task 007B)**: the component was already language-agnostic by design (every visible label arrives via props), with one exception: each interactive node button's accessible name was generated internally as `` `${label} kiemelése}` `` — hardcoded Hungarian. This is now driven by the new `locale` prop through a small internal `{ hu, en }` lookup table (`NODE_HIGHLIGHT_LABEL`), the one deliberate exception to "no internal locale dictionary" for this component, documented in its own prop JSDoc. No other change — geometry, interaction state machine and CSS are all unchanged and remain locale-independent.
 
 Do:
 

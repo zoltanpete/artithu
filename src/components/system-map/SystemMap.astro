@@ -1,4 +1,6 @@
 ---
+import type { Locale } from '../../lib/i18n';
+
 /**
  * SystemMap — production implementation of the Task 005D-locked System Map
  * brand-asset grammar (heterogeneous inputs → transformation core → structured
@@ -39,6 +41,16 @@ interface Props {
 	captionSub?: string;
 	legend?: boolean;
 	ariaLabel: string;
+	/**
+	 * Drives the one user-facing string this component generates itself
+	 * rather than receiving as a prop: each interactive node button's
+	 * "highlight this node" accessible name (Task 007B — see
+	 * DOC/09-TECHNICAL-ARCHITECTURE.md "Localization"). Everything else
+	 * user-facing (labels, caption, ariaLabel) already comes from props,
+	 * so the component stays language-agnostic; this is the one exception,
+	 * kept as a tiny internal map rather than a prop-per-string.
+	 */
+	locale?: Locale;
 	/** Which two source ids the separately-composed mobile diagram shows. Defaults to the first two entries in `sources`. */
 	/** Which two source ids the separately-composed mobile diagram shows.
 	 * Defaults to the first two entries in `sources`. The fixed mobile box
@@ -61,7 +73,14 @@ const {
 	legend = true,
 	ariaLabel,
 	mobileSourceIds,
+	locale = 'hu',
 } = Astro.props;
+
+const NODE_HIGHLIGHT_LABEL: Record<Locale, (label: string) => string> = {
+	hu: (label) => `${label} kiemelése`,
+	en: (label) => `Highlight ${label}`,
+};
+const nodeHighlightLabel = NODE_HIGHLIGHT_LABEL[locale];
 
 // --- Desktop geometry (viewBox 0 0 970 600) ------------------------------
 // CORE_CX/CORE_CY/VIEWBOX_H are the exact verified A4.3.3 constants, kept
@@ -394,7 +413,7 @@ const uid = id;
 			data-node={b.nodeId}
 			style={`left: ${b.left.toFixed(3)}%; top: ${b.top.toFixed(3)}%; width: ${b.width.toFixed(3)}%; height: ${b.height.toFixed(3)}%;`}
 			aria-pressed="false"
-			aria-label={`${b.label} kiemelése`}
+			aria-label={nodeHighlightLabel(b.label ?? '')}
 		></button>
 	))}
 	{mobileButtons.map((b) => (
@@ -404,7 +423,7 @@ const uid = id;
 			data-node={b.nodeId}
 			style={`left: ${b.left}%; top: ${b.top}%; width: ${b.width}%; height: ${b.height}%;`}
 			aria-pressed="false"
-			aria-label={`${b.label} kiemelése`}
+			aria-label={nodeHighlightLabel(b.label ?? '')}
 		></button>
 	))}
 	</div>

@@ -77,6 +77,10 @@ src/
 
 `src/assets/`, `src/components/`, `src/utils/` do not exist yet — nothing in the repository needs them yet. Create them when real components/utilities/processable images exist, following this same source-of-truth structure.
 
+### Implementation status (Task 007B)
+
+Added `src/lib/i18n.ts` (locale types/helpers — see "Localization" below), `src/components/homepage/Homepage.astro` (shared homepage renderer), `src/content/pages/home/content.yaml` and `src/content/nav/content.yaml` (localized content sources). `src/utils/` still doesn't exist — `src/lib/` was introduced instead, matching the sibling Tardify project's own convention (`../tardifyweb/src/lib/`) for the same kind of small, non-content-collection helper code.
+
 ### Implementation status (Task 004B)
 
 Added:
@@ -103,6 +107,31 @@ Added `src/components/navigation/SiteHeader.astro` — real cross-page reuse jus
 ### Implementation status (Task 007)
 
 Added `src/components/system-map/SystemMap.astro` — the real homepage content/geometry that Task 006 deferred the component on now exists. Its own `<style>` block holds all diagram-specific styling (node/port/path/ring/core CSS), reusing the shared `--color-*` tokens and the `.panel-technical` primitive from Task 006 for its legend, rather than duplicating either. Homepage-section-specific CSS that isn't a stable cross-page concept yet (`.hero-map`, `.decision-fork`, `.work-teaser`, `.process-steps`) was added to `foundation.css` instead, following this project's existing convention (the same file already held `.problem-grid`/`.decision-paths` from Task 005A for the same reason) rather than introducing scoped `<style>` blocks in `index.astro` or fragmenting into new files. `case-study/`, `content/`, `typography/`, `ui/` still don't exist.
+
+## Localization
+
+ARTIT is bilingual: Hungarian (primary, currently published) and English (architecture-ready, not yet published — see below).
+
+### Implementation status (Task 007B)
+
+**URL strategy**: `/` = Hungarian (default, unprefixed), `/en/` = English. Implemented via Astro's **native i18n routing** (`i18n: { defaultLocale: 'hu', locales: ['hu', 'en'], routing: { prefixDefaultLocale: false } }` in `astro.config.mjs`), not a hand-rolled router. This was a direct, audited decision, not a guess: the sibling Tardify project (`../tardifyweb`, available locally on this machine) already ships bilingual `hu`/`en_US` with the identical `/`/`/en/` strategy, using this exact native-i18n config. Reusing Astro's own mechanism instead of reimplementing it means locale-aware URL generation (`getRelativeLocaleUrl`, used by `src/lib/i18n.ts`'s `homePath()`) and `Astro.currentLocale` are correct for free and stay correct if the routing config changes.
+
+**Content source**: `src/content/pages/home/content.yaml`, an Astro Content Collection (`pages`, `file()` loader) validated by a Zod schema in `src/content.config.ts`. Every text field is one of two localized primitives (see `src/lib/i18n.ts`):
+
+- `Localized` (`{ hu: string; en: string }`) — both locales required; used only for content classified as safely structural/non-marketing (System Map technical/business vocabulary, accessibility descriptions of the diagram mechanism).
+- `LocalizedGated` (`{ hu: string; en?: string }`) — `hu` required, `en` optional; used for every piece of marketing/positioning prose (eyebrows, headlines, leads, paragraphs, CTA sentences, Problem signals, Decision copy, Work case titles, Longevity statement, Tardify copy, Process labels, Senior/Who copy, Final CTA copy). No approved English translation of ARTIT's homepage marketing copy exists anywhere in the repository (confirmed by audit — see `04-HOMEPAGE-CONTENT-ARCHITECTURE.md`), so every `LocalizedGated` field's `en` is currently absent by design. This is a real, representable content state — Zod validates it as valid, not a build error — not an invented translation and not something rendered as a silent Hungarian fallback on an English page.
+
+Sitewide header/navigation chrome (`src/content/nav/content.yaml`, `nav` collection) is treated differently: it is pure wayfinding text, not a marketing claim, so both locales are fully populated there.
+
+**Locale resolution**: `src/lib/i18n.ts` exports `Locale = 'hu' | 'en'`, the `Localized`/`LocalizedGated` types, `localize(value, locale)` (fully-translated fields), `localizeGated(value, locale)` (returns `string | null`, never falls back to `hu`), `hasTranslation()`, and `homePath(locale)`. Templates read locale-aware content through these instead of `locale === 'hu' ? … : …` ternaries.
+
+**Route sharing**: one shared renderer, `src/components/homepage/Homepage.astro`, accepts a `locale` prop and loads the `pages/home` entry itself. `src/pages/index.astro` is a two-line wrapper: `<Homepage locale="hu" />`. There is no second, duplicated homepage implementation and no duplicated System Map instance — `SystemMap.astro` itself stays language-agnostic (labels arrive via props); the one string it generates internally (each node button's "highlight this node" accessible name) is now driven by a `locale` prop through a two-entry lookup table rather than a hardcoded Hungarian suffix.
+
+**Why `/en/` is not live yet**: `Homepage.astro` renders correctly for `locale="en"` (verified via `astro check`/`astro build` type-checking the `en` branch and via a real-browser Playwright pass against a temporary local invocation), but no `src/pages/en/index.astro` route file was created this task. Since essentially every homepage content field is currently `LocalizedGated` with `en` absent, a live English homepage would either have to invent marketing copy (explicitly disallowed) or render as mostly blank sections next to a fully English header — neither is an honest "real page," and Task 007B's own brief explicitly sanctions withholding the route until approved content exists. Adding the route later is a ~5-line file (`<Homepage locale="en" />` plus its `alternateLocalePath` wiring) once an approved English translation pass fills in the gated fields — no architecture changes required.
+
+**Language switch**: `SiteHeader.astro` accepts an optional `alternateLocalePath` prop; when present it renders one small semantic `<a>` (`.site-header__lang`, restrained mono chip, no flags) to the equivalent page in the other locale, both in the desktop header and the mobile menu. `index.astro` does not currently pass this prop, since `/en/` doesn't exist yet — rendering a locale link to a non-existent page would be a misleading broken link, which Task 007B's brief explicitly disallows. Wiring it up is a one-line change once `/en/` exists.
+
+**Runtime cost**: zero. All localization resolves at build time; the SystemMap's existing 810-byte inline interaction script is unchanged (locale only affects which string it's initialized with, not its behavior). No i18n library dependency was added — `astro:i18n` is part of Astro core, `js-yaml`/`yaml` (used by Astro's built-in Content Collections `file()` loader for the new `.yaml` sources) were already present as transitive dependencies of Astro itself, not newly installed.
 
 ## Public assets
 
@@ -187,6 +216,10 @@ Markdown/MDX decision should be based on actual case-study needs.
 
 A minimal `case-studies` collection exists at `src/content.config.ts`, using the current `glob()` loader (`astro/loaders`) and a Zod schema (imported from `astro/zod` — the `z` re-export on `astro:content` is deprecated in the installed Astro version). See `05-CONTENT-MODEL.md` for the implemented field list and what was deferred. A single non-public, clearly-labeled dev fixture entry validates the schema; it is not rendered anywhere.
 
+### Implementation status (Task 007B)
+
+Added two `file()`-loader collections: `pages` (`src/content/pages/home/content.yaml`, entry id `home`) and `nav` (`src/content/nav/content.yaml`, entry id `main`) — Astro's built-in Content Collections `file()` loader parses `.yaml` natively (via its bundled `js-yaml` dependency), so no new dependency was needed. `pages` currently holds only the homepage; if/when a second page's content is migrated, revisit whether `file()` (one collection per page) or `glob()` (one collection scanning `src/content/pages/*/content.yaml`) is the better fit — not decided speculatively now, per this document's own "adjust only when implementation provides a clear reason" rule. See "Localization" below for the localized-field schema design.
+
 ## Images
 
 Use Astro image tooling where possible.
@@ -267,6 +300,10 @@ Only `/` and `/404` exist, both minimal structural placeholders (no homepage sec
 ### Implementation status (Task 005A)
 
 `/` is now a real production homepage (Sections 01–03; see `03-SITEMAP-AND-PAGE-ARCHITECTURE.md` for the full page-spec record). `/404` is unchanged from Task 003. No other route exists yet — `/egyedi-fejlesztes/`, `/munkaink/`, `/tardify/`, `/rolunk/`, `/kapcsolat/`, and the two `/egyedi-fejlesztes/` sub-pages are all linked from the homepage per the accepted sitemap but not yet built, so those links currently 404. This is expected at this stage of the rollout, not a defect.
+
+### Implementation status (Task 007B)
+
+Astro's native `i18n` routing is configured (see "Localization" above) and would serve `/en/index.astro` automatically if it existed, but it does not yet — withheld until an approved English translation pass exists (see "Localization"). `/` itself is unchanged in URL/content-shape; it is now rendered via the shared `Homepage.astro` component instead of inlining all copy, which is an internal implementation change, not a routing change.
 
 ### Implementation status (Task 004B)
 

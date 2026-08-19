@@ -2,6 +2,9 @@
 import '../styles/global.css';
 import workSansLatin from '../fonts/work-sans-variable-latin.woff2?url';
 import workSansLatinExt from '../fonts/work-sans-variable-latin-ext.woff2?url';
+import type { Locale } from '../lib/i18n';
+
+const OG_LOCALE: Record<Locale, string> = { hu: 'hu_HU', en: 'en_US' };
 
 interface Props {
 	title: string;
@@ -9,15 +12,26 @@ interface Props {
 	path?: string;
 	ogImage?: string;
 	noindex?: boolean;
+	/** Defaults to 'hu' — see DOC/09-TECHNICAL-ARCHITECTURE.md "Localization". */
+	locale?: Locale;
+	/**
+	 * Other locales' equivalent URLs for this page, for `hreflang`/
+	 * `og:locale:alternate`. Left empty until an equivalent page in that
+	 * locale actually exists and is publishable — an alternate-language
+	 * link to a route that doesn't exist yet would be a broken/misleading
+	 * signal, which Task 007B's brief explicitly disallows.
+	 */
+	alternates?: Partial<Record<Locale, string>>;
 }
 
-const { title, description, path, ogImage, noindex = false } = Astro.props;
+const { title, description, path, ogImage, noindex = false, locale = 'hu', alternates = {} } = Astro.props;
 
 const canonicalURL = Astro.site && path ? new URL(path, Astro.site) : undefined;
+const alternateEntries = Object.entries(alternates) as [Locale, string][];
 ---
 
 <!doctype html>
-<html lang="hu">
+<html lang={locale}>
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -25,10 +39,17 @@ const canonicalURL = Astro.site && path ? new URL(path, Astro.site) : undefined;
 		<meta name="description" content={description} />
 		{canonicalURL && <link rel="canonical" href={canonicalURL} />}
 		{noindex && <meta name="robots" content="noindex" />}
+		{alternateEntries.map(([altLocale, altPath]) => (
+			<link rel="alternate" hreflang={altLocale} href={Astro.site ? new URL(altPath, Astro.site) : altPath} />
+		))}
 
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
+		<meta property="og:locale" content={OG_LOCALE[locale]} />
+		{alternateEntries.map(([altLocale]) => (
+			<meta property="og:locale:alternate" content={OG_LOCALE[altLocale]} />
+		))}
 		{canonicalURL && <meta property="og:url" content={canonicalURL} />}
 		{ogImage && <meta property="og:image" content={ogImage} />}
 

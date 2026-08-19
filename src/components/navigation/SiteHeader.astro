@@ -1,42 +1,79 @@
 ---
 import Container from '../layout/Container.astro';
+import { getEntry } from 'astro:content';
+import { localize, type Locale } from '../../lib/i18n';
+
+interface Props {
+	locale?: Locale;
+	/**
+	 * The equivalent page's URL in the other locale, if one actually exists
+	 * and is publishable. When absent, no language-switch link is rendered —
+	 * per Task 007B's brief, a locale link must never point at a route that
+	 * doesn't exist yet (see DOC/09-TECHNICAL-ARCHITECTURE.md "Localization").
+	 */
+	alternateLocalePath?: string;
+}
+
+const { locale = 'hu', alternateLocalePath } = Astro.props;
+
+const nav = await getEntry('nav', 'main');
+if (!nav) throw new Error('Missing required "nav/main" content entry');
+const n = nav.data;
+
+const otherLocale: Locale = locale === 'hu' ? 'en' : 'hu';
+const LANGUAGE_SWITCH_LABEL: Record<Locale, string> = { hu: 'EN', en: 'HU' };
+const LANGUAGE_SWITCH_ARIA: Record<Locale, string> = {
+	hu: 'Switch to English',
+	en: 'Váltás magyarra',
+};
 ---
 
 <header class="site-header">
 	<Container width="wide" as="div">
 		<div class="site-header__inner">
-			<a href="/" class="site-header__logo">ARTIT</a>
+			<a href={locale === 'hu' ? '/' : '/en/'} class="site-header__logo">{n.logoLabel}</a>
 
-			<nav class="site-nav" aria-label="Fő navigáció">
+			<nav class="site-nav" aria-label={localize(n.ariaLabel, locale)}>
 				<ul class="site-nav__list">
 					<li>
 						<details class="nav-dropdown">
-							<summary>Egyedi fejlesztés</summary>
+							<summary>{localize(n.customDev.summary, locale)}</summary>
 							<ul>
-								<li><a href="/egyedi-fejlesztes/">Áttekintés</a></li>
-								<li><a href="/egyedi-fejlesztes/uzleti-alkalmazasok/">Üzleti alkalmazások</a></li>
-								<li><a href="/egyedi-fejlesztes/rendszerintegracio/">Rendszerintegráció</a></li>
+								{n.customDev.items.map((item) => (
+									<li><a href={item.href}>{localize(item.label, locale)}</a></li>
+								))}
 							</ul>
 						</details>
 					</li>
-					<li><a href="/munkaink/">Munkáink</a></li>
-					<li><a href="/tardify/">Tardify</a></li>
-					<li><a href="/rolunk/">Rólunk</a></li>
+					{n.links.map((link) => (
+						<li><a href={link.href}>{localize(link.label, locale)}</a></li>
+					))}
 				</ul>
 			</nav>
 
-			<a href="/kapcsolat/" class="btn btn-primary site-header__cta">Beszéljünk →</a>
+			<a href={n.cta.href} class="btn btn-primary site-header__cta">{localize(n.cta.label, locale)}</a>
+
+			{alternateLocalePath && (
+				<a href={alternateLocalePath} class="site-header__lang" aria-label={LANGUAGE_SWITCH_ARIA[locale]} hreflang={otherLocale}>
+					{LANGUAGE_SWITCH_LABEL[locale]}
+				</a>
+			)}
 
 			<details class="mobile-menu">
-				<summary class="mobile-menu__trigger" aria-label="Menü megnyitása">Menü</summary>
+				<summary class="mobile-menu__trigger" aria-label={localize(n.mobileMenuTriggerAriaLabel, locale)}>
+					{localize(n.mobileMenuTriggerText, locale)}
+				</summary>
 				<ul class="mobile-menu__list">
-					<li><a href="/egyedi-fejlesztes/">Egyedi fejlesztés — Áttekintés</a></li>
-					<li><a href="/egyedi-fejlesztes/uzleti-alkalmazasok/">Üzleti alkalmazások</a></li>
-					<li><a href="/egyedi-fejlesztes/rendszerintegracio/">Rendszerintegráció</a></li>
-					<li><a href="/munkaink/">Munkáink</a></li>
-					<li><a href="/tardify/">Tardify</a></li>
-					<li><a href="/rolunk/">Rólunk</a></li>
-					<li><a href="/kapcsolat/">Beszéljünk →</a></li>
+					{n.customDev.items.map((item) => (
+						<li><a href={item.href}>{localize(n.customDev.summary, locale)} — {localize(item.label, locale)}</a></li>
+					))}
+					{n.links.map((link) => (
+						<li><a href={link.href}>{localize(link.label, locale)}</a></li>
+					))}
+					<li><a href={n.cta.href}>{localize(n.cta.label, locale)}</a></li>
+					{alternateLocalePath && (
+						<li><a href={alternateLocalePath} hreflang={otherLocale}>{LANGUAGE_SWITCH_ARIA[locale]}</a></li>
+					)}
 				</ul>
 			</details>
 		</div>

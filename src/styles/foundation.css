@@ -369,6 +369,29 @@ a {
 	display: none;
 }
 
+/* Minimal semantic language-switch link (Task 007B) — a real <a> to the
+   equivalent-locale URL, not client-side state; restrained on purpose (no
+   flags, no pill/badge treatment), matching this header's existing
+   text-link-first vocabulary. Only rendered at all once a publishable
+   equivalent-locale page exists to link to. */
+.site-header__lang {
+	display: none;
+	font-family: var(--font-mono);
+	font-size: var(--text-small);
+	letter-spacing: 0.06em;
+	color: var(--color-text-muted);
+	text-decoration: none;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	padding: 2px var(--space-xs);
+}
+
+.site-header__lang:hover,
+.site-header__lang:focus-visible {
+	color: var(--color-accent);
+	border-color: var(--color-accent);
+}
+
 .mobile-menu summary {
 	cursor: pointer;
 	list-style: none;
@@ -412,6 +435,10 @@ a {
 	}
 
 	.site-header__cta {
+		display: inline-flex;
+	}
+
+	.site-header__lang {
 		display: inline-flex;
 	}
 

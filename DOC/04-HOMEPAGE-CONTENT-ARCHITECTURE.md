@@ -23,6 +23,12 @@ Section 03's "Key copy" (packaged-software/understand-the-business-first directi
 
 This is not new information — every one of these gaps was already tracked in `13-CONTENT-GAPS-AND-VALIDATION.md` before this task; implementation simply respected the existing gates rather than working around them.
 
+## Content source (Task 007B)
+
+The Hungarian copy recorded below is no longer hardcoded in `src/pages/index.astro`. It has been migrated verbatim into `src/content/pages/home/content.yaml`, a schema-validated Content Collection entry (`src/content.config.ts`), and is rendered through the shared `src/components/homepage/Homepage.astro` component. This document remains the source of truth for *what the approved copy says*; the YAML file is the structured, localization-ready, build-validated place that copy actually lives. The semantic section structure below (Hero/Problem/Decision/Work/Longevity/Tardify/Process/Senior-Who/Final CTA, and within Problem the six-signal collection, within Work the case records, within Process the ordered steps) is preserved 1:1 in the YAML shape — editing the Hungarian headline of any section is now a YAML edit, not an Astro-template edit.
+
+**English**: no approved English translation of this copy exists anywhere in the repository. Every field is stored as `{ hu: "...", en?: "..." }`; `en` is present only for the small set of fields classified as safely structural (System Map technical vocabulary — see `09-TECHNICAL-ARCHITECTURE.md` "Localization" and `07-DESIGN-SYSTEM.md`'s System Map section). Every other field's `en` is absent — a tracked content gap (see `13-CONTENT-GAPS-AND-VALIDATION.md`), not an invented translation. No `/en/` homepage is published yet as a result.
+
 ## Communication mode per section (Task 007A)
 
 This document records section *content*; `07-DESIGN-SYSTEM.md` → "Page-wide communication grammar" records how each content type should visually communicate — the audit that added it found production `/` had drifted from the validated pattern in Problem's case, and had no validated pattern at all to drift from for Work/Longevity/Tardify/Process. Cross-referenced here, not duplicated:

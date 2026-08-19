@@ -93,3 +93,10 @@ Use TODO placeholders during development rather than invented content.
 ## Task 007 — homepage implementation, gate compliance
 
 The full nine-section homepage (`/`) was implemented in Task 007 against the gates already recorded above — no new gaps were discovered, only existing ones respected in production. Specifically omitted rather than fabricated: exact longevity years/durations, case-study customer names/dates/outcomes/screenshots, the Tardify product screenshot, and the featured expert's name/role/portrait. See `04-HOMEPAGE-CONTENT-ARCHITECTURE.md`'s "Implementation status (Task 007)" for exactly which section shows which approved copy and which specific omits which gated fact.
+
+## English translation
+
+- [ ] Approved English translation of the homepage marketing copy (Hero, Problem, Decision, Work, Longevity, Tardify, Process, Senior/Who, Final CTA — every `LocalizedGated` field in `src/content/pages/home/content.yaml`, see `09-TECHNICAL-ARCHITECTURE.md` "Localization")
+- [ ] Approved English translation of the homepage SEO title/description (`content.yaml`'s `seo` block)
+
+The bilingual content architecture (Task 007B) is built and validated for both locales; only the English homepage copy itself is missing approval, not the mechanism to publish it. `/en/` is intentionally not published until this is resolved — see `09-TECHNICAL-ARCHITECTURE.md` "Localization" for why, and for exactly which strings (System Map technical vocabulary, site navigation) already have approved English equivalents and don't belong on this list.

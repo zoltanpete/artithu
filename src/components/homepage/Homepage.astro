@@ -1,0 +1,288 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import SystemMap from '../system-map/SystemMap.astro';
+import type { SystemMapSource, SystemMapOutput } from '../system-map/SystemMap.astro';
+import { localize, localizeGated, homePath, type Locale } from '../../lib/i18n';
+
+/**
+ * Shared homepage renderer (Task 007B). One implementation for every
+ * locale — route files (`src/pages/index.astro`, and a future
+ * `src/pages/en/index.astro` once English copy is approved) are thin
+ * wrappers that just pick a `locale`. See DOC/09-TECHNICAL-ARCHITECTURE.md
+ * "Localization" for why `/en/` isn't wired up as a real route yet even
+ * though this component already renders correctly for `locale="en"`.
+ */
+interface Props {
+	locale: Locale;
+	alternateLocalePath?: string;
+}
+
+const { locale, alternateLocalePath } = Astro.props;
+
+const page = await getEntry('pages', 'home');
+if (!page) throw new Error('Missing required "pages/home" content entry');
+const c = page.data;
+
+const heroSources: SystemMapSource[] = c.hero.systemMap.sources.map((s) => ({
+	id: s.id,
+	label: localize(s.label, locale),
+	icon: s.icon as SystemMapSource['icon'],
+	route: s.route,
+}));
+const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
+	{ id: c.hero.systemMap.outputs[0].id, label: localize(c.hero.systemMap.outputs[0].label, locale), icon: c.hero.systemMap.outputs[0].icon as SystemMapOutput['icon'] },
+	{ id: c.hero.systemMap.outputs[1].id, label: localize(c.hero.systemMap.outputs[1].label, locale), icon: c.hero.systemMap.outputs[1].icon as SystemMapOutput['icon'] },
+];
+---
+
+<BaseLayout
+	title={localizeGated(c.seo.title, locale) ?? ''}
+	description={localizeGated(c.seo.description, locale) ?? ''}
+	path={homePath(locale)}
+	locale={locale}
+>
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+
+	<main>
+		<!-- 01 — Hero -->
+		<section class="hero-map">
+			<Container width="wide" as="div">
+				<div class="hero-map__grid">
+					<div class="hero-map__main">
+						<p class="eyebrow">{localizeGated(c.hero.eyebrow, locale)}</p>
+						<h1 class="hero-map__h1">
+							{localizeGated(c.hero.title, locale)}
+						</h1>
+						<p class="lead hero-map__lead" style="max-width: var(--content-reading);">
+							{localizeGated(c.hero.lead, locale)}
+						</p>
+						<div class="meta-row hero-map__cta">
+							<a href={c.hero.primaryCta.href} class="btn btn-primary">{localizeGated(c.hero.primaryCta.label, locale)}</a>
+							<a href={c.hero.secondaryCta.href} class="link-standalone">{localizeGated(c.hero.secondaryCta.label, locale)}</a>
+						</div>
+					</div>
+
+					<div class="hero-map__visual">
+						<SystemMap
+							id="hero-system-map"
+							sources={heroSources}
+							coreLabel={localize(c.hero.systemMap.coreLabel, locale)}
+							outputs={heroOutputs}
+							mobileSourceIds={c.hero.systemMap.mobileSourceIds}
+							caption={localize(c.hero.systemMap.caption, locale)}
+							captionSub={localizeGated(c.hero.systemMap.captionSub, locale) ?? undefined}
+							ariaLabel={localize(c.hero.systemMap.ariaLabel, locale)}
+							locale={locale}
+						/>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 02 — Problem / Recognition -->
+		<section class="section">
+			<Container width="standard">
+				<p class="eyebrow">{localizeGated(c.problem.eyebrow, locale)}</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					{localizeGated(c.problem.headline, locale)}
+				</h2>
+
+				<div class="problem-grid">
+					{c.problem.signals.map((signal) => (
+						<p class="problem-grid__statement" data-signal={signal.id}>{localizeGated(signal.quote, locale)}</p>
+					))}
+				</div>
+
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+					{localizeGated(c.problem.closing, locale)}
+				</p>
+
+				<a
+					href={c.problem.link.href}
+					class="link-standalone"
+					style="margin-block-start: var(--space-lg);"
+				>
+					{localizeGated(c.problem.link.label, locale)}
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 03 — Decision / What ARTIT does -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.decision.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-sm);">
+					{localizeGated(c.decision.supporting, locale)}
+				</p>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.decision.paragraph, locale)}
+				</p>
+
+				<svg class="decision-fork" viewBox="0 0 120 56" aria-hidden="true">
+					<path d="M60,2 L60,20" />
+					<path d="M60,20 C60,32 22,30 22,42 L22,52" />
+					<path d="M60,20 C60,32 98,30 98,42 L98,52" />
+					<circle cx="60" cy="20" r="3" />
+					<circle cx="22" cy="52" r="3" />
+					<circle cx="98" cy="52" r="3" />
+				</svg>
+
+				<div class="decision-paths">
+					{c.decision.paths.map((path) => (
+						<div class="decision-paths__path" data-path={path.id}>
+							<h3>{localizeGated(path.title, locale)}</h3>
+							<p style="margin-block-start: var(--space-sm);">
+								{localizeGated(path.description, locale)}
+							</p>
+							<a
+								href={path.link.href}
+								class="link-standalone"
+								style="margin-block-start: var(--space-md);"
+							>
+								{localizeGated(path.link.label, locale)}
+							</a>
+						</div>
+					))}
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 04 — Work. Real case-study facts (customer names, exact years,
+		     screenshots) are not publication-safe yet — see
+		     DOC/13-CONTENT-GAPS-AND-VALIDATION.md — so this section shows only
+		     the documented working titles, with no invented specifics and no
+		     placeholder screenshot standing in for evidence that doesn't exist
+		     yet. All cases link to /munkaink/ (the hub), not a specific
+		     case-study detail page, since none exists yet. -->
+		<section class="section work-teaser">
+			<Container width="standard">
+				<p class="eyebrow">{localizeGated(c.work.eyebrow, locale)}</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					{localizeGated(c.work.headline, locale)}
+				</h2>
+
+				<ol class="work-teaser__list">
+					{c.work.cases.map((item) => (
+						<li class="work-teaser__item" data-case={item.id}>
+							<span class="meta">CASE / {String(item.order).padStart(2, '0')}</span>
+							<p class="work-teaser__title">
+								{localizeGated(item.title, locale)}
+							</p>
+						</li>
+					))}
+				</ol>
+
+				<a href={c.work.cta.href} class="link-standalone" style="margin-block-start: var(--space-lg);">
+					{localizeGated(c.work.cta.label, locale)}
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 05 — Longevity. Exact durations/years are gated (TO VERIFY per
+		     DOC/13); only the principle is published. Dark section — the
+		     homepage's one deliberate rhythm change, per DOC/07 "Dark
+		     sections: use rarely." -->
+		<section class="section section--major section--dark">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.longevity.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.longevity.statement, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 06 — Tardify. Copy is approved positioning language (DOC/04); no
+		     approved Tardify product screenshot exists in the repository yet
+		     (see DOC/12), so this section is typography-only rather than a
+		     placeholder standing in for real product evidence. -->
+		<section class="section">
+			<Container width="standard">
+				<p class="eyebrow">{localizeGated(c.tardify.eyebrow, locale)}</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					{localizeGated(c.tardify.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.tardify.lead, locale)}
+				</p>
+				<div class="meta-row" style="margin-block-start: var(--space-lg);">
+					{c.tardify.links.map((link) => (
+						<a href={link.href} class="link-standalone" rel={link.href.startsWith('http') ? 'noopener' : undefined}>
+							{localizeGated(link.label, locale)}
+						</a>
+					))}
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 07 — Process -->
+		<section class="section">
+			<Container width="standard">
+				<p class="eyebrow">{localizeGated(c.process.eyebrow, locale)}</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					{localizeGated(c.process.headline, locale)}
+				</h2>
+
+				<ol class="process-steps">
+					{c.process.steps.map((step) => (
+						<li class="process-steps__step" data-step={step.id}>
+							<span class="meta">{String(step.order).padStart(2, '0')}</span>
+							<p class="process-steps__label">{localizeGated(step.label, locale)}</p>
+						</li>
+					))}
+				</ol>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 08 — Senior / Who. No verified expert name/portrait exists yet
+		     (see DOC/13) — copy only, no stock-photo substitute. -->
+		<section class="section">
+			<Container width="standard">
+				<p class="eyebrow">{localizeGated(c.seniorWho.eyebrow, locale)}</p>
+				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+					{localizeGated(c.seniorWho.headline, locale)}
+				</h2>
+				<a href={c.seniorWho.cta.href} class="link-standalone" style="margin-block-start: var(--space-lg);">
+					{localizeGated(c.seniorWho.cta.label, locale)}
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 09 — Final CTA -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.finalCta.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.finalCta.copy, locale)}
+				</p>
+				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+					{localizeGated(c.finalCta.cta.label, locale)}
+				</a>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>

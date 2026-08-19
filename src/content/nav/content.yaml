@@ -1,0 +1,56 @@
+# Sitewide header/navigation chrome (Task 007B). Pure navigational/wayfinding
+# text, not marketing copy, so both locales are fully populated here — see
+# DOC/09-TECHNICAL-ARCHITECTURE.md "Localization" for why this category is
+# treated differently from homepage body content (src/content/pages/home/).
+main:
+  logoLabel: ARTIT
+
+  ariaLabel:
+    hu: Fő navigáció
+    en: Main navigation
+
+  mobileMenuTriggerText:
+    hu: Menü
+    en: Menu
+
+  mobileMenuTriggerAriaLabel:
+    hu: Menü megnyitása
+    en: Open menu
+
+  customDev:
+    summary:
+      hu: Egyedi fejlesztés
+      en: Custom development
+    items:
+      - label:
+          hu: Áttekintés
+          en: Overview
+        href: /egyedi-fejlesztes/
+      - label:
+          hu: Üzleti alkalmazások
+          en: Business applications
+        href: /egyedi-fejlesztes/uzleti-alkalmazasok/
+      - label:
+          hu: Rendszerintegráció
+          en: System integration
+        href: /egyedi-fejlesztes/rendszerintegracio/
+
+  links:
+    - label:
+        hu: Munkáink
+        en: Our work
+      href: /munkaink/
+    - label:
+        hu: Tardify
+        en: Tardify
+      href: /tardify/
+    - label:
+        hu: Rólunk
+        en: About
+      href: /rolunk/
+
+  cta:
+    label:
+      hu: "Beszéljünk →"
+      en: "Let's talk →"
+    href: /kapcsolat/
