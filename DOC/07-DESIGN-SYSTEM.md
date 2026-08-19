@@ -305,13 +305,22 @@ The load-bearing distinction: a section does not need the `SystemMap` component,
 
 **Locked principle**: operational disorder should be presented as recognizable **signals/diagnostic evidence** — indexed (`JEL / 0X` or equivalent), with a clear dense/open density split — not as generic floating pain-point quotes or a symptom card grid. The exact split ratio, exact index label and exact tonal-wash mechanism are not locked.
 
+**Clarification (Task 007D)**: `JEL / 01–06` is **one continuous diagnostic system**; the 4+2 split expresses **density**, not **membership**. Task 007C's first production implementation gave the spine/node device only to the dense field, which made the two open signals read as detached from the diagnostic system rather than merely quieter within it — a real gap between what this principle always meant and what got built, not a change to the principle itself. The spine/index/node device must visibly continue through all six signals; only the tonal-wash background, boxed/padded feel, and looser open-field spacing should carry the dense/open distinction.
+
+**Correction (Task 007D.1)**: Task 007D's own desktop fix over-corrected. It gave each of the two desktop columns its own spine (right) but then also drew a shared horizontal rule physically connecting the two columns' spines, with a junction dot at each. Owner review found this read as **a route/network branching into two paths** — the exact workflow-fork semantics the 4+2 split does not have. This is now the locked distinction:
+
+- **membership/shared grammar** (what `JEL / 01–06` needs) is communicated through *repeated* devices — the same `JEL / 0X` indexing, the same spine/node vocabulary, the same typography and surface logic in both groups. It does **not** require the two desktop groups to be physically joined by a line.
+- **connector geometry** (an actual drawn line/route between elements) is reserved for content that represents a **real progression or flow** — see Process below. Drawing one where none exists implies a relationship the content doesn't have.
+
+Desktop now keeps two independent vertical spines (no shared top rule, no junction dots); mobile keeps Task 007D's single continuous spine through all six signals unchanged, since mobile genuinely presents them as one reading sequence, not two groups needing to be told apart. See `04-HOMEPAGE-CONTENT-ARCHITECTURE.md` and `09-TECHNICAL-ARCHITECTURE.md` for the implementation.
+
 ### Decision / Resolution
 
 **Also validated — but the principle is restraint, not decoration.** Every A4.x iteration deliberately kept the Decision section the quietest of the first three sections — "no diagram, on the reused tint band" (A4) — specifically to land the "complexity → structure → clarity" emotional arc: Hero dense/curious, Problem recognition/analytical, Decision relief/clarity. This was a *content* decision (fewer words, calmer typography, a tonal band), not a *visual-device* decision.
 
-Task 007's Decision section added a small inline-SVG "decision fork" glyph (one input branching into two paths) — a reasonable, restrained idea consistent with the section's two-path structure, but it has no exploration precedent; no A4.x iteration ever added a Decision-section diagram, deliberately. This is not a defect (the glyph is small and doesn't compete with the Hero), but it should not be read as "the locked Decision-section device" — it is Task 007's own addition, now logged as such rather than silently implied to be historical.
+Task 007's Decision section added a small inline-SVG "decision fork" glyph (one input branching into two paths) — a reasonable, restrained idea consistent with the section's two-path structure, but it has no exploration precedent; no A4.x iteration ever added a Decision-section diagram, deliberately. It was Task 007's own addition, not a historical device — logged as such at the time (Task 007A), and **removed in Task 007D.1** after owner review found it created unintended semantics: it read as an actual process/workflow splitting into two paths, when this section presents conceptual alternatives ("not every problem needs custom software"), not a real branching flow. Nothing replaces it — the removal is the correction, not a placeholder for a future device.
 
-**Locked principle**: Decision sections should communicate **resolved calm after diagnosis** — reduced visual density relative to the Hero and Problem section, a tonal-band or otherwise quieter surface treatment, and a structured (not competing) two-path choice. A branching visual device is *permitted*, not *required* — the calm is the locked part, not any particular glyph.
+**Locked principle (superseding the Task 007 glyph)**: Decision sections should communicate **resolved calm after diagnosis** — reduced visual density relative to the Hero and Problem section, a tonal-band or otherwise quieter surface treatment, and a structured (not competing) two-path choice, expressed through typography and content structure alone. **Decision intentionally carries no diagram/glyph.** Do not add one without a real relationship to encode — a branching visual device implies an actual process fork; conceptual alternatives don't need one to read clearly. If a future approved design finds a genuine, content-justified reason for a Decision-section visual, it would need fresh owner approval — this is not a standing invitation to reintroduce one.
 
 ### Evidence / Record (Work)
 
@@ -336,6 +345,8 @@ Task 007's Decision section added a small inline-SVG "decision fork" glyph (one 
 **No exploration precedent — newly formalized here**, from `DOC/04`'s explicit "Do not force this into four SaaS cards" instruction, which implies (without specifying) that some *connective* structure was intended.
 
 **Principle**: Process should read as **structured, connected progression** — a numbered/indexed sequence with some visual continuity between steps (a rule line, a spine, or comparable connective device), not four independent, self-contained cards. Task 007's implementation (a numbered list, border-top rule per step) satisfies "not cards" but doesn't yet express "connected" — a continuous rule or line running behind/through the sequence (not a new System Map) would close that gap without inventing a new device family.
+
+**Implemented (Task 007C, refined 007D)**: a connected route (accent rule + node dots per step, continuous across the container at the 1100px 4-column breakpoint) — see `08-COMPONENT-LIBRARY.md`. This connector is deliberately kept, unlike the Problem section's desktop connector (removed, Task 007D.1) and the Decision fork (removed, Task 007D.1): Process's four steps are a real, verified ordered progression (understand → design → build → evolve), so drawn connector geometry has an actual relationship to represent. **Connector geometry belongs where content is genuinely a route or progression; it does not belong where content is merely a shared category (Problem's six signals) or a set of conceptual alternatives (Decision's two paths).**
 
 ### Quiet clarity / CTA (Senior/Who, Final CTA)
 
@@ -384,12 +395,29 @@ The System Map documentation above (and `DOC/08`/`DOC/09`'s `SystemMap` componen
 
 No new components are created by this task (explicitly out of scope) — this table exists so a future implementer reaches for the *right* primitive, component or otherwise, rather than defaulting to plain typography when `SystemMap` doesn't fit.
 
+### Implementation status (Task 007C)
+
+Production `/` now implements the principles above for every section except Hero (already aligned) and Senior/Who + Final CTA (already aligned, deliberately left untouched — their quietness *is* the point). Diagnostic/Signal, Evidence/Record, Longevity's technical residue, Owned product/Proof and Progression were all previously synthesized-but-unbuilt principles; they are now real markup/CSS in `src/components/homepage/Homepage.astro` + `src/styles/foundation.css`, reusing the already-locked building blocks table below exactly as predicted (`.panel-technical` for Work and Tardify, `.meta` indexing with the accent color for Problem/Work/Process, `.surface--tonal` for Decision). No new component was created; no SVG diagram was added beyond the pre-existing Decision fork and one new textless construction mark on Longevity. See `04-HOMEPAGE-CONTENT-ARCHITECTURE.md` "Communication-mode alignment (Task 007C)" for the section-by-section record and `08-COMPONENT-LIBRARY.md`/`09-TECHNICAL-ARCHITECTURE.md` for the implementation detail. This section's own principles are unchanged by Task 007C — it discovered no gap in what was locked, only a gap between what was locked and what was built.
+
+### Implementation status (Task 007D)
+
+A final polish pass, not a new principle. Three corrections: (1) the Diagnostic/Signal clarification above — `JEL / 01–06` now reads as one continuous system at every breakpoint, not two; (2) the Process section's fourth step now fits on one line at standard desktop widths (1150–1920px verified; only the narrow ~1100–1120px band still needs hyphenation, an accepted exception per the task's own brief) via a measured column-gap reduction, not a font-size change; (3) the Tardify plate moved from a full four-side `.panel-technical` box to a lighter, more specifically "specified plate" treatment — a single top rule plus one small accent registration-mark bracket, reusing SystemMap's corner-mark construction-residue vocabulary rather than a generic card border. This third point is a reusable principle worth recording: **a "partial, asymmetric edge treatment" (a rule and/or one or two corner marks, not an enclosing box on all four sides) reads as a deliberately specified technical plate; a full border on all sides reads as a generic UI card**, even when both use the same neutral border colour. Work's case-evidence plates deliberately still use the full `.panel-technical` box — the two sections aren't meant to look identical, only related (see "Technical grammar consistency... family resemblance, not repetition" below).
+
+### Implementation status (Task 007D.1)
+
+A surgical correction to Task 007D, not a new polish round. Owner review of Task 007D's output found two devices that had started implying semantics the content doesn't have. Both removed completely, nothing added in their place:
+
+1. **Problem's desktop connector.** Task 007D correctly gave `JEL / 05–06` the same spine/node treatment as `01–04`, but its desktop implementation also added a shared horizontal rule physically joining the two columns' spines with junction dots — which read as a route/network branching into two paths. See the "Diagnostic / Signal" correction above for the locked distinction this produced: **membership is communicated through repeated grammar, not a physical connection.**
+2. **Decision's fork glyph.** Never part of the approved A4 exploration precedent (Task 007's own addition, flagged as such since Task 007A); removed because it read as an actual process fork for a section that presents conceptual alternatives, not a workflow. See "Decision / Resolution" above — **Decision intentionally carries no diagram.**
+
+Both removals are locked rules now, not just this task's preference — see the two sections above for the exact language. Process's own connected-progression device (line + node dots) is explicitly *not* affected — it stays, because Process represents a real four-step ordered progression, the one case in the current homepage where connector geometry is actually justified.
+
 ### What remains unlocked (page communication grammar)
 
 Everything in this section locks **meaning and visual behaviour**, not geometry. Explicitly still open:
 
 - exact section layouts;
-- exact SVG shape of any non-Hero device (e.g. the Decision-section fork);
+- exact SVG shape of any non-Hero device (Process's connected-progression line/nodes, Tardify's registration mark, Problem's spine/dots);
 - exact number of diagnostic/evidence markers;
 - exact index label/placement;
 - exact column count;

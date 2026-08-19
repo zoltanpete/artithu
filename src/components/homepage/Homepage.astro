@@ -84,7 +84,11 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 
 		<hr class="divider" />
 
-		<!-- 02 — Problem / Recognition -->
+		<!-- 02 — Problem / Recognition. Diagnostic-signal grammar (Task 007C):
+		     JEL/0X indexing, a dense tonal-wash field (first 4 signals) against
+		     a quieter open field (last 2) — the pattern DOC/07A found validated
+		     by the A4/A4.1 exploration and lost in Task 007's production
+		     implementation. Same six YAML signals, presentation only. -->
 		<section class="section">
 			<Container width="standard">
 				<p class="eyebrow">{localizeGated(c.problem.eyebrow, locale)}</p>
@@ -92,10 +96,23 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 					{localizeGated(c.problem.headline, locale)}
 				</h2>
 
-				<div class="problem-grid">
-					{c.problem.signals.map((signal) => (
-						<p class="problem-grid__statement" data-signal={signal.id}>{localizeGated(signal.quote, locale)}</p>
-					))}
+				<div class="problem-signals">
+					<div class="problem-signals__dense surface--tonal">
+						{c.problem.signals.slice(0, 4).map((signal, i) => (
+							<p class="problem-signals__item" data-signal={signal.id}>
+								<span class="meta problem-signals__index">JEL / {String(i + 1).padStart(2, '0')}</span>
+								{localizeGated(signal.quote, locale)}
+							</p>
+						))}
+					</div>
+					<div class="problem-signals__open">
+						{c.problem.signals.slice(4).map((signal, i) => (
+							<p class="problem-signals__item" data-signal={signal.id}>
+								<span class="meta problem-signals__index">JEL / {String(i + 5).padStart(2, '0')}</span>
+								{localizeGated(signal.quote, locale)}
+							</p>
+						))}
+					</div>
 				</div>
 
 				<p style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
@@ -114,8 +131,19 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 
 		<hr class="divider" />
 
-		<!-- 03 — Decision / What ARTIT does -->
-		<section class="section">
+		<!-- 03 — Decision / What ARTIT does. Tonal band + slightly more breathing
+		     room (Task 007C): DOC/07A's page-rhythm table locks Decision's
+		     surface as "tonal band" — validated by every A4.x iteration as the
+		     device that lands the diagnosis → clarity emotional arc — but
+		     production had never actually applied it. Content/copy unchanged.
+		     Task 007D.1 removed the small fork/branch SVG this section briefly
+		     carried (added Task 007, never part of the approved A4 exploration
+		     precedent per DOC/07A): it read as a workflow-splitting diagram,
+		     but this section describes conceptual alternatives, not an actual
+		     process fork — see DOC/07 "Decision / Resolution" for the locked
+		     rule. Typography + the two solution directions + the tonal surface
+		     are sufficient; no glyph replaces it. -->
+		<section class="section section--major surface--tonal">
 			<Container width="standard">
 				<h2 style="max-width: var(--content-reading);">
 					{localizeGated(c.decision.headline, locale)}
@@ -126,15 +154,6 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
 					{localizeGated(c.decision.paragraph, locale)}
 				</p>
-
-				<svg class="decision-fork" viewBox="0 0 120 56" aria-hidden="true">
-					<path d="M60,2 L60,20" />
-					<path d="M60,20 C60,32 22,30 22,42 L22,52" />
-					<path d="M60,20 C60,32 98,30 98,42 L98,52" />
-					<circle cx="60" cy="20" r="3" />
-					<circle cx="22" cy="52" r="3" />
-					<circle cx="98" cy="52" r="3" />
-				</svg>
 
 				<div class="decision-paths">
 					{c.decision.paths.map((path) => (
@@ -174,8 +193,8 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 
 				<ol class="work-teaser__list">
 					{c.work.cases.map((item) => (
-						<li class="work-teaser__item" data-case={item.id}>
-							<span class="meta">CASE / {String(item.order).padStart(2, '0')}</span>
+						<li class="work-teaser__item panel-technical" data-case={item.id}>
+							<span class="meta work-teaser__index">CASE / {String(item.order).padStart(2, '0')}</span>
 							<p class="work-teaser__title">
 								{localizeGated(item.title, locale)}
 							</p>
@@ -194,9 +213,16 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 		<!-- 05 — Longevity. Exact durations/years are gated (TO VERIFY per
 		     DOC/13); only the principle is published. Dark section — the
 		     homepage's one deliberate rhythm change, per DOC/07 "Dark
-		     sections: use rarely." -->
+		     sections: use rarely." The small crosshair mark (Task 007C) is the
+		     section's minimal technical residue DOC/07A asked for — purely
+		     geometric, no coordinate/status text, so it can't read as an
+		     invented figure or fabricated live-status claim. -->
 		<section class="section section--major section--dark">
 			<Container width="standard">
+				<svg class="longevity__mark" viewBox="0 0 32 32" aria-hidden="true">
+					<path d="M16,2 L16,11 M16,21 L16,30 M2,16 L11,16 M21,16 L30,16" />
+					<circle cx="16" cy="16" r="2.5" />
+				</svg>
 				<h2 style="max-width: var(--content-reading);">
 					{localizeGated(c.longevity.headline, locale)}
 				</h2>
@@ -210,23 +236,35 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 
 		<!-- 06 — Tardify. Copy is approved positioning language (DOC/04); no
 		     approved Tardify product screenshot exists in the repository yet
-		     (see DOC/12), so this section is typography-only rather than a
-		     placeholder standing in for real product evidence. -->
+		     (see DOC/12), so no image/placeholder stands in for evidence that
+		     doesn't exist. Instead the copy sits on a technical "specified
+		     plate" (Task 007D refinement of Task 007C's original bordered-box
+		     attempt, which read too much like a generic card): a top rule +
+		     one small accent registration-mark bracket (SystemMap's corner-
+		     mark vocabulary, reused here) instead of a full four-side box,
+		     plus the Task 007C CTA port dots — so the section reads as
+		     structured owned proof rather than a plain aside or a UI card,
+		     without fabricating a screenshot or a status claim. -->
 		<section class="section">
 			<Container width="standard">
-				<p class="eyebrow">{localizeGated(c.tardify.eyebrow, locale)}</p>
-				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
-					{localizeGated(c.tardify.headline, locale)}
-				</h2>
-				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
-					{localizeGated(c.tardify.lead, locale)}
-				</p>
-				<div class="meta-row" style="margin-block-start: var(--space-lg);">
-					{c.tardify.links.map((link) => (
-						<a href={link.href} class="link-standalone" rel={link.href.startsWith('http') ? 'noopener' : undefined}>
-							{localizeGated(link.label, locale)}
-						</a>
-					))}
+				<div class="tardify-proof">
+					<svg class="tardify-proof__mark" viewBox="0 0 22 22" aria-hidden="true">
+						<path d="M22,0 L22,8 M22,0 L14,0" />
+					</svg>
+					<p class="eyebrow">{localizeGated(c.tardify.eyebrow, locale)}</p>
+					<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+						{localizeGated(c.tardify.headline, locale)}
+					</h2>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+						{localizeGated(c.tardify.lead, locale)}
+					</p>
+					<div class="meta-row tardify-proof__links">
+						{c.tardify.links.map((link) => (
+							<a href={link.href} class="link-standalone tardify-proof__link" rel={link.href.startsWith('http') ? 'noopener' : undefined}>
+								{localizeGated(link.label, locale)}
+							</a>
+						))}
+					</div>
 				</div>
 			</Container>
 		</section>

@@ -106,7 +106,7 @@ Added `src/components/navigation/SiteHeader.astro` — real cross-page reuse jus
 
 ### Implementation status (Task 007)
 
-Added `src/components/system-map/SystemMap.astro` — the real homepage content/geometry that Task 006 deferred the component on now exists. Its own `<style>` block holds all diagram-specific styling (node/port/path/ring/core CSS), reusing the shared `--color-*` tokens and the `.panel-technical` primitive from Task 006 for its legend, rather than duplicating either. Homepage-section-specific CSS that isn't a stable cross-page concept yet (`.hero-map`, `.decision-fork`, `.work-teaser`, `.process-steps`) was added to `foundation.css` instead, following this project's existing convention (the same file already held `.problem-grid`/`.decision-paths` from Task 005A for the same reason) rather than introducing scoped `<style>` blocks in `index.astro` or fragmenting into new files. `case-study/`, `content/`, `typography/`, `ui/` still don't exist.
+Added `src/components/system-map/SystemMap.astro` — the real homepage content/geometry that Task 006 deferred the component on now exists. Its own `<style>` block holds all diagram-specific styling (node/port/path/ring/core CSS), reusing the shared `--color-*` tokens and the `.panel-technical` primitive from Task 006 for its legend, rather than duplicating either. Homepage-section-specific CSS that isn't a stable cross-page concept yet (`.hero-map`, `.decision-fork`, `.work-teaser`, `.process-steps`) was added to `foundation.css` instead, following this project's existing convention (the same file already held `.problem-grid`/`.decision-paths` from Task 005A for the same reason) rather than introducing scoped `<style>` blocks in `index.astro` or fragmenting into new files. (`.decision-fork` was removed in Task 007D.1 — see that task's notes under "Page-wide communication grammar" above; kept here as an accurate record of what Task 007 actually added at the time.) `case-study/`, `content/`, `typography/`, `ui/` still don't exist.
 
 ## Localization
 
@@ -172,6 +172,14 @@ The one architectural decision this task made explicitly: **no `SystemMap` compo
 ### Implementation status (Task 007)
 
 Still the same four-file *global* architecture — no changes to `tokens.css`/`fonts.css`/`global.css`/`foundation.css`'s roles, only additions within `foundation.css` (see "Source structure" above). One new file: the `SystemMap` component's own scoped `<style>` block, which is component CSS, not global CSS, per this document's own "component-scoped styles where appropriate" direction. No CSS framework, no CSS-in-JS. See `08-COMPONENT-LIBRARY.md` for the component's full prop API and `07-DESIGN-SYSTEM.md` for how its geometry relates to the approved A4.3.3 reference.
+
+### Implementation status (Task 007C)
+
+Same four-file architecture, no new CSS file, no new token values. All changes are within `foundation.css`'s existing homepage-section rules (Problem/Decision/Work/Longevity/Tardify/Process) implementing `07-DESIGN-SYSTEM.md`'s page-wide communication grammar — see that document's own "Implementation status (Task 007C)" note. `src/components/homepage/Homepage.astro`'s markup changed to match (new wrapper elements/classes for the dense/open Problem field, the Work/Tardify `.panel-technical` plates); no new `.astro` component and no new dependency. One real bug found and fixed during the mandatory responsive review — see `11-ACCESSIBILITY-AND-PERFORMANCE.md`.
+
+### Implementation status (Task 007D)
+
+Same architecture, no new file, no new token, no new dependency. A final polish pass on Task 007C's own output: `.problem-signals`' spine moved from the dense sub-group to the container/columns (so it continues through all six signals — see `07-DESIGN-SYSTEM.md`'s "Diagnostic / Signal" clarification); `.process-steps`' 1100px+ column-gap was reduced from `--space-xl` to `--space-lg` (a measured fix, not an estimate — see `11-ACCESSIBILITY-AND-PERFORMANCE.md`); `.tardify-proof` dropped `.panel-technical` for its own lighter top-rule + corner-mark treatment. Zero new client JS — confirmed against the production build (1 inline `<script>`, 0 `.js` files, unchanged from Task 007/007B/007C).
 
 ## JavaScript
 

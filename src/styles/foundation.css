@@ -527,53 +527,122 @@ a {
 	}
 }
 
-/* --- Homepage: Decision-fork glyph (Task 007) --------------------------------
-   A deliberately small structural mark — one input resolving into two paths —
-   not a second System Map. The Hero carries the richest use of the diagram
-   grammar; elsewhere on the page it stays this restrained, per DOC/07
-   "Construction / blueprint layer". */
+/* --- Homepage: Problem/Recognition diagnostic-signal field (Task 007C;
+   JEL/01–06 continuity fix Task 007D) --------------------------------------
+   Rebuilds the pre-Task-007 `.problem-grid` (six floating quotes, no
+   structure) into the diagnostic-signal grammar DOC/07A found genuinely
+   validated by the A4/A4.1 exploration and then lost in production: JEL/0X
+   indexing and a dense field against a quieter open field. The 4/2 split
+   below is a presentation-layer assumption tied to the current six-signal
+   content (src/content/pages/home/content.yaml) — a genuinely different
+   signal count would need this ratio revisited, not a schema change.
 
-.decision-fork {
-	width: 90px;
-	height: auto;
-	margin-block-start: var(--space-lg);
-	fill: none;
-	stroke: var(--color-text-muted);
-	stroke-width: 1.25;
-	opacity: 0.6;
-}
+   Task 007D correction: Task 007C's spine/dot device belonged only to the
+   dense field, so JEL/05–06 read as detached from the diagnostic system
+   rather than merely quieter within it. The 4+2 split must express density,
+   not membership (see DOC/07 "Page-wide communication grammar" — Diagnostic
+   / Signal). Fixed by making the spine a property of the *sequence*, not
+   the *density group*: below 768px, one continuous spine lives on the
+   `.problem-signals` container itself, running the full height including
+   the gap between the dense and open groups; at 768px+, each column gets
+   its own spine instead, since one vertical line can't span two side-by-
+   side columns. Every item (dense and open alike) gets the same accent
+   index colour and the same connection dot — "same family," per the
+   brief. Distinction between dense and open comes through the tonal-wash
+   background, the padding/boxed feel, and the open field's looser gap and
+   stagger — density, not a different device.
 
-.decision-fork circle {
-	fill: var(--color-accent);
-	stroke: none;
-	opacity: 1;
-}
+   Task 007D.1 correction: Task 007D's desktop version also added a shared
+   `border-block-start` rule tying the two columns' spines together, with a
+   junction dot at the top of each — intended as "membership," but owner
+   review found it read instead as a route/network branching into two
+   paths, exactly the workflow-fork semantics `JEL/01–06` doesn't have (the
+   4+2 split is presentation density, not branching — see DOC/07). Removed
+   completely, with nothing added in its place: shared grammar (repeated
+   `JEL/0X` indexing, the spine/node vocabulary itself, matching typography
+   and surface logic) is what communicates "same diagnostic system" here —
+   a physical connection between the two desktop columns isn't required to
+   say that, and drawing one implied a relationship (a route) the content
+   doesn't have. The two vertical spines below are visually independent at
+   768px+ on purpose. Connector geometry is reserved for sections with an
+   actual route to explain (see Process, further below). */
 
-/* --- Homepage: Problem/Recognition quote composition -----------------------
-   Editorial statements, not cards. Controlled asymmetry on desktop via an
-   offset second column; linear single-column order on mobile. */
-
-.problem-grid {
+.problem-signals {
 	display: grid;
 	grid-template-columns: 1fr;
-	gap: var(--space-lg);
+	gap: var(--space-2xl);
 	margin-block: var(--space-xl) 0;
+	border-inline-start: 2px solid var(--color-accent);
+	padding-inline-start: var(--space-lg);
 }
 
-.problem-grid__statement {
+.problem-signals__dense {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-lg);
+	padding-block: var(--space-lg);
+	padding-inline-end: var(--space-lg);
+}
+
+.problem-signals__open {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-lg);
+}
+
+.problem-signals__item {
+	position: relative;
 	font-size: var(--text-lead);
 	font-weight: 500;
 	line-height: var(--leading-snug);
 	margin: 0;
 }
 
+.problem-signals__index {
+	display: block;
+	margin-block-end: var(--space-xs);
+	color: var(--color-accent);
+}
+
+.problem-signals__item::before {
+	content: '';
+	position: absolute;
+	left: calc(-1 * var(--space-lg) - 4px);
+	top: 0.6em;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--color-accent);
+}
+
 @media (min-width: 768px) {
-	.problem-grid {
-		grid-template-columns: 1fr 1fr;
-		gap: var(--space-xl);
+	.problem-signals {
+		grid-template-columns: 3fr 2fr;
+		gap: var(--space-2xl);
+		/* Spine ownership moves from the container to each column (below),
+		   since one vertical line can no longer represent two side-by-side
+		   groups. No container-level connector replaces it (Task 007D.1) —
+		   the two columns' spines stand independently. */
+		border-inline-start: none;
+		padding-inline-start: 0;
 	}
 
-	.problem-grid__statement:nth-child(even) {
+	.problem-signals__dense,
+	.problem-signals__open {
+		border-inline-start: 2px solid var(--color-accent);
+		padding-inline-start: var(--space-lg);
+	}
+
+	.problem-signals__dense {
+		padding-block: var(--space-lg);
+		padding-inline-end: var(--space-lg);
+	}
+
+	/* The open field's second signal sits lower — an editorial stagger, not
+	   a structured relationship — only where the two-column layout gives it
+	   room; a single mobile column has no equivalent open space to stagger
+	   into, so this is desktop-only. */
+	.problem-signals__open .problem-signals__item:last-child {
 		margin-block-start: var(--space-2xl);
 	}
 }
@@ -599,11 +668,18 @@ a {
 	}
 }
 
-/* --- Homepage: Work / case-study teaser (Task 007) ---------------------------
+/* --- Homepage: Work / case-study teaser (Task 007; evidence-record framing
+   added Task 007C) ------------------------------------------------------------
    Editorial "CASE / 0X" composition (per DOC/07's Case Study Teaser
    direction), not a card grid — deliberately minimal because no verified
    case-study facts or approved screenshots exist yet (see
-   DOC/13-CONTENT-GAPS-AND-VALIDATION.md): two working titles, nothing more. */
+   DOC/13-CONTENT-GAPS-AND-VALIDATION.md): two working titles, nothing more.
+   Each case now sits inside the shared `.panel-technical` "specification
+   plate" primitive (Task 006) instead of a plain top rule — the same
+   evidence-record framing `.panel-technical` was designed for, per DOC/07's
+   "already-locked building blocks" table (Evidence record → CASE/0X + panel-
+   technical) — and the index itself carries the accent, matching the
+   sitewide "accent recurs through structural indices" rule. */
 
 .work-teaser__list {
 	list-style: none;
@@ -614,9 +690,10 @@ a {
 	gap: var(--space-lg);
 }
 
-.work-teaser__item {
-	padding-block-start: var(--space-md);
-	border-top: 1px solid var(--color-border);
+.work-teaser__index {
+	display: block;
+	color: var(--color-accent);
+	margin-block-end: var(--space-xs);
 }
 
 .work-teaser__title {
@@ -624,19 +701,113 @@ a {
 	font-weight: 500;
 	line-height: var(--leading-snug);
 	max-width: var(--content-reading);
-	margin: var(--space-xs) 0 0;
+	margin: 0;
 }
 
 @media (min-width: 768px) {
 	.work-teaser__list {
 		grid-template-columns: 1fr 1fr;
-		gap: var(--space-2xl);
+		gap: var(--space-lg);
 	}
 }
 
-/* --- Homepage: Process steps (Task 007) ---------------------------------------
+/* --- Homepage: Longevity technical residue (Task 007C) -----------------------
+   The dark section's own DOC/07A gap: "the right tonal break but insufficient
+   ARTIT-specific technical residue." Deliberately textless — a small
+   crosshair/tick mark, the same construction-layer vocabulary SystemMap's
+   guidelines/registration-marks use, reusing --color-accent-on-dark (the
+   dark-safe accent tint already verified in DOC/11 at ~7.9:1). No number or
+   label was added: any numeric/status text here would either have to be
+   fabricated or would read as a claim, both explicitly disallowed — a purely
+   geometric mark still reads as "engineering precision" without inventing
+   anything.  */
+
+.longevity__mark {
+	display: block;
+	width: 28px;
+	height: 28px;
+	margin-block-end: var(--space-lg);
+	fill: none;
+	stroke: var(--color-accent-on-dark);
+	stroke-width: 1.2;
+	opacity: 0.55;
+}
+
+.longevity__mark circle {
+	fill: var(--color-accent-on-dark);
+	stroke: none;
+}
+
+/* --- Homepage: Tardify owned-proof framing (Task 007C; Tardify plate
+   refinement Task 007D) -----------------------------------------------------
+   No approved product screenshot exists (DOC/13), so "owned proof" is
+   expressed through structure instead. Task 007C first tried this via the
+   shared `.panel-technical` box (same primitive as Work's evidence plate) —
+   correct direction, but owner review found the full four-side border read
+   as a generic UI card rather than a distinctly ARTIT technical plate.
+   Task 007D moves it to a lighter, more specifically "specified plate"
+   treatment: a single top rule (like a technical document's header rule,
+   not an enclosing box) plus one small accent registration-mark bracket —
+   the same corner-mark vocabulary SystemMap's construction layer uses
+   (`.system-map__reg-mark`), reused at a different location rather than
+   copied. Deliberately asymmetric (top + one corner only, not all four
+   edges) — "partial rather than equally dominant edge treatment" is what
+   distinguishes a plate from a card. The CTA port dots from Task 007C are
+   kept: reviewed against this new framing and still the section's clearest
+   "structural connection point" signal, not made redundant by it. */
+
+.tardify-proof {
+	position: relative;
+	border-block-start: 1px solid var(--color-border);
+	padding-block-start: var(--space-lg);
+}
+
+.tardify-proof__mark {
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 22px;
+	height: 22px;
+	fill: none;
+	stroke: var(--color-accent);
+	stroke-width: 1.1;
+	opacity: 0.55;
+}
+
+.tardify-proof__links {
+	margin-block-start: var(--space-lg);
+}
+
+.tardify-proof__link {
+	position: relative;
+	padding-inline-start: var(--space-md);
+}
+
+.tardify-proof__link::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+	background: var(--color-accent);
+}
+
+/* --- Homepage: Process steps (Task 007; connected-progression grammar added
+   Task 007C) ---------------------------------------------------------------
    Editorial numbered sequence, deliberately not four SaaS cards (DOC/04's own
-   explicit instruction for this section). */
+   explicit instruction for this section). DOC/07A found this "correctly not
+   a card grid" but not yet "connected" — each step's own top rule is now
+   accent-colored with a small node dot marking it, reading as one route
+   segment rather than four independent borders; at the 1100px 4-column
+   breakpoint, where all four steps genuinely sit in one row, the rule moves
+   to the container itself so it reads as one continuous line instead of four
+   collinear-but-separate ones. Below that, per-step rules stay independent —
+   deliberately not force-aligned across a 2-column wrap, which would need
+   fragile cross-row positioning for a benefit that's marginal once steps no
+   longer share one visual row. */
 
 .process-steps {
 	list-style: none;
@@ -652,7 +823,8 @@ a {
 	align-items: baseline;
 	gap: var(--space-md);
 	padding-block: var(--space-sm);
-	border-top: 1px solid var(--color-border);
+	border-top: 2px solid var(--color-accent);
+	position: relative;
 	/* Task 007 bug fix: CSS Grid items default to min-width:auto, so an
 	   unbreakable long word ("Továbbfejlesztjük" has no hyphenation point)
 	   forced its 1fr column wider than the equal share, overflowing the page
@@ -660,6 +832,21 @@ a {
 	   min-width:0 lets the track shrink to its 1fr allocation; the word
 	   wraps inside it instead of pushing the grid wider than its container. */
 	min-width: 0;
+}
+
+.process-steps__step::before {
+	content: '';
+	position: absolute;
+	top: -4px;
+	left: 0;
+	width: 7px;
+	height: 7px;
+	border-radius: 50%;
+	background: var(--color-accent);
+}
+
+.process-steps__step .meta {
+	color: var(--color-accent);
 }
 
 .process-steps__label {
@@ -672,6 +859,20 @@ a {
 	   sizing trap as the outer grid item, one level deeper. Without this,
 	   overflow-wrap has no narrower box to actually break the word inside. */
 	min-width: 0;
+	/* Task 007C: even the 1100px 4-column step (236px/column, measured) is
+	   narrower than "Továbbfejlesztjük" needs on one line (~262px at this
+	   font-size) — `overflow-wrap: break-word` alone still breaks it at an
+	   arbitrary character boundary ("Továbbfejlesztjü-k"), which is exactly
+	   the "awkward break" this task's brief calls out by name. Native
+	   hyphenation breaks at a real syllable point instead
+	   ("Továbbfejlesz-tjük") — verified in a real browser, not assumed from
+	   the property alone (Hungarian hyphenation-dictionary support varies).
+	   `overflow-wrap: break-word` stays as the fallback for the rare engine
+	   with no Hungarian dictionary. `lang="hu"`/`"en"` on <html> (BaseLayout)
+	   already tells the hyphenation engine which dictionary to use — no
+	   extra markup needed here. */
+	-webkit-hyphens: auto;
+	hyphens: auto;
 }
 
 @media (min-width: 768px) {
@@ -711,5 +912,29 @@ a {
 @media (min-width: 1100px) {
 	.process-steps {
 		grid-template-columns: repeat(4, 1fr);
+		/* Task 007D: measured, not assumed — at the previous var(--space-xl)
+		   (64px) column-gap, each of the 4 columns was 236px wide against a
+		   239px natural (single-line) width for "Továbbfejlesztjük"
+		   (measured via canvas text-metrics against the real rendered
+		   --text-h3/font-weight, not estimated), a ~3px shortfall that forced
+		   a hyphenated wrap even though the other three labels fit
+		   comfortably. Tightening the column-gap to var(--space-lg) (32px)
+		   frees 96px total across the row, giving each column 260px — 21px
+		   of real margin over the measured requirement, re-verified by
+		   rendering the word at this gap, not by the arithmetic alone. The
+		   2-column step below 1100px keeps its original var(--space-xl)
+		   gap — that width was never the constrained case. */
+		gap: var(--space-lg);
+		border-top: 2px solid var(--color-accent);
+		padding-block-start: var(--space-lg);
+	}
+
+	.process-steps__step {
+		border-top: none;
+		padding-block-start: 0;
+	}
+
+	.process-steps__step::before {
+		top: calc(-1 * var(--space-lg) - 4px);
 	}
 }

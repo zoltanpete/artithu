@@ -29,6 +29,28 @@ The Hungarian copy recorded below is no longer hardcoded in `src/pages/index.ast
 
 **English**: no approved English translation of this copy exists anywhere in the repository. Every field is stored as `{ hu: "...", en?: "..." }`; `en` is present only for the small set of fields classified as safely structural (System Map technical vocabulary — see `09-TECHNICAL-ARCHITECTURE.md` "Localization" and `07-DESIGN-SYSTEM.md`'s System Map section). Every other field's `en` is absent — a tracked content gap (see `13-CONTENT-GAPS-AND-VALIDATION.md`), not an invented translation. No `/en/` homepage is published yet as a result.
 
+## Communication-mode alignment (Task 007C)
+
+The "Communication mode per section" table above records the *intended* mode; this records production's actual alignment after Task 007C's visual-language integration pass (see `07-DESIGN-SYSTEM.md` "Page-wide communication grammar" for the underlying principles, which this task implemented but did not change):
+
+| Section | Alignment |
+|---|---|
+| Hero | aligned (unchanged — Task 007C/007D/007D.1 did not touch it) |
+| Problem | aligned — indexed (`JEL/0X`) dense/open signal field, all six signals sharing one spine/node/index grammar at every breakpoint; the two desktop columns' spines are visually independent (Task 007D.1 removed a shared top connector — see note below) |
+| Decision | aligned — the locked "tonal band" surface is applied; the small fork glyph Task 007 added is removed (Task 007D.1) — typography, the two solution directions and the tonal surface communicate the section on their own |
+| Work | aligned — cases sit in the shared `.panel-technical` evidence plate with an accent `CASE/0X` index |
+| Longevity | aligned — a small textless construction mark (`.longevity__mark`) supplies the "minimal technical residue" the section previously lacked |
+| Tardify | aligned — a lighter top-rule + corner-mark "specified plate" treatment (Task 007D), keeping the Task 007C port-dot CTAs |
+| Process | aligned — steps read as one connected route (kept as-is by Task 007D.1 — this is the one section where a real ordered progression justifies connector geometry); the fourth step's ("Továbbfejlesztjük") desktop line-wrap was fixed (Task 007D) via a measured column-gap reduction |
+| Senior/Who | aligned (unchanged — DOC/07A classified it aligned, left untouched throughout Task 007C/007D/007D.1) |
+| Final CTA | aligned (unchanged, same reason) |
+
+No content changed in any of these passes — every field above still comes from `src/content/pages/home/content.yaml` (Task 007B); only `src/components/homepage/Homepage.astro`'s markup and `src/styles/foundation.css` changed.
+
+**Task 007D — `JEL / 01–06` continuity**: the Problem section's dense/open split expresses *density*, not *membership*. All six signals belong to one diagnostic system and share the same spine/index/node device; only the tonal-wash background, padding and the open field's looser spacing distinguish dense from open.
+
+**Task 007D.1 — connector/glyph removal**: Task 007D's own desktop fix over-corrected by physically joining the two Problem columns' spines with a shared top rule and junction dots, which read as a route branching into two paths rather than two groups sharing one grammar. Removed, with nothing replacing it — membership is now communicated purely through the repeated `JEL/0X`/spine/node vocabulary itself, no physical connection required. The Decision fork glyph (Task 007's own addition, never part of the approved exploration precedent) was removed for the same underlying reason: it implied a workflow fork this section doesn't have. Process's own connector is unaffected — it represents a real four-step progression, the case where connector geometry is actually justified. See `07-DESIGN-SYSTEM.md`'s "Diagnostic / Signal" and "Decision / Resolution" sections for the locked rules.
+
 ## Communication mode per section (Task 007A)
 
 This document records section *content*; `07-DESIGN-SYSTEM.md` → "Page-wide communication grammar" records how each content type should visually communicate — the audit that added it found production `/` had drifted from the validated pattern in Problem's case, and had no validated pattern at all to drift from for Work/Longevity/Tardify/Process. Cross-referenced here, not duplicated:
