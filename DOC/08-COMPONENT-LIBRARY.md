@@ -249,12 +249,22 @@ Don't:
 - expect more than two `outputs` to lay out correctly — the geometry assumes exactly two (one above, one below the core's vertical centre);
 - assume the six-source desktop geometry is pixel-verified for other source counts — it generalizes by formula but has only been checked for six.
 
+## Componentization audit (Task 008)
+
+Performed as part of the Task 008 homepage visual lock — a check on whether any homepage-specific pattern now has enough real reuse pressure to justify extraction, not a refactor pass.
+
+**Already legitimate shared primitives**: `Container`, `SiteHeader`, `SystemMap`, `Homepage` (Astro components); `.panel-technical`, `.surface--tonal`, `.technical-label`, `.meta`, `.status-dot`, `.btn`/`.btn-primary`/`.btn-secondary`, `.link-standalone` (CSS primitives, all already in production use in more than one place).
+
+**Still homepage-specific** (all homepage-section CSS in `foundation.css`, not components): `.hero-map*`, `.problem-signals*`, `.decision-paths*`, `.work-teaser*`, `.longevity__mark`, `.tardify-proof*`, `.process-steps*`.
+
+**Conclusion: no extraction warranted.** Two candidate "families" exist — an index+device pattern (Problem's `JEL/0X` spine/dots, Work's `CASE/0X` in a `.panel-technical` box) and a specification-plate pattern (Tardify's top-rule + corner-mark) — but each has exactly one or two real instances, each with genuinely different treatment (Problem's spine/dot device vs. Work's bordered plate are deliberately *not* the same component, per "family resemblance, not repetition" — see `07-DESIGN-SYSTEM.md`). Forcing a shared component now would mean either losing those deliberate differences or building a configuration surface to preserve them — abstracting CSS prematurely, not improving consistency, accessibility or maintainability. This follows the same reasoning Task 006 already used to defer the `SystemMap` component itself until Task 007 supplied a second real instance to generalize from (see "Production architecture decision (Task 006)" above) — the project's standing default is no new component until genuine reuse pressure exists, not speculative generalization.
+
 ## Possible later components
 
-Only introduce when implementation demonstrates real reuse:
+Only introduce when implementation demonstrates real reuse. Updated (Task 008) to match what actually shipped — Decision is now locked to have **no** diagram (see `07-DESIGN-SYSTEM.md` "Homepage Visual Lock"), so `DecisionDiagram` is removed from this list rather than left as a stale future candidate:
 
-- `ProblemQuotes`
-- `DecisionDiagram`
+- `ProblemQuotes` / `DiagnosticSignalField` — only if a second page needs the same `JEL/0X`-style dense/open indexed-signal treatment; the current Problem CSS is homepage-specific until then
+- `EvidencePlate` — only if a second page needs the Work `CASE/0X` treatment or the Tardify specification-plate treatment; currently one real instance each
 - `TardifyFeature`
 - `PersonProfile`
 - `ContactForm`

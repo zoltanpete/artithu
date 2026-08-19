@@ -181,6 +181,10 @@ Same four-file architecture, no new CSS file, no new token values. All changes a
 
 Same architecture, no new file, no new token, no new dependency. A final polish pass on Task 007C's own output: `.problem-signals`' spine moved from the dense sub-group to the container/columns (so it continues through all six signals — see `07-DESIGN-SYSTEM.md`'s "Diagnostic / Signal" clarification); `.process-steps`' 1100px+ column-gap was reduced from `--space-xl` to `--space-lg` (a measured fix, not an estimate — see `11-ACCESSIBILITY-AND-PERFORMANCE.md`); `.tardify-proof` dropped `.panel-technical` for its own lighter top-rule + corner-mark treatment. Zero new client JS — confirmed against the production build (1 inline `<script>`, 0 `.js` files, unchanged from Task 007/007B/007C).
 
+### Implementation status (Task 008)
+
+Documentation-only task — production code confirmed unchanged by this task (the final regression audit found no bug; see `11-ACCESSIBILITY-AND-PERFORMANCE.md`). Formally locked the homepage visual language (see `07-DESIGN-SYSTEM.md` "Homepage Visual Lock"). Localization architecture re-audited and confirmed intact: `/` renders `locale="hu"`, `astro.config.mjs`'s native `i18n` config remains defined but no `src/pages/en/` route exists, `SiteHeader`'s `alternateLocalePath` prop is still not passed from `index.astro` (no broken locale link), and `localizeGated()` still returns `null` rather than falling back to Hungarian for a missing `en` value — nothing in Task 008 required changing any of this.
+
 ## JavaScript
 
 Default:

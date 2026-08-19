@@ -412,6 +412,48 @@ A surgical correction to Task 007D, not a new polish round. Owner review of Task
 
 Both removals are locked rules now, not just this task's preference — see the two sections above for the exact language. Process's own connected-progression device (line + node dots) is explicitly *not* affected — it stays, because Process represents a real four-step ordered progression, the one case in the current homepage where connector geometry is actually justified.
 
+### Homepage Visual Lock (Task 008) — APPROVED
+
+> **The production homepage, in the state Task 007D.1 left it, is the approved homepage visual baseline. The owner has visually reviewed and approved it. Do not treat the homepage as an open exploration surface.**
+
+This closes the implementation arc that ran Task 007 → 007A → 007B → 007C → 007D → 007D.1. It locks **principles and communication grammar**, exactly as the sections above already state them — this entry does not introduce new rules, it declares the existing ones final and points at the current implementation as their reference.
+
+**Overall art direction** (unchanged, restated for completeness): Swiss / Scandinavian restraint × digital systems engineering × editorial typography × structured data visualization — see "Art Direction Lock (Task 005D)" above.
+
+**Locked page-wide rhythm** — the homepage demonstrates the intended density/communication-mode sequence (see "Page rhythm" above for the full table): Hero (richest) → Problem (diagnostic, dense→open) → Decision (quiet tonal resolution) → Work (evidence/record) → Longevity (sparse dark interruption) → Tardify (owned-proof/specification framing) → Process (connected progression) → Senior/Who (quiet editorial) → Final CTA (restrained close).
+
+**Locked semantic visual rules** (the Task 007D.1 distinction, now permanent):
+
+- **membership/shared grammar** does not require physical connection between elements — repeated indexing, spine/node vocabulary, typography and surface logic are sufficient (Problem's `JEL/01–06`, two independent desktop spines, no connector);
+- **real progression/flow** may use connector geometry — Process's four steps are a genuine ordered sequence, so its line/node route is justified;
+- **conceptual alternatives/decisions** must not automatically become branching diagrams — Decision communicates through typography, copy and tonal surface alone, with no diagram.
+
+> **Do not draw a route unless there is a route to explain.**
+
+**Accent usage**: Deep Blue-Violet remains structural and scarce — indexing, connection points, real routes, interaction/focus, selected technical residue, primary CTA roles. It must not become generic decoration or spread to every section uniformly.
+
+**Surface hierarchy**: canvas / tonal field or band (Decision, Final CTA) / technical-specification plate (Work, Tardify) / one dark interruption (Longevity) — preserve this intentional variation. Do not let the page become a sequence of generic bordered cards (Tardify's Task 007D refinement exists specifically to avoid this).
+
+**Construction/technical residue**: construction marks, nodes, rules, spines, coordinate/index labels and diagram language are semantic devices, not decoration — they appear only where they clarify membership, evidence, progression, system structure or technical framing (see "Construction / blueprint layer" above).
+
+**Preserved Problem grammar**: desktop keeps `JEL/01–04` (vertical spine + nodes, dense tonal field) and `JEL/05–06` (vertical spine + nodes, quieter open field) as two independent columns with no horizontal connector and no branch semantics; mobile keeps one continuous vertical spine through all six signals, valid because mobile presents them as one reading sequence. `4+2` means density, not membership and not branching.
+
+**Preserved Decision grammar**: no fork glyph or mini-diagram. Communication is carried by typography, supporting copy, the two conceptual directions, and the tonal surface. Do not reintroduce a branching device without a genuinely new, content-justified design decision and fresh owner approval.
+
+**Preserved Process grammar**: the positive counterexample to Problem/Decision — steps are genuinely ordered, so the connected line/node route communicates real progression. Do not generalize this treatment to sections that aren't an actual sequence.
+
+### Homepage as reference implementation, not template
+
+The homepage is now the production reference for: technical labels/indexed metadata, diagnostic spine/node grammar, evidence-record framing, restrained specification-plate treatment, real-progression route grammar, tonal decision surface, dark-section interruption, the System Map richness ceiling, accent scarcity, and editorial whitespace/typography.
+
+> **Reuse the grammar, not the homepage layout.**
+
+Future pages should derive their own composition from their own content and page architecture — do not visually clone the homepage's section-by-section layout, and do not create a generic shared component merely because a pattern appeared once on the homepage (see "Componentization audit (Task 008)" in `08-COMPONENT-LIBRARY.md`).
+
+### What is NOT pixel-locked
+
+The lock above is a language/principle lock, not a pixel freeze. Explicitly implementation-responsive, not immutable: exact pixel coordinates; exact section heights; exact line lengths; exact wrapping at every viewport; exact diagram coordinates outside the System Map's own current implementation; exact spacing values where responsive composition genuinely requires adaptation; the exact number of visual marks a future page uses; future page-specific composition. Changing any of these to fix a real responsive/content problem is not reopening the visual lock.
+
 ### What remains unlocked (page communication grammar)
 
 Everything in this section locks **meaning and visual behaviour**, not geometry. Explicitly still open:

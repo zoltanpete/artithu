@@ -12,7 +12,7 @@ All nine sections are implemented in `src/pages/index.astro`. Sections 01–03 (
 
 Hero's "Proof direction" bullets remain **not** published — still gated `TO VERIFY` (see `13-CONTENT-GAPS-AND-VALIDATION.md`). Add them once the underlying facts are verified.
 
-Section 03's "Key copy" (packaged-software/understand-the-business-first direction) is documented here only as message architecture, not exact Hungarian copy — the implemented working copy is faithful to it but is not a verbatim quote from this file. Section 03 also gained a small inline-SVG "decision fork" glyph (one input, two paths) per Task 007's "simple engineering decision diagram" requirement — deliberately not a second System Map; see `07-DESIGN-SYSTEM.md`'s construction-layer rule that the Hero carries the richest use of that grammar.
+Section 03's "Key copy" (packaged-software/understand-the-business-first direction) is documented here only as message architecture, not exact Hungarian copy — the implemented working copy is faithful to it but is not a verbatim quote from this file. Section 03 briefly gained a small inline-SVG "decision fork" glyph in Task 007; it was **removed in Task 007D.1** after owner review found it implied an actual process fork the section doesn't describe, and is now a locked absence, not an open device — see `07-DESIGN-SYSTEM.md`'s "Homepage Visual Lock (Task 008)" and "Decision / Resolution" sections. Do not reintroduce it.
 
 **Sections implemented with a factual gap** (per this document's own sections below and `13-CONTENT-GAPS-AND-VALIDATION.md` — omitted rather than fabricated, per Task 007 §28):
 
@@ -58,8 +58,8 @@ This document records section *content*; `07-DESIGN-SYSTEM.md` → "Page-wide co
 | Section | Communication mode | Visual principle | Anti-pattern to avoid |
 |---|---|---|---|
 | Hero | transformation/system | richest System Map grammar | generic hero image/dashboard |
-| Problem | diagnosis/signals | indexed signal field, dense/open split (locked by the exploration; not yet in production) | floating quotes with no structure |
-| Decision | resolution/choice | calm after diagnosis; a branching glyph is optional, not required | turning it into a feature block |
+| Problem | diagnosis/signals | indexed signal field, dense/open split (implemented Task 007C/007D, locked Task 008) | floating quotes with no structure; a physical connector between the dense/open groups |
+| Decision | resolution/choice | calm after diagnosis, through typography/copy/tonal surface alone (locked Task 008 — **no diagram/glyph**) | turning it into a feature block; a branching glyph or mini-diagram |
 | Work | evidence/record | indexed case reference, real evidence only | portfolio-tile proof |
 | Longevity | structural confidence | sparse statement + technical residue | decorative dark banner |
 | Tardify | owned proof | product/system evidence when an asset is approved | plain text aside |
@@ -279,3 +279,7 @@ Copy:
 CTA:
 
 > Beszéljünk róla →
+
+## Visual lock status (Task 008)
+
+The production homepage, in the state Task 007D.1 left it, is the **approved visual baseline** — see `07-DESIGN-SYSTEM.md` "Homepage Visual Lock (Task 008)" for the full locked principles. There is no open homepage visual-design gap as of this task, unless a future real regression is discovered. Remaining gaps are content/evidence gaps only (approved English marketing copy, customer/case-study identity, real screenshots, longevity figures, person/team imagery) — see `13-CONTENT-GAPS-AND-VALIDATION.md`. None of these reopens the visual lock; they are pre-existing, already-tracked gates the locked design already accommodates (omission over fabrication), not new findings.
