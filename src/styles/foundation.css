@@ -380,13 +380,24 @@ a {
 	display: none;
 }
 
+/* Task 007 bug fix: explicitly setting `display` on a non-<summary> child of
+   <details> defeats the browser's native content-hiding for the closed
+   state — the list was rendering (invisible but laid out, contributing real
+   width) even while collapsed, causing ~6px of horizontal page overflow at
+   768px (found during the mandatory responsive verification pass; confirmed
+   via getBoundingClientRect() on the widest page element, not by eye). Scope
+   the flex layout to the open state only, and default to none. */
 .mobile-menu__list {
 	list-style: none;
 	margin: var(--space-md) 0 0;
 	padding: 0;
-	display: flex;
+	display: none;
 	flex-direction: column;
 	gap: var(--space-md);
+}
+
+.mobile-menu[open] .mobile-menu__list {
+	display: flex;
 }
 
 .mobile-menu__list a {
@@ -439,6 +450,78 @@ a {
 	gap: var(--space-lg);
 }
 
+/* --- Homepage: Hero + System Map (Task 007) ---------------------------------
+   Copy-column + System Map grid, matching the approved A4.3.3 reference
+   composition re-derived through production tokens (not copied CSS). The H1
+   size reduction and tightened H1→lead/lead→CTA rhythm reuse the exact
+   values the exploration converged on after several real-browser iterations
+   specifically for "H1 beside a six-source System Map" — re-verified here in
+   this new page context rather than assumed to still hold. */
+
+.hero-map {
+	padding-block-start: var(--space-section-lg);
+	padding-block-end: var(--space-2xl);
+	overflow-x: clip;
+}
+
+.hero-map__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-xl);
+	align-items: start;
+}
+
+.hero-map__h1 {
+	margin-block-start: var(--space-sm);
+	font-size: clamp(2.25rem, 1.85rem + 2.2vw, 4.75rem);
+}
+
+.hero-map__lead {
+	margin-block-start: calc(var(--space-lg) + 14px);
+}
+
+.hero-map__cta {
+	margin-block-start: calc(var(--space-xl) + 12px);
+}
+
+@media (min-width: 900px) {
+	.hero-map__grid {
+		grid-template-columns: 4fr 8fr;
+		gap: var(--space-xl);
+	}
+
+	.hero-map__visual {
+		margin-block-start: var(--space-md);
+		margin-inline-start: calc(-1 * var(--space-xl));
+		margin-inline-end: 0;
+		margin-block-end: calc(-1 * var(--space-lg));
+		position: relative;
+		z-index: 1;
+	}
+}
+
+/* --- Homepage: Decision-fork glyph (Task 007) --------------------------------
+   A deliberately small structural mark — one input resolving into two paths —
+   not a second System Map. The Hero carries the richest use of the diagram
+   grammar; elsewhere on the page it stays this restrained, per DOC/07
+   "Construction / blueprint layer". */
+
+.decision-fork {
+	width: 90px;
+	height: auto;
+	margin-block-start: var(--space-lg);
+	fill: none;
+	stroke: var(--color-text-muted);
+	stroke-width: 1.25;
+	opacity: 0.6;
+}
+
+.decision-fork circle {
+	fill: var(--color-accent);
+	stroke: none;
+	opacity: 1;
+}
+
 /* --- Homepage: Problem/Recognition quote composition -----------------------
    Editorial statements, not cards. Controlled asymmetry on desktop via an
    offset second column; linear single-column order on mobile. */
@@ -486,5 +569,120 @@ a {
 	.decision-paths {
 		grid-template-columns: 1fr 1fr;
 		gap: var(--space-2xl);
+	}
+}
+
+/* --- Homepage: Work / case-study teaser (Task 007) ---------------------------
+   Editorial "CASE / 0X" composition (per DOC/07's Case Study Teaser
+   direction), not a card grid — deliberately minimal because no verified
+   case-study facts or approved screenshots exist yet (see
+   DOC/13-CONTENT-GAPS-AND-VALIDATION.md): two working titles, nothing more. */
+
+.work-teaser__list {
+	list-style: none;
+	margin: var(--space-xl) 0 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-lg);
+}
+
+.work-teaser__item {
+	padding-block-start: var(--space-md);
+	border-top: 1px solid var(--color-border);
+}
+
+.work-teaser__title {
+	font-size: var(--text-lead);
+	font-weight: 500;
+	line-height: var(--leading-snug);
+	max-width: var(--content-reading);
+	margin: var(--space-xs) 0 0;
+}
+
+@media (min-width: 768px) {
+	.work-teaser__list {
+		grid-template-columns: 1fr 1fr;
+		gap: var(--space-2xl);
+	}
+}
+
+/* --- Homepage: Process steps (Task 007) ---------------------------------------
+   Editorial numbered sequence, deliberately not four SaaS cards (DOC/04's own
+   explicit instruction for this section). */
+
+.process-steps {
+	list-style: none;
+	margin: var(--space-xl) 0 0;
+	padding: 0;
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-lg);
+}
+
+.process-steps__step {
+	display: flex;
+	align-items: baseline;
+	gap: var(--space-md);
+	padding-block: var(--space-sm);
+	border-top: 1px solid var(--color-border);
+	/* Task 007 bug fix: CSS Grid items default to min-width:auto, so an
+	   unbreakable long word ("Továbbfejlesztjük" has no hyphenation point)
+	   forced its 1fr column wider than the equal share, overflowing the page
+	   by ~6px at 768px — found by the mandatory overflow check, not by eye.
+	   min-width:0 lets the track shrink to its 1fr allocation; the word
+	   wraps inside it instead of pushing the grid wider than its container. */
+	min-width: 0;
+}
+
+.process-steps__label {
+	font-size: var(--text-h3);
+	font-weight: 500;
+	margin: 0;
+	overflow-wrap: break-word;
+	/* .process-steps__step becomes a column flexbox at 768px+ (see below),
+	   and flex items ALSO default to min-width:auto — the same intrinsic-
+	   sizing trap as the outer grid item, one level deeper. Without this,
+	   overflow-wrap has no narrower box to actually break the word inside. */
+	min-width: 0;
+}
+
+@media (min-width: 768px) {
+	/* Two columns here, not four — even fixed and no longer overflowing,
+	   four ~150px columns at exactly 768px forced "Továbbfejlesztjük" to
+	   break mid-word ("Továbbfejle-\nsztjük"), which reads as sloppy on an
+	   editorial site even though technically contained. Four columns wait
+	   for the 1100px step below, where each has genuine room. */
+	.process-steps {
+		grid-template-columns: repeat(2, 1fr);
+		gap: var(--space-lg) var(--space-xl);
+	}
+
+	.process-steps__step {
+		flex-direction: column;
+		/* Root cause of the overflow bug (not the min-width:0 fixes above,
+		   which were real but insufficient on their own): the base rule's
+		   `align-items: baseline` (needed for the mobile row layout, number
+		   beside label) doesn't stretch cross-axis size — carried through
+		   unless explicitly overridden here too, it left the label sized to
+		   its own unbreakable-word content (216px) instead of the 152px
+		   grid column, regardless of min-width/overflow-wrap on the label
+		   itself. `stretch` makes the label's box actually fill the column
+		   width, so overflow-wrap has something to act on and the word
+		   wraps inside it instead of pushing past it. Re-verified via
+		   getBoundingClientRect(), not assumed from the CSS alone — the
+		   first two attempted fixes (min-width:0 on the grid item, then on
+		   the label) both looked correct on paper and still failed in the
+		   browser, which is exactly why the standing rule here is measure,
+		   don't assume. Left alignment is unaffected since text-align was
+		   never centered. */
+		align-items: stretch;
+		gap: var(--space-sm);
+	}
+}
+
+@media (min-width: 1100px) {
+	.process-steps {
+		grid-template-columns: repeat(4, 1fr);
 	}
 }

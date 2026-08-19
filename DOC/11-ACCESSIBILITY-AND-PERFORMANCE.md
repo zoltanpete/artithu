@@ -65,6 +65,25 @@ Color values *did* change in this task (the Task 005D-locked accent migrated fro
 
 Reduced-motion, `:focus-visible` presence, and keyboard reachability were otherwise unaffected by this task (no interactive elements were added or removed; `/design-foundation` and `/` remain fully static — see `09-TECHNICAL-ARCHITECTURE.md`). Re-verified zero horizontal overflow at 390/768/1440/1920px on both `/design-foundation` and `/` after the shared-style changes, and zero console errors.
 
+### Implementation status (Task 007) — homepage + SystemMap validation
+
+Full homepage (`/`, all nine sections) verified in a real browser (Playwright/Chromium) at 390/768/1440/1920px: exactly one `<h1>`, sequential `<h2>` per section (no skipped levels), zero console errors, zero external font/network requests, zero horizontal overflow at every width (see the three bugs below for what it took to get there). No new color contrast pairs were introduced — every homepage surface (including the new dark Longevity section and tonal Final CTA) reuses `--color-*` tokens already verified in the Task 006 record above.
+
+**`SystemMap` interaction/accessibility**, verified end-to-end for all seven Hero nodes (five inputs, two outputs) at both desktop and mobile breakpoints:
+
+- hover-preview, click-commit, click-to-deselect, switching selection, and keyboard Tab+Enter activation all produce the correct internal state (verified via the component's `.is-focused`/`.is-receded`/`has-focus` classes and `aria-pressed`, not assumed from the click handler existing);
+- every interactive button is pixel-aligned to its visual node (`getBoundingClientRect()` diffing, sub-0.02px, all 7 desktop + 4 mobile nodes) — the same discipline every A4.x prototype needed after repeatedly finding real drift bugs this way;
+- `prefers-reduced-motion: reduce` confirmed to collapse the component's transition variables to ~1ms;
+- the core's focus-triggered scale response was initially measured as unchanged (`matrix(1,0,0,1,0,0)`) — turned out to be a test-timing artifact (reading `getComputedStyle()` before the 220ms CSS transition had progressed), not a real bug; re-confirmed correct (`matrix(1.045,...)`) after waiting for the transition to settle.
+
+**Three real bugs found during the mandatory responsive review and fixed** (all via `getBoundingClientRect()`/computed-style measurement, not by eye — per this task's own standing "the absence of a scrollbar doesn't prove there's no clipping" caution, extended here to "a computed value read at the wrong moment doesn't prove there's no effect either"):
+
+1. **Pre-existing mobile-menu overflow, unrelated to this task's own changes.** `SiteHeader.astro`'s `.mobile-menu__list` (Task 005A) set `display: flex` unconditionally on a non-`<summary>` child of `<details>`, which defeats the browser's native content-hiding for the closed state — the list was being laid out (invisible but occupying real width) even while the disclosure was closed, contributing ~6px of horizontal overflow at 768px. Fixed by defaulting the list to `display: none` and scoping `flex` to `.mobile-menu[open] .mobile-menu__list` only; re-verified the menu still opens/closes correctly (7 links become visible on click) and that the overflow is gone.
+2. **A new `SystemMap` mobile-label overflow, caused by an unverified prop choice.** The Hero's `mobileSourceIds` was set to `['excel', 'other']` — but "…ÉS MINDEN MÁS FORRÁS" measures ~169 user-units at the mobile diagram's font size, well past the ~119-unit box the fixed mobile geometry provides (verified safe only up to "KÜLÖN RENDSZER", ~113 units). Fixed by using `['excel', 'kulon']` instead — the exact pair every A4.3.x prototype's mobile diagram verified — and the constraint is now documented directly in the component's own prop comment so it isn't rediscovered the hard way again.
+3. **A CSS Grid/Flexbox intrinsic-sizing overflow in the new `.process-steps` section**, requiring three sequential fixes before the real cause was found: (a) `min-width: 0` on the grid item (`.process-steps__step`) — necessary but not sufficient; (b) `min-width: 0` + `overflow-wrap: break-word` on the label itself — still didn't wrap, because (c) the step's own `align-items: flex-start` (needed for the mobile row layout) does not stretch cross-axis width, so the label sized itself to its unbreakable-word content ("Továbbfejlesztjük", 216px) regardless of (a) or (b). The actual fix was `align-items: stretch` on the desktop column layout. Beyond just fixing the overflow, the 4-column layout was also revised to step in at 1100px instead of 768px (2 columns in between), since even the *fixed*, contained version still forced an ugly mid-word break at exactly 768px — a real typographic-quality issue, not only a bug.
+
+No accessibility regression was found in any of the three cases — all were pure layout/overflow bugs, not keyboard/contrast/semantic issues.
+
 ## Motion
 
 Respect:

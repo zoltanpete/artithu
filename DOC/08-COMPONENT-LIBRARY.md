@@ -189,6 +189,51 @@ Avoid four floating SaaS cards unless design exploration proves otherwise.
 
 Reusable final contact section.
 
+### Data visualization
+
+#### `SystemMap`
+
+**Implemented (Task 007)**: `src/components/system-map/SystemMap.astro`.
+
+Purpose:
+
+Production implementation of the Task 005D-locked System Map brand-asset grammar (heterogeneous inputs → transformation core → structured outputs). Visual/interaction reference: the approved A4.3.3 prototype — geometry re-derived as a parameterized component, not copied.
+
+Inputs (props):
+
+```text
+id              string — DOM id prefix / interaction-script scope
+sources[]       { id, label, icon, route? } — icon ∈ table|mail|system|manual|api|dots;
+                route ∈ primary|secondary(default)|exception
+coreLabel       string
+outputs         exactly two { id, label, icon } — icon ∈ check|document
+mobileSourceIds [string, string]? — which two `sources` the separately-composed
+                mobile diagram shows; defaults to the first two. Must be short
+                labels — see the "Don't" below.
+caption/captionSub  string? — the legend/signature zone's mono captions
+legend          boolean, default true
+ariaLabel       string — required, full accessible description of the diagram
+```
+
+Variants: none beyond the props above — no visual variant system, per this document's "keep APIs narrow" rule.
+
+Responsive behavior: a genuinely separately-composed mobile diagram (its own coordinate system, its own reduced two-source set), not the desktop SVG scaled down — matches the locked responsive philosophy. Desktop/mobile SVGs both render in the DOM; CSS `display` (media-query gated) toggles which is visible, avoiding any client-side layout branching.
+
+Accessibility notes: every interactive node is a real `<button>` overlay (not raw interactive SVG), percentage-positioned from the exact same geometry the visual node uses (verified sub-0.02px alignment, not assumed from the formula). `aria-pressed` reflects committed selection; keyboard Tab+Enter fully parallels mouse/hover. Both SVGs carry `role="img"` and the same required `ariaLabel`. Interaction state (`.is-focused`/`.is-receded`/`.has-focus`, applied via `classList`, not inline styles) never relies on color alone — opacity, stroke-width and position all move together. `prefers-reduced-motion: reduce` collapses both transition variables to ~1ms.
+
+Used on: `/` (Hero, Task 007).
+
+Do:
+
+- keep `sources`/`outputs` narrow and specific to the page's real content — the grammar is locked, the exact vocabulary is not (see `07-DESIGN-SYSTEM.md`);
+- pick short `mobileSourceIds` labels — the fixed mobile box width gives ~119 user-units of room, verified safe up to "KÜLÖN RENDSZER" (~113 units).
+
+Don't:
+
+- pass a `mobileSourceIds` label longer than that without re-verifying it fits — a real overflow bug at 768px was caused by exactly this (the quiet "…ÉS MINDEN MÁS FORRÁS" source, ~169 units, picked for mobile without checking) and is now documented in the component's own prop comment;
+- expect more than two `outputs` to lay out correctly — the geometry assumes exactly two (one above, one below the core's vertical centre);
+- assume the six-source desktop geometry is pixel-verified for other source counts — it generalizes by formula but has only been checked for six.
+
 ## Possible later components
 
 Only introduce when implementation demonstrates real reuse:

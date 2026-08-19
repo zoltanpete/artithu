@@ -100,6 +100,10 @@ src/
 
 Added `src/components/navigation/SiteHeader.astro` — real cross-page reuse justified it (already documented as a planned component in `08-COMPONENT-LIBRARY.md`). It is deliberately used from `index.astro` only, not hoisted into `BaseLayout.astro`, so `/404` and the internal `/design-foundation` fixture remain exactly as Task 004C left them — hoisting it would have visually altered the fixture, which Task 005A's brief said not to do. Revisit once more real pages exist and a sitewide header genuinely needs a single source of truth. `case-study/`, `content/`, `typography/`, `ui/` still don't exist — still no real need.
 
+### Implementation status (Task 007)
+
+Added `src/components/system-map/SystemMap.astro` — the real homepage content/geometry that Task 006 deferred the component on now exists. Its own `<style>` block holds all diagram-specific styling (node/port/path/ring/core CSS), reusing the shared `--color-*` tokens and the `.panel-technical` primitive from Task 006 for its legend, rather than duplicating either. Homepage-section-specific CSS that isn't a stable cross-page concept yet (`.hero-map`, `.decision-fork`, `.work-teaser`, `.process-steps`) was added to `foundation.css` instead, following this project's existing convention (the same file already held `.problem-grid`/`.decision-paths` from Task 005A for the same reason) rather than introducing scoped `<style>` blocks in `index.astro` or fragmenting into new files. `case-study/`, `content/`, `typography/`, `ui/` still don't exist.
+
 ## Public assets
 
 Use `public/` only for assets that should bypass Astro processing or need fixed public paths.
@@ -136,6 +140,10 @@ Still the same four-file architecture, no new files — the Task 005D Art Direct
 
 The one architectural decision this task made explicitly: **no `SystemMap` component was created.** The exploration's diagram-specific devices (guidelines, ports, node/path SVG structure) have nowhere to attach in production yet — no page has real System Map content — so productionizing them now would mean either freezing one prototype's incidental geometry into shared code, or building a generic graph-abstraction layer this project's own dependency rule forbids. Only the two genuinely content-agnostic pieces (`.technical-label`, `.panel-technical`) were promoted. See `07-DESIGN-SYSTEM.md` → "Production architecture decision (Task 006)" for the full rationale; this is Task 007's decision to pick back up once real homepage content/geometry exists.
 
+### Implementation status (Task 007)
+
+Still the same four-file *global* architecture — no changes to `tokens.css`/`fonts.css`/`global.css`/`foundation.css`'s roles, only additions within `foundation.css` (see "Source structure" above). One new file: the `SystemMap` component's own scoped `<style>` block, which is component CSS, not global CSS, per this document's own "component-scoped styles where appropriate" direction. No CSS framework, no CSS-in-JS. See `08-COMPONENT-LIBRARY.md` for the component's full prop API and `07-DESIGN-SYSTEM.md` for how its geometry relates to the approved A4.3.3 reference.
+
 ## JavaScript
 
 Default:
@@ -162,6 +170,10 @@ Still zero client JS, re-confirmed after adding real header navigation. The head
 ### Implementation status (Task 006)
 
 Still zero client JS — confirmed directly against the production `dist/` output (`find dist -name "*.js"` → 0 files; no `<script>` tags in the rendered HTML of any page). Since the System Map interaction model was explicitly deferred to Task 007 (see "Styling" above), `/design-foundation` and `/` stay fully static this task, matching the brief's stated preferred outcome.
+
+### Implementation status (Task 007)
+
+Production `/` now carries **one small inline module script**, from the `SystemMap` component: **810 bytes minified** (`grep`-extracted and measured directly against the built `dist/index.html`, not estimated), no `_astro/*.js` bundle file, no framework runtime, no hydration directive of any kind. It is a deterministic `classList`-based state machine (hover/focus preview, click/Enter commit, keyboard parity) — the same interaction *language* every A4.x prototype used, re-derived rather than copied, and generalized to work with page-supplied node ids instead of the prototypes' hardcoded ones (see `08-COMPONENT-LIBRARY.md`). `/design-foundation` and `/404` remain fully static — the script only loads on pages that actually render a `SystemMap`. Still zero UI-framework/graph-library/animation-library dependency.
 
 ## Content Collections
 

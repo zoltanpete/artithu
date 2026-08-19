@@ -1,0 +1,874 @@
+---
+/**
+ * SystemMap — production implementation of the Task 005D-locked System Map
+ * brand-asset grammar (heterogeneous inputs → transformation core → structured
+ * outputs). Visual/interaction reference: the approved A4.3.3 prototype
+ * (src/pages/art-direction/a4-3-3.astro) — geometry re-derived here as a
+ * parameterized component rather than copied wholesale, per Task 007 §24.
+ *
+ * Scope decision (Task 007 §7.2): the API stays narrow — exactly the fields
+ * the homepage Hero needs, not a generic diagram schema. Two known,
+ * documented limitations rather than speculative generalization:
+ *   - exactly two `outputs` is assumed (the geometry places one above and
+ *     one below the core's vertical centre); a third output would need new
+ *     layout math, not a config option.
+ *   - the desktop row-pitch/viewBox math generalizes to any `sources.length`,
+ *     but has only been visually/numerically verified for the six-source
+ *     instance used on the homepage.
+ */
+export interface SystemMapSource {
+	id: string;
+	label: string;
+	icon: 'table' | 'mail' | 'system' | 'manual' | 'api' | 'dots';
+	/** Default 'secondary'. 'primary' = static-hierarchy emphasis at rest. 'exception' = dashed, quiet, non-interactive. */
+	route?: 'primary' | 'secondary' | 'exception';
+}
+
+export interface SystemMapOutput {
+	id: string;
+	label: string;
+	icon: 'check' | 'document';
+}
+
+interface Props {
+	id: string;
+	sources: SystemMapSource[];
+	coreLabel: string;
+	outputs: [SystemMapOutput, SystemMapOutput];
+	caption?: string;
+	captionSub?: string;
+	legend?: boolean;
+	ariaLabel: string;
+	/** Which two source ids the separately-composed mobile diagram shows. Defaults to the first two entries in `sources`. */
+	/** Which two source ids the separately-composed mobile diagram shows.
+	 * Defaults to the first two entries in `sources`. The fixed mobile box
+	 * width gives ~119 user-units of label room — verified to fit labels up
+	 * to "KÜLÖN RENDSZER" (~113 units); a longer label (e.g. an
+	 * "…ÉS MINDEN MÁS FORRÁS"-length one, ~169 units) will overflow its
+	 * container. This was found the hard way (a real horizontal-overflow bug
+	 * at 768px, caught by the mandatory responsive check, not by eye) — pick
+	 * short mobile labels deliberately, don't assume any two sources work. */
+	mobileSourceIds?: [string, string];
+}
+
+const {
+	id,
+	sources,
+	coreLabel,
+	outputs,
+	caption,
+	captionSub,
+	legend = true,
+	ariaLabel,
+	mobileSourceIds,
+} = Astro.props;
+
+// --- Desktop geometry (viewBox 0 0 970 600) ------------------------------
+// CORE_CX/CORE_CY/VIEWBOX_H are the exact verified A4.3.3 constants, kept
+// fixed rather than derived — an earlier draft computed CORE_CY from
+// STACK_H and landed nowhere near the visually-tuned, pixel-verified
+// value (340), which would have silently produced an unreviewed layout.
+// Only the input stack's start position adapts to `sources.length`, via
+// the same centering formula A4.3.3 itself used. This means the component
+// is verified for source counts that fit inside the fixed 600px-tall
+// viewBox (visually fine from roughly 4–7 sources); a much longer list
+// would need a taller viewBox, which is not implemented — a known,
+// documented limitation, not a silent failure mode.
+const INPUT_X = 20;
+const INPUT_W = 225;
+const INPUT_H = 44;
+const INPUT_GAP = 20;
+const PITCH = INPUT_H + INPUT_GAP;
+const STACK_H = sources.length * INPUT_H + (sources.length - 1) * INPUT_GAP;
+
+const CORE_CX = 560;
+const CORE_CY = 340;
+const VIEWBOX_H = 600;
+
+const SHELL_W = 240;
+const SHELL_H = 110;
+const SHELL_X = CORE_CX - SHELL_W / 2;
+const SHELL_Y = CORE_CY - SHELL_H / 2;
+const CORE_ENTRY_X = SHELL_X;
+const CORE_EXIT_X = SHELL_X + SHELL_W;
+const INNER_W = 202;
+const INNER_H = 58;
+const INNER_X = CORE_CX - INNER_W / 2;
+const INNER_Y = CORE_CY - INNER_H / 2;
+
+const OUTPUT_X = 755;
+const OUTPUT_W = 200;
+const OUTPUT_H = 64;
+
+const inputRows = sources.map((s, i) => ({
+	...s,
+	y: CORE_CY - STACK_H / 2 + i * PITCH,
+}));
+
+const outputRows = [
+	{ ...outputs[0], cy: CORE_CY - 65 },
+	{ ...outputs[1], cy: CORE_CY + 65 },
+];
+
+function inputPath(startY: number) {
+	return `M${INPUT_X + INPUT_W},${startY} C${INPUT_X + INPUT_W + 95},${startY} ${CORE_ENTRY_X - 48},${CORE_CY} ${CORE_ENTRY_X},${CORE_CY}`;
+}
+
+function outputPath(endCy: number) {
+	const midY = CORE_CY + (endCy - CORE_CY) * 0.62;
+	return `M${CORE_EXIT_X},${CORE_CY} C${CORE_EXIT_X + 40},${CORE_CY} ${OUTPUT_X - 24},${midY} ${OUTPUT_X},${endCy}`;
+}
+
+const VIEWBOX_W = 970;
+
+// Desktop overlay-button percentages — centre-point convention
+// (translate(-50%,-50%)); recomputed from the exact rect geometry, not
+// hand-estimated, per every prior iteration's alignment-bug lesson.
+const desktopButtons = [
+	...inputRows
+		.filter((r) => r.route !== 'exception')
+		.map((r) => ({
+			nodeId: r.id,
+			left: ((INPUT_X + INPUT_W / 2) / VIEWBOX_W) * 100,
+			top: ((r.y + INPUT_H / 2) / VIEWBOX_H) * 100,
+			width: (INPUT_W / VIEWBOX_W) * 100,
+			height: (INPUT_H / VIEWBOX_H) * 100,
+			label: r.label,
+		})),
+	...outputRows.map((r) => ({
+		nodeId: r.id,
+		left: ((OUTPUT_X + OUTPUT_W / 2) / VIEWBOX_W) * 100,
+		top: (r.cy / VIEWBOX_H) * 100,
+		width: (OUTPUT_W / VIEWBOX_W) * 100,
+		height: (OUTPUT_H / VIEWBOX_H) * 100,
+		label: r.label,
+	})),
+];
+
+// --- Mobile geometry (viewBox 0 0 380 420) — separately composed, not a
+// scaled-down desktop map, per the locked responsive philosophy. -----------
+const mIds = mobileSourceIds ?? [sources[0]?.id, sources[1]?.id];
+const mobileSources = mIds
+	.map((mid) => sources.find((s) => s.id === mid))
+	.filter((s): s is SystemMapSource => Boolean(s));
+
+const M_SHELL: [number, number, number, number] = [105, 186, 170, 88]; // x,y,w,h
+const M_INNER: [number, number, number, number] = [120, 207, 140, 46];
+
+const mobileButtons = [
+	{ nodeId: mobileSources[0]?.id, left: 25.658, top: 15.238, width: 46.053, height: 11.429, label: mobileSources[0]?.label },
+	{ nodeId: mobileSources[1]?.id, left: 74.342, top: 15.238, width: 46.053, height: 11.429, label: mobileSources[1]?.label },
+	{ nodeId: outputs[0].id, left: 25, top: 85, width: 39.474, height: 12.857, label: outputs[0].label },
+	{ nodeId: outputs[1].id, left: 75, top: 85, width: 39.474, height: 12.857, label: outputs[1].label },
+].filter((b) => b.nodeId);
+
+const uid = id;
+---
+
+<div class="system-map" id={uid}>
+	<div class="system-map__stage">
+	<svg width="0" height="0" style="position:absolute;">
+		<defs>
+			<symbol id={`${uid}-icon-table`} viewBox="0 0 16 16">
+				<rect x="1" y="1" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.3" />
+				<line x1="1" y1="6.5" x2="15" y2="6.5" stroke="currentColor" stroke-width="1.1" />
+				<line x1="1" y1="11" x2="15" y2="11" stroke="currentColor" stroke-width="1.1" />
+				<line x1="8" y1="1" x2="8" y2="15" stroke="currentColor" stroke-width="1.1" />
+				<rect x="9" y="7.3" width="5.2" height="3.4" class="system-map__icon-accent" />
+			</symbol>
+			<symbol id={`${uid}-icon-mail`} viewBox="0 0 16 16">
+				<rect x="1" y="3" width="14" height="10" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+				<path d="M1.5,4 L8,9.5 L14.5,4" fill="none" stroke="currentColor" stroke-width="1.3" />
+			</symbol>
+			<symbol id={`${uid}-icon-system`} viewBox="0 0 16 16">
+				<rect x="1" y="5" width="9" height="5.4" rx="2.7" fill="none" stroke="currentColor" stroke-width="1.3" />
+				<rect x="6.5" y="5.6" width="9" height="5.4" rx="2.7" fill="none" stroke="currentColor" stroke-width="1.3" />
+			</symbol>
+			<symbol id={`${uid}-icon-manual`} viewBox="0 0 16 16">
+				<path d="M4,1.5 L4,12.5 L6.6,10 L8.3,13.8 L10.1,13 L8.4,9.1 L11.4,8.9 Z" fill="currentColor" stroke="none" />
+			</symbol>
+			<symbol id={`${uid}-icon-api`} viewBox="0 0 16 16">
+				<path d="M5.6,2.5 L1.6,8 L5.6,13.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+				<path d="M10.4,2.5 L14.4,8 L10.4,13.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+			</symbol>
+			<symbol id={`${uid}-icon-dots`} viewBox="0 0 16 16">
+				<circle cx="3" cy="8" r="1.3" fill="currentColor" />
+				<circle cx="8" cy="8" r="1.3" fill="currentColor" />
+				<circle cx="13" cy="8" r="1.3" fill="currentColor" />
+			</symbol>
+			<symbol id={`${uid}-icon-check`} viewBox="0 0 16 16">
+				<circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.3" />
+				<path d="M5,8.2 L7.2,10.4 L11,6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
+			</symbol>
+			<symbol id={`${uid}-icon-document`} viewBox="0 0 16 16">
+				<path d="M3.5,1.5 L9.5,1.5 L12.5,4.5 L12.5,14.5 L3.5,14.5 Z" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round" />
+				<path d="M9.5,1.5 L9.5,4.5 L12.5,4.5" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round" />
+				<line x1="5.5" y1="8" x2="10.5" y2="8" stroke="currentColor" stroke-width="1" />
+				<line x1="5.5" y1="10.5" x2="10.5" y2="10.5" stroke="currentColor" stroke-width="1" />
+			</symbol>
+			<symbol id={`${uid}-icon-core`} viewBox="0 0 16 16">
+				<circle cx="8" cy="8" r="5.4" fill="none" stroke="currentColor" stroke-width="1.3" />
+				<circle cx="8" cy="8" r="1.7" fill="currentColor" stroke="none" />
+			</symbol>
+
+			<marker id={`${uid}-arrow-accent`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+				<path d="M0,0 L10,5 L0,10 Z" class="system-map__arrow-fill system-map__arrow-fill--accent" />
+			</marker>
+			<marker id={`${uid}-arrow-neutral`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5.5" markerHeight="5.5" orient="auto-start-reverse">
+				<path d="M0,0 L10,5 L0,10 Z" class="system-map__arrow-fill system-map__arrow-fill--neutral" />
+			</marker>
+		</defs>
+	</svg>
+
+	<svg
+		class="system-map__svg system-map__svg--desktop"
+		viewBox={`0 0 ${VIEWBOX_W} ${VIEWBOX_H}`}
+		role="img"
+		aria-label={ariaLabel}
+	>
+		<line class="system-map__guideline" x1="10" y1={CORE_CY} x2={VIEWBOX_W - 20} y2={CORE_CY} />
+		<line class="system-map__guideline" x1={CORE_CX} y1="20" x2={CORE_CX} y2={VIEWBOX_H - 20} />
+		<path class="system-map__tick" d={`M${CORE_CX - 10},${CORE_CY} L${CORE_CX + 10},${CORE_CY} M${CORE_CX},${CORE_CY - 10} L${CORE_CX},${CORE_CY + 10}`} />
+		<path class="system-map__tick system-map__tick--corner" d={`M${INPUT_X + 2},${CORE_CY - STACK_H / 2 - 25} L${INPUT_X + 18},${CORE_CY - STACK_H / 2 - 25} M${INPUT_X + 10},${CORE_CY - STACK_H / 2 - 33} L${INPUT_X + 10},${CORE_CY - STACK_H / 2 - 17}`} />
+		<path class="system-map__tick system-map__tick--corner" d={`M${VIEWBOX_W - 38},${CORE_CY - STACK_H / 2 - 25} L${VIEWBOX_W - 22},${CORE_CY - STACK_H / 2 - 25} M${VIEWBOX_W - 30},${CORE_CY - STACK_H / 2 - 33} L${VIEWBOX_W - 30},${CORE_CY - STACK_H / 2 - 17}`} />
+		<path class="system-map__reg-mark" d={`M${SHELL_X - 14},${SHELL_Y} L${SHELL_X - 14},${SHELL_Y - 14} L${SHELL_X},${SHELL_Y - 14}`} />
+		<path class="system-map__reg-mark" d={`M${CORE_EXIT_X + 14},${SHELL_Y + SHELL_H} L${CORE_EXIT_X + 14},${SHELL_Y + SHELL_H + 14} L${CORE_EXIT_X},${SHELL_Y + SHELL_H + 14}`} />
+
+		<circle class="system-map__ring system-map__ring--fill1" cx={CORE_CX} cy={CORE_CY} r="175" />
+		<circle class="system-map__ring system-map__ring--fill2" cx={CORE_CX} cy={CORE_CY} r="145" />
+		<circle class="system-map__ring system-map__ring--fill3" cx={CORE_CX} cy={CORE_CY} r="115" />
+		<circle class="system-map__ring system-map__ring--fill4" cx={CORE_CX} cy={CORE_CY} r="90" />
+		<circle class="system-map__ring system-map__ring--stroke1" cx={CORE_CX} cy={CORE_CY} r="158" />
+		<circle class="system-map__ring system-map__ring--stroke2" cx={CORE_CX} cy={CORE_CY} r="128" />
+
+		{inputRows.map((input) => (
+			<path
+				class:list={[
+					'system-map__line',
+					input.route === 'primary' && 'system-map__line--primary',
+					input.route === 'exception' && 'system-map__line--exception',
+				]}
+				data-belongs={input.id}
+				d={inputPath(input.y + INPUT_H / 2)}
+				marker-end={`url(#${uid}-arrow-${input.route === 'primary' ? 'accent' : 'neutral'})`}
+			/>
+		))}
+
+		<rect class="system-map__core-shell" x={SHELL_X} y={SHELL_Y} width={SHELL_W} height={SHELL_H} rx="16" />
+		<rect class="system-map__core-inner" x={INNER_X} y={INNER_Y} width={INNER_W} height={INNER_H} rx="11" />
+		<text class="system-map__core-label" x={CORE_CX - 51} y={CORE_CY + 5}>{coreLabel}</text>
+		<use href={`#${uid}-icon-core`} class="system-map__core-icon" x={CORE_CX + 34} y={CORE_CY - 8} width="16" height="16" />
+
+		{inputRows.map((input) => (
+			<g
+				class:list={['system-map__input-group', input.route === 'exception' && 'system-map__input-group--quiet']}
+				data-belongs={input.id}
+			>
+				<rect
+					class:list={['system-map__input-box', input.route === 'primary' && 'system-map__input-box--primary']}
+					x={INPUT_X}
+					y={input.y}
+					width={INPUT_W}
+					height={INPUT_H}
+					rx="8"
+				/>
+				<rect class="system-map__icon-chip" x={INPUT_X + 8} y={input.y + INPUT_H / 2 - 13} width="26" height="26" rx="6" />
+				<use
+					href={`#${uid}-icon-${input.icon}`}
+					class="system-map__input-icon"
+					data-belongs={input.id}
+					x={INPUT_X + 13}
+					y={input.y + INPUT_H / 2 - 8}
+					width="16"
+					height="16"
+				/>
+				<text
+					class:list={['system-map__label', input.route === 'exception' && 'system-map__label--quiet']}
+					data-belongs={input.id}
+					x={INPUT_X + 42}
+					y={input.y + INPUT_H / 2 + 4}
+				>
+					{input.label}
+				</text>
+				<circle class="system-map__port" data-belongs={input.id} cx={INPUT_X + INPUT_W} cy={input.y + INPUT_H / 2} r="4" />
+			</g>
+		))}
+
+		{outputRows.map((output) => (
+			<path class="system-map__line system-map__line--resolved" data-belongs={output.id} d={outputPath(output.cy)} marker-start={`url(#${uid}-arrow-accent)`} />
+		))}
+		{outputRows.map((output) => (
+			<g class="system-map__output-group" data-belongs={output.id}>
+				<rect class="system-map__output-box" data-belongs={output.id} x={OUTPUT_X} y={output.cy - OUTPUT_H / 2} width={OUTPUT_W} height={OUTPUT_H} rx="10" />
+				<circle class="system-map__port system-map__port--output" data-belongs={output.id} cx={OUTPUT_X} cy={output.cy} r="4" />
+				<rect class="system-map__icon-chip" x={OUTPUT_X + 14} y={output.cy - 13} width="26" height="26" rx="6" />
+				<use href={`#${uid}-icon-${output.icon}`} class="system-map__output-icon" data-belongs={output.id} x={OUTPUT_X + 19} y={output.cy - 8} width="16" height="16" />
+				<text class="system-map__label system-map__label--output" data-belongs={output.id} x={OUTPUT_X + 48} y={output.cy + 4}>{output.label}</text>
+				<circle class="system-map__output-status" data-belongs={output.id} cx={OUTPUT_X + OUTPUT_W - 20} cy={output.cy} r="4.5" />
+			</g>
+		))}
+	</svg>
+
+	<svg
+		class="system-map__svg system-map__svg--mobile"
+		viewBox="0 0 380 420"
+		role="img"
+		aria-label={ariaLabel}
+	>
+		<line class="system-map__guideline" x1="190" y1="10" x2="190" y2="410" />
+		<path class="system-map__tick" d="M180,230 L200,230 M190,220 L190,240" />
+
+		<circle class="system-map__ring system-map__ring--fill1" cx="190" cy="230" r="88" />
+		<circle class="system-map__ring system-map__ring--fill2" cx="190" cy="230" r="74" />
+		<circle class="system-map__ring system-map__ring--fill3" cx="190" cy="230" r="60" />
+		<circle class="system-map__ring system-map__ring--fill4" cx="190" cy="230" r="47" />
+		<circle class="system-map__ring system-map__ring--stroke1" cx="190" cy="230" r="80" />
+		<circle class="system-map__ring system-map__ring--stroke2" cx="190" cy="230" r="66" />
+
+		{mobileSources[0] && (
+			<path
+				class:list={['system-map__line', mobileSources[0].route === 'primary' && 'system-map__line--primary']}
+				data-belongs={mobileSources[0].id}
+				d="M185,64 C185,140 190,166 190,186"
+				marker-end={`url(#${uid}-arrow-${mobileSources[0].route === 'primary' ? 'accent' : 'neutral'})`}
+			/>
+		)}
+		{mobileSources[1] && (
+			<path
+				class:list={['system-map__line', mobileSources[1].route === 'primary' && 'system-map__line--primary']}
+				data-belongs={mobileSources[1].id}
+				d="M370,64 C370,140 220,166 190,186"
+				marker-end={`url(#${uid}-arrow-${mobileSources[1].route === 'primary' ? 'accent' : 'neutral'})`}
+			/>
+		)}
+
+		{mobileSources[0] && (
+			<g class="system-map__input-group" data-belongs={mobileSources[0].id}>
+				<rect class:list={['system-map__input-box', mobileSources[0].route === 'primary' && 'system-map__input-box--primary']} x="10" y="40" width="175" height="48" rx="8" />
+				<rect class="system-map__icon-chip" x="18" y="51" width="26" height="26" rx="6" />
+				<use href={`#${uid}-icon-${mobileSources[0].icon}`} class="system-map__input-icon" data-belongs={mobileSources[0].id} x="23" y="56" width="16" height="16" />
+				<text class="system-map__label" data-belongs={mobileSources[0].id} x="52" y="68">{mobileSources[0].label}</text>
+				<circle class="system-map__port" data-belongs={mobileSources[0].id} cx="185" cy="64" r="4" />
+			</g>
+		)}
+		{mobileSources[1] && (
+			<g class="system-map__input-group" data-belongs={mobileSources[1].id}>
+				<rect class:list={['system-map__input-box', mobileSources[1].route === 'primary' && 'system-map__input-box--primary']} x="195" y="40" width="175" height="48" rx="8" />
+				<rect class="system-map__icon-chip" x="203" y="51" width="26" height="26" rx="6" />
+				<use href={`#${uid}-icon-${mobileSources[1].icon}`} class="system-map__input-icon" data-belongs={mobileSources[1].id} x="208" y="56" width="16" height="16" />
+				<text class="system-map__label" data-belongs={mobileSources[1].id} x="237" y="68">{mobileSources[1].label}</text>
+				<circle class="system-map__port" data-belongs={mobileSources[1].id} cx="370" cy="64" r="4" />
+			</g>
+		)}
+
+		<rect class="system-map__core-shell" x={M_SHELL[0]} y={M_SHELL[1]} width={M_SHELL[2]} height={M_SHELL[3]} rx="14" />
+		<rect class="system-map__core-inner" x={M_INNER[0]} y={M_INNER[1]} width={M_INNER[2]} height={M_INNER[3]} rx="9" />
+		<text class="system-map__core-label" x="139" y="235">{coreLabel}</text>
+		<use href={`#${uid}-icon-core`} class="system-map__core-icon" x="224" y="222" width="16" height="16" />
+
+		<path class="system-map__line system-map__line--resolved" data-belongs={outputs[0].id} d="M190,274 C190,300 130,315 95,330" marker-start={`url(#${uid}-arrow-accent)`} />
+		<path class="system-map__line system-map__line--resolved" data-belongs={outputs[1].id} d="M190,274 C190,300 250,315 285,330" marker-start={`url(#${uid}-arrow-accent)`} />
+
+		<g class="system-map__output-group" data-belongs={outputs[0].id}>
+			<rect class="system-map__output-box" data-belongs={outputs[0].id} x="20" y="330" width="150" height="54" rx="10" />
+			<circle class="system-map__port system-map__port--output" data-belongs={outputs[0].id} cx="95" cy="330" r="4" />
+			<rect class="system-map__icon-chip system-map__icon-chip--sm" x="30" y="344" width="22" height="22" rx="5" />
+			<use href={`#${uid}-icon-${outputs[0].icon}`} class="system-map__output-icon" data-belongs={outputs[0].id} x="34" y="348" width="14" height="14" />
+			<text class="system-map__label system-map__label--output" data-belongs={outputs[0].id} x="58" y="360">{outputs[0].label}</text>
+			<circle class="system-map__output-status" data-belongs={outputs[0].id} cx="150" cy="357" r="4.5" />
+		</g>
+		<g class="system-map__output-group" data-belongs={outputs[1].id}>
+			<rect class="system-map__output-box" data-belongs={outputs[1].id} x="210" y="330" width="150" height="54" rx="10" />
+			<circle class="system-map__port system-map__port--output" data-belongs={outputs[1].id} cx="285" cy="330" r="4" />
+			<rect class="system-map__icon-chip system-map__icon-chip--sm" x="220" y="344" width="22" height="22" rx="5" />
+			<use href={`#${uid}-icon-${outputs[1].icon}`} class="system-map__output-icon" data-belongs={outputs[1].id} x="224" y="348" width="14" height="14" />
+			<text class="system-map__label system-map__label--output" data-belongs={outputs[1].id} x="248" y="360">{outputs[1].label}</text>
+			<circle class="system-map__output-status" data-belongs={outputs[1].id} cx="340" cy="357" r="4.5" />
+		</g>
+	</svg>
+
+	{desktopButtons.map((b) => (
+		<button
+			type="button"
+			class="system-map__node-btn system-map__node-btn--desktop"
+			data-node={b.nodeId}
+			style={`left: ${b.left.toFixed(3)}%; top: ${b.top.toFixed(3)}%; width: ${b.width.toFixed(3)}%; height: ${b.height.toFixed(3)}%;`}
+			aria-pressed="false"
+			aria-label={`${b.label} kiemelése`}
+		></button>
+	))}
+	{mobileButtons.map((b) => (
+		<button
+			type="button"
+			class="system-map__node-btn system-map__node-btn--mobile"
+			data-node={b.nodeId}
+			style={`left: ${b.left}%; top: ${b.top}%; width: ${b.width}%; height: ${b.height}%;`}
+			aria-pressed="false"
+			aria-label={`${b.label} kiemelése`}
+		></button>
+	))}
+	</div>
+
+	{legend && (
+		<div class="system-map__annotation panel-technical">
+			<div class="system-map__legend">
+				<span class="system-map__legend-item">
+					<svg class="system-map__legend-swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="system-map__legend-stroke system-map__legend-stroke--primary" /></svg>
+					PRIMER ÚTVONAL
+				</span>
+				<span class="system-map__legend-item">
+					<svg class="system-map__legend-swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="system-map__legend-stroke system-map__legend-stroke--secondary" /></svg>
+					SZEKUNDER ÚTVONAL
+				</span>
+				<span class="system-map__legend-item">
+					<svg class="system-map__legend-swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="system-map__legend-stroke system-map__legend-stroke--exception" /></svg>
+					KIVÉTEL / ALTERNATÍV
+				</span>
+			</div>
+			{(caption || captionSub) && (
+				<div class="system-map__signature">
+					{caption && <p class="technical-label system-map__caption">{caption}</p>}
+					{captionSub && <p class="technical-label system-map__caption">{captionSub}</p>}
+				</div>
+			)}
+		</div>
+	)}
+</div>
+
+<script>
+	// Deterministic state machine, driven by direct classList toggling rather
+	// than CSS attribute-value selectors: unlike the A4.3.x prototypes (fixed,
+	// known node ids, so `[data-focus='excel'] [data-belongs='excel']` could
+	// be hardcoded per id), this component's node ids are page-supplied props
+	// and unknown at CSS-authoring time. Every [data-belongs] element gets
+	// `.is-focused` (its own id matches) or `.is-receded` (a focus is active
+	// and it doesn't match) applied directly in JS, and the CSS below only
+	// ever selects by class — works for any id set. One instance of this
+	// script runs per page load; each SystemMap wrapper on the page is bound
+	// and tracked independently via a `systemMapBound` guard.
+	document.querySelectorAll<HTMLElement>('.system-map').forEach((wrapper) => {
+		if (wrapper.dataset.systemMapBound === 'true') return;
+		wrapper.dataset.systemMapBound = 'true';
+
+		const buttons = Array.from(wrapper.querySelectorAll<HTMLButtonElement>('.system-map__node-btn'));
+		const belongsEls = Array.from(wrapper.querySelectorAll<HTMLElement | SVGElement>('[data-belongs]'));
+		let committed: string | null = null;
+
+		function applyFocus(id: string | null) {
+			belongsEls.forEach((el) => {
+				const matches = id !== null && el.getAttribute('data-belongs') === id;
+				el.classList.toggle('is-focused', matches);
+				el.classList.toggle('is-receded', id !== null && !matches);
+			});
+			wrapper.classList.toggle('has-focus', id !== null);
+		}
+
+		buttons.forEach((btn) => {
+			const nodeId = btn.dataset.node ?? '';
+			btn.addEventListener('mouseenter', () => applyFocus(nodeId));
+			btn.addEventListener('focus', () => applyFocus(nodeId));
+			btn.addEventListener('mouseleave', () => applyFocus(committed));
+			btn.addEventListener('blur', () => applyFocus(committed));
+			btn.addEventListener('click', () => {
+				committed = committed === nodeId ? null : nodeId;
+				buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.node === committed)));
+				applyFocus(committed);
+			});
+		});
+	});
+</script>
+
+<style>
+	.system-map {
+		--sm-transition: 220ms ease;
+		--sm-shift-transition: 260ms cubic-bezier(0.22, 0.61, 0.36, 1);
+		position: relative;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.system-map {
+			--sm-transition: 1ms linear;
+			--sm-shift-transition: 1ms linear;
+		}
+	}
+
+	.system-map__stage {
+		position: relative;
+	}
+
+	.system-map__svg {
+		width: 100%;
+		height: auto;
+		overflow: visible;
+	}
+
+	.system-map__svg--mobile {
+		display: block;
+	}
+
+	.system-map__svg--desktop {
+		display: none;
+	}
+
+	.system-map__node-btn--desktop {
+		display: none;
+	}
+
+	.system-map__node-btn--mobile {
+		display: block;
+	}
+
+	@media (min-width: 900px) {
+		.system-map__svg--mobile {
+			display: none;
+		}
+
+		.system-map__svg--desktop {
+			display: block;
+		}
+
+		.system-map__node-btn--mobile {
+			display: none;
+		}
+
+		.system-map__node-btn--desktop {
+			display: block;
+		}
+	}
+
+	/* --- Construction/coordinate layer ---------------------------------- */
+
+	.system-map__guideline {
+		stroke: var(--color-border);
+		stroke-width: 1.1;
+		stroke-dasharray: 2 4;
+		opacity: 0.46;
+	}
+
+	.system-map__tick {
+		stroke: var(--color-text-muted);
+		stroke-width: 1.1;
+		opacity: 0.52;
+	}
+
+	.system-map__tick--corner {
+		opacity: 0.4;
+	}
+
+	.system-map__reg-mark {
+		fill: none;
+		stroke: var(--color-text-muted);
+		stroke-width: 1.1;
+		opacity: 0.46;
+	}
+
+	/* --- Concentric transformation field ---------------------------------- */
+
+	.system-map__ring {
+		fill: var(--color-accent);
+		stroke: var(--color-accent);
+		transition: opacity var(--sm-transition);
+	}
+
+	.system-map__ring--fill1 { stroke: none; opacity: 0.035; }
+	.system-map__ring--fill2 { stroke: none; opacity: 0.06; }
+	.system-map__ring--fill3 { stroke: none; opacity: 0.11; }
+	.system-map__ring--fill4 { stroke: none; opacity: 0.17; }
+	.system-map__ring--stroke1 { fill: none; stroke-width: 1.1; opacity: 0.22; }
+	.system-map__ring--stroke2 { fill: none; stroke-width: 1.1; opacity: 0.28; }
+
+	/* --- Relationship paths ------------------------------------------------ */
+
+	.system-map__line {
+		fill: none;
+		stroke: var(--color-text-muted);
+		opacity: 0.62;
+		stroke-width: 1.25;
+		transition: stroke var(--sm-transition), stroke-width var(--sm-transition), opacity var(--sm-transition);
+	}
+
+	.system-map__line--exception {
+		stroke-width: 0.75;
+		stroke-dasharray: 3 3;
+		opacity: 0.45;
+	}
+
+	.system-map__line--primary {
+		stroke: var(--color-accent);
+		stroke-width: 2;
+		opacity: 1;
+	}
+
+	.system-map__line--resolved {
+		stroke: var(--color-accent);
+		stroke-width: 1.75;
+		opacity: 1;
+	}
+
+	.system-map__arrow-fill--accent {
+		fill: var(--color-accent-strong);
+	}
+
+	.system-map__arrow-fill--neutral {
+		fill: var(--color-text-muted);
+		opacity: 0.68;
+	}
+
+	/* --- Input node family --------------------------------------------------- */
+
+	.system-map__input-group {
+		transition: transform var(--sm-shift-transition), opacity var(--sm-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.system-map__input-group--quiet {
+		opacity: 0.68;
+	}
+
+	.system-map__input-box {
+		fill: var(--color-bg);
+		stroke: var(--color-text-muted);
+		stroke-opacity: 0.55;
+		stroke-width: 1.25;
+		transition: stroke var(--sm-transition), stroke-opacity var(--sm-transition), opacity var(--sm-transition);
+	}
+
+	.system-map__input-box--primary {
+		stroke: var(--color-accent);
+		stroke-opacity: 1;
+	}
+
+	.system-map__icon-chip {
+		fill: var(--color-surface);
+	}
+
+	.system-map__input-icon,
+	.system-map__output-icon {
+		color: var(--color-text-muted);
+		transition: color var(--sm-transition), opacity var(--sm-transition);
+	}
+
+	.system-map__icon-accent {
+		fill: var(--color-status-success);
+		opacity: 0.85;
+	}
+
+	.system-map__port {
+		fill: var(--color-bg);
+		stroke: var(--color-text-muted);
+		stroke-width: 1.4;
+		transition: r var(--sm-transition), stroke var(--sm-transition), opacity var(--sm-transition);
+	}
+
+	.system-map__port--output {
+		stroke: var(--color-accent);
+	}
+
+	/* --- Transformation core ------------------------------------------------ */
+
+	.system-map__core-shell {
+		fill: var(--color-surface);
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+	}
+
+	.system-map__core-inner {
+		fill: var(--color-accent);
+		transition: transform var(--sm-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.system-map__core-icon {
+		color: var(--color-dark-text);
+	}
+
+	.system-map__core-label {
+		font-family: var(--font-mono);
+		font-size: 14px;
+		letter-spacing: 0.06em;
+		fill: var(--color-dark-text);
+	}
+
+	/* --- Output node family -------------------------------------------------- */
+
+	.system-map__output-group {
+		transition: transform var(--sm-shift-transition);
+		transform-box: fill-box;
+		transform-origin: 50% 50%;
+	}
+
+	.system-map__output-box {
+		fill: var(--color-bg);
+		stroke: var(--color-accent);
+		stroke-width: 1.25;
+		transition: stroke var(--sm-transition), stroke-width var(--sm-transition), opacity var(--sm-transition);
+	}
+
+	.system-map__output-status {
+		fill: var(--color-status-success);
+		transition: opacity var(--sm-transition);
+	}
+
+	/* --- Labels --------------------------------------------------------------- */
+
+	.system-map__label {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		fill: var(--color-text-muted);
+		transition: opacity var(--sm-transition), fill var(--sm-transition);
+	}
+
+	.system-map__label--quiet {
+		font-size: 10.5px;
+	}
+
+	.system-map__label--output {
+		fill: var(--color-text);
+	}
+
+	/* --- Legend / specification plate ----------------------------------------- */
+
+	.system-map__annotation {
+		margin-block-start: var(--space-xl);
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: var(--space-sm);
+	}
+
+	.system-map__legend {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: center;
+		gap: var(--space-xs) var(--space-lg);
+	}
+
+	.system-map__legend-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-family: var(--font-mono);
+		font-size: 10px;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.system-map__legend-swatch {
+		flex-shrink: 0;
+		overflow: visible;
+	}
+
+	.system-map__legend-stroke--primary {
+		stroke: var(--color-accent);
+		stroke-width: 2;
+	}
+
+	.system-map__legend-stroke--secondary {
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		opacity: 0.7;
+	}
+
+	.system-map__legend-stroke--exception {
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		stroke-dasharray: 3 3;
+		opacity: 0.7;
+	}
+
+	.system-map__signature {
+		margin-block-start: var(--space-xs);
+		text-align: center;
+		opacity: 1;
+	}
+
+	.system-map__caption {
+		opacity: 1;
+	}
+
+	.system-map__caption + .system-map__caption {
+		margin-block-start: var(--space-xs);
+		opacity: 0.7;
+	}
+
+	/* --- Interactive overlay controls ------------------------------------------ */
+
+	.system-map__node-btn {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		left: 0;
+		top: 0;
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		cursor: pointer;
+	}
+
+	.system-map__node-btn:hover,
+	.system-map__node-btn:focus-visible {
+		outline: 1px dashed var(--color-accent);
+		outline-offset: 3px;
+	}
+
+	/* Node ids are page-supplied props, unknown at CSS-authoring time, so
+	   focus state is driven entirely by the .is-focused/.is-receded classes
+	   the script above applies directly — no attribute-value selector keyed
+	   to a specific id (that only worked in the A4.3.x prototypes, which had
+	   fixed, known node ids). */
+	.system-map [data-belongs].is-receded {
+		opacity: 0.28;
+	}
+
+	.system-map [data-belongs].is-focused {
+		opacity: 1;
+	}
+
+	.system-map__line.is-focused {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2.5;
+	}
+
+	.system-map__line--resolved.is-focused {
+		stroke-width: 2.75;
+	}
+
+	.system-map__input-group.is-focused {
+		transform: translateX(4px);
+	}
+
+	.system-map__output-group.is-focused {
+		transform: translateX(-4px);
+	}
+
+	.system-map__label.is-focused {
+		fill: var(--color-text);
+	}
+
+	.system-map__input-icon.is-focused,
+	.system-map__output-icon.is-focused {
+		color: var(--color-text);
+	}
+
+	.system-map__port.is-focused {
+		r: 5.5;
+		stroke: var(--color-accent-strong);
+	}
+
+	.system-map__output-box.is-focused {
+		stroke: var(--color-accent-strong);
+		stroke-width: 2;
+	}
+
+	.system-map.has-focus .system-map__core-inner {
+		transform: scale(1.045);
+	}
+
+	.system-map.has-focus .system-map__ring--stroke1 { opacity: 0.3; }
+	.system-map.has-focus .system-map__ring--stroke2 { opacity: 0.36; }
+	.system-map.has-focus .system-map__ring--fill4 { opacity: 0.24; }
+</style>

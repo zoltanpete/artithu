@@ -246,6 +246,8 @@ Task 006 deliberately chose **Option A**: productionize only the lower-level, co
 
 **Deliberately deferred**: guideline/crosshair/registration-mark primitives. These are inherently SVG-diagram content — a guideline with nothing to guide is decoration, which this document's own construction-layer rule above forbids ("must not create interpretive noise... fewer, meaningful marks"). They will be designed once Task 007's real diagram exists to attach them to, not speculatively now. Also deferred: any node/port/path/arrowhead CSS or component — these only make sense bound to real SVG diagram markup, which doesn't exist in production yet.
 
+**Built (Task 007)**: `src/components/system-map/SystemMap.astro` now exists — the deferral above ended once real homepage content/geometry existed. Its geometry, port/arrow/ring math and interaction model are re-derived from A4.3.3, not copied wholesale, and parameterized by a narrow prop API (sources, core label, exactly two outputs, mobile source selection) rather than a generic diagram schema — see `08-COMPONENT-LIBRARY.md` for the full API and `09-TECHNICAL-ARCHITECTURE.md` for the implementation/JS-footprint record. Two known, documented limitations rather than speculative generalization: exactly two outputs is assumed (a third would need new layout math, not a config option), and the desktop row-pitch math generalizes to any source count but is only visually/numerically verified for the six-source homepage instance. Still no D3/canvas/graph-library dependency.
+
 ---
 
 ### What is NOT locked
@@ -278,6 +280,125 @@ In addition to the site-wide anti-pattern list under "Anti-patterns" further bel
 - arbitrary node graphs that don't encode a real story;
 - dense technical metadata everywhere — the construction layer stays a background residue, not content;
 - colour used everywhere rather than strategically; the accent earns its presence through scarcity.
+
+---
+
+## Page-wide communication grammar (Task 007A)
+
+Task 007's real homepage implementation exposed a gap. The Art Direction Lock and System Map sections above document the **brand visual grammar** — nodes, ports, curved paths, rings, construction guides, colour roles, typography, geometry — in real depth, because that is what the A4-series exploration actually iterated on: every prototype from A4 through A4.3.3 touched only the Hero, and the Problem/Decision sections beneath it, never the rest of the page. They do not equivalently document the **page communication grammar** — how content types other than the Hero's transformation story (diagnosis, decision, evidence, longevity, owned-product proof, progression) should express the same underlying language. Production `/` shows the result: the Hero carries A4.3.3 faithfully; sections after it fall back to competent-but-generic editorial layout, because nothing here told an implementer how to extend the language past the Hero.
+
+This section distinguishes the two layers explicitly and records what's actually locked at the page level — separating (a) principles genuinely validated by the exploration, frozen since A4.1 and not carried into Task 007 production, from (b) principles newly formalized here because no exploration ever touched those sections. Neither is a licence to redesign production now — see "What remains unlocked" below, and Task 007C for the actual repair work.
+
+### Brand visual grammar vs. page communication grammar
+
+**Brand visual grammar** — the *vocabulary*: nodes, ports, curved paths, arrowheads, the transformation core, concentric tonal fields, mono technical annotation, construction residue. Documented above under "Art Direction Lock" and "System Map — ARTIT brand asset."
+
+**Page communication grammar** — the *sentence structures* that vocabulary gets used in, per content type: how a diagnosis reads, how a decision resolves, how evidence gets presented, how longevity is stated, how owned-product proof is shown, how progression is sequenced. This is what was under-documented, and what this section now records.
+
+The load-bearing distinction: a section does not need the `SystemMap` component, ports, or curved paths to speak ARTIT's visual language. It needs to follow its **communication mode**, using the shared accent, mono annotation, and restraint rules already locked, shaped for that mode.
+
+### Diagnostic / Signal (Problem section)
+
+**Genuinely validated by the exploration, then frozen and lost in production.** A4 introduced diagnostic-signal framing for the Problem section (`JEL / 0X` indexed observations, replacing A3's generic `TÜNET`/symptom framing) inside a dense tonal-wash field (4 items) against a quieter open field (2 items) — the asymmetric split A3 originated, now explicitly reframed as system diagnosis. A4.1 removed A4's bordered "DIAGNOSZTIKAI MEZŐ — AKTÍV" panel chrome (it read as fake application state) but *kept* the `JEL / 0X` indexing, the dense/open split, and a left-rule spine. Every iteration through A4.3.3 explicitly left this section "unchanged in structure" — never revisited, but never un-approved either.
+
+**Task 007's production Problem section does not use this pattern.** It reuses the pre-exploration Task 005A `.problem-grid` — six floating quote statements in a plain two-column grid, no indexing, no tonal field, no spine. This happened because Task 007's own authority hierarchy correctly ranked `DOC/04` (content architecture) above the prototype log, and `DOC/04` documents the Problem section's *copy* but never absorbed the *visual* pattern the exploration validated — it only ever lived in this file's prose history. This is exactly the kind of gap this audit exists to close.
+
+**Locked principle**: operational disorder should be presented as recognizable **signals/diagnostic evidence** — indexed (`JEL / 0X` or equivalent), with a clear dense/open density split — not as generic floating pain-point quotes or a symptom card grid. The exact split ratio, exact index label and exact tonal-wash mechanism are not locked.
+
+### Decision / Resolution
+
+**Also validated — but the principle is restraint, not decoration.** Every A4.x iteration deliberately kept the Decision section the quietest of the first three sections — "no diagram, on the reused tint band" (A4) — specifically to land the "complexity → structure → clarity" emotional arc: Hero dense/curious, Problem recognition/analytical, Decision relief/clarity. This was a *content* decision (fewer words, calmer typography, a tonal band), not a *visual-device* decision.
+
+Task 007's Decision section added a small inline-SVG "decision fork" glyph (one input branching into two paths) — a reasonable, restrained idea consistent with the section's two-path structure, but it has no exploration precedent; no A4.x iteration ever added a Decision-section diagram, deliberately. This is not a defect (the glyph is small and doesn't compete with the Hero), but it should not be read as "the locked Decision-section device" — it is Task 007's own addition, now logged as such rather than silently implied to be historical.
+
+**Locked principle**: Decision sections should communicate **resolved calm after diagnosis** — reduced visual density relative to the Hero and Problem section, a tonal-band or otherwise quieter surface treatment, and a structured (not competing) two-path choice. A branching visual device is *permitted*, not *required* — the calm is the locked part, not any particular glyph.
+
+### Evidence / Record (Work)
+
+**No exploration precedent — newly formalized here.** No A4.x prototype ever built a Work/case-study section; the exploration stopped at Hero+Problem+Decision. `DOC/07`'s existing "Case study teaser" direction (further below) and `DOC/06`'s case-study architecture ("evidence, not portfolio decoration") are the closest existing guidance, applied to a homepage teaser context for the first time in Task 007.
+
+**Principle, synthesized from the locked language's own general rules** (restraint, no card-ification, real evidence only): proof should read as **evidence / record / documented system history** — an indexed case reference (`CASE / 0X`, mirroring the Problem section's `JEL / 0X` so the two evidence-adjacent sections share a visual dialect), restrained mono metadata where verified facts exist, real screenshots where approved assets exist — never testimonial marketing framing, never generic portfolio cards, never a fabricated screenshot standing in for unapproved evidence. Task 007's implementation (two working titles as an indexed pair, no fabricated specifics, no placeholder screenshot) already follows the *content* half of this principle; the *visual density* — currently a plain, unindexed-feeling list — could more clearly borrow the Problem section's spine treatment once one exists there.
+
+### Longevity / Structural confidence
+
+**No exploration precedent for the visual device** — `DOC/04` only ever specified "Large data typography + engineering metadata. Potential dark section." No A4.x prototype built this section.
+
+**Principle, synthesized from `DOC/04`'s own directional text plus the locked dark-section rule** ("use rarely... a deliberate rhythm change, not a repeated pattern"): Longevity should read as a **high-confidence structural statement** — sparse (a single strong statement, not a paragraph), supported by minimal technical residue (a `.technical-label`-style mark or similar restrained annotation) rather than large decorative numerals with no verified figure behind them, and justified as the site's *one* deliberate dark rhythm break, not decoration for its own sake. Task 007's implementation (dark section, two lines of typography, no numbers since none are verified) already matches the "sparse statement" half; it currently carries zero technical residue, which is what this principle adds for future refinement.
+
+### Owned product / Proof (Tardify)
+
+**No exploration precedent — newly formalized here**, from `DOC/04`'s "Real Tardify product UI" direction plus `DOC/12`'s asset-strategy rule distinguishing product screenshots (evidence) from System Map diagrams (structure explanation) — see that document's "System Maps vs. screenshot evidence" note.
+
+**Principle**: Tardify should read as **owned proof of engineering philosophy** — real product evidence (screenshot) when an approved asset exists, structured/restrained framing (not a marketing aside, not a mirror of tardify.hu's own visual identity), and — until a screenshot is approved — a typography-forward treatment that still signals "this is a real, operating system we built," not merely a paragraph of text. Task 007's implementation is copy-only (no approved screenshot exists yet, correctly per the gate), which is the *right* content decision but leaves the section reading as a plain aside rather than "owned system evidence" — the gap here is asset availability, not something documentation alone can close.
+
+### Process / Progression
+
+**No exploration precedent — newly formalized here**, from `DOC/04`'s explicit "Do not force this into four SaaS cards" instruction, which implies (without specifying) that some *connective* structure was intended.
+
+**Principle**: Process should read as **structured, connected progression** — a numbered/indexed sequence with some visual continuity between steps (a rule line, a spine, or comparable connective device), not four independent, self-contained cards. Task 007's implementation (a numbered list, border-top rule per step) satisfies "not cards" but doesn't yet express "connected" — a continuous rule or line running behind/through the sequence (not a new System Map) would close that gap without inventing a new device family.
+
+### Quiet clarity / CTA (Senior/Who, Final CTA)
+
+Not separately posed as an audit question by this task, but recorded for completeness: `DOC/04` specifies both as quiet, direct, typography-led ("Real human presence when asset is available" for Senior/Who; plain headline/copy/CTA for Final CTA). No exploration precedent exists or is needed — these were always meant to be the page's quietest moments, and Task 007's plain-typography implementation already matches that intent.
+
+### Page rhythm
+
+The A4 exploration's own stated goal — avoiding `container → heading → cards` repeated across every section — is implicit throughout the "Composition" principles above ("sections may vary compositionally... visual complexity should resolve into clarity") but was never mapped onto the actual nine-section homepage sequence. Recorded here:
+
+| Section | Density | Surface | Communication mode |
+|---|---|---|---|
+| Hero | richest — full System Map grammar | light canvas | transformation/system |
+| Problem | dense/open split (locked, not yet in production — see above) | tonal wash on the dense half only | diagnosis/signal |
+| Decision | quietest of the first three (locked) | tonal band | resolution/choice |
+| Work | moderate — indexed evidence | light canvas | evidence/record |
+| Longevity | sparse, single statement | dark — the site's one deliberate dark break | structural confidence |
+| Tardify | moderate — copy + (future) screenshot | light canvas | owned proof |
+| Process | moderate — connected sequence | light canvas | progression |
+| Senior/Who | quiet | light canvas | direct trust |
+| Final CTA | quiet, confident close | tonal | clarity/action |
+
+The dark Longevity section earns its rhythm break precisely because it's the *only* one — repeating the device (a second dark section) would flatten it back into decoration, per the "excessive dark/light alternation" anti-pattern below.
+
+### Accent continuity beyond the Hero
+
+The Colour language section above documents accent *roles* (CTA, link, focus, diagram) but doesn't state that those roles should keep recurring past the Hero — read literally, a page could satisfy every rule above while using violet only in the eyebrow and CTA button, which is what production `/` currently does. Recorded explicitly:
+
+- reuse the accent through structural moments beyond CTA/eyebrow: section indices (`JEL / 01`, `CASE / 01`), rule lines, route/connection emphasis, technical labels, key numerals — anywhere the design already uses a small mark or line, that mark can carry the accent instead of a neutral tone;
+- do not flood a section with violet — "colour gains power through scarcity" still governs; recurrence means a few deliberate moments per section, not a wash;
+- do not add accent-coloured decoration with no structural role — an accent-coloured rule line separating indexed items has a role (continuity, indexing); an accent-coloured rule line with nothing to index does not.
+
+### Communication grammar vs. component grammar
+
+The System Map documentation above (and `DOC/08`/`DOC/09`'s `SystemMap` component records) risk implying — never stated outright, but never corrected either — that ARTIT's visual language *is* the System Map, and that a section without one defaults to plain typography. It doesn't. The communication primitives below are **semantic concepts, not code components** — apply them with ordinary HTML/CSS wherever the matching content type appears, with no dependency on `SystemMap.astro`:
+
+| Primitive | Applies to | Already-locked building blocks |
+|---|---|---|
+| Diagnostic signal | Problem | `.meta` indexing (`JEL / 0X`), `.surface--tonal` |
+| Decision fork | Decision | restraint (fewer words, calmer surface); a branching glyph is optional |
+| Evidence record | Work, case studies | `.meta` indexing (`CASE / 0X`), `.panel-technical` |
+| Progression path | Process | indexed sequence + a connective rule/spine |
+| Technical annotation | anywhere quiet engineering texture is warranted | `.technical-label` |
+| Transformation field | Hero (currently) | `SystemMap`'s concentric rings — the *field* concept, not the component, is what could extend elsewhere |
+| Structured output | Work, Tardify | containerized, restrained presentation of a resolved fact |
+| Construction residue | Hero (currently), sparingly elsewhere | guideline/tick/registration-mark devices — currently only implemented inside `SystemMap.astro`; the *concept* is reusable, the SVG markup is not yet extracted |
+
+No new components are created by this task (explicitly out of scope) — this table exists so a future implementer reaches for the *right* primitive, component or otherwise, rather than defaulting to plain typography when `SystemMap` doesn't fit.
+
+### What remains unlocked (page communication grammar)
+
+Everything in this section locks **meaning and visual behaviour**, not geometry. Explicitly still open:
+
+- exact section layouts;
+- exact SVG shape of any non-Hero device (e.g. the Decision-section fork);
+- exact number of diagnostic/evidence markers;
+- exact index label/placement;
+- exact column count;
+- exact panel geometry;
+- exact route/connector shape;
+- exact amount of violet reuse per section;
+- exact dark-section artwork or content.
+
+(See "What is NOT locked" under "System Map — ARTIT brand asset" above for the equivalent list scoped to the System Map component itself.)
 
 ---
 
@@ -906,6 +1027,18 @@ DO NOT use:
 - excessive dark/light alternation;
 - generic SaaS feature grids;
 - AI-startup visual clichés.
+
+**Added (Task 007A — page-wide communication grammar)**:
+
+- floating quotes with no diagnostic structure;
+- the same default two-column text block reused as every section's only visual idea;
+- process/progression steps presented as disconnected generic cards;
+- proof reduced to portfolio tiles;
+- a dark section used only as a visual break, not a deliberate rhythm moment;
+- Tardify reduced to a plain text aside with no owned-system evidence;
+- the operating accent restricted to CTA/eyebrow only, disappearing from structural grammar elsewhere;
+- copying the full System Map into every section that wants a diagram;
+- decorative engineering marks with no semantic or indexing role.
 
 ## Semantic token architecture — implemented (Task 004B, extended Task 006)
 

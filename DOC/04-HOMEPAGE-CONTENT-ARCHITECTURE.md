@@ -6,13 +6,38 @@ The homepage should follow:
 
 > recognition → understanding → solution → evidence → trust → contact
 
-## Implementation status (Task 005A)
+## Implementation status (Task 007)
 
-Sections 01–03 (Hero, Problem recognition, Decision) are implemented in `src/pages/index.astro`, using the approved copy below verbatim. Sections 04–09 are not implemented yet; the page intentionally ends after Section 03.
+All nine sections are implemented in `src/pages/index.astro`. Sections 01–03 (Task 005A) are unchanged in copy; Section 01's Hero now also carries the production `SystemMap` component (see `07-DESIGN-SYSTEM.md` and `09-TECHNICAL-ARCHITECTURE.md`). Sections 04–09 are new in this task, each following the factual verification gate below.
 
-Hero's "Proof direction" bullets were **not** published — they remain gated `TO VERIFY` (see below and `13-CONTENT-GAPS-AND-VALIDATION.md`), and Task 005A's brief explicitly required omitting unverified evidence in production rather than showing placeholder/fake values. Add them once the underlying facts are verified.
+Hero's "Proof direction" bullets remain **not** published — still gated `TO VERIFY` (see `13-CONTENT-GAPS-AND-VALIDATION.md`). Add them once the underlying facts are verified.
 
-Section 03's "Key copy" (packaged-software/understand-the-business-first direction) is documented here only as message architecture, not exact Hungarian copy — the implemented working copy is faithful to it but is not a verbatim quote from this file.
+Section 03's "Key copy" (packaged-software/understand-the-business-first direction) is documented here only as message architecture, not exact Hungarian copy — the implemented working copy is faithful to it but is not a verbatim quote from this file. Section 03 also gained a small inline-SVG "decision fork" glyph (one input, two paths) per Task 007's "simple engineering decision diagram" requirement — deliberately not a second System Map; see `07-DESIGN-SYSTEM.md`'s construction-layer rule that the Hero carries the richest use of that grammar.
+
+**Sections implemented with a factual gap** (per this document's own sections below and `13-CONTENT-GAPS-AND-VALIDATION.md` — omitted rather than fabricated, per Task 007 §28):
+
+- **04 — Work**: shows the two documented working titles only (`Egy üzleti rendszer, amely együtt nőtt a vállalkozással.` / `A rendszer, amely több ERP-t is túlélt.`), styled as an editorial "CASE / 0X" pair, each linking to `/munkaink/` (the hub, not a specific case-study detail page — none exists yet). No screenshot, no year, no customer name, no outcome claim — none is publication-safe yet.
+- **05 — Longevity**: publishes only the headline/principle (`A hosszú táv nálunk nem marketingígéret.` / `A technológia eszköz. A működő rendszer a cél.`), exactly as Task 007 §14 explicitly allows — no `20+ év` or `10+ év` figure, since those remain unverified.
+- **06 — Tardify**: full approved copy published (it's positioning language, not a customer-specific claim); no product screenshot, since none exists in the repository yet (verified: `public/`, `src/assets/` both empty).
+- **08 — Senior/Who**: full approved copy published; no name, role wording, biography or portrait — none is verified yet, and no stock-photo substitute was used (explicitly disallowed).
+
+This is not new information — every one of these gaps was already tracked in `13-CONTENT-GAPS-AND-VALIDATION.md` before this task; implementation simply respected the existing gates rather than working around them.
+
+## Communication mode per section (Task 007A)
+
+This document records section *content*; `07-DESIGN-SYSTEM.md` → "Page-wide communication grammar" records how each content type should visually communicate — the audit that added it found production `/` had drifted from the validated pattern in Problem's case, and had no validated pattern at all to drift from for Work/Longevity/Tardify/Process. Cross-referenced here, not duplicated:
+
+| Section | Communication mode | Visual principle | Anti-pattern to avoid |
+|---|---|---|---|
+| Hero | transformation/system | richest System Map grammar | generic hero image/dashboard |
+| Problem | diagnosis/signals | indexed signal field, dense/open split (locked by the exploration; not yet in production) | floating quotes with no structure |
+| Decision | resolution/choice | calm after diagnosis; a branching glyph is optional, not required | turning it into a feature block |
+| Work | evidence/record | indexed case reference, real evidence only | portfolio-tile proof |
+| Longevity | structural confidence | sparse statement + technical residue | decorative dark banner |
+| Tardify | owned proof | product/system evidence when an asset is approved | plain text aside |
+| Process | progression | connected/indexed sequence, not disconnected steps | four generic SaaS cards |
+| Senior/Who | direct trust | quiet editorial | — |
+| Final CTA | clarity/action | minimal, confident | — |
 
 ## 01 — Hero
 

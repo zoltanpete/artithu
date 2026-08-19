@@ -156,24 +156,36 @@ Initial form fields:
 - Email
 - Röviden a probléma / projekt
 
-## `/` — implementation status (Task 005A)
+## `/` — implementation status (Task 007)
 
 ```text
 Route                / (src/pages/index.astro)
 Page purpose          positioning + qualification
 Primary visitor question   Can ARTIT solve the kind of business software problem we have?
 Primary CTA            Beszéljünk a projektről → (/kapcsolat/)
-Section structure       01 Hero, 02 Problem/Recognition, 03 Decision — implemented.
-                        04–09 (Work, Longevity, Tardify, Process, Senior/Who, Final CTA) — not yet implemented; page ends after Section 03.
-Internal links          /kapcsolat/, /munkaink/, /egyedi-fejlesztes/, /egyedi-fejlesztes/uzleti-alkalmazasok/, /egyedi-fejlesztes/rendszerintegracio/ (none of these routes are built yet — linked per the accepted architecture, per this document's own "Approved future routes may be linked even if not yet implemented" allowance)
-SEO/search intent       indexable (no noindex); title/description set from approved positioning copy (see 04-HOMEPAGE-CONTENT-ARCHITECTURE.md)
-E-E-A-T role            positioning entry point; no evidence/proof claims published yet (see below)
-Structured data role    none yet — deferred, no verified Organization/entity facts exist (see 13-CONTENT-GAPS-AND-VALIDATION.md)
-Content source          01-BRAND-POSITIONING.md, 04-HOMEPAGE-CONTENT-ARCHITECTURE.md (verbatim approved copy); one short working-copy paragraph in Section 03, faithful to the documented message architecture (see 04's "Key copy" direction)
-Implementation status    Sections 01–03 complete (Task 005A). Hero's "Proof direction" bullets (20+/10+ years, Tardify) intentionally omitted — still TO VERIFY per 13-CONTENT-GAPS-AND-VALIDATION.md.
+Section structure       All nine sections implemented: 01 Hero (with the production SystemMap
+                        component), 02 Problem/Recognition, 03 Decision, 04 Work, 05 Longevity,
+                        06 Tardify, 07 Process, 08 Senior/Who, 09 Final CTA.
+Internal links          /kapcsolat/, /munkaink/, /egyedi-fejlesztes/, /egyedi-fejlesztes/uzleti-alkalmazasok/,
+                        /egyedi-fejlesztes/rendszerintegracio/, /tardify/, /rolunk/, https://tardify.hu —
+                        none of the internal routes are built yet, linked per this document's own "approved
+                        future routes may be linked" allowance; tardify.hu is external, per DOC/00's stated fact.
+SEO/search intent       indexable (no noindex); title/description unchanged from Task 005A (still the
+                        approved Hero copy — see 04-HOMEPAGE-CONTENT-ARCHITECTURE.md)
+E-E-A-T role            positioning entry point; Sections 04/06/08 deliberately show approved
+                        positioning language only — no case-study specifics, product screenshot or
+                        person photo, since none is publication-safe yet (see 13-CONTENT-GAPS-AND-VALIDATION.md)
+Structured data role    none yet — unchanged, still deferred (see 13-CONTENT-GAPS-AND-VALIDATION.md)
+Content source          01-BRAND-POSITIONING.md, 04-HOMEPAGE-CONTENT-ARCHITECTURE.md (verbatim approved
+                        copy throughout); Section 04's two case teasers use the documented working
+                        titles only, with no invented specifics
+Implementation status    All nine sections complete (Task 007). Hero's numeric "Proof direction" bullets
+                        remain omitted (still TO VERIFY). Section 05's exact longevity numbers omitted —
+                        only the underlying principle is published. Section 06 has no product screenshot
+                        (none approved yet). Section 08 has no name/portrait (none verified yet).
 ```
 
-Production header/navigation (`src/components/navigation/SiteHeader.astro`) implemented alongside the homepage — see `09-TECHNICAL-ARCHITECTURE.md`. No footer yet: no footer content (legal/contact/social) is defined anywhere in `DOC/`, and inventing it is explicitly disallowed.
+Production header/navigation (`src/components/navigation/SiteHeader.astro`) implemented alongside the homepage (Task 005A) — see `09-TECHNICAL-ARCHITECTURE.md`. Task 007 fixed a real pre-existing bug in it: the mobile-menu `<ul>` had an unconditional `display: flex` that defeated the browser's native content-hiding for a closed `<details>`, causing ~6px of horizontal overflow at 768px even while visually collapsed — see `11-ACCESSIBILITY-AND-PERFORMANCE.md` for the fix and verification. No footer: no footer content (legal/contact/social) is defined anywhere in `DOC/`, and inventing it is explicitly disallowed — the page ends after Section 09.
 
 ## SEO and structured data
 
