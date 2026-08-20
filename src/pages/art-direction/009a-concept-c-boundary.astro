@@ -1,0 +1,63 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 009A exploration — Concept C: "System Boundary / Adaptation Model".
+// Concentric rings (business process / existing systems) with a marked
+// segment showing where adaptation happens. Comparison prototype — the
+// architectural framing is the main risk to evaluate (does it imply real
+// technical specification ARTIT hasn't approved?).
+---
+
+<BaseLayout
+	title="Task 009A — Concept C — System Boundary / Adaptation Model"
+	description="Exploration prototype"
+	noindex={true}
+>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 009A — CONCEPT C — SYSTEM BOUNDARY / ADAPTATION MODEL" />
+
+	<main>
+		<section class="section section--major">
+			<Container width="standard">
+				<div class="hero-c__grid">
+					<div class="hero-c__main">
+						<p class="eyebrow">Kinőtte a kész megoldásokat?</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							Mikor indokolt egyedi szoftvert fejleszteni — és mikor nem?
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+							Nem minden problémára kell egyedi szoftver. Amire viszont igen, arra pontosan illeszkedőt építünk.
+						</p>
+						<a href="#" class="btn btn-primary" style="margin-block-start: var(--space-xl);">Beszéljük át a problémát →</a>
+					</div>
+
+					<div class="hero-c__visual">
+						<svg viewBox="0 0 380 380" role="img" aria-label="Illusztráció: koncentrikus rétegek — üzleti folyamat, meglévő rendszerek — és egy kiemelt szegmens, amely az illesztés helyét jelzi.">
+							<circle cx="190" cy="190" r="170" fill="none" stroke="var(--color-border)" stroke-width="1.1" />
+							<circle cx="190" cy="190" r="115" fill="none" stroke="var(--color-border)" stroke-width="1.1" />
+							<circle cx="190" cy="190" r="55" fill="var(--color-accent-tint)" stroke="var(--color-accent)" stroke-width="1.25" />
+
+							<path d="M190,20 A170,170 0 0 1 349,140" fill="none" stroke="var(--color-accent)" stroke-width="3" stroke-linecap="round" />
+
+							<text x="190" y="45" text-anchor="middle" font-family="var(--font-mono)" font-size="10" letter-spacing="0.06em" fill="var(--color-text-muted)">ÜZLETI FOLYAMAT</text>
+							<text x="190" y="100" text-anchor="middle" font-family="var(--font-mono)" font-size="10" letter-spacing="0.06em" fill="var(--color-text-muted)">MEGLÉVŐ RENDSZEREK</text>
+							<text x="190" y="185" text-anchor="middle" font-family="var(--font-mono)" font-size="10.5" letter-spacing="0.06em" fill="var(--color-accent)">ILLESZTÉS</text>
+							<text x="190" y="200" text-anchor="middle" font-family="var(--font-mono)" font-size="9" letter-spacing="0.05em" fill="var(--color-text-muted)">HOL TÖRTÉNIK?</text>
+						</svg>
+					</div>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.hero-c__grid { display: grid; grid-template-columns: 1fr; gap: var(--space-xl); }
+	@media (min-width: 900px) {
+		.hero-c__grid { grid-template-columns: 3fr 2fr; align-items: center; }
+	}
+	.hero-c__visual svg { width: 100%; height: auto; max-width: 340px; margin-inline: auto; display: block; }
+</style>

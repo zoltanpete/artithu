@@ -57,6 +57,54 @@ Shared, locale-parameterized renderer for the full homepage — one implementati
 
 Used on: `/` (Task 007B; not yet `/en/` — see `09-TECHNICAL-ARCHITECTURE.md`).
 
+#### `CustomDevelopmentPage`
+
+Purpose:
+
+Shared, locale-parameterized renderer for the Custom Development pillar page — the same architectural pattern as `Homepage`, applied to a second, structurally different page.
+
+**Implemented (Task 009)**: `src/components/custom-development/CustomDevelopmentPage.astro`. Props: `locale` (`Locale`, required) and `alternateLocalePath` (`string?`). Loads the `customDevPage/egyedi-fejlesztes` content entry (its own Content Collection — see `09-TECHNICAL-ARCHITECTURE.md`) and renders `BaseLayout` + `SiteHeader` + six page-specific sections. Route wrapper: `src/pages/egyedi-fejlesztes/index.astro` is `<CustomDevelopmentPage locale="hu" />`, mirroring `Homepage`'s wrapper exactly.
+
+This is not a generalization of `Homepage` into a shared "page renderer" — the two components share a *pattern* (locale prop, self-loaded content, thin route wrapper), not markup or a base class. Each page's actual section markup remains its own, matching its own content shape. See `07-DESIGN-SYSTEM.md` "Homepage as reference implementation" — "reuse the grammar, not the layout" applies to components too.
+
+Used on: `/egyedi-fejlesztes/` (Task 009; not yet `/en/`).
+
+#### `OperatingFitField`
+
+Purpose:
+
+Page-specific Hero brand-face visual for `/egyedi-fejlesztes/` — a static "field" model (not a flow) showing the business's operation as a central reference point with satellite nodes for typical current-state elements, distinguishing fit from friction. See `07-DESIGN-SYSTEM.md` "Custom Development brand-face (Task 009A)" for the full selection rationale (3-concept exploration) and the locked principle it establishes.
+
+**Implemented (Task 009A)**: `src/components/custom-development/OperatingFitField.astro`.
+
+Inputs (props):
+
+```text
+id            string — wrapper element id
+centerLabel   string — the central anchor's label
+nodes         exactly four { id, label, friction: boolean } — geometry only verified at this count
+legend        { friction: string, fit: string }
+ariaLabel     string — required, full accessible description
+```
+
+Variants: none — narrow API, matching `SystemMap`'s own "keep APIs narrow" precedent.
+
+Responsive behavior: separately composed desktop (radial field, viewBox 0 0 440 440) and mobile (top anchor + 2×2 node grid, viewBox 0 0 320 260) SVGs, toggled by CSS `display` at 900px — not one diagram scaled down, per the same responsive philosophy `SystemMap` established.
+
+Accessibility notes: both SVGs carry `role="img"` and the same required `ariaLabel`. No interactive elements — reviewed explicitly and rejected (see DOC/07): nothing here is hidden until hovered, unlike `SystemMap`'s node focus, so interaction would add motion without adding information. Friction vs. fit is distinguished by line style (dashed vs. solid) and colour together, not colour alone.
+
+Used on: `/egyedi-fejlesztes/` Hero (Task 009A).
+
+Do:
+
+- keep `nodes` at exactly four — the geometry (both desktop and mobile) is only verified for that count;
+- keep labels short technical/categorical terms (matching `SystemMap`'s own label register), not sentences.
+
+Don't:
+
+- add interaction without a genuine, explicit information-gain justification (see DOC/07's reasoning for why this component doesn't have any);
+- reuse this component's exact geometry for an unrelated page's visual — it's page-specific, not a generalized "BrandFace" abstraction (see DOC/07 "reuse the grammar, not the diagram").
+
 #### `SiteFooter`
 
 Purpose:
@@ -258,6 +306,14 @@ Performed as part of the Task 008 homepage visual lock — a check on whether an
 **Still homepage-specific** (all homepage-section CSS in `foundation.css`, not components): `.hero-map*`, `.problem-signals*`, `.decision-paths*`, `.work-teaser*`, `.longevity__mark`, `.tardify-proof*`, `.process-steps*`.
 
 **Conclusion: no extraction warranted.** Two candidate "families" exist — an index+device pattern (Problem's `JEL/0X` spine/dots, Work's `CASE/0X` in a `.panel-technical` box) and a specification-plate pattern (Tardify's top-rule + corner-mark) — but each has exactly one or two real instances, each with genuinely different treatment (Problem's spine/dot device vs. Work's bordered plate are deliberately *not* the same component, per "family resemblance, not repetition" — see `07-DESIGN-SYSTEM.md`). Forcing a shared component now would mean either losing those deliberate differences or building a configuration surface to preserve them — abstracting CSS prematurely, not improving consistency, accessibility or maintainability. This follows the same reasoning Task 006 already used to defer the `SystemMap` component itself until Task 007 supplied a second real instance to generalize from (see "Production architecture decision (Task 006)" above) — the project's standing default is no new component until genuine reuse pressure exists, not speculative generalization.
+
+## Componentization audit (Task 009)
+
+Task 009 built `/egyedi-fejlesztes/`, the first real test of whether any "still homepage-specific" pattern above actually gets reused. Result: **`.decision-paths`/`.decision-paths__path` graduates to a genuinely shared primitive** — it now backs two pages' two-path editorial splits (`/`'s Decision section, `/egyedi-fejlesztes/`'s "Two directions" section) for the same underlying semantic relationship. No rename or extraction into a component was needed: the class names were already generic, and CSS reuse across pages needs nothing beyond "the selector already exists" — this is exactly the "improves consistency without abstracting prematurely" case the Task 008 audit above was watching for, not a reason to promote it further into an Astro component. `.hero-map*`, `.problem-signals*`, `.work-teaser*`, `.longevity__mark`, `.tardify-proof*`, `.process-steps*` remain homepage-specific — none was reused this task. Two new page-specific patterns were added for `/egyedi-fejlesztes/` only (`.justification-signals*`, `.decision-paths__evidence*`) — deliberately not generalized from `.problem-signals`/`.work-teaser__index` respectively, since the content shapes differ (see `07-DESIGN-SYSTEM.md`'s "First reuse test" note). No new component beyond `CustomDevelopmentPage` itself (the route-level renderer, not a reusable content-section component) was created.
+
+## Componentization audit (Task 009A)
+
+Task 009A's brief explicitly warned against creating a generic `BrandFace`/`TechnicalDiagram`/`SystemDiagram` abstraction during exploration, and against generalizing prematurely. `OperatingFitField` was built as a genuinely page-specific component (its own file, its own geometry, its own prop shape) rather than a configurable "diagram" primitive — it has exactly one real usage. If a future page independently needs a similar field/fit visual model, that would be the moment to look for a shared abstraction (matching every other extraction decision in this document); inventing one now, from a single instance, would be exactly the premature generalization this project's dependency rule and `SystemMap`'s own history (deferred until a second real need existed) both warn against.
 
 ## Possible later components
 

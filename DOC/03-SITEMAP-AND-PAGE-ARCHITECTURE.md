@@ -80,6 +80,43 @@ Expected content:
 - proof from case studies;
 - CTA.
 
+### `/egyedi-fejlesztes/` — implementation status (Task 009)
+
+```text
+Route                  /egyedi-fejlesztes/ (src/pages/egyedi-fejlesztes/index.astro)
+Page purpose            decision framework for custom software — when it's justified, when it isn't
+Primary visitor question   Mikor indokolt egyedi szoftvert fejleszteni — és mikor nem?
+Primary CTA             Beszéljük át a problémát → (/kapcsolat/) — the page-specific CTA from DOC/02,
+                        not the homepage's "Beszéljünk a projektről"
+Section structure       6 sections: Hero (typography + one page-specific brand-face visual,
+                        `OperatingFitField` — a static "fit/friction field," not a diagram of an
+                        actual decision route; Task 009A — see 07-DESIGN-SYSTEM.md "Custom
+                        Development brand-face"), When justified (3 plain-indexed signals,
+                        deliberately not the homepage Problem section's JEL spine/dot device), When
+                        not justified (tonal band, reusing the locked Decision restraint principle),
+                        Two directions (Business Applications / System Integration, reusing
+                        `.decision-paths` — see 07-DESIGN-SYSTEM.md), Approach (one quiet trust
+                        statement, no rebuilt Process), Final CTA
+Internal links          /egyedi-fejlesztes/uzleti-alkalmazasok/, /egyedi-fejlesztes/rendszerintegracio/
+                        (neither built yet — linked per this document's own "approved future routes
+                        may be linked" allowance), /munkaink/, /kapcsolat/
+SEO/search intent       indexable (no noindex); title "ARTIT — Mikor indokolt egyedi szoftvert
+                        fejleszteni?", description reuses the Hero lead verbatim (same pattern as `/`)
+E-E-A-T role            decision-framework/expertise entry point; each of the two directions carries
+                        its approved case-study working title as evidence (Business Applications →
+                        Case Study 01, System Integration → Case Study 02, per DOC/02's own mapping)
+Structured data role    none — unchanged, still deferred (see 13-CONTENT-GAPS-AND-VALIDATION.md)
+Content source          01-BRAND-POSITIONING.md (verbatim quotes: "Kinőtte a kész megoldásokat?",
+                        "Nem minden problémára kell egyedi szoftver...", the three problem-area
+                        structure, the senior-collaboration statement), already-published homepage
+                        copy reused for the same underlying facts (Decision paragraph, the two
+                        directions' title/description/link, the Final CTA's friction-reducing copy),
+                        02-INFORMATION-ARCHITECTURE.md (page role, CTA, child-page mapping)
+Implementation status    Complete. Task 009A added the Hero brand-face visual (`OperatingFitField`) —
+                        selected from a 3-concept exploration, see 07-DESIGN-SYSTEM.md. No `/en/`
+                        equivalent — same translation-completeness gate as `/`.
+```
+
 ## `/egyedi-fejlesztes/uzleti-alkalmazasok/`
 
 Expected content themes:

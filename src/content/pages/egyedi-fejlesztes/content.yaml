@@ -1,0 +1,151 @@
+# Custom Development pillar page content (Task 009). See DOC/04's "Visual
+# lock status" / DOC/02's `/egyedi-fejlesztes/` page role for the approved
+# source material this was built from. Every `hu` value below is either a
+# verbatim-approved quote (DOC/01-BRAND-POSITIONING.md, or already-published
+# homepage copy in ../home/content.yaml reused for the same underlying fact)
+# or a faithful synthesis of DOC/01's documented "main problem areas" /
+# DOC/02's page role — never an invented claim. `en` is absent everywhere
+# (gated) for the same reason as the homepage: no approved English
+# translation of ARTIT marketing copy exists in this repository yet — see
+# DOC/09-TECHNICAL-ARCHITECTURE.md "Localization".
+egyedi-fejlesztes:
+  seo:
+    title:
+      hu: "ARTIT — Mikor indokolt egyedi szoftvert fejleszteni?"
+    description:
+      hu: "Nem minden problémára kell egyedi szoftver. Amire viszont igen, arra pontosan illeszkedőt építünk."
+
+  hero:
+    eyebrow:
+      hu: "Kinőtte a kész megoldásokat?"
+    title:
+      hu: "Mikor indokolt egyedi szoftvert fejleszteni — és mikor nem?"
+    lead:
+      hu: "Nem minden problémára kell egyedi szoftver. Amire viszont igen, arra pontosan illeszkedőt építünk."
+    cta:
+      label:
+        hu: "Beszéljük át a problémát →"
+      href: /kapcsolat/
+    # Task 009A brand-face visual ("Fit / Friction Field", OperatingFitField.astro).
+    # Technical/categorical vocabulary, not marketing copy — both locales
+    # populated, matching the SystemMap label precedent (see DOC/09
+    # "Localization"). Reuses the exact English terms already established in
+    # home/content.yaml (SEPARATE SYSTEM, MANUAL DATA) for sitewide
+    # consistency.
+    visual:
+      centerLabel:
+        hu: MŰKÖDÉS
+        en: OPERATION
+      ariaLabel:
+        hu: "Vizuális modell: a vállalkozás működése egy középső referenciapont, amely körül a jellemző jelenlegi elemek — Excel, külön rendszer, kézi adat — szaggatott, súrlódást jelző vonallal kapcsolódnak, míg egy jól illeszkedő kész szoftver folytonos vonallal, megfelelő kapcsolatként jelenik meg."
+        en: "Visual model: the business's operation as a central reference point, around which typical current elements — Excel, a separate system, manual data — connect with a dashed line signaling friction, while a well-fitting packaged software connects with a solid line as a proper fit."
+      legend:
+        friction:
+          hu: Súrlódási pont
+          en: Friction point
+        fit:
+          hu: Megfelelő kapcsolat
+          en: Proper fit
+      nodes:
+        - id: excel
+          friction: true
+          label:
+            hu: EXCEL
+            en: EXCEL
+        - id: kulon
+          friction: true
+          label:
+            hu: KÜLÖN RENDSZER
+            en: SEPARATE SYSTEM
+        - id: kezi
+          friction: true
+          label:
+            hu: KÉZI ADAT
+            en: MANUAL DATA
+        - id: kesz
+          friction: false
+          label:
+            hu: KÉSZ SZOFTVER
+            en: PACKAGED SOFTWARE
+
+  justified:
+    headline:
+      hu: "Ezek azok a helyzetek, amikor egyedi fejlesztés indokolt lehet."
+    signals:
+      - id: outgrown-solution
+        order: 1
+        title:
+          hu: "A jelenlegi megoldást kinőtték"
+        body:
+          hu: "Excel, Access, egy régebbi asztali vagy webes alkalmazás, papíralapú vagy kézi adminisztráció, esetleg egy merev, kompromisszumokra kényszerítő kész szoftver — ha ezek már nem bírják a működést, két irány van: a folyamat digitalizálása, vagy egy egyedi üzleti alkalmazás."
+      - id: special-process
+        order: 2
+        title:
+          hu: "A működés speciális"
+        body:
+          hu: "Ha egy általános ERP, CRM vagy SaaS rendszer nem tudja jól kiszolgálni a folyamatot, a szoftvernek kell alkalmazkodnia a vállalkozáshoz — nem fordítva."
+      - id: fragmented-systems
+        order: 3
+        title:
+          hu: "A rendszerek nem kommunikálnak egymással"
+        body:
+          hu: "CRM, ERP, számlázás, webshop és egyéb, egymástól függetlenül működő eszközök között sok a kézi, ismétlődő munka — ilyenkor a megoldás gyakran integráció és automatizáció, nem egy vadonatúj rendszer."
+
+  notJustified:
+    headline:
+      hu: "Nem minden problémára kell egyedi szoftver."
+    body:
+      hu: "Ha a jelenlegi kész szoftver jól támogatja a működést, nincs értelme újraépíteni. Előbb azt érdemes megérteni, hogyan működik ma a vállalkozás — utána dönthető el, milyen szoftverre van ténylegesen szükség."
+
+  directions:
+    headline:
+      hu: "Ha egyedi fejlesztés indokolt, két fő irány van."
+    paths:
+      - id: custom-applications
+        title:
+          hu: "Egyedi üzleti alkalmazások"
+        description:
+          hu: "Ha a folyamat különleges, és a kész rendszerek kompromisszumra kényszerítik a működést."
+        link:
+          label:
+            hu: "Egyedi üzleti alkalmazások →"
+          href: /egyedi-fejlesztes/uzleti-alkalmazasok/
+        evidence:
+          caseId: case-01
+          order: 1
+          title:
+            hu: "Egy üzleti rendszer, amely együtt nőtt a vállalkozással."
+      - id: systems-integration
+        title:
+          hu: "Rendszerintegráció és automatizáció"
+        description:
+          hu: "Ha a rendszerek külön-külön már megvannak, csak éppen nem kommunikálnak egymással."
+        link:
+          label:
+            hu: "Rendszerintegráció és automatizáció →"
+          href: /egyedi-fejlesztes/rendszerintegracio/
+        evidence:
+          caseId: case-02
+          order: 2
+          title:
+            hu: "A rendszer, amely több ERP-t is túlélt."
+    evidenceLink:
+      label:
+        hu: "Munkáink megtekintése →"
+      href: /munkaink/
+
+  approach:
+    headline:
+      hu: "Először a működést értjük meg. A technológia utána jön."
+    statement:
+      hu: "A problémán tapasztalt fejlesztő dolgozik az első beszélgetéstől az éles rendszerig."
+
+  finalCta:
+    headline:
+      hu: "Még nem biztos benne, melyik irány illik a helyzetéhez?"
+    copy:
+      hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+    cta:
+      label:
+        hu: "Beszéljük át a problémát →"
+      href: /kapcsolat/

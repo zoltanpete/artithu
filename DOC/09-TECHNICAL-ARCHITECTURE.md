@@ -108,6 +108,14 @@ Added `src/components/navigation/SiteHeader.astro` — real cross-page reuse jus
 
 Added `src/components/system-map/SystemMap.astro` — the real homepage content/geometry that Task 006 deferred the component on now exists. Its own `<style>` block holds all diagram-specific styling (node/port/path/ring/core CSS), reusing the shared `--color-*` tokens and the `.panel-technical` primitive from Task 006 for its legend, rather than duplicating either. Homepage-section-specific CSS that isn't a stable cross-page concept yet (`.hero-map`, `.decision-fork`, `.work-teaser`, `.process-steps`) was added to `foundation.css` instead, following this project's existing convention (the same file already held `.problem-grid`/`.decision-paths` from Task 005A for the same reason) rather than introducing scoped `<style>` blocks in `index.astro` or fragmenting into new files. (`.decision-fork` was removed in Task 007D.1 — see that task's notes under "Page-wide communication grammar" above; kept here as an accurate record of what Task 007 actually added at the time.) `case-study/`, `content/`, `typography/`, `ui/` still don't exist.
 
+### Implementation status (Task 009)
+
+Added `src/components/custom-development/CustomDevelopmentPage.astro` (see `08-COMPONENT-LIBRARY.md`) and `src/pages/egyedi-fejlesztes/index.astro`. `case-study/`, `content/`, `typography/`, `ui/` still don't exist — no genuine need for any of them arose from this page either.
+
+### Implementation status (Task 009A)
+
+Added `src/components/custom-development/OperatingFitField.astro` (see `08-COMPONENT-LIBRARY.md`) and three temporary exploration prototypes under `src/pages/art-direction/009a-concept-{a,b,c}-*.astro` (`noindex`, not linked from navigation — the same exploration precedent the A/A2/A3/A4.x prototypes established; kept in the repository as historical exploration evidence, not deleted after selection, matching that precedent).
+
 ## Localization
 
 ARTIT is bilingual: Hungarian (primary, currently published) and English (architecture-ready, not yet published — see below).
@@ -132,6 +140,8 @@ Sitewide header/navigation chrome (`src/content/nav/content.yaml`, `nav` collect
 **Language switch**: `SiteHeader.astro` accepts an optional `alternateLocalePath` prop; when present it renders one small semantic `<a>` (`.site-header__lang`, restrained mono chip, no flags) to the equivalent page in the other locale, both in the desktop header and the mobile menu. `index.astro` does not currently pass this prop, since `/en/` doesn't exist yet — rendering a locale link to a non-existent page would be a misleading broken link, which Task 007B's brief explicitly disallows. Wiring it up is a one-line change once `/en/` exists.
 
 **Runtime cost**: zero. All localization resolves at build time; the SystemMap's existing 810-byte inline interaction script is unchanged (locale only affects which string it's initialized with, not its behavior). No i18n library dependency was added — `astro:i18n` is part of Astro core, `js-yaml`/`yaml` (used by Astro's built-in Content Collections `file()` loader for the new `.yaml` sources) were already present as transitive dependencies of Astro itself, not newly installed.
+
+**Implementation status (Task 009)**: the architecture generalized to a second page with one small, genuinely-needed addition — `src/lib/i18n.ts`'s `homePath()` (hardcoded to `'/'`) was generalized into `localePath(locale, path)`, with `homePath()` now a one-line wrapper (`localePath(locale, '/')`) so existing callers didn't change. `CustomDevelopmentPage.astro` uses `localePath(locale, '/egyedi-fejlesztes/')` directly. Everything else — the `LocalizedGated` translation-completeness policy, `localizeGated()`'s no-silent-fallback behavior, the withheld-`/en/`-route pattern, the locale-wrapper component shape — required zero changes to reach a second page; `/en/egyedi-fejlesztes/` is withheld for the identical reason `/en/` is (no approved English marketing copy exists for this page either).
 
 ## Public assets
 
@@ -216,6 +226,14 @@ Still zero client JS — confirmed directly against the production `dist/` outpu
 
 Production `/` now carries **one small inline module script**, from the `SystemMap` component: **810 bytes minified** (`grep`-extracted and measured directly against the built `dist/index.html`, not estimated), no `_astro/*.js` bundle file, no framework runtime, no hydration directive of any kind. It is a deterministic `classList`-based state machine (hover/focus preview, click/Enter commit, keyboard parity) — the same interaction *language* every A4.x prototype used, re-derived rather than copied, and generalized to work with page-supplied node ids instead of the prototypes' hardcoded ones (see `08-COMPONENT-LIBRARY.md`). `/design-foundation` and `/404` remain fully static — the script only loads on pages that actually render a `SystemMap`. Still zero UI-framework/graph-library/animation-library dependency.
 
+### Implementation status (Task 009)
+
+`/egyedi-fejlesztes/` carries no `SystemMap` and no other interactive element — confirmed `grep -c '<script'` returns 0 against the built `dist/egyedi-fejlesztes/index.html`. Static-first by content, not by an explicit decision to omit interactivity: this page's own brief (Task 009 §20) expected no additional client JavaScript, and nothing on the page needed any.
+
+### Implementation status (Task 009A)
+
+Still 0 `<script>` tags after adding the `OperatingFitField` Hero visual — confirmed against the rebuilt `dist/egyedi-fejlesztes/index.html`. Interaction was explicitly considered and rejected for this component (see `07-DESIGN-SYSTEM.md`), not merely defaulted away from — the deciding factor was that hover/focus would add no information here, unlike `SystemMap`'s node highlighting.
+
 ## Content Collections
 
 Use Astro Content Collections for case studies.
@@ -231,6 +249,14 @@ A minimal `case-studies` collection exists at `src/content.config.ts`, using the
 ### Implementation status (Task 007B)
 
 Added two `file()`-loader collections: `pages` (`src/content/pages/home/content.yaml`, entry id `home`) and `nav` (`src/content/nav/content.yaml`, entry id `main`) — Astro's built-in Content Collections `file()` loader parses `.yaml` natively (via its bundled `js-yaml` dependency), so no new dependency was needed. `pages` currently holds only the homepage; if/when a second page's content is migrated, revisit whether `file()` (one collection per page) or `glob()` (one collection scanning `src/content/pages/*/content.yaml`) is the better fit — not decided speculatively now, per this document's own "adjust only when implementation provides a clear reason" rule. See "Localization" below for the localized-field schema design.
+
+### Implementation status (Task 009)
+
+Resolved the "revisit" note above now that a second page's content actually exists: **kept `file()`, one collection per page-type**, not `glob()` over one shared `pages` collection. The reason is a schema mismatch, not a loader preference — Astro Content Collections apply exactly one schema per collection, and the homepage's section shape (hero/problem/decision/work/longevity/tardify/process/seniorWho/finalCta) and the Custom Development pillar page's shape (hero/justified/notJustified/directions/approach/finalCta) are genuinely different, not variations of one shape. Unifying them would need either a Zod discriminated union (real complexity for two data points) or scattering optional fields that only apply to one page-type — both are premature generalization the same way a generic `SystemMap` diagram schema was rejected in Task 006. Added `customDevPage` (`src/content/pages/egyedi-fejlesztes/content.yaml`, entry id `egyedi-fejlesztes`) as its own collection with its own schema, alongside — not merged into — `pages`. `pages` was not renamed despite arguably being homepage-specific by convention now; renaming working, already-approved code purely for naming symmetry was judged out of scope for a page-implementation task (see `08-COMPONENT-LIBRARY.md`'s Task 009 componentization audit for the parallel CSS-reuse decision).
+
+### Implementation status (Task 009A)
+
+Extended `customDevPageSchema` with `hero.visual` (the `OperatingFitField` labels: `centerLabel`, `ariaLabel`, `legend.{friction,fit}`, and exactly four `nodes`) — no new collection, no schema restructuring, since this is genuinely part of the same page's Hero section. Every field uses `localizedText` (both locales required), not `localizedGated` — classified the same way `SystemMap`'s own source/output labels were in Task 007B: short technical/categorical vocabulary, not marketing prose, so both `hu`/`en` are populated (reusing the exact English terms already established in `home/content.yaml` — "SEPARATE SYSTEM", "MANUAL DATA" — for sitewide vocabulary consistency).
 
 ## Images
 
@@ -316,6 +342,10 @@ Only `/` and `/404` exist, both minimal structural placeholders (no homepage sec
 ### Implementation status (Task 007B)
 
 Astro's native `i18n` routing is configured (see "Localization" above) and would serve `/en/index.astro` automatically if it existed, but it does not yet — withheld until an approved English translation pass exists (see "Localization"). `/` itself is unchanged in URL/content-shape; it is now rendered via the shared `Homepage.astro` component instead of inlining all copy, which is an internal implementation change, not a routing change.
+
+### Implementation status (Task 009)
+
+Added `/egyedi-fejlesztes/` (`src/pages/egyedi-fejlesztes/index.astro`, a directory + `index.astro` rather than a flat `egyedi-fejlesztes.astro` file — deliberately, since this route will have real children, `/egyedi-fejlesztes/uzleti-alkalmazasok/` and `/egyedi-fejlesztes/rendszerintegracio/`, matching the existing `art-direction/` directory precedent rather than `design-foundation.astro`'s flat-file one, which has no children). Same locale-wrapper pattern as `/`: a thin route file rendering `<CustomDevelopmentPage locale="hu" />`. No `/en/egyedi-fejlesztes/` — same translation-completeness gate as `/`. The two child routes are linked from this page (per `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`'s "approved future routes may be linked" allowance) but not built — they currently 404, same expected-not-a-defect status Task 005A recorded for `/`'s own future links.
 
 ### Implementation status (Task 004B)
 

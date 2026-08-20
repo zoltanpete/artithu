@@ -1,0 +1,84 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 009A exploration — Concept A: "Operating Model / Solution Fit".
+// Deliberately built AS a compact input -> fit-check -> two-outcome flow, so
+// its resemblance to SystemMap and to a forbidden decision-tree can be
+// judged from a real rendering rather than argued about abstractly. This is
+// the comparison prototype most likely to be rejected — see the completion
+// report for the reasoning either way.
+
+const inputs = [
+	{ label: 'EXCEL', y: 40 },
+	{ label: 'KÜLÖN RENDSZER', y: 92 },
+	{ label: 'KÉZI ADAT', y: 144 },
+];
+---
+
+<BaseLayout
+	title="Task 009A — Concept A — Operating Model / Solution Fit"
+	description="Exploration prototype"
+	noindex={true}
+>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 009A — CONCEPT A — OPERATING MODEL / SOLUTION FIT" />
+
+	<main>
+		<section class="section section--major">
+			<Container width="standard">
+				<div class="hero-a__grid">
+					<div class="hero-a__main">
+						<p class="eyebrow">Kinőtte a kész megoldásokat?</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							Mikor indokolt egyedi szoftvert fejleszteni — és mikor nem?
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+							Nem minden problémára kell egyedi szoftver. Amire viszont igen, arra pontosan illeszkedőt építünk.
+						</p>
+						<a href="#" class="btn btn-primary" style="margin-block-start: var(--space-xl);">Beszéljük át a problémát →</a>
+					</div>
+
+					<div class="hero-a__visual">
+						<svg viewBox="0 0 380 190" role="img" aria-label="Illusztráció: jelenlegi működési elemek egy illeszkedés-vizsgálaton keresztül két lehetséges kimenetbe futnak.">
+							{inputs.map((i) => (
+								<>
+									<rect x="10" y={i.y} width="120" height="30" rx="6" fill="var(--color-bg)" stroke="var(--color-border)" stroke-width="1.1" />
+									<text x="70" y={i.y + 19} text-anchor="middle" font-family="var(--font-mono)" font-size="9.5" fill="var(--color-text-muted)">{i.label}</text>
+									<path d={`M130,${i.y + 15} C165,${i.y + 15} 170,95 190,95`} fill="none" stroke="var(--color-text-muted)" stroke-width="1.1" opacity="0.6" />
+								</>
+							))}
+
+							<rect x="190" y="75" width="90" height="40" rx="8" fill="var(--color-accent)" />
+							<text x="235" y="99" text-anchor="middle" font-family="var(--font-mono)" font-size="10" fill="white">ILLESZKEDÉS</text>
+
+							<path d="M280,90 C310,90 310,35 340,35" fill="none" stroke="var(--color-accent)" stroke-width="1.75" marker-end="url(#arrow-a)" />
+							<path d="M280,100 C310,100 310,155 340,155" fill="none" stroke="var(--color-accent)" stroke-width="1.75" marker-end="url(#arrow-a)" />
+
+							<rect x="340" y="18" width="34" height="34" rx="17" fill="none" stroke="var(--color-accent)" stroke-width="1.5" />
+							<rect x="340" y="138" width="34" height="34" rx="17" fill="none" stroke="var(--color-accent)" stroke-width="1.5" />
+
+							<defs>
+								<marker id="arrow-a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+									<path d="M0,0 L10,5 L0,10 Z" fill="var(--color-accent)" />
+								</marker>
+							</defs>
+						</svg>
+						<p class="hero-a__caption">Egyedi alkalmazás / rendszerintegráció</p>
+					</div>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.hero-a__grid { display: grid; grid-template-columns: 1fr; gap: var(--space-xl); }
+	@media (min-width: 900px) {
+		.hero-a__grid { grid-template-columns: 3fr 2fr; align-items: center; }
+	}
+	.hero-a__visual svg { width: 100%; height: auto; max-width: 380px; margin-inline: auto; display: block; }
+	.hero-a__caption { text-align: center; margin-block-start: var(--space-sm); font-family: var(--font-mono); font-size: var(--text-meta); color: var(--color-text-muted); letter-spacing: var(--tracking-wide); text-transform: uppercase; }
+</style>

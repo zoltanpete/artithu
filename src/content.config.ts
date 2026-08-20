@@ -138,6 +138,100 @@ const pages = defineCollection({
 	schema: homeSchema,
 });
 
+// `customDevPage` (Task 009) is deliberately its own collection with its own
+// narrow schema, not folded into `pages` above. Astro Content Collections
+// apply one schema per collection; the homepage and this pillar page have
+// genuinely different section shapes (no System Map, no Longevity/Tardify/
+// Process equivalents here), so sharing a schema would mean either a
+// discriminated union (real complexity for exactly two data points) or
+// silently-optional fields that don't belong to either page. Each new
+// page-type gets its own collection instead — narrow schema per real need,
+// the same reasoning already used for `SystemMap`'s prop API (see
+// DOC/07-DESIGN-SYSTEM.md "Production architecture decision (Task 006)").
+const customDevPageSchema = z.object({
+	seo: z.object({
+		title: localizedGated(),
+		description: localizedGated(),
+	}),
+	hero: z.object({
+		eyebrow: localizedGated(),
+		title: localizedGated(),
+		lead: localizedGated(),
+		cta: ctaGated(),
+		// Task 009A brand-face visual ("Fit / Friction Field" — see
+		// OperatingFitField.astro). Every label here is short technical/
+		// categorical vocabulary (the same category as SystemMap's source/
+		// output labels), not marketing prose, so — matching that precedent —
+		// both locales are required rather than gated.
+		visual: z.object({
+			centerLabel: localizedText(),
+			ariaLabel: localizedText(),
+			legend: z.object({
+				friction: localizedText(),
+				fit: localizedText(),
+			}),
+			nodes: z
+				.tuple([
+					z.object({ id: z.string(), label: localizedText(), friction: z.boolean() }),
+					z.object({ id: z.string(), label: localizedText(), friction: z.boolean() }),
+					z.object({ id: z.string(), label: localizedText(), friction: z.boolean() }),
+					z.object({ id: z.string(), label: localizedText(), friction: z.boolean() }),
+				])
+				.describe('Exactly four — the component geometry is only verified at this count.'),
+		}),
+	}),
+	justified: z.object({
+		headline: localizedGated(),
+		signals: z
+			.array(
+				z.object({
+					id: z.string(),
+					order: z.number().int().positive(),
+					title: localizedGated(),
+					body: localizedGated(),
+				}),
+			)
+			.min(1),
+	}),
+	notJustified: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	directions: z.object({
+		headline: localizedGated(),
+		paths: z
+			.array(
+				z.object({
+					id: z.string(),
+					title: localizedGated(),
+					description: localizedGated(),
+					link: ctaGated(),
+					evidence: z.object({
+						caseId: z.string(),
+						order: z.number().int().positive(),
+						title: localizedGated(),
+					}),
+				}),
+			)
+			.length(2),
+		evidenceLink: ctaGated(),
+	}),
+	approach: z.object({
+		headline: localizedGated(),
+		statement: localizedGated(),
+	}),
+	finalCta: z.object({
+		headline: localizedGated(),
+		copy: localizedGated(),
+		cta: ctaGated(),
+	}),
+});
+
+const customDevPage = defineCollection({
+	loader: file('src/content/pages/egyedi-fejlesztes/content.yaml'),
+	schema: customDevPageSchema,
+});
+
 const navSchema = z.object({
 	logoLabel: z.string(),
 	ariaLabel: localizedText(),
@@ -156,4 +250,4 @@ const nav = defineCollection({
 	schema: navSchema,
 });
 
-export const collections = { 'case-studies': caseStudies, pages, nav };
+export const collections = { 'case-studies': caseStudies, pages, customDevPage, nav };

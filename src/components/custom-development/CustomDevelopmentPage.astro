@@ -1,0 +1,214 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import OperatingFitField from './OperatingFitField.astro';
+import { localize, localizeGated, localePath, type Locale } from '../../lib/i18n';
+
+/**
+ * Shared renderer for the Custom Development pillar page (`/egyedi-fejlesztes/`,
+ * Task 009) — mirrors `src/components/homepage/Homepage.astro`'s pattern
+ * (locale-parameterized, loads its own content, no `/en/` route wired up
+ * yet). See DOC/09-TECHNICAL-ARCHITECTURE.md "Localization" for why.
+ */
+interface Props {
+	locale: Locale;
+	alternateLocalePath?: string;
+}
+
+const { locale, alternateLocalePath } = Astro.props;
+
+const page = await getEntry('customDevPage', 'egyedi-fejlesztes');
+if (!page) throw new Error('Missing required "customDevPage/egyedi-fejlesztes" content entry');
+const c = page.data;
+
+const path = localePath(locale, '/egyedi-fejlesztes/');
+
+const visualNodes = c.hero.visual.nodes.map((n) => ({
+	id: n.id,
+	label: localize(n.label, locale),
+	friction: n.friction,
+})) as [
+	{ id: string; label: string; friction: boolean },
+	{ id: string; label: string; friction: boolean },
+	{ id: string; label: string; friction: boolean },
+	{ id: string; label: string; friction: boolean },
+];
+---
+
+<BaseLayout
+	title={localizeGated(c.seo.title, locale) ?? ''}
+	description={localizeGated(c.seo.description, locale) ?? ''}
+	path={path}
+	locale={locale}
+>
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+
+	<main>
+		<!-- 01 — Hero. No SystemMap, no decision-fork-style glyph: this page's
+		     "decision before development" argument is still typography-led,
+		     not a flow/branch diagram (Task 007D.1's locked rule — conceptual
+		     alternatives must not automatically become branching diagrams —
+		     still holds, see DOC/07 "Homepage Visual Lock"). Task 009A adds
+		     one page-specific brand-face visual instead: `OperatingFitField`,
+		     a static "field" model (not a flow) selected from a 3-concept
+		     exploration specifically because it couldn't be mistaken for a
+		     decision tree or a SystemMap copy — see DOC/07 "Custom Development
+		     brand-face (Task 009A)". `.section--major` gives the Hero generous
+		     breathing room; the two-column composition only activates at
+		     900px+, matching the visual's own desktop/mobile geometry split. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<div class="custom-dev-hero__grid">
+					<div class="custom-dev-hero__main">
+						<p class="eyebrow">{localizeGated(c.hero.eyebrow, locale)}</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							{localizeGated(c.hero.title, locale)}
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+							{localizeGated(c.hero.lead, locale)}
+						</p>
+						<a href={c.hero.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+							{localizeGated(c.hero.cta.label, locale)}
+						</a>
+					</div>
+					<div class="custom-dev-hero__visual">
+						<OperatingFitField
+							id="egyedi-fejlesztes-fit-field"
+							centerLabel={localize(c.hero.visual.centerLabel, locale)}
+							nodes={visualNodes}
+							legend={{
+								friction: localize(c.hero.visual.legend.friction, locale),
+								fit: localize(c.hero.visual.legend.fit, locale),
+							}}
+							ariaLabel={localize(c.hero.visual.ariaLabel, locale)}
+						/>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 02 — When custom development is justified. Three decision signals,
+		     not an icon-card grid (Task 009 §8's explicit instruction) and not
+		     the homepage Problem section's diagnostic spine/dot device — see
+		     `.justification-signals` in foundation.css for why a different,
+		     plainer index treatment was chosen for this different content
+		     shape. -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.justified.headline, locale)}
+				</h2>
+
+				<div class="justification-signals">
+					{c.justified.signals.map((signal) => (
+						<div class="justification-signals__item" data-signal={signal.id}>
+							<span class="meta justification-signals__index">{String(signal.order).padStart(2, '0')}</span>
+							<h3 class="justification-signals__title">{localizeGated(signal.title, locale)}</h3>
+							<p class="justification-signals__body">{localizeGated(signal.body, locale)}</p>
+						</div>
+					))}
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 03 — When it is NOT justified. Tonal band, reusing the locked
+		     Decision-section principle (quiet resolution, restraint) without
+		     cloning its layout — no fork glyph existed to remove here since
+		     none was added; this section was designed calm from the start. -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.notJustified.headline, locale)}
+				</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.notJustified.body, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 04 — Two directions. Reuses `.decision-paths` (originally homepage-
+		     only, now genuinely reused — see foundation.css). Each direction
+		     carries its own approved case-study working title as evidence
+		     (plain text, not a link, matching the homepage Work section's own
+		     case items); one shared link to /munkaink/ below, rather than a
+		     link per item. Neither child route exists yet — linked per this
+		     project's established "approved future routes may be linked"
+		     convention (see DOC/03). -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.directions.headline, locale)}
+				</h2>
+
+				<div class="decision-paths">
+					{c.directions.paths.map((dir) => (
+						<div class="decision-paths__path" data-direction={dir.id}>
+							<h3>{localizeGated(dir.title, locale)}</h3>
+							<p style="margin-block-start: var(--space-sm);">
+								{localizeGated(dir.description, locale)}
+							</p>
+							<a
+								href={dir.link.href}
+								class="link-standalone"
+								style="margin-block-start: var(--space-md);"
+							>
+								{localizeGated(dir.link.label, locale)}
+							</a>
+							<div class="decision-paths__evidence">
+								<span class="meta decision-paths__evidence-index">CASE / {String(dir.evidence.order).padStart(2, '0')}</span>
+								<p>{localizeGated(dir.evidence.title, locale)}</p>
+							</div>
+						</div>
+					))}
+				</div>
+
+				<a href={c.directions.evidenceLink.href} class="link-standalone" style="margin-block-start: var(--space-xl);">
+					{localizeGated(c.directions.evidenceLink.label, locale)}
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 05 — Approach. Quiet, single-statement — not a rebuild of the
+		     homepage's four-step Process: this page has no separate ordered
+		     progression of its own to represent, only a short trust/method
+		     statement (Task 009 §11: no dedicated process section unless a
+		     real progression exists). -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.approach.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.approach.statement, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 06 — Final CTA -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.finalCta.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.finalCta.copy, locale)}
+				</p>
+				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+					{localizeGated(c.finalCta.cta.label, locale)}
+				</a>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>

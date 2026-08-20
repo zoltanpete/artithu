@@ -1,0 +1,155 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 009A exploration — Concept B: "Fit / Friction Field". A static field,
+// not a flow: a central "operation" anchor with satellite nodes for typical
+// current-state elements (reusing the exact vocabulary already approved on
+// the homepage/Problem section — Excel, manual data, separate system — plus
+// "packaged software" for the page's own "when it fits, keep it" argument).
+// Connections use the already-locked route-hierarchy language (solid quiet
+// = fits; dashed accent = friction) instead of inventing a new device.
+// Deliberately NOT a left-to-right flow into a resolved output — no core
+// "transformation," no directional resolution — so it can't be mistaken for
+// a decision tree or SystemMap v2.
+
+const CX = 220;
+const CY = 220;
+
+const satellites = [
+	{ id: 'excel', label: 'EXCEL', x: 92, y: 96, friction: true },
+	{ id: 'kulon', label: 'KÜLÖN RENDSZER', x: 348, y: 86, friction: true },
+	{ id: 'kezi', label: 'KÉZI ADAT', x: 78, y: 344, friction: true },
+	{ id: 'kesz', label: 'KÉSZ SZOFTVER', x: 356, y: 352, friction: false },
+];
+
+function curve(x1: number, y1: number) {
+	const midX = (x1 + CX) / 2;
+	const midY = (y1 + CY) / 2 + (y1 < CY ? -18 : 18);
+	return `M${x1},${y1} Q${midX},${midY} ${CX},${CY}`;
+}
+---
+
+<BaseLayout
+	title="Task 009A — Concept B — Fit / Friction Field"
+	description="Exploration prototype"
+	noindex={true}
+>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 009A — CONCEPT B — FIT / FRICTION FIELD" />
+
+	<main>
+		<section class="section section--major">
+			<Container width="standard">
+				<div class="hero-fit__grid">
+					<div class="hero-fit__main">
+						<p class="eyebrow">Kinőtte a kész megoldásokat?</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							Mikor indokolt egyedi szoftvert fejleszteni — és mikor nem?
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+							Nem minden problémára kell egyedi szoftver. Amire viszont igen, arra pontosan illeszkedőt építünk.
+						</p>
+						<a href="#" class="btn btn-primary" style="margin-block-start: var(--space-xl);">Beszéljük át a problémát →</a>
+					</div>
+
+					<div class="hero-fit__visual">
+						<svg
+							viewBox="0 0 440 440"
+							role="img"
+							aria-label="Vizuális modell: a vállalkozás működése egy középső referenciapont, amely körül a jellemző jelenlegi elemek — Excel, külön rendszer, kézi adat — szaggatott, súrlódást jelző vonallal kapcsolódnak, míg egy jól illeszkedő kész szoftver folytonos vonallal, megfelelő kapcsolatként jelenik meg."
+						>
+							<circle cx={CX} cy={CY} r="150" fill="var(--color-accent)" opacity="0.04" />
+							<circle cx={CX} cy={CY} r="120" fill="var(--color-accent)" opacity="0.06" />
+
+							{satellites.map((s) => (
+								<path
+									d={curve(s.x, s.y)}
+									fill="none"
+									stroke={s.friction ? 'var(--color-accent)' : 'var(--color-text-muted)'}
+									stroke-width={s.friction ? '1.5' : '1.25'}
+									stroke-dasharray={s.friction ? '4 4' : 'none'}
+									opacity={s.friction ? '0.85' : '0.55'}
+								/>
+							))}
+
+							<circle cx={CX} cy={CY} r="46" fill="none" stroke="var(--color-accent)" stroke-width="1.5" />
+							<circle cx={CX} cy={CY} r="3.5" fill="var(--color-accent)" />
+							<text x={CX} y={CY + 66} text-anchor="middle" font-family="var(--font-mono)" font-size="12" letter-spacing="0.06em" fill="var(--color-text)">MŰKÖDÉS</text>
+
+							{satellites.map((s) => (
+								<>
+									<rect x={s.x - 52} y={s.y - 16} width="104" height="32" rx="6" fill="var(--color-bg)" stroke="var(--color-border)" stroke-width="1.1" />
+									<text x={s.x} y={s.y + 4} text-anchor="middle" font-family="var(--font-mono)" font-size="10.5" letter-spacing="0.05em" fill="var(--color-text-muted)">{s.label}</text>
+								</>
+							))}
+						</svg>
+						<div class="hero-fit__legend">
+							<span class="hero-fit__legend-item"><span class="hero-fit__swatch hero-fit__swatch--friction"></span>Súrlódási pont</span>
+							<span class="hero-fit__legend-item"><span class="hero-fit__swatch hero-fit__swatch--fit"></span>Megfelelő kapcsolat</span>
+						</div>
+					</div>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.hero-fit__grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+	}
+
+	@media (min-width: 900px) {
+		.hero-fit__grid {
+			grid-template-columns: 3fr 2fr;
+			align-items: center;
+			gap: var(--space-xl);
+		}
+	}
+
+	.hero-fit__visual svg {
+		width: 100%;
+		height: auto;
+		max-width: 380px;
+		margin-inline: auto;
+		display: block;
+	}
+
+	.hero-fit__legend {
+		display: flex;
+		justify-content: center;
+		gap: var(--space-lg);
+		margin-block-start: var(--space-md);
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.hero-fit__legend-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.hero-fit__swatch {
+		width: 14px;
+		height: 2px;
+		display: inline-block;
+	}
+
+	.hero-fit__swatch--friction {
+		background-image: repeating-linear-gradient(to right, var(--color-accent) 0 3px, transparent 3px 6px);
+	}
+
+	.hero-fit__swatch--fit {
+		background: var(--color-text-muted);
+		opacity: 0.6;
+	}
+</style>

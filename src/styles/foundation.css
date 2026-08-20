@@ -647,7 +647,15 @@ a {
 	}
 }
 
-/* --- Homepage: Decision two-path split -------------------------------------- */
+/* --- Decision two-path split (Task 007, homepage; reused Task 009 on
+   /egyedi-fejlesztes/) ---------------------------------------------------------
+   Originally homepage-specific ("Homepage: Decision two-path split"); the
+   Custom Development pillar page's "Two directions" section needed the exact
+   same editorial two-column split for the exact same semantic relationship
+   (two conceptual alternatives from one decision point), which is genuine
+   second-page reuse evidence, not a speculative extraction — the class names
+   were already generic (not `.homepage-decision-paths`), so no rename was
+   needed, only this note. See DOC/09-TECHNICAL-ARCHITECTURE.md. */
 
 .decision-paths {
 	display: grid;
@@ -661,10 +669,92 @@ a {
 	border-top: 1px solid var(--color-border);
 }
 
+/* Task 009 — an optional evidence reference nested inside a path (e.g. the
+   working case-study title that backs a given direction). Plain text, not a
+   link — matches the homepage Work section's own case items, which are also
+   non-interactive; the section provides one shared link to /munkaink/
+   instead of a link per item. Reuses the same accent-index treatment as
+   `.work-teaser__index` for the same reason (evidence-record grammar). */
+.decision-paths__evidence {
+	display: block;
+	margin-block-start: var(--space-md);
+	padding-block-start: var(--space-md);
+	border-top: 1px solid var(--color-border);
+}
+
+.decision-paths__evidence-index {
+	display: block;
+	color: var(--color-accent);
+	margin-block-end: var(--space-xs);
+}
+
 @media (min-width: 768px) {
 	.decision-paths {
 		grid-template-columns: 1fr 1fr;
 		gap: var(--space-2xl);
+	}
+}
+
+/* --- Custom Development pillar page: Hero + brand-face visual (Task 009A) ---
+   Copy column + `OperatingFitField` grid, the same compositional idea as the
+   homepage's `.hero-map__grid` (copy beside a page-specific visual) but a
+   calmer ratio (3fr/2fr, not 4fr/8fr) — the visual supports the H1 here, it
+   doesn't dominate the composition the way the Hero System Map does on `/`.
+   Single column below 900px, matching `OperatingFitField`'s own desktop/
+   mobile geometry breakpoint. */
+
+.custom-dev-hero__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-xl);
+}
+
+@media (min-width: 900px) {
+	.custom-dev-hero__grid {
+		grid-template-columns: 3fr 2fr;
+		align-items: center;
+		gap: var(--space-xl);
+	}
+}
+
+/* --- Custom Development pillar page: justification signals (Task 009) ------
+   The "when custom development is justified" section's three conditions.
+   Deliberately NOT the homepage Problem section's JEL/0X spine/dot/tonal-
+   wash device — that grammar is specifically diagnostic-signal framing for
+   six floating symptom quotes; these three items are closer to a short
+   classification list, and the task's own brief warns against reusing a
+   spine "because the homepage used a spine." A plain accent-indexed list
+   keeps family resemblance (accent index numbers, matching `.meta`) without
+   copying a device built for a different content shape. */
+
+.justification-signals {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-xl);
+	margin-block-start: var(--space-xl);
+}
+
+.justification-signals__index {
+	display: block;
+	color: var(--color-accent);
+	margin-block-end: var(--space-xs);
+}
+
+.justification-signals__title {
+	font-size: var(--text-h3);
+	font-weight: 500;
+	margin: 0;
+}
+
+.justification-signals__body {
+	margin-block-start: var(--space-sm);
+	max-width: var(--content-reading);
+}
+
+@media (min-width: 768px) {
+	.justification-signals {
+		grid-template-columns: repeat(3, 1fr);
+		gap: var(--space-lg);
 	}
 }
 

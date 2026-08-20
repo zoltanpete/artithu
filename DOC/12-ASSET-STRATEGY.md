@@ -135,3 +135,11 @@ Do not generate abstract 3D tech objects, gradient orbs or AI-startup background
 Never enlarge a crop beyond its effective source detail when that causes visible softness.
 
 Prefer a larger original crop or a different source screenshot.
+
+## Implementation status (Task 009)
+
+`/egyedi-fejlesztes/` uses no assets of any category above — no screenshots, no icons, no decorative imagery, purely typographic. Consistent with `07-DESIGN-SYSTEM.md`'s locked construction-residue rule (marks appear only where they clarify meaning): this page had no genuine need for one, so none was added.
+
+## Implementation status (Task 009A)
+
+Task 009A added the page's Hero brand-face visual (`OperatingFitField`) — still no external asset of any kind: it's native inline SVG built from existing design tokens (`--color-accent`, `--color-border`, `--color-bg`, `--font-mono`), the same "no stock illustration/icon packs/3D blobs/decorative imagery" rule this document already states, extended to a new visual-modeling asset rather than a screenshot or photo. See `07-DESIGN-SYSTEM.md` "Custom Development brand-face (Task 009A)" for the exploration that selected it over two rejected concepts.

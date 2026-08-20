@@ -1,0 +1,238 @@
+---
+/**
+ * OperatingFitField — page-specific Hero brand-face visual for
+ * /egyedi-fejlesztes/ (Task 009A). Selected from a 3-concept exploration
+ * (see src/pages/art-direction/009a-concept-{a,b,c}-*.astro) as "Concept B —
+ * Fit / Friction Field": a static field, not a flow. A central "operation"
+ * anchor with four satellite nodes for typical current-state elements,
+ * connected by lines using the already-locked System Map route-hierarchy
+ * language (solid quiet = fits; dashed accent = friction) rather than a new
+ * device. Deliberately has no core "transformation," no directional
+ * resolution into an output, and no arrowheads — unlike SystemMap and unlike
+ * the rejected Concept A, it cannot be read as a flow or decision tree. See
+ * DOC/07-DESIGN-SYSTEM.md "Custom Development brand-face (Task 009A)" for
+ * the full principle and DOC/08-COMPONENT-LIBRARY.md for the API record.
+ *
+ * Page-specific by design, not a generalized "BrandFace" component — see
+ * Task 009A §15. Static (no JS): hover/focus adds no information here that
+ * isn't already in the four visible labels, unlike SystemMap's node
+ * highlighting, which reveals which specific relationship is being
+ * discussed.
+ */
+export interface FitNode {
+	id: string;
+	label: string;
+	friction: boolean;
+}
+
+interface Props {
+	id: string;
+	centerLabel: string;
+	/** Exactly four nodes — verified at this count only; see component Do/Don't in DOC/08. */
+	nodes: [FitNode, FitNode, FitNode, FitNode];
+	legend: { friction: string; fit: string };
+	ariaLabel: string;
+}
+
+const { id, centerLabel, nodes, legend, ariaLabel } = Astro.props;
+
+// --- Desktop geometry (viewBox 0 0 440 440) — radial field, not a flow. ---
+const CX = 220;
+const CY = 220;
+const desktopPositions: [number, number][] = [
+	[92, 96],
+	[348, 86],
+	[78, 344],
+	[356, 352],
+];
+const desktopNodes = nodes.map((n, i) => ({ ...n, x: desktopPositions[i][0], y: desktopPositions[i][1] }));
+
+function desktopCurve(x1: number, y1: number) {
+	const midX = (x1 + CX) / 2;
+	const midY = (y1 + CY) / 2 + (y1 < CY ? -18 : 18);
+	return `M${x1},${y1} Q${midX},${midY} ${CX},${CY}`;
+}
+
+// --- Mobile geometry (viewBox 0 0 320 340) — separately composed: a top
+// anchor with a 2x2 grid of nodes below and short stub connectors, not the
+// desktop field scaled down (per the locked System Map responsive
+// philosophy, extended here — see DOC/07). ---
+const M_CX = 160;
+const M_CY = 46;
+const mobilePositions: [number, number][] = [
+	[80, 140],
+	[240, 140],
+	[80, 210],
+	[240, 210],
+];
+const mobileNodes = nodes.map((n, i) => ({ ...n, x: mobilePositions[i][0], y: mobilePositions[i][1] }));
+
+function mobileStub(x: number, y: number) {
+	const midY = (M_CY + y) / 2;
+	return `M${M_CX},${M_CY + 20} C${M_CX},${midY} ${x},${midY} ${x},${y}`;
+}
+---
+
+<div class="fit-field" id={id}>
+	<svg class="fit-field__svg fit-field__svg--desktop" viewBox="0 0 440 440" role="img" aria-label={ariaLabel}>
+		<circle cx={CX} cy={CY} r="150" fill="var(--color-accent)" opacity="0.04" />
+		<circle cx={CX} cy={CY} r="120" fill="var(--color-accent)" opacity="0.06" />
+
+		{desktopNodes.map((n) => (
+			<path
+				d={desktopCurve(n.x, n.y)}
+				class:list={['fit-field__line', n.friction && 'fit-field__line--friction']}
+			/>
+		))}
+
+		<circle cx={CX} cy={CY} r="46" class="fit-field__core" />
+		<circle cx={CX} cy={CY} r="3.5" class="fit-field__core-dot" />
+		<text x={CX} y={CY + 66} text-anchor="middle" class="fit-field__core-label">{centerLabel}</text>
+
+		{desktopNodes.map((n) => (
+			<>
+				<rect x={n.x - 52} y={n.y - 16} width="104" height="32" rx="6" class="fit-field__chip" />
+				<text x={n.x} y={n.y + 4} text-anchor="middle" class="fit-field__chip-label">{n.label}</text>
+			</>
+		))}
+	</svg>
+
+	<svg class="fit-field__svg fit-field__svg--mobile" viewBox="0 0 320 260" role="img" aria-label={ariaLabel}>
+		<circle cx={M_CX} cy={M_CY} r="24" class="fit-field__core" />
+		<circle cx={M_CX} cy={M_CY} r="3" class="fit-field__core-dot" />
+		<text x={M_CX} y={M_CY + 40} text-anchor="middle" class="fit-field__core-label">{centerLabel}</text>
+
+		{mobileNodes.map((n) => (
+			<path d={mobileStub(n.x, n.y - 16)} class:list={['fit-field__line', n.friction && 'fit-field__line--friction']} />
+		))}
+
+		{mobileNodes.map((n) => (
+			<>
+				<rect x={n.x - 62} y={n.y - 16} width="124" height="32" rx="6" class="fit-field__chip" />
+				<text x={n.x} y={n.y + 4} text-anchor="middle" class="fit-field__chip-label">{n.label}</text>
+			</>
+		))}
+	</svg>
+
+	<div class="fit-field__legend">
+		<span class="fit-field__legend-item"><span class="fit-field__swatch fit-field__swatch--friction"></span>{legend.friction}</span>
+		<span class="fit-field__legend-item"><span class="fit-field__swatch fit-field__swatch--fit"></span>{legend.fit}</span>
+	</div>
+</div>
+
+<style>
+	.fit-field {
+		--ff-transition: 200ms ease;
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.fit-field {
+			--ff-transition: 1ms linear;
+		}
+	}
+
+	.fit-field__svg {
+		width: 100%;
+		height: auto;
+		display: block;
+		margin-inline: auto;
+	}
+
+	.fit-field__svg--desktop {
+		display: none;
+		max-width: 380px;
+	}
+
+	.fit-field__svg--mobile {
+		display: block;
+		max-width: 300px;
+	}
+
+	@media (min-width: 900px) {
+		.fit-field__svg--desktop {
+			display: block;
+		}
+
+		.fit-field__svg--mobile {
+			display: none;
+		}
+	}
+
+	.fit-field__line {
+		fill: none;
+		stroke: var(--color-text-muted);
+		stroke-width: 1.25;
+		opacity: 0.5;
+	}
+
+	.fit-field__line--friction {
+		stroke: var(--color-accent);
+		stroke-width: 1.5;
+		stroke-dasharray: 4 4;
+		opacity: 0.85;
+	}
+
+	.fit-field__core {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 1.5;
+	}
+
+	.fit-field__core-dot {
+		fill: var(--color-accent);
+	}
+
+	.fit-field__core-label {
+		font-family: var(--font-mono);
+		font-size: 12px;
+		letter-spacing: 0.06em;
+		fill: var(--color-text);
+	}
+
+	.fit-field__chip {
+		fill: var(--color-bg);
+		stroke: var(--color-border);
+		stroke-width: 1.1;
+	}
+
+	.fit-field__chip-label {
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.05em;
+		fill: var(--color-text-muted);
+	}
+
+	.fit-field__legend {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: var(--space-lg);
+		margin-block-start: var(--space-md);
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.fit-field__legend-item {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+	}
+
+	.fit-field__swatch {
+		width: 14px;
+		height: 2px;
+		display: inline-block;
+	}
+
+	.fit-field__swatch--friction {
+		background-image: repeating-linear-gradient(to right, var(--color-accent) 0 3px, transparent 3px 6px);
+	}
+
+	.fit-field__swatch--fit {
+		background: var(--color-text-muted);
+		opacity: 0.6;
+	}
+</style>

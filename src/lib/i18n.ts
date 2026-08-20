@@ -51,11 +51,19 @@ export function hasTranslation(value: LocalizedGated, locale: Locale): boolean {
 }
 
 /**
- * Homepage path for a given locale, per the `/` (hu, default/unprefixed) /
- * `/en/` (en) strategy — delegates to Astro's own native i18n routing
- * (configured in `astro.config.mjs`) rather than reimplementing the prefix
- * rule, so it stays correct if the routing config ever changes.
+ * A given canonical (Hungarian-shaped) path, resolved for a locale per the
+ * `/` (hu, default/unprefixed) / `/en/...` (en) strategy — delegates to
+ * Astro's own native i18n routing (configured in `astro.config.mjs`) rather
+ * than reimplementing the prefix rule, so it stays correct if the routing
+ * config ever changes. Every page component resolves its own canonical
+ * path through this (Task 009 generalized it from the homepage-only
+ * `homePath` helper once a second page needed the same behavior).
  */
+export function localePath(locale: Locale, path: string): string {
+	return getRelativeLocaleUrl(locale, path);
+}
+
+/** Homepage path for a given locale — a thin convenience wrapper. */
 export function homePath(locale: Locale): string {
-	return getRelativeLocaleUrl(locale, '/');
+	return localePath(locale, '/');
 }
