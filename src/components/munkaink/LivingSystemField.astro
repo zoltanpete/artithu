@@ -1,0 +1,134 @@
+---
+/**
+ * LivingSystemField — page-specific Hero brand-face visual for /munkaink/
+ * (Task 010A). Selected from a two-round, 5-concept exploration (see
+ * src/pages/art-direction/010a-munkaink-brand-face-concepts.astro) as
+ * "Concept C' — Ambient Operating Field": one system anchor surrounded by a
+ * sparse, irregular field of ambient marks, representing a system that
+ * persists inside ongoing business operation rather than existing only as a
+ * delivery moment.
+ *
+ * Two earlier sketches were built and rejected on real (not hypothetical)
+ * grounds: ascending record bars read as an invented growth/metrics chart;
+ * a pulse/heartbeat line paired with an "ACTIVE" label duplicated the exact
+ * "RENDSZER / AKTÍV" live-status badge DOC/07 already documents as rejected
+ * during the A4.3 exploration (fabricated telemetry). A first pass at this
+ * same "system in a field" idea also sat too close to `OperatingFitField`'s
+ * own core+concentric-rings+labeled-satellites silhouette — this version
+ * deliberately has neither: no background rings, no labeled satellite
+ * nodes, no connecting curves to anything. Just one system and the ambient
+ * texture of an environment it continues to operate inside.
+ *
+ * See DOC/07-DESIGN-SYSTEM.md "Munkáink brand face (Task 010A)" for the
+ * full principle and DOC/08-COMPONENT-LIBRARY.md for the API record.
+ */
+interface Props {
+	id: string;
+	label: string;
+	ariaLabel: string;
+}
+
+const { id, label, ariaLabel } = Astro.props;
+
+// --- Desktop geometry (viewBox 0 0 260 260) ---------------------------------
+// A deterministic, hand-tuned scatter (not literal randomness, so the
+// composition is stable and reviewable) — irregular enough to read as
+// "ambient," not a regular ring of dots (which would just be OperatingFitField
+// again, one layer removed).
+const DESKTOP_COUNT = 18;
+const desktopDots = Array.from({ length: DESKTOP_COUNT }).map((_, i) => {
+	const angle = (i / DESKTOP_COUNT) * Math.PI * 2 + (i % 2) * 0.18;
+	const r = 48 + ((i * 37) % 58);
+	const size = 1.4 + ((i * 7) % 3) * 0.5;
+	const opacity = 0.22 + (((i * 13) % 10) / 10) * 0.4;
+	return {
+		x: 130 + Math.cos(angle) * r,
+		y: 130 + Math.sin(angle) * r,
+		size,
+		opacity: Number(opacity.toFixed(2)),
+	};
+});
+
+// --- Mobile geometry (viewBox 0 0 220 220) — fewer, larger-relative marks,
+// not the desktop field scaled down, matching the responsive philosophy
+// SystemMap/OperatingFitField already established. ---------------------------
+const MOBILE_COUNT = 11;
+const mobileDots = Array.from({ length: MOBILE_COUNT }).map((_, i) => {
+	const angle = (i / MOBILE_COUNT) * Math.PI * 2 + (i % 2) * 0.22;
+	const r = 42 + ((i * 29) % 40);
+	const size = 1.6 + ((i * 5) % 3) * 0.5;
+	const opacity = 0.25 + (((i * 11) % 10) / 10) * 0.4;
+	return {
+		x: 110 + Math.cos(angle) * r,
+		y: 110 + Math.sin(angle) * r,
+		size,
+		opacity: Number(opacity.toFixed(2)),
+	};
+});
+---
+
+<div class="living-field" id={id}>
+	<svg class="living-field__svg living-field__svg--desktop" viewBox="0 0 260 260" role="img" aria-label={ariaLabel}>
+		{desktopDots.map((d) => (
+			<circle cx={d.x} cy={d.y} r={d.size} fill="var(--color-text-muted)" opacity={d.opacity} />
+		))}
+		<circle cx="130" cy="130" r="22" class="living-field__core" />
+		<circle cx="130" cy="130" r="3" class="living-field__core-dot" />
+		<text x="130" y="167" text-anchor="middle" class="living-field__label">{label}</text>
+	</svg>
+
+	<svg class="living-field__svg living-field__svg--mobile" viewBox="0 0 220 220" role="img" aria-label={ariaLabel}>
+		{mobileDots.map((d) => (
+			<circle cx={d.x} cy={d.y} r={d.size} fill="var(--color-text-muted)" opacity={d.opacity} />
+		))}
+		<circle cx="110" cy="110" r="20" class="living-field__core" />
+		<circle cx="110" cy="110" r="3" class="living-field__core-dot" />
+		<text x="110" y="145" text-anchor="middle" class="living-field__label">{label}</text>
+	</svg>
+</div>
+
+<style>
+	.living-field__svg {
+		width: 100%;
+		height: auto;
+		display: block;
+		margin-inline: auto;
+	}
+
+	.living-field__svg--desktop {
+		display: none;
+		max-width: 320px;
+	}
+
+	.living-field__svg--mobile {
+		display: block;
+		max-width: 260px;
+	}
+
+	@media (min-width: 900px) {
+		.living-field__svg--desktop {
+			display: block;
+		}
+
+		.living-field__svg--mobile {
+			display: none;
+		}
+	}
+
+	.living-field__core {
+		fill: var(--color-bg);
+		stroke: var(--color-accent);
+		stroke-width: 1.5;
+	}
+
+	.living-field__core-dot {
+		fill: var(--color-accent);
+	}
+
+	.living-field__label {
+		font-family: var(--font-mono);
+		font-size: 11px;
+		letter-spacing: 0.06em;
+		fill: var(--color-text);
+	}
+</style>

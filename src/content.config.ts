@@ -232,6 +232,62 @@ const customDevPage = defineCollection({
 	schema: customDevPageSchema,
 });
 
+// `munkainkPage` (Task 010) — the evidence-hub page. Its own collection,
+// same reasoning as `customDevPage`: a genuinely different section shape
+// (no System Map, no justified/notJustified/directions structure), so its
+// own narrow schema rather than a forced fit into an existing one.
+const munkainkPageSchema = z.object({
+	seo: z.object({
+		title: localizedGated(),
+		description: localizedGated(),
+	}),
+	hero: z.object({
+		eyebrow: localizedGated(),
+		title: localizedGated(),
+		lead: localizedGated(),
+		// Task 010A brand-face visual ("Ambient Operating Field" — see
+		// LivingSystemField.astro). One short technical/categorical label,
+		// same classification as SystemMap's/OperatingFitField's own labels
+		// — not marketing prose — so both locales are required.
+		visual: z.object({
+			label: localizedText(),
+			ariaLabel: localizedText(),
+		}),
+	}),
+	principle: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	// Stable per-case ids (`case-01`/`case-02`) already used as the same
+	// semantic identifiers in home/content.yaml (`work.cases[].id`) and
+	// egyedi-fejlesztes/content.yaml (`directions.paths[].evidence.caseId`)
+	// — kept consistent here rather than reinvented, so a future case-study
+	// detail page can be linked from all three places without an ID
+	// mismatch. Only the working title is content; `direction` records the
+	// already-approved Case Study ↔ custom-development-direction mapping
+	// (DOC/02) as a real link, not a decorative connector.
+	cases: z
+		.array(
+			z.object({
+				id: z.string(),
+				order: z.number().int().positive(),
+				title: localizedGated(),
+				direction: z.object({ label: localizedGated(), href: z.string() }),
+			}),
+		)
+		.min(1),
+	finalCta: z.object({
+		headline: localizedGated(),
+		copy: localizedGated(),
+		cta: ctaGated(),
+	}),
+});
+
+const munkainkPage = defineCollection({
+	loader: file('src/content/pages/munkaink/content.yaml'),
+	schema: munkainkPageSchema,
+});
+
 const navSchema = z.object({
 	logoLabel: z.string(),
 	ariaLabel: localizedText(),
@@ -250,4 +306,4 @@ const nav = defineCollection({
 	schema: navSchema,
 });
 
-export const collections = { 'case-studies': caseStudies, pages, customDevPage, nav };
+export const collections = { 'case-studies': caseStudies, pages, customDevPage, munkainkPage, nav };

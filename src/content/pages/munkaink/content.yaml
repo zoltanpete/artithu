@@ -1,0 +1,72 @@
+# /munkaink/ evidence-hub content (Task 010). This page is intentionally
+# short: only two case-study working titles are approved anywhere in the
+# repository (DOC/06-CASE-STUDY-ARCHITECTURE.md), and DOC/06 itself is
+# explicit that the surrounding "Known" facts are internal working
+# understanding, not confirmed publication-ready fact. Nothing here states
+# an exact duration, customer identity, industry, company size, outcome, or
+# current operational status — all of those remain TO VERIFY per
+# DOC/13-CONTENT-GAPS-AND-VALIDATION.md. Every `hu` value is either a
+# verbatim-approved quote already published elsewhere on the site (reused
+# for the identical underlying fact, not duplicated for its own sake) or a
+# fresh but tightly source-grounded composition — see the Task 010
+# completion report for exactly which is which. `en` is absent everywhere
+# (gated), same policy as every other page.
+munkaink:
+  seo:
+    title:
+      hu: "ARTIT — Munkáink"
+    description:
+      hu: "Olyan szoftvereket építünk, amelyek hosszú távon a vállalkozás működésének részévé válnak."
+
+  hero:
+    eyebrow:
+      hu: "Tényleg megcsinálták már?"
+    title:
+      hu: "Bizonyíték, nem bemutató."
+    lead:
+      hu: "Olyan szoftvereket építünk, amelyek hosszú távon a vállalkozás működésének részévé válnak."
+    # Task 010A brand-face visual (LivingSystemField.astro — "Ambient
+    # Operating Field"). Technical/categorical vocabulary, not marketing
+    # copy — both locales populated, matching the SystemMap/OperatingFitField
+    # label precedent.
+    visual:
+      label:
+        hu: RENDSZER
+        en: SYSTEM
+      ariaLabel:
+        hu: "Vizuális modell: egy rendszer, amely a vállalkozás folyamatos, élő működési terében létezik, nem egy elszigetelt szállítási pillanatban."
+        en: "Visual model: a system existing inside a business's continuous, living operating environment, not in an isolated delivery moment."
+
+  principle:
+    headline:
+      hu: "A valódi bizonyíték nem egy bemutató pillanat, hanem a folyamatos üzemeltetés."
+    body:
+      hu: "Az alábbi rendszerek nem esettanulmányok, hanem valós, ügyfél számára tervezett és megépített rendszerek jelzései. A teljes történetük fokozatosan válik publikálhatóvá — addig azt mutatjuk meg, ami már ma is megalapozott: milyen probléma miatt épültek, és melyik egyedi fejlesztési irányhoz tartoznak."
+
+  cases:
+    - id: case-01
+      order: 1
+      title:
+        hu: "Egy üzleti rendszer, amely együtt nőtt a vállalkozással."
+      direction:
+        label:
+          hu: "Egyedi üzleti alkalmazások"
+        href: /egyedi-fejlesztes/uzleti-alkalmazasok/
+    - id: case-02
+      order: 2
+      title:
+        hu: "A rendszer, amely több ERP-t is túlélt."
+      direction:
+        label:
+          hu: "Rendszerintegráció és automatizáció"
+        href: /egyedi-fejlesztes/rendszerintegracio/
+
+  finalCta:
+    headline:
+      hu: "Van hasonló problémája?"
+    copy:
+      hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+    cta:
+      label:
+        hu: "Beszéljünk róla →"
+      href: /kapcsolat/

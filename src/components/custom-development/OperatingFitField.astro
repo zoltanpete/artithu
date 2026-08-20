@@ -67,9 +67,27 @@ const mobilePositions: [number, number][] = [
 ];
 const mobileNodes = nodes.map((n, i) => ({ ...n, x: mobilePositions[i][0], y: mobilePositions[i][1] }));
 
+// Task 010 Part 0 fix: the previous version started every connector at the
+// same point directly below the core, so all four lines' initial travel was
+// vertical, straight through the MŰKÖDÉS label sitting right below it — a
+// real collision, confirmed by inspecting the rendered path/text geometry,
+// not just assumed from the coordinates. A shared-origin S-curve (first
+// control point directly below start) turned out not to diverge fast
+// enough either — measured via De Casteljau evaluation at t=0.3, the curve
+// was still only ~9px clear of the label's left edge exactly where the
+// label's glyphs sit vertically. The actual fix: each side's two connectors
+// now leave the core from an already-offset point on its circumference
+// (lower-left for the two left nodes, lower-right for the two right nodes)
+// instead of a shared center-bottom point, so the lines are horizontally
+// clear of the label's column before they ever reach its row — re-verified
+// by the same evaluation, ~10px clearance at the closest approach.
+const M_CORE_EXIT_LEFT: [number, number] = [143, 63];
+const M_CORE_EXIT_RIGHT: [number, number] = [177, 63];
+
 function mobileStub(x: number, y: number) {
-	const midY = (M_CY + y) / 2;
-	return `M${M_CX},${M_CY + 20} C${M_CX},${midY} ${x},${midY} ${x},${y}`;
+	const [startX, startY] = x < M_CX ? M_CORE_EXIT_LEFT : M_CORE_EXIT_RIGHT;
+	const midX = (startX + x) / 2;
+	return `M${startX},${startY} C${midX},${startY} ${midX},${y} ${x},${y}`;
 }
 ---
 

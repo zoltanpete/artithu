@@ -105,6 +105,53 @@ Don't:
 - add interaction without a genuine, explicit information-gain justification (see DOC/07's reasoning for why this component doesn't have any);
 - reuse this component's exact geometry for an unrelated page's visual — it's page-specific, not a generalized "BrandFace" abstraction (see DOC/07 "reuse the grammar, not the diagram").
 
+**Fixed (Task 010, Part 0)**: the mobile composition's four connector lines originally shared a single origin point directly below the core, so their initial near-vertical travel passed through the `MŰKÖDÉS` label sitting right below it — a real collision on the owner's own device, not a hypothetical one. Fixed by giving the two left-side and two right-side connectors their own already-offset origin points on the core's circumference (`M_CORE_EXIT_LEFT`/`M_CORE_EXIT_RIGHT` in the component) instead of a shared center-bottom point, so every line is horizontally clear of the label's column before it reaches the label's row. Re-verified via De Casteljau curve evaluation (not just a visual glance) and a real-browser screenshot at 390px and 700px. Desktop geometry and the selected concept are unchanged.
+
+#### `MunkainkPage`
+
+Purpose:
+
+Shared, locale-parameterized renderer for `/munkaink/`, the evidence hub — same route-wrapper pattern as `Homepage`/`CustomDevelopmentPage`.
+
+**Implemented (Task 010)**: `src/components/munkaink/MunkainkPage.astro`. Props: `locale` (`Locale`, required), `alternateLocalePath` (`string?`). Loads the `munkainkPage/munkaink` content entry and renders `BaseLayout` + `SiteHeader` + four sections: Hero, an evidence-principle statement (tonal band), the two case entries (reusing the homepage's own `.work-teaser__list` evidence-record device — see `07-DESIGN-SYSTEM.md` "Munkáink evidence grammar"), and a closing CTA (tonal band).
+
+**Updated (Task 010A)**: the Hero now carries a page-specific brand-face visual, `LivingSystemField` (below) — Task 010's original "no Hero visual" decision was reopened after owner review and superseded; see DOC/07 "Munkáink brand face (Task 010A)" for the full 5-concept exploration and rationale. The other three sections (evidence-principle, case entries, closing CTA) are unchanged.
+
+#### `LivingSystemField`
+
+Purpose:
+
+Page-specific Hero brand-face visual for `/munkaink/` — a static "ambient field" model representing a system that persists inside ongoing business operation, distinct from `SystemMap` (a flow) and `OperatingFitField` (a directional field). See `07-DESIGN-SYSTEM.md` "Munkáink brand face (Task 010A)" for the full 5-concept, 2-round selection rationale.
+
+**Implemented (Task 010A)**: `src/components/munkaink/LivingSystemField.astro`.
+
+Inputs (props):
+
+```text
+id          string — wrapper element id
+label       string — the central anchor's label
+ariaLabel   string — required, full accessible description
+```
+
+Variants: none — narrow API, matching `SystemMap`/`OperatingFitField`'s own "keep APIs narrow" precedent.
+
+Responsive behavior: separately composed desktop (18-mark ambient field, viewBox 0 0 260 260) and mobile (11-mark field, viewBox 0 0 220 220) SVGs, toggled by CSS `display` at 900px — not one diagram scaled down.
+
+Accessibility notes: both SVGs carry `role="img"` and the same required `ariaLabel`. No interactive elements — reviewed explicitly and rejected for the same reason `OperatingFitField` has none: nothing here is hidden until interacted with. The ambient marks are deterministic (a fixed formula, not `Math.random()`), so the composition is stable across renders and reviewable/reproducible, not a different random scatter every build.
+
+Used on: `/munkaink/` Hero (Task 010A).
+
+Do:
+
+- keep the label a short technical/categorical term, matching `SystemMap`/`OperatingFitField`'s own label register.
+
+Don't:
+
+- add background rings or labeled satellite nodes to this component — that's specifically what would make it a variant of `OperatingFitField` instead of its own distinct device (see DOC/07);
+- add ascending/ordered visual weight to the ambient marks — an earlier concept did exactly this and it read as an invented growth chart (see DOC/07's rejected Concept A).
+
+Used on: `/munkaink/` (Task 010; not yet `/en/`).
+
 #### `SiteFooter`
 
 Purpose:
@@ -314,6 +361,14 @@ Task 009 built `/egyedi-fejlesztes/`, the first real test of whether any "still 
 ## Componentization audit (Task 009A)
 
 Task 009A's brief explicitly warned against creating a generic `BrandFace`/`TechnicalDiagram`/`SystemDiagram` abstraction during exploration, and against generalizing prematurely. `OperatingFitField` was built as a genuinely page-specific component (its own file, its own geometry, its own prop shape) rather than a configurable "diagram" primitive — it has exactly one real usage. If a future page independently needs a similar field/fit visual model, that would be the moment to look for a shared abstraction (matching every other extraction decision in this document); inventing one now, from a single instance, would be exactly the premature generalization this project's dependency rule and `SystemMap`'s own history (deferred until a second real need existed) both warn against.
+
+## Componentization audit (Task 010)
+
+Task 010's brief explicitly named `EvidenceCard`/`CaseCard` as abstractions not to create solely because they sound reusable. No such component was created: `.work-teaser__list`/`__index`/`__title` (CSS, already existing) was reused directly for `/munkaink/`'s case entries — this is the second real usage of that exact device (after the homepage's own Work teaser), which is precisely the kind of genuine reuse evidence this document's own standing rule looks for, and it needed nothing beyond "the selector already exists" — no new component, no new abstraction, just one small addition (`.work-teaser__direction`) for the one genuinely new element this page's cases need that the homepage's briefer teaser doesn't. `MunkainkPage` itself is the only new component, and it's a route-level renderer (page-specific by construction), not a reusable content-section component.
+
+## Componentization audit (Task 010A)
+
+Task 010A's brief explicitly warned against generic `BrandFace`/`TechnicalDiagram`/`ArtitVisual` abstractions "unless genuinely justified by repeated real structure." Three page-specific Hero-visual components now exist — `SystemMap`, `OperatingFitField`, `LivingSystemField` — which is real repetition of the *pattern* (a page-specific static SVG brand-face component with a narrow prop API), but not of any *structure* worth abstracting: each has a genuinely different geometry, prop shape, and semantic model (flow / directional field / ambient field), by deliberate design — see DOC/07's "Distinction from `SystemMap` and `OperatingFitField`" note. A shared component would either have to be a lowest-common-denominator wrapper (an empty `<svg>` shell with no real behavior) or a configuration surface flexible enough to describe three unrelated diagrams — the same "generic diagram schema" antipattern this project rejected for `SystemMap` itself in Task 006. No abstraction was created. `LivingSystemField` is the only new component this task added.
 
 ## Possible later components
 

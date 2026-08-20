@@ -717,6 +717,28 @@ a {
 	}
 }
 
+/* --- Munkáink evidence hub: Hero + brand-face visual (Task 010A) -------------
+   Copy column + `LivingSystemField`. A more copy-dominant ratio (2fr/1fr)
+   than /egyedi-fejlesztes/'s 3fr/2fr — deliberately not copied automatically
+   (Task 010A's own instruction): this visual is a quiet ambient field, not
+   an interactive model the reader needs room to read labels on, so it earns
+   less relative width. Single column below 900px, matching
+   `LivingSystemField`'s own desktop/mobile geometry breakpoint. */
+
+.munkaink-hero__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-xl);
+}
+
+@media (min-width: 900px) {
+	.munkaink-hero__grid {
+		grid-template-columns: 2fr 1fr;
+		align-items: center;
+		gap: var(--space-xl);
+	}
+}
+
 /* --- Custom Development pillar page: justification signals (Task 009) ------
    The "when custom development is justified" section's three conditions.
    Deliberately NOT the homepage Problem section's JEL/0X spine/dot/tonal-
@@ -758,18 +780,26 @@ a {
 	}
 }
 
-/* --- Homepage: Work / case-study teaser (Task 007; evidence-record framing
-   added Task 007C) ------------------------------------------------------------
+/* --- Work / case-study evidence record (Task 007, homepage; evidence-record
+   framing added Task 007C; reused Task 010 on /munkaink/) --------------------
    Editorial "CASE / 0X" composition (per DOC/07's Case Study Teaser
    direction), not a card grid — deliberately minimal because no verified
    case-study facts or approved screenshots exist yet (see
    DOC/13-CONTENT-GAPS-AND-VALIDATION.md): two working titles, nothing more.
-   Each case now sits inside the shared `.panel-technical` "specification
-   plate" primitive (Task 006) instead of a plain top rule — the same
-   evidence-record framing `.panel-technical` was designed for, per DOC/07's
+   Each case sits inside the shared `.panel-technical` "specification plate"
+   primitive (Task 006) instead of a plain top rule — the same evidence-
+   record framing `.panel-technical` was designed for, per DOC/07's
    "already-locked building blocks" table (Evidence record → CASE/0X + panel-
    technical) — and the index itself carries the accent, matching the
-   sitewide "accent recurs through structural indices" rule. */
+   sitewide "accent recurs through structural indices" rule.
+
+   Task 010 reuses this list/index/title set as-is on /munkaink/'s own case
+   entries — the second real usage (after the homepage's Work teaser) of
+   the same evidence-record device for the same underlying content, the
+   same "genuine reuse, not speculative extraction" evidence `.decision-
+   paths` graduated on in Task 009. Only `.work-teaser__direction` (below)
+   is new — /munkaink/'s cases carry a real link to the related custom-
+   development direction that the homepage's brief teaser doesn't need. */
 
 .work-teaser__list {
 	list-style: none;
@@ -792,6 +822,19 @@ a {
 	line-height: var(--leading-snug);
 	max-width: var(--content-reading);
 	margin: 0;
+}
+
+.work-teaser__direction {
+	display: block;
+	margin-block-start: var(--space-md);
+	padding-block-start: var(--space-md);
+	border-top: 1px solid var(--color-border);
+	color: var(--color-text-muted);
+	text-decoration: none;
+}
+
+.work-teaser__direction:hover {
+	color: var(--color-accent);
 }
 
 @media (min-width: 768px) {

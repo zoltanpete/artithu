@@ -116,6 +116,14 @@ Added `src/components/custom-development/CustomDevelopmentPage.astro` (see `08-C
 
 Added `src/components/custom-development/OperatingFitField.astro` (see `08-COMPONENT-LIBRARY.md`) and three temporary exploration prototypes under `src/pages/art-direction/009a-concept-{a,b,c}-*.astro` (`noindex`, not linked from navigation — the same exploration precedent the A/A2/A3/A4.x prototypes established; kept in the repository as historical exploration evidence, not deleted after selection, matching that precedent).
 
+### Implementation status (Task 010)
+
+Added `src/components/munkaink/MunkainkPage.astro` (see `08-COMPONENT-LIBRARY.md`) and `src/pages/munkaink/index.astro`, plus one exploration prototype, `src/pages/art-direction/010-munkaink-evidence-concepts.astro` (`noindex`) — consolidating all three evidence-treatment concepts onto one comparison route rather than three separate ones (an efficiency adaptation of the usual one-route-per-concept precedent; still three real, independently rendered, screenshotted concepts, not reasoned about abstractly). Also fixed a real mobile-geometry collision in the already-shipped `OperatingFitField.astro` (Task 010 Part 0 — see `08-COMPONENT-LIBRARY.md`'s "Fixed" note on that component).
+
+### Implementation status (Task 010A)
+
+Added `src/components/munkaink/LivingSystemField.astro` (see `08-COMPONENT-LIBRARY.md`) and one exploration prototype file reused across two rounds, `src/pages/art-direction/010a-munkaink-brand-face-concepts.astro` (`noindex`) — overwritten in place between round 1 (3 rejected concepts) and round 2 (2 revised concepts, one selected) rather than kept as five separate files, since the round-1 rejections are fully recorded in `07-DESIGN-SYSTEM.md` and the file itself is a working exploration surface, not a permanent historical record the way the A/A2/A3 prototypes are.
+
 ## Localization
 
 ARTIT is bilingual: Hungarian (primary, currently published) and English (architecture-ready, not yet published — see below).
@@ -142,6 +150,8 @@ Sitewide header/navigation chrome (`src/content/nav/content.yaml`, `nav` collect
 **Runtime cost**: zero. All localization resolves at build time; the SystemMap's existing 810-byte inline interaction script is unchanged (locale only affects which string it's initialized with, not its behavior). No i18n library dependency was added — `astro:i18n` is part of Astro core, `js-yaml`/`yaml` (used by Astro's built-in Content Collections `file()` loader for the new `.yaml` sources) were already present as transitive dependencies of Astro itself, not newly installed.
 
 **Implementation status (Task 009)**: the architecture generalized to a second page with one small, genuinely-needed addition — `src/lib/i18n.ts`'s `homePath()` (hardcoded to `'/'`) was generalized into `localePath(locale, path)`, with `homePath()` now a one-line wrapper (`localePath(locale, '/')`) so existing callers didn't change. `CustomDevelopmentPage.astro` uses `localePath(locale, '/egyedi-fejlesztes/')` directly. Everything else — the `LocalizedGated` translation-completeness policy, `localizeGated()`'s no-silent-fallback behavior, the withheld-`/en/`-route pattern, the locale-wrapper component shape — required zero changes to reach a second page; `/en/egyedi-fejlesztes/` is withheld for the identical reason `/en/` is (no approved English marketing copy exists for this page either).
+
+**Implementation status (Task 010)**: generalized to a third page with zero further changes — `MunkainkPage.astro` uses `localePath(locale, '/munkaink/')`, `munkainkPageSchema` uses the same `localizedGated()` primitive throughout, and `/en/munkaink/` is withheld for the identical reason. The language switcher was deliberately **not** activated (no `alternateLocalePath` passed anywhere, matching `/` and `/egyedi-fejlesztes/`) — that remains scoped to a future, separate **Localization Activation** task once approved English marketing copy exists for all three pages, not something to partially wire up per-page. Findings for that future task, recorded here as requested: the architecture needs no structural change to support it — every page already resolves its own canonical path via `localePath()`, every content schema already separates gated marketing prose from required technical vocabulary, and `SiteHeader`'s switch-link mechanism already exists and only needs `alternateLocalePath` values supplied once real `/en/*` routes exist. The activation task's real work is entirely content (translation) and route creation, not architecture.
 
 ## Public assets
 
@@ -234,6 +244,14 @@ Production `/` now carries **one small inline module script**, from the `SystemM
 
 Still 0 `<script>` tags after adding the `OperatingFitField` Hero visual — confirmed against the rebuilt `dist/egyedi-fejlesztes/index.html`. Interaction was explicitly considered and rejected for this component (see `07-DESIGN-SYSTEM.md`), not merely defaulted away from — the deciding factor was that hover/focus would add no information here, unlike `SystemMap`'s node highlighting.
 
+### Implementation status (Task 010)
+
+0 `<script>` tags on `/munkaink/` — confirmed against `dist/munkaink/index.html`. No component on this page has any interactive behavior at all; the page is purely static HTML/CSS.
+
+### Implementation status (Task 010A)
+
+Still 0 `<script>` tags after adding `LivingSystemField` — confirmed against the rebuilt `dist/munkaink/index.html`. Interaction was explicitly reviewed and rejected for the same reason as `OperatingFitField`: nothing in this ambient-field visual is hidden until interacted with.
+
 ## Content Collections
 
 Use Astro Content Collections for case studies.
@@ -257,6 +275,14 @@ Resolved the "revisit" note above now that a second page's content actually exis
 ### Implementation status (Task 009A)
 
 Extended `customDevPageSchema` with `hero.visual` (the `OperatingFitField` labels: `centerLabel`, `ariaLabel`, `legend.{friction,fit}`, and exactly four `nodes`) — no new collection, no schema restructuring, since this is genuinely part of the same page's Hero section. Every field uses `localizedText` (both locales required), not `localizedGated` — classified the same way `SystemMap`'s own source/output labels were in Task 007B: short technical/categorical vocabulary, not marketing prose, so both `hu`/`en` are populated (reusing the exact English terms already established in `home/content.yaml` — "SEPARATE SYSTEM", "MANUAL DATA" — for sitewide vocabulary consistency).
+
+### Implementation status (Task 010)
+
+Added `munkainkPage` — its own `file()`-loader collection with its own schema (`src/content/pages/munkaink/content.yaml`, entry id `munkaink`), not folded into `pages` or `customDevPage`, for the identical reason `customDevPage` got its own collection in Task 009: a genuinely different section shape, not a variant of an existing one. The `cases[]` array reuses the exact stable ids (`case-01`/`case-02`) already used in `home/content.yaml`'s `work.cases[]` and `egyedi-fejlesztes/content.yaml`'s `directions.paths[].evidence.caseId` — the same real-world case studies referenced from three places, kept consistent rather than reinvented, so a future case-study detail page can be linked from all three without an id mismatch. Every field is `localizedGated` — nothing on this page is technical/structural vocabulary the way `OperatingFitField`'s labels are; it's all positioning prose or a real fact (a working title, a direction link), so the gated policy applies throughout.
+
+### Implementation status (Task 010A)
+
+Extended `munkainkPageSchema` with `hero.visual` (`LivingSystemField`'s `label`/`ariaLabel`) — `localizedText`, not `localizedGated`, classified the same way `OperatingFitField`'s and `SystemMap`'s own labels were: a single technical/categorical word ("RENDSZER"/"SYSTEM"), not marketing prose.
 
 ## Images
 
@@ -346,6 +372,10 @@ Astro's native `i18n` routing is configured (see "Localization" above) and would
 ### Implementation status (Task 009)
 
 Added `/egyedi-fejlesztes/` (`src/pages/egyedi-fejlesztes/index.astro`, a directory + `index.astro` rather than a flat `egyedi-fejlesztes.astro` file — deliberately, since this route will have real children, `/egyedi-fejlesztes/uzleti-alkalmazasok/` and `/egyedi-fejlesztes/rendszerintegracio/`, matching the existing `art-direction/` directory precedent rather than `design-foundation.astro`'s flat-file one, which has no children). Same locale-wrapper pattern as `/`: a thin route file rendering `<CustomDevelopmentPage locale="hu" />`. No `/en/egyedi-fejlesztes/` — same translation-completeness gate as `/`. The two child routes are linked from this page (per `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`'s "approved future routes may be linked" allowance) but not built — they currently 404, same expected-not-a-defect status Task 005A recorded for `/`'s own future links.
+
+### Implementation status (Task 010)
+
+Added `/munkaink/` (`src/pages/munkaink/index.astro`, directory form — no real children of its own currently planned, but kept consistent with the other two page routes' directory shape rather than a flat file, for the same reasoning). Same locale-wrapper pattern (`<MunkainkPage locale="hu" />`). No `/en/munkaink/`. Confirmed the existing nav already resolved correctly to this route before this task started (`SiteHeader`'s "Munkáink" link has pointed at `/munkaink/` since Task 005A/007B) — no navigation change was required.
 
 ### Implementation status (Task 004B)
 

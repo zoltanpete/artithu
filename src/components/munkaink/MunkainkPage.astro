@@ -1,0 +1,140 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import LivingSystemField from './LivingSystemField.astro';
+import { localize, localizeGated, localePath, type Locale } from '../../lib/i18n';
+
+/**
+ * Shared renderer for the /munkaink/ evidence hub (Task 010, Hero visual
+ * added Task 010A) — same locale-wrapper pattern as
+ * `Homepage.astro`/`CustomDevelopmentPage.astro`.
+ *
+ * Task 010 shipped this page with no page-specific brand-face visual — the
+ * evidence-record composition of the case entries alone was judged
+ * sufficient identity. Owner review reopened that decision (Task 010A):
+ * correct but visually muted next to `/egyedi-fejlesztes/`. `LivingSystemField`
+ * is the result of a two-round, 5-concept exploration — see
+ * DOC/07-DESIGN-SYSTEM.md "Munkáink brand face (Task 010A)". No connector
+ * between the two cases still applies unchanged: that device was explored
+ * and rejected in Task 010 (it risked implying a relationship *between* the
+ * two unrelated customer systems, which isn't true) and Task 010A's own
+ * brief reconfirms the same constraint for the Hero visual — it must not
+ * make the cases nodes inside itself.
+ */
+interface Props {
+	locale: Locale;
+	alternateLocalePath?: string;
+}
+
+const { locale, alternateLocalePath } = Astro.props;
+
+const page = await getEntry('munkainkPage', 'munkaink');
+if (!page) throw new Error('Missing required "munkainkPage/munkaink" content entry');
+const c = page.data;
+
+const path = localePath(locale, '/munkaink/');
+---
+
+<BaseLayout
+	title={localizeGated(c.seo.title, locale) ?? ''}
+	description={localizeGated(c.seo.description, locale) ?? ''}
+	path={path}
+	locale={locale}
+>
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+
+	<main>
+		<!-- 01 — Hero. No CTA here — the page's rhetorical structure states the
+		     thesis, shows the evidence, then asks for the conversation at the
+		     end, not before. `LivingSystemField` (Task 010A) sits in the
+		     desktop right column; H1 remains the primary element, the visual
+		     supports it rather than competing (a calmer ratio than
+		     /egyedi-fejlesztes/'s own Hero grid — see foundation.css). -->
+		<section class="section section--major">
+			<Container width="standard">
+				<div class="munkaink-hero__grid">
+					<div class="munkaink-hero__main">
+						<p class="eyebrow">{localizeGated(c.hero.eyebrow, locale)}</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							{localizeGated(c.hero.title, locale)}
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+							{localizeGated(c.hero.lead, locale)}
+						</p>
+					</div>
+					<div class="munkaink-hero__visual">
+						<LivingSystemField
+							id="munkaink-living-field"
+							label={localize(c.hero.visual.label, locale)}
+							ariaLabel={localize(c.hero.visual.ariaLabel, locale)}
+						/>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 02 — What ARTIT considers evidence. Tonal band: the same quiet-
+		     resolution surface role Decision/"When not justified" carry
+		     elsewhere, reused for its role (calm, principle-stating), not its
+		     layout. -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.principle.headline, locale)}
+				</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.principle.body, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 03 — Case evidence. Reuses the homepage Work section's own
+		     `.work-teaser__list/__index/__title` evidence-record device
+		     directly (second real usage — see foundation.css). No connecting
+		     line between the two cases: explored and rejected, see the
+		     component header comment. Each case links to its related custom-
+		     development direction (the approved Case Study ↔ direction
+		     mapping — DOC/02), not to a case-study detail page, since none
+		     exists yet. -->
+		<section class="section">
+			<Container width="standard">
+				<ol class="work-teaser__list">
+					{c.cases.map((item) => (
+						<li class="work-teaser__item panel-technical" data-case={item.id}>
+							<span class="meta work-teaser__index">CASE / {String(item.order).padStart(2, '0')}</span>
+							<p class="work-teaser__title">
+								{localizeGated(item.title, locale)}
+							</p>
+							<a href={item.direction.href} class="meta work-teaser__direction">
+								→ {localizeGated(item.direction.label, locale)}
+							</a>
+						</li>
+					))}
+				</ol>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 04 — Final CTA -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.finalCta.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.finalCta.copy, locale)}
+				</p>
+				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+					{localizeGated(c.finalCta.cta.label, locale)}
+				</a>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>

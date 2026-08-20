@@ -155,6 +155,40 @@ Structure:
 
 Do not use generic portfolio grid as the primary pattern.
 
+### `/munkaink/` — implementation status (Task 010)
+
+```text
+Route                  /munkaink/ (src/pages/munkaink/index.astro)
+Page purpose            evidence hub — how ARTIT demonstrates that the systems it builds survive
+                        real business operation, not a portfolio gallery
+Primary visitor question   Tényleg megcsinálták már? (DOC/02's "Have they actually done this?")
+Primary CTA             Beszéljünk róla → (/kapcsolat/), matching the homepage's own Final CTA
+                        phrasing — DOC/06 §11's case-study-detail CTA ("Van hasonló problémája?")
+                        is used as this section's headline instead
+Section structure       4 sections: Hero (no CTA — the page states its thesis before showing
+                        evidence, not before; carries the `LivingSystemField` brand-face visual as
+                        of Task 010A — see 07-DESIGN-SYSTEM.md "Munkáink brand face"), evidence
+                        principle (tonal band), two case entries (reusing the homepage's
+                        `.work-teaser__list` evidence-record device, each linked to its related
+                        custom-development direction), Final CTA. Deliberately short otherwise.
+Internal links          /egyedi-fejlesztes/uzleti-alkalmazasok/, /egyedi-fejlesztes/rendszerintegracio/
+                        (the approved Case Study ↔ direction mapping, DOC/02), /kapcsolat/
+SEO/search intent       indexable (no noindex); title "ARTIT — Munkáink", description reuses the
+                        Hero lead verbatim (same pattern as `/` and `/egyedi-fejlesztes/`)
+E-E-A-T role            primary Experience hub (DOC/02); intentionally does not overstate its
+                        current evidence depth — only the two approved working titles are shown,
+                        no invented industry/size/duration/outcome
+Structured data role    none — unchanged, still deferred (see 13-CONTENT-GAPS-AND-VALIDATION.md)
+Content source          06-CASE-STUDY-ARCHITECTURE.md (the two approved working titles, the
+                        Case Study ↔ direction mapping, the closing-CTA quote), already-published
+                        homepage copy reused for identical underlying facts (Hero lead, Final CTA
+                        copy), 02-INFORMATION-ARCHITECTURE.md (page role, visitor question)
+Implementation status    Complete. Task 010A added the Hero brand-face visual (`LivingSystemField`)
+                        after owner review reopened Task 010's original "no Hero visual" decision —
+                        selected from a 5-concept exploration, see 07-DESIGN-SYSTEM.md. No `/en/`
+                        equivalent — same translation-completeness gate as `/` and `/egyedi-fejlesztes/`.
+```
+
 ## `/tardify/`
 
 Structure:

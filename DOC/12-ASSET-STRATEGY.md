@@ -143,3 +143,11 @@ Prefer a larger original crop or a different source screenshot.
 ## Implementation status (Task 009A)
 
 Task 009A added the page's Hero brand-face visual (`OperatingFitField`) — still no external asset of any kind: it's native inline SVG built from existing design tokens (`--color-accent`, `--color-border`, `--color-bg`, `--font-mono`), the same "no stock illustration/icon packs/3D blobs/decorative imagery" rule this document already states, extended to a new visual-modeling asset rather than a screenshot or photo. See `07-DESIGN-SYSTEM.md` "Custom Development brand-face (Task 009A)" for the exploration that selected it over two rejected concepts.
+
+## Implementation status (Task 010)
+
+`/munkaink/` uses no assets at all — no SVG, no screenshot, no icon. This is the explicit brand-face decision recorded in `07-DESIGN-SYSTEM.md` "Munkáink evidence grammar": the evidence-record typography itself is the page's identity. The two case entries also carry no screenshot, since none is approved (DOC/13) — consistent with `12-ASSET-STRATEGY.md`'s "Client system screenshots... these are evidence assets" rule: an evidence page with no approved evidence asset should say less, not fabricate a placeholder.
+
+## Implementation status (Task 010A)
+
+Task 010A's reopened Hero-visual decision still uses no external asset — `LivingSystemField` is native inline SVG built from existing design tokens, same as `OperatingFitField`. The two case entries themselves remain unchanged and still carry no screenshot; the Hero visual is explicitly not a stand-in for one (see DOC/07's "Relationship to the case entries" — the Hero models the general proposition, the case plates remain the only actual evidence records).

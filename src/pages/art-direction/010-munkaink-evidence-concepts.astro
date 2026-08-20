@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 010 exploration — three concepts for /munkaink/'s evidence treatment,
+// consolidated onto one comparison page (all three are real, rendered
+// prototypes — this is an efficiency adaptation of the usual one-route-per-
+// concept precedent, not a substitute for genuine comparison). Uses only the
+// two approved case-study working titles; no invented facts.
+
+const cases = [
+	{ id: 'case-01', order: 1, title: 'Egy üzleti rendszer, amely együtt nőtt a vállalkozással.', direction: 'Egyedi üzleti alkalmazások' },
+	{ id: 'case-02', order: 2, title: 'A rendszer, amely több ERP-t is túlélt.', direction: 'Rendszerintegráció és automatizáció' },
+];
+---
+
+<BaseLayout title="Task 010 — Munkáink Evidence Concepts" description="Exploration prototype" noindex={true}>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 010 — MUNKÁINK EVIDENCE CONCEPTS A / B / C — KÍSÉRLETI NÉZET, NEM VÉGLEGES" />
+
+	<main>
+		<!-- Concept A — Plain Dossier Index -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept A — Plain Dossier Index</p>
+				<h2 style="margin-block-start: var(--space-sm);">Nincs csatlakozó eszköz, nincs Hero-ábra — csak fegyelmezett tipográfia.</h2>
+				<div class="evid-a__list">
+					{cases.map((c) => (
+						<div class="evid-a__item panel-technical">
+							<span class="meta evid-a__index">CASE / {String(c.order).padStart(2, '0')}</span>
+							<p class="evid-a__title">{c.title}</p>
+							<span class="meta evid-a__direction">→ {c.direction}</span>
+						</div>
+					))}
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept B — Continuity Thread -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept B — Continuity Thread</p>
+				<h2 style="margin-block-start: var(--space-sm);">Egy vékony folytonossági jel köti össze a bejegyzéseket — dátum vagy szám nélkül.</h2>
+				<div class="evid-b__list">
+					<div class="evid-b__thread"></div>
+					{cases.map((c) => (
+						<div class="evid-b__item">
+							<div class="evid-b__tick"></div>
+							<div class="evid-b__body panel-technical">
+								<span class="meta evid-a__index">CASE / {String(c.order).padStart(2, '0')}</span>
+								<p class="evid-a__title">{c.title}</p>
+								<span class="meta evid-a__direction">→ {c.direction}</span>
+							</div>
+						</div>
+					))}
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept C — Evidence Criteria Model (Hero diagram) -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept C — Evidence Criteria Model</p>
+				<h2 style="margin-block-start: var(--space-sm);">Egy absztrakt Hero-ábra azt mutatja, mit tekint az ARTIT valódi bizonyítéknak.</h2>
+				<svg viewBox="0 0 380 140" role="img" aria-label="Három feltétel, amely valódi bizonyítéknak számít: valós rendszer, valós működés, hosszú távú folytonosság" style="max-width:380px; margin-inline:auto; display:block;">
+					{[['VALÓS RENDSZER', 70], ['VALÓS MŰKÖDÉS', 190], ['HOSSZÚ TÁVÚ FOLYTONOSSÁG', 310]].map(([label, x]) => (
+						<>
+							<circle cx={x as number} cy="60" r="30" fill="none" stroke="var(--color-accent)" stroke-width="1.25" opacity="0.7" />
+							<text x={x as number} y="115" text-anchor="middle" font-family="var(--font-mono)" font-size="9" fill="var(--color-text-muted)">{label}</text>
+						</>
+					))}
+					<path d="M100,60 L160,60" stroke="var(--color-border)" stroke-width="1" />
+					<path d="M220,60 L280,60" stroke="var(--color-border)" stroke-width="1" />
+				</svg>
+				<div class="evid-a__list" style="margin-block-start: var(--space-xl);">
+					{cases.map((c) => (
+						<div class="evid-a__item panel-technical">
+							<span class="meta evid-a__index">CASE / {String(c.order).padStart(2, '0')}</span>
+							<p class="evid-a__title">{c.title}</p>
+							<span class="meta evid-a__direction">→ {c.direction}</span>
+						</div>
+					))}
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.evid-a__list { display: grid; grid-template-columns: 1fr; gap: var(--space-lg); margin-block-start: var(--space-xl); }
+	@media (min-width: 768px) { .evid-a__list { grid-template-columns: 1fr 1fr; gap: var(--space-2xl); } }
+	.evid-a__index { display: block; color: var(--color-accent); margin-block-end: var(--space-xs); }
+	.evid-a__title { font-size: var(--text-lead); font-weight: 500; margin: var(--space-sm) 0 0; }
+	.evid-a__direction { display: block; margin-block-start: var(--space-md); color: var(--color-text-muted); }
+
+	.evid-b__list { position: relative; display: grid; grid-template-columns: 1fr; gap: var(--space-xl); margin-block-start: var(--space-xl); padding-inline-start: var(--space-lg); }
+	.evid-b__thread { position: absolute; left: 0; top: 8px; bottom: 8px; width: 2px; background: var(--color-accent); opacity: 0.5; }
+	.evid-b__item { position: relative; }
+	.evid-b__tick { position: absolute; left: calc(-1 * var(--space-lg) - 3px); top: 20px; width: 8px; height: 8px; border-radius: 50%; background: var(--color-accent); }
+	@media (min-width: 768px) { .evid-b__list { grid-template-columns: 1fr 1fr; } .evid-b__thread { left: 0; right: 0; top: 8px; bottom: auto; height: 2px; width: auto; } .evid-b__tick { left: 4px; top: -1px; } }
+</style>
