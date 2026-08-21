@@ -811,6 +811,207 @@ a {
 	max-width: 32rem;
 }
 
+/* --- Kapcsolat: Hero + conversation-field brand-face (Task 013) -------------
+   Copy column + the page's own four "what's useful to tell us" prompts,
+   staggered as a real, non-card, non-node field — not a diagram, not a
+   form preview. 3fr/2fr: the prompts are short mono lines needing room to
+   read, not width to fill, the same reasoning `/egyedi-fejlesztes/`'s own
+   ratio was chosen for (independently re-derived, not copied). Single
+   column below 900px, where the field simply becomes a plain list below
+   the Hero copy. */
+
+.kapcsolat-hero__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-xl);
+}
+
+@media (min-width: 900px) {
+	.kapcsolat-hero__grid {
+		grid-template-columns: 3fr 2fr;
+		align-items: start;
+		padding-block-start: var(--space-md);
+	}
+}
+
+.kapcsolat-prompt-field {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-lg);
+}
+
+.kapcsolat-prompt-field__item {
+	position: relative;
+	padding-inline-start: var(--space-md);
+	font-family: var(--font-mono);
+	font-size: var(--text-small);
+	color: var(--color-text-muted);
+	max-width: 20rem;
+}
+
+.kapcsolat-prompt-field__item::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	top: 0.4em;
+	width: 10px;
+	height: 1.5px;
+	background: var(--color-accent);
+}
+
+/* Irregular stagger — deliberately not a straight list, so it reads as a
+   loose field, matching the same "not indexed, not ordered" reasoning
+   `LivingSystemField`'s ambient marks use, applied to text instead of
+   dots. Values are hand-picked, not derived from `i`, to stay reviewable. */
+.kapcsolat-prompt-field__item--1 {
+	margin-inline-start: var(--space-xl);
+}
+
+.kapcsolat-prompt-field__item--3 {
+	margin-inline-start: var(--space-lg);
+}
+
+/* --- Kapcsolat: Conversation Workspace (Task 013A) ---------------------------
+   Replaces the old standalone "useful prompts" grid + the old plain-form
+   section (see DOC/07 "Kapcsolat post-Hero visual pass"). Left column: the
+   same `c.prompts` content as the Hero field, rendered fully as a real
+   indexed list — its one full rendering. Right column: the actual form.
+   One shared top rule binds the two columns into a single composition
+   ("Concept B — Conversation -> Starting Point"), without any connector/
+   arrow between them — context and starting point, not a two-step flow.
+   Single column below 900px, prompts first, form second (not a side-by-
+   side relationship that no longer helps at that width). */
+
+.kapcsolat-workspace {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-2xl);
+	margin-block-start: var(--space-lg);
+	padding-block-start: var(--space-lg);
+	border-block-start: 1px solid var(--color-border);
+}
+
+@media (min-width: 900px) {
+	.kapcsolat-workspace {
+		grid-template-columns: 2fr 3fr;
+	}
+}
+
+.kapcsolat-workspace__list {
+	list-style: none;
+	margin: var(--space-lg) 0 0 0;
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-lg);
+}
+
+.kapcsolat-workspace__list li {
+	max-width: 24rem;
+}
+
+.kapcsolat-workspace__index {
+	display: block;
+	color: var(--color-accent);
+	margin-block-end: var(--space-xs);
+}
+
+/* --- Kapcsolat: contact form (Task 013) --------------------------------------
+   The site's first real form — posts directly to an owner-approved
+   Formspree endpoint (see DOC/13). Persistent visible labels throughout
+   (no placeholder-as-label); native `required`/`type="email"` provide
+   accessible baseline validation before the enhancement script ever runs.
+   Idle/submitting/success/error states are communicated by text content,
+   never by color alone. */
+
+.contact-form {
+	max-width: 32rem;
+}
+
+.contact-form__honeypot {
+	position: absolute;
+	left: -9999px;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+}
+
+.contact-form__field {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-xs);
+	margin-block-end: var(--space-lg);
+}
+
+.contact-form__field label {
+	font-family: var(--font-mono);
+	font-size: var(--text-small);
+	letter-spacing: var(--tracking-wide);
+	text-transform: uppercase;
+	color: var(--color-text-muted);
+}
+
+.contact-form__field input,
+.contact-form__field textarea {
+	font: inherit;
+	font-size: var(--text-body);
+	padding: var(--space-sm) var(--space-md);
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+	background: var(--color-bg);
+	color: var(--color-text);
+	resize: vertical;
+}
+
+.contact-form__field input:focus-visible,
+.contact-form__field textarea:focus-visible {
+	outline: 2px solid var(--color-accent);
+	outline-offset: 1px;
+}
+
+/* The message field is the page's real question — "what's your current
+   situation" — so it carries more visual weight than name/email (Task
+   013A §19): a larger label, a taller textarea, extra breathing room
+   above it, not just a third identical-looking field in the stack. */
+.contact-form__field--message {
+	margin-block-start: var(--space-md);
+}
+
+.contact-form__field--message label {
+	font-size: var(--text-body);
+	text-transform: none;
+	letter-spacing: normal;
+	color: var(--color-text);
+}
+
+.contact-form__field--message textarea {
+	min-height: 12rem;
+}
+
+.contact-form__submit {
+	margin-block-start: var(--space-sm);
+}
+
+.contact-form__status {
+	margin-block-start: var(--space-lg);
+	font-size: var(--text-body);
+}
+
+.contact-form__status--success {
+	color: var(--color-status-success);
+}
+
+.contact-form__status--error {
+	color: var(--color-accent-strong);
+}
+
+.contact-form__privacy {
+	margin-block-start: var(--space-lg);
+}
+
 /* --- Custom Development pillar page: justification signals (Task 009) ------
    The "when custom development is justified" section's three conditions.
    Deliberately NOT the homepage Problem section's JEL/0X spine/dot/tonal-

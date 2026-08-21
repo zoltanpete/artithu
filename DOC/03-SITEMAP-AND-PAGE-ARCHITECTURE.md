@@ -308,6 +308,61 @@ Initial form fields:
 - Email
 - Röviden a probléma / projekt
 
+### `/kapcsolat/` — implementation status (Task 013)
+
+```text
+Route                  /kapcsolat/ (src/pages/kapcsolat/index.astro)
+Page purpose            conversation-entry — what's needed to start a conversation, not a generic
+                        Contact Us / sales-funnel / support-portal / booking page
+Primary visitor question   Mit kell elküldenem ahhoz, hogy el tudjunk kezdeni beszélni? (Task 013's
+                        own framing of DOC/02's "I want to discuss the project.")
+Primary CTA             Üzenet elküldése (the contact form itself — the page's one action peak)
+Section structure       4 sections (Task 013A reduced this from Task 013's original 5 — see
+                        below): Hero (no CTA button; the page's own four "what's useful to tell
+                        us" prompts staggered in the desktop right column — "Conversation Field",
+                        selected over two rejected concepts, see 07-DESIGN-SYSTEM.md "Kapcsolat
+                        art direction"; locked as of Task 013A), what you don't need yet (tonal
+                        band, moved ahead of the workspace), Conversation Workspace (the same four
+                        prompts rendered fully as a real indexed list in the left column, the
+                        actual contact form in the right column — one composition, not two
+                        sections; posts to an owner-approved Formspree endpoint — name/email/
+                        message only, no company/phone/budget/project-type field, per Task 013's
+                        minimal-field-set rule, which deliberately supersedes this section's older
+                        4-field sketch above), quiet close (no repeated CTA, since the workspace
+                        form is already the action peak).
+
+### `/kapcsolat/` — implementation status (Task 013A)
+
+Owner visual review found the page conventional after the Hero: a standalone prompt section that
+merely repeated the Hero's own four prompts with no independent job, and a form section with the
+same functionless-desktop-dead-zone problem Task 012A had already fixed for `/rolunk/`'s Hero —
+both confirmed on the real render, not assumed. The Hero itself was locked and not reopened. Three
+post-Hero concepts were built and compared (`/art-direction/013a-contact-workspace-concepts`,
+noindex): "Working Brief" (a technical frame around the same narrow form) and "Editorial Form"
+(bold numbered fields, no frame) both left the same desktop dead zone; "Conversation → Starting
+Point" — merging the prompts (context, left column) and the real form (the actual starting point,
+right column) into one two-column composition — won, solving the dead zone and the prompt
+duplication in the same move. See 07-DESIGN-SYSTEM.md "Kapcsolat post-Hero visual pass" for the
+full record.
+Internal links          none new — this is the page every other page's CTA already points to
+SEO/search intent       indexable (no noindex); title "ARTIT — Kapcsolat", description reuses the
+                        Hero lead verbatim (same pattern as every other implemented page)
+E-E-A-T role            reduces the perceived barrier to starting a conversation through concrete,
+                        honest guidance rather than a generic "contact us" invitation
+Structured data role    none — no LocalBusiness/address/phone/Organization schema invented;
+                        deferred, same as every other page (13-CONTENT-GAPS-AND-VALIDATION.md)
+Content source          02-INFORMATION-ARCHITECTURE.md (page role, visitor question, friction-
+                        reducing principle), the exact sitewide-reused finalCta copy (Task 007,
+                        already published on five other pages) reused verbatim as this page's own
+                        Hero, DOC/01's Decision-section "understand operation first" principle
+                        (referenced as a concept for Section 3, not copied verbatim)
+Implementation status    Complete, including the Task 013A Conversation Workspace visual pass. No
+                        `/en/` equivalent — same translation-completeness gate as the other five
+                        pages. Every sitewide "Beszéljünk"/contact CTA (header, every page's Final
+                        CTA) now resolves to a real, functioning page instead of 404ing — audited
+                        across all five other routes, not assumed.
+```
+
 ## `/` — implementation status (Task 007)
 
 ```text

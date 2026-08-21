@@ -200,6 +200,20 @@ Used on: `/rolunk/` (Task 012; not yet `/en/`).
 
 **Hero regrid (Task 012A)**: owner review found the Task 012 Hero's stacked-and-indented accent clause left the desktop right territory functionless empty space. `.rolunk-hero__heading` (the `<h1>`) becomes a two-column CSS grid at 900px+, with the accent-clause `<span>` as the second column's content at a larger fluid scale — see `07-DESIGN-SYSTEM.md` "Rólunk Hero regrid (Task 012A)" for the 3-concept exploration that selected this over two rejected diagram concepts. Kept in `RolunkPage.astro`/`foundation.css`, not extracted into a component (Task 012A §17's own preference for the winning "keep it in the page" outcome), since there's no reusable device here — just a grid placement of content that was already there.
 
+#### `KapcsolatPage`
+
+Purpose:
+
+Shared, locale-parameterized renderer for `/kapcsolat/` — same route-wrapper pattern as `Homepage`/`CustomDevelopmentPage`/`MunkainkPage`/`TardifyPage`/`RolunkPage`.
+
+**Implemented (Task 013; post-Hero visual pass Task 013A)**: `src/components/kapcsolat/KapcsolatPage.astro`. Props: `locale` (`Locale`, required), `alternateLocalePath` (`string?`). Loads the `kapcsolatPage/kapcsolat` content entry and renders `BaseLayout` + `SiteHeader` + four sections: Hero (no CTA button; the page's own four "what's useful to tell us" prompts staggered in the desktop right column — "Conversation Field", see `07-DESIGN-SYSTEM.md` "Kapcsolat art direction"; **locked as of Task 013A**), "what you don't need yet" (tonal band), the Conversation Workspace (the same four prompts rendered fully as a real indexed list in the left column, the actual contact form in the right column — one composition, see "Kapcsolat post-Hero visual pass" below), and a quiet close with no repeated CTA. `c.prompts` is authored once and rendered in exactly these two places (Hero teaser + Workspace's full list), never duplicated in YAML.
+
+**The form**: minimal field set — name, email, message only (Task 013 §6's own instruction against auto-adding company/phone/budget/project-type). Native `required`/`type="email"` provide accessible baseline validation before any script runs. A small inline `<script>` (via `define:vars`, no dependency) progressively enhances the native POST into a fetch-based submission with idle/submitting/success/error states, communicated by text content (never color alone) and confirmed via `aria-live="polite"` plus an explicit focus move to the status message on both outcomes. Without JS the form still natively POSTs to Formspree and works (Formspree renders its own confirmation page) — the script is an enhancement, not a requirement. Honeypot field (`_gotcha`, Formspree's own documented convention) for basic spam protection, `tabindex="-1"`/`aria-hidden="true"` so it's invisible to keyboard/AT users specifically, not just visually hidden. The message field carries more visual weight than name/email (`.contact-form__field--message` — Task 013A, larger label, taller textarea, extra top margin), since describing the current situation is the page's real question.
+
+**A real bug found and fixed during Task 013's own verification** (not a pre-existing defect): the status-message `<p>` was originally a child of the `<form>` element; since a successful submission hides the entire form (`formEl.hidden = true`), the status message was being hidden along with it — the success confirmation would never actually become visible. Caught by an automated success/error-state test before shipping, not assumed to work from the markup alone. Fixed by moving the status paragraph to be a sibling of the form, given its own `id`, and selected by that id rather than via `formEl.querySelector(...)`. Task 013A restructured the surrounding markup further (merging two sections into one workspace) but preserved this fix and re-verified the success/error states still work correctly after the restructuring, not assumed.
+
+Used on: `/kapcsolat/` (Task 013/013A; not yet `/en/`).
+
 #### `SiteFooter`
 
 Purpose:
@@ -433,6 +447,14 @@ Task 012's brief explicitly forbade generic `BrandFace`/`HeroVisual`/`TechnicalD
 ## Componentization audit (Task 012A)
 
 Task 012A's brief explicitly permitted a page-specific component such as `RolunkCollaborationArtifact` if a diagram concept (A or C) won, and explicitly preferred keeping the fix inside `RolunkPage.astro` if the editorial concept (B) won instead. B won, so no new component was created — the two rejected diagram concepts never reached the point of needing one. `RolunkPage.astro`'s Hero markup and `foundation.css`'s `.rolunk-hero__*` rules were edited in place, not replaced. No other component was touched.
+
+## Componentization audit (Task 013)
+
+Task 013's brief explicitly forbade prematurely creating generic `BrandFace`/`ContactHero`/`TechnicalDiagram`/`VisualModel`/`ContactCard`/`FormSection` components, while allowing a page-specific component "if genuinely needed" and preferring the route-level renderer if a typography/CSS-only concept won. The winning Hero concept (Conversation Field) is real content (`c.prompts`) given a CSS-only staggered arrangement — no SVG, no geometry, nothing that isn't already plain HTML list markup — so it stayed in `KapcsolatPage.astro`/`foundation.css`, same as `/rolunk/`'s own Concept B outcome. `KapcsolatPage` is the only new component. The contact form itself was also kept inline rather than extracted into a `ContactForm`/`FormSection` component: it has exactly one real usage, and extracting a single-use component before a second real need exists would be the same premature generalization this project's dependency rule has rejected consistently since `SystemMap`'s own Task 006 history. No existing brand-face component was touched.
+
+## Componentization audit (Task 013A)
+
+Task 013A's brief explicitly forbade generic `Workspace`/`TechnicalForm`/`BrandForm`/`ConversationSurface`/`FormShell`/`BrandFace` components "unless a second genuine reuse case exists," while allowing a page-specific `ContactWorkspace.astro` if the winning composition became unwieldy inline. It didn't: the merged prompts+form workspace is markup reorganization plus new CSS grid rules (`.kapcsolat-workspace*`), no new geometry, no new interactive behavior, nothing that strains `KapcsolatPage.astro`'s existing size or readability. It stayed inline. No new component was created this task; `KapcsolatPage.astro` was restructured in place, and `foundation.css`'s dead `.kapcsolat-prompt-grid*` rules (from the now-removed standalone section) were deleted rather than left as unreferenced code.
 
 ## Possible later components
 

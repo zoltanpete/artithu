@@ -70,11 +70,11 @@ Do not silently fill gaps.
 
 ## Contact
 
-- [ ] Form destination
-- [ ] Hosting/deployment environment
-- [ ] Spam protection approach
-- [ ] Privacy notice wording
-- [ ] Analytics/consent requirements
+- [x] Form destination — Formspree endpoint `https://formspree.io/f/xppabkzq`, owner-supplied and approved (Task 013); see `09-TECHNICAL-ARCHITECTURE.md` "Forms" and the Task 013 gate note below
+- [x] Hosting/deployment environment — resolved as a non-issue by the chosen approach: a static-site-compatible external POST target needs no server adapter, so this was never actually blocking (Task 013)
+- [x] Spam protection approach — basic honeypot (`_gotcha`, Formspree's own convention), implemented (Task 013); a stronger mechanism (e.g. reCAPTCHA) remains a future option, not currently needed
+- [ ] Privacy notice wording — no ARTIT-authored privacy policy exists yet; the form links directly to Formspree's own policy in the interim (Task 013)
+- [ ] Analytics/consent requirements — unresolved, unrelated to the form's own function
 
 ## SEO
 
@@ -136,6 +136,20 @@ Built against the gates already recorded above — no new gap was discovered, on
 ## Task 012A — Rólunk Hero brand-face exploration, gate compliance
 
 Re-audited the "Brand / people" gate list per this task's own explicit requirement (Part 4/§6) — unchanged from Task 012: all five items remain unresolved. No name, role, biography, photograph, team size, or founding-history fact was used, implied, or substituted in any of the three explored Hero concepts, including the two rejected diagram concepts (a working-surface panel and a shared-reference datum line, neither of which depicted a person or implied team size either). The selected direction changes only how the already-approved Hero copy is arranged on screen, not what it claims — no new content gap was discovered or created.
+
+## Task 013 — `/kapcsolat/` conversation entry, gate compliance
+
+**Mandatory contact-mechanism audit (this task's own §3), classified before any implementation began**: public email — NOT APPROVED / NOT FOUND (repo-wide search, none exists). Public telephone — NOT APPROVED / NOT FOUND. Registered address — NOT APPROVED / NOT FOUND. Legal company name — NOT APPROVED / NOT FOUND. Existing form/backend — NOT APPROVED / NOT FOUND (no form library in `package.json`, no SSR adapter in `astro.config.mjs`). Given every one of these was unresolved, the task's own hard rule applied: do not invent any of them, and do not build a non-functional form. This was surfaced to the owner directly rather than resolved by assumption, since it blocks the page's entire core function — the owner supplied a Formspree endpoint specifically for this purpose, which is now the one new, genuinely approved fact this task introduces (see the "Contact" gate list above and `09-TECHNICAL-ARCHITECTURE.md` "Forms").
+
+**What was NOT invented despite now having a working form**: no company/phone/budget/project-type/deadline/employee-count/attachment/marketing-consent field was added (Task 013 §6's own explicit list of fields not to auto-add) — only name, email, and message. No response-time promise, office-hours claim, or "we review every message personally"-style process claim was made anywhere on the page, since none of those is verified. No success message asserts anything beyond what the Formspree API response itself confirms (the wording was written and re-checked specifically to avoid an implicit time commitment — "hamarosan" ("soon") was deliberately avoided in every draft).
+
+**SEO**: no LocalBusiness, Organization address/phone, or Person structured data was added — `seo.title`/`seo.description` only, same restraint as every other page. The "Organization" gate list above (legal name, address, email, phone, logo, social URLs, privacy/legal page, canonical domain) remains entirely untouched by this task; shipping a working contact form did not require or imply resolving any of it.
+
+No new content gap was discovered beyond what's now recorded in the updated "Contact" checklist above; the four still-open items there (privacy notice wording, analytics/consent, and the two now-narrower open sub-questions under spam protection/hosting) are the honest remainder, not silently dropped.
+
+## Task 013A — Kapcsolat post-Hero visual pass, gate compliance
+
+A visual/compositional task, not a content task — re-confirmed against this task's own explicit "do not invent" list (Part 0 §2): no company/phone/budget/deadline/project-type/consent field was added, no privacy wording was invented, no legal name/address/email/phone was introduced, no response-time promise was made. The form's three fields, its Formspree endpoint, and its success/error copy are all unchanged from Task 013 — only their position on the page changed. No item in the "Contact" or "Organization" gate lists above was touched, resolved, or newly opened by this task.
 
 ## Task 008 — visual lock reconciliation
 

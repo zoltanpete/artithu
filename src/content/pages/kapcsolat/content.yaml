@@ -1,0 +1,93 @@
+# /kapcsolat/ content (Task 013). No approved legal/company name, address,
+# public email, or public phone exists anywhere in the repository (DOC/13
+# "Organization"/"Contact" gates) — none appears below. The Formspree
+# endpoint below was explicitly supplied and approved by the owner during
+# this task for exactly this purpose (real form backend, no server adapter
+# needed on this static build); it is the one new, genuinely approved fact
+# this task introduces. `hero.title`/`hero.lead` are the exact
+# already-published, sitewide-reused friction-reducing sentence (Task 007's
+# finalCta.copy, split into two content-authored fields, same pattern as
+# Rólunk's split Hero headline) — not a new promise. `en` is absent
+# everywhere (gated), same policy as every other page.
+kapcsolat:
+  seo:
+    title:
+      hu: "ARTIT — Kapcsolat"
+    description:
+      hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+
+  hero:
+    eyebrow:
+      hu: "Nincs szükség kész specifikációra"
+    title:
+      hu: "Nem kell kész specifikációval érkeznie."
+    lead:
+      hu: "Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+
+  # Section 2's own content — also reused by the Hero visual (see
+  # KapcsolatPage.astro's header comment for which concept won and why).
+  prompts:
+    - id: process
+      label:
+        hu: "Hogyan működik ma a folyamat?"
+        en: "How does the process work today?"
+    - id: friction
+      label:
+        hu: "Hol lassít, vagy hol okoz hibát?"
+        en: "Where does it slow down or cause errors?"
+    - id: tools
+      label:
+        hu: "Milyen rendszerek és eszközök érintettek?"
+        en: "Which systems and tools are involved?"
+    - id: goal
+      label:
+        hu: "Mit szeretne jobban csinálni?"
+        en: "What would you like to do better?"
+
+  useful:
+    headline:
+      hu: "Ez segít elindítani a beszélgetést."
+
+  notNeeded:
+    headline:
+      hu: "Amire még nincs szükség."
+    body:
+      hu: "Nem kell kész specifikáció, kidolgozott technikai megoldás vagy pontosan meghatározott projektkör. Elég, ha a jelenlegi működésről és a problémáról beszélünk — a technológiai döntés ezután következik."
+
+  contact:
+    headline:
+      hu: "Írjon néhány mondatot a jelenlegi helyzetről."
+    form:
+      # Owner-approved (Task 013) Formspree endpoint — a static-site-
+      # compatible form backend, no server adapter required. Not a secret
+      # (Formspree endpoints are meant to be embedded client-side), but
+      # still the one contact-mechanism fact this file exists to record.
+      endpoint: https://formspree.io/f/xppabkzq
+      subject: "Új üzenet — ARTIT.hu / Kapcsolat"
+      nameLabel:
+        hu: "Név"
+        en: "Name"
+      emailLabel:
+        hu: "Email"
+        en: "Email"
+      messageLabel:
+        hu: "A jelenlegi működés és a probléma röviden"
+        en: "The current process and the problem, briefly"
+      submitLabel:
+        hu: "Üzenet elküldése"
+        en: "Send message"
+      submittingLabel:
+        hu: "Küldés…"
+        en: "Sending…"
+      successMessage:
+        hu: "Köszönjük az üzenetet — megkaptuk."
+        en: "Thank you — we've received your message."
+      errorMessage:
+        hu: "Hiba történt a küldés során. Kérjük, próbálja meg újra."
+        en: "Something went wrong while sending. Please try again."
+    privacyNote:
+      hu: "Az üzenetet a Formspree szolgáltatás továbbítja."
+
+  closing:
+    statement:
+      hu: "Nem kell tökéletes leírás — elég az őszinte kép a jelenlegi helyzetről."

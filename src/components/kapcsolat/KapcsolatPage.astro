@@ -1,0 +1,264 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import { localize, localizeGated, localePath, type Locale } from '../../lib/i18n';
+
+/**
+ * Shared renderer for /kapcsolat/ (Task 013) — same locale-wrapper pattern
+ * as `Homepage.astro`/`CustomDevelopmentPage.astro`/`MunkainkPage.astro`/
+ * `TardifyPage.astro`/`RolunkPage.astro`.
+ *
+ * Contact-mechanism audit (Task 013 Part 3): no public email, phone,
+ * address, or legal company name is approved anywhere in the repository
+ * (DOC/13 "Organization"/"Contact" gates, all unresolved). The owner
+ * explicitly supplied and approved a Formspree endpoint for this task —
+ * the one new contact-mechanism fact this page introduces (see
+ * `src/content/pages/kapcsolat/content.yaml`'s header comment and
+ * DOC/13's Task 013 gate note). The form below posts directly to that
+ * endpoint; no server adapter is required (Astro stays fully static).
+ *
+ * Hero brand-face: "Conversation Field" (Concept A), selected from a
+ * 3-concept exploration (see `src/pages/art-direction/013-kapcsolat-
+ * concepts.astro`) — the page's own four "what's useful to tell us"
+ * prompts (`c.prompts`), staggered as a real, non-listy field in the
+ * desktop right column, not a diagram and not a form preview. "Editorial
+ * Intake" (Concept B) was rejected on the rendered evidence: at desktop
+ * width it reintroduced the exact same functionless-dead-zone problem
+ * Task 012A had just fixed for /rolunk/. "Minimal Working Note" (Concept
+ * C) was rejected on semantic grounds: its bounded surface + categorical
+ * label read slightly more formal/procedural than this page's own "you
+ * don't need a polished description" thesis wants to signal, even though
+ * it passed every rendered/structural test. See DOC/07 for the full
+ * record. **The Hero is locked as of Task 013A — do not reopen it.**
+ *
+ * Post-Hero visual pass (Task 013A): owner review found the page fell
+ * back into a conventional heading/paragraph/tonal-band/plain-form rhythm
+ * after the Hero. Re-audited on the real render: the standalone "Ez segít
+ * elindítani a beszélgetést." section merely repeated the Hero's own four
+ * prompts with no independent semantic job (confirmed, not assumed), and
+ * the form section itself had the exact same functionless-desktop-dead-
+ * zone problem Task 012A had already fixed for /rolunk/'s Hero — a single
+ * narrow bordered-input column against a mostly empty 1440px canvas. Three
+ * concepts were compared (see `src/pages/art-direction/013a-contact-
+ * workspace-concepts.astro`): "Working Brief" (a technical frame around
+ * the same narrow form) and "Editorial Form" (bold numbered fields, no
+ * frame) both left the same desktop dead zone, just styled differently.
+ * "Conversation → Starting Point" won: the four prompts (context) and the
+ * real form (the actual starting point) become one two-column
+ * composition — solving the dead zone and the prompt duplication in the
+ * same move, since the prompts now have exactly one full rendering
+ * (Hero teaser + this one real list, not three copies). `c.prompts` is
+ * still authored once and rendered in exactly these two places.
+ */
+interface Props {
+	locale: Locale;
+	alternateLocalePath?: string;
+}
+
+const { locale, alternateLocalePath } = Astro.props;
+
+const page = await getEntry('kapcsolatPage', 'kapcsolat');
+if (!page) throw new Error('Missing required "kapcsolatPage/kapcsolat" content entry');
+const c = page.data;
+
+const path = localePath(locale, '/kapcsolat/');
+
+const form = c.contact.form;
+const nameLabel = localize(form.nameLabel, locale);
+const emailLabel = localize(form.emailLabel, locale);
+const messageLabel = localize(form.messageLabel, locale);
+const submitLabel = localize(form.submitLabel, locale);
+const submittingLabel = localize(form.submittingLabel, locale);
+const successMessage = localize(form.successMessage, locale);
+const errorMessage = localize(form.errorMessage, locale);
+---
+
+<BaseLayout
+	title={localizeGated(c.seo.title, locale) ?? ''}
+	description={localizeGated(c.seo.description, locale) ?? ''}
+	path={path}
+	locale={locale}
+>
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+
+	<main>
+		<!-- 01 — Hero. No CTA button here — the real action is the Section 04
+		     form; a Hero CTA would just be a second, earlier "scroll down"
+		     instruction. "Conversation Field" (Concept A): the four prompts
+		     that answer "what's useful to tell us" are staggered in the
+		     desktop right column as real, non-card, non-node content — the
+		     Hero's own focal device, filling the territory Task 012A's own
+		     lesson warned against leaving empty. 3fr/2fr: the prompts are
+		     short mono lines, needing room to read, not width to fill —
+		     the same reasoning `/egyedi-fejlesztes/`'s ratio was chosen for,
+		     independently re-derived here, not copied on assumption. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<div class="kapcsolat-hero__grid">
+					<div class="kapcsolat-hero__main">
+						<p class="eyebrow">{localizeGated(c.hero.eyebrow, locale)}</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							{localizeGated(c.hero.title, locale)}
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+							{localizeGated(c.hero.lead, locale)}
+						</p>
+					</div>
+					<ul class="kapcsolat-prompt-field">
+						{c.prompts.map((p, i) => (
+							<li class:list={['kapcsolat-prompt-field__item', `kapcsolat-prompt-field__item--${i % 4}`]}>
+								{localize(p.label, locale)}
+							</li>
+						))}
+					</ul>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 02 — What you do NOT need yet. Grounded in the already-approved
+		     homepage Decision paragraph's own "understand operation first"
+		     principle (reused as a concept, not verbatim, since this
+		     section's framing is specific to starting a conversation, not
+		     the custom-dev decision fork) — no free-consulting/estimation
+		     promise added. Moved ahead of the workspace (Task 013A): friction
+		     reduction belongs right before the action, not sandwiched behind
+		     a since-removed standalone prompt section. -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">{localizeGated(c.notNeeded.headline, locale)}</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.notNeeded.body, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 03 — Conversation Workspace (Task 013A, replaces the old
+		     standalone "useful prompts" section + the old plain form
+		     section). Left column: the same `c.prompts` content as the Hero,
+		     rendered fully as a real indexed list — its one full rendering,
+		     since the Hero's own copy is a staggered teaser, not a complete
+		     list. Right column: the actual form, posts directly to the
+		     owner-approved Formspree endpoint (Task 013) — no server adapter
+		     needed. Minimal field set (name/email/message only — Task 013
+		     §6 explicitly against auto-adding company/phone/budget/etc.).
+		     Honeypot (`_gotcha`) is Formspree's own documented spam-
+		     protection convention, zero extra dependency. Progressive
+		     enhancement: without JS this still natively POSTs and Formspree
+		     shows its own confirmation; the inline script below only adds
+		     idle/submitting/success/failure states without a page reload. -->
+		<section class="section section--major" id="kapcsolat-form-section">
+			<Container width="standard">
+				<div class="kapcsolat-workspace">
+					<div class="kapcsolat-workspace__context">
+						<h2 style="max-width: var(--content-reading);">{localizeGated(c.useful.headline, locale)}</h2>
+						<ol class="kapcsolat-workspace__list">
+							{c.prompts.map((p, i) => (
+								<li>
+									<span class="meta kapcsolat-workspace__index">{String(i + 1).padStart(2, '0')}</span>
+									{localize(p.label, locale)}
+								</li>
+							))}
+						</ol>
+					</div>
+
+					<div class="kapcsolat-workspace__form-col">
+						<h2 style="max-width: var(--content-reading);">{localizeGated(c.contact.headline, locale)}</h2>
+
+						<form id="kapcsolat-form" class="contact-form" action={form.endpoint} method="POST" style="margin-block-start: var(--space-xl);">
+							<input type="hidden" name="_subject" value={form.subject} />
+							<input type="text" name="_gotcha" class="contact-form__honeypot" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+							<div class="contact-form__field">
+								<label for="kapcsolat-name">{nameLabel}</label>
+								<input type="text" id="kapcsolat-name" name="name" required autocomplete="name" />
+							</div>
+
+							<div class="contact-form__field">
+								<label for="kapcsolat-email">{emailLabel}</label>
+								<input type="email" id="kapcsolat-email" name="email" required autocomplete="email" />
+							</div>
+
+							<div class="contact-form__field contact-form__field--message">
+								<label for="kapcsolat-message">{messageLabel}</label>
+								<textarea id="kapcsolat-message" name="message" required rows="8"></textarea>
+							</div>
+
+							<button type="submit" class="btn btn-primary contact-form__submit">{submitLabel}</button>
+
+							<p class="meta contact-form__privacy">
+								{localizeGated(c.contact.privacyNote, locale)}
+								{' '}
+								<a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">Formspree</a>
+							</p>
+						</form>
+
+						<!-- Sibling of the form, not a child of it — deliberately: on
+						     success the form itself is hidden, and this must stay
+						     visible (a status message nested inside a hidden
+						     ancestor would be hidden too, a real bug Task 013's own
+						     verification step caught before shipping). -->
+						<p id="kapcsolat-form-status" class="contact-form__status" role="status" aria-live="polite" hidden></p>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 04 — Quiet close. No repeated CTA — the workspace form above is
+		     already the page's action peak (Task 013 §4 Section 5's own
+		     rule, preserved). -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="lead" style="max-width: var(--content-reading);">
+					{localizeGated(c.closing.statement, locale)}
+				</p>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<script define:vars={{ endpoint: form.endpoint, submitLabel, submittingLabel, successMessage, errorMessage }}>
+	const formEl = document.getElementById('kapcsolat-form');
+	const statusEl = document.getElementById('kapcsolat-form-status');
+	const submitBtn = formEl.querySelector('.contact-form__submit');
+
+	formEl.addEventListener('submit', async (event) => {
+		event.preventDefault();
+		submitBtn.disabled = true;
+		submitBtn.textContent = submittingLabel;
+		statusEl.hidden = true;
+		statusEl.classList.remove('contact-form__status--success', 'contact-form__status--error');
+
+		try {
+			const response = await fetch(endpoint, {
+				method: 'POST',
+				body: new FormData(formEl),
+				headers: { Accept: 'application/json' },
+			});
+
+			if (!response.ok) throw new Error('submission failed');
+
+			formEl.hidden = true;
+			statusEl.textContent = successMessage;
+			statusEl.classList.add('contact-form__status--success');
+			statusEl.hidden = false;
+			statusEl.setAttribute('tabindex', '-1');
+			statusEl.focus();
+		} catch (err) {
+			statusEl.textContent = errorMessage;
+			statusEl.classList.add('contact-form__status--error');
+			statusEl.hidden = false;
+			statusEl.setAttribute('tabindex', '-1');
+			statusEl.focus();
+			submitBtn.disabled = false;
+			submitBtn.textContent = submitLabel;
+		}
+	});
+</script>

@@ -167,3 +167,17 @@ Still no external asset of any category above, after adding the `TardifySpecimen
 ## Implementation status (Task 012A)
 
 Still no asset of any kind after the Hero regrid — the fix is a CSS Grid placement of the H1's existing content, not a new visual device. Two SVG-based concepts ("Shared Working Surface," "Direct Collaboration Marker") were built and compared but rejected (see `07-DESIGN-SYSTEM.md`), so `/rolunk/` remains the one page-implementation task this session that shipped with zero SVGs of any kind. Person/portrait gate re-audited per this task's own explicit requirement — unchanged, still fully unresolved; no substitute imagery was used or considered.
+
+## Implementation status (Task 013) — contact mechanism
+
+`/kapcsolat/` uses no image/icon/SVG asset — same as `/rolunk/`, the selected Hero concept (Conversation Field) is real content in a CSS arrangement, not a graphic. This task does introduce the site's first genuine **third-party service dependency**: Formspree, as the form's submission backend (see DOC/09 "Forms" for the selection record). Contact-mechanism audit (Task 013 §3), classified per the task's own required categories:
+
+- **APPROVED + IMPLEMENTABLE**: form submission via the owner-supplied Formspree endpoint.
+- **NOT APPROVED / NOT FOUND** (confirmed by direct repository audit before implementation, not assumed): public email, public phone, physical address, legal company name, scheduling/booking link, office hours, response-time commitment. None of these appears anywhere on `/kapcsolat/` or in its content YAML.
+- **TO VERIFY**, recorded for a future task rather than silently resolved: exact spam-protection posture beyond the honeypot (Formspree's own paid-tier reCAPTCHA options were not evaluated, since the free-tier honeypot convention already satisfies "spam protection approach" at a basic level), analytics/consent requirements for form submissions, and whether Formspree's own data-processing terms need to be reflected in a future ARTIT-authored privacy page (none exists yet — the form's privacy note links directly to Formspree's own policy in the interim, not to an ARTIT page that doesn't exist).
+
+No LocalBusiness/address/phone structured data was added — see DOC/13 "SEO" note and `13-CONTENT-GAPS-AND-VALIDATION.md`'s unchanged Organization gates.
+
+## Implementation status (Task 013A)
+
+No asset-strategy change. The Formspree dependency, the privacy note, and every "NOT APPROVED / NOT FOUND" classification above remain exactly as recorded — this task restructured page composition, not the contact mechanism itself. Still no image/icon/SVG on `/kapcsolat/`.

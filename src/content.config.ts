@@ -385,6 +385,61 @@ const rolunkPage = defineCollection({
 	schema: rolunkPageSchema,
 });
 
+// `kapcsolatPage` (Task 013) — same reasoning as the other four page
+// collections: its own `file()` collection, its own schema. `hero.prompts`
+// are the "what's useful to tell us" prompts (Section 2's own content) —
+// authored once, reused by both the Hero visual (if the winning concept
+// needs them) and Section 2 itself, never duplicated in YAML. Every prompt
+// is short/categorical (a question, not a claim about ARTIT or the
+// visitor), so `localizedText` applies the same way `OperatingFitField`'s
+// node labels do. The `form` object holds only field labels/placeholders
+// and the Formspree endpoint — no submitted data is ever stored in this
+// repo; see DOC/13 for the approval record of the endpoint itself.
+const kapcsolatPageSchema = z.object({
+	seo: z.object({
+		title: localizedGated(),
+		description: localizedGated(),
+	}),
+	hero: z.object({
+		eyebrow: localizedGated(),
+		title: localizedGated(),
+		lead: localizedGated(),
+	}),
+	prompts: z
+		.array(z.object({ id: z.string(), label: localizedText() }))
+		.min(1),
+	useful: z.object({
+		headline: localizedGated(),
+	}),
+	notNeeded: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	contact: z.object({
+		headline: localizedGated(),
+		form: z.object({
+			endpoint: z.url(),
+			subject: z.string(),
+			nameLabel: localizedText(),
+			emailLabel: localizedText(),
+			messageLabel: localizedText(),
+			submitLabel: localizedText(),
+			submittingLabel: localizedText(),
+			successMessage: localizedText(),
+			errorMessage: localizedText(),
+		}),
+		privacyNote: localizedGated(),
+	}),
+	closing: z.object({
+		statement: localizedGated(),
+	}),
+});
+
+const kapcsolatPage = defineCollection({
+	loader: file('src/content/pages/kapcsolat/content.yaml'),
+	schema: kapcsolatPageSchema,
+});
+
 const navSchema = z.object({
 	logoLabel: z.string(),
 	ariaLabel: localizedText(),
@@ -403,4 +458,13 @@ const nav = defineCollection({
 	schema: navSchema,
 });
 
-export const collections = { 'case-studies': caseStudies, pages, customDevPage, munkainkPage, tardifyPage, rolunkPage, nav };
+export const collections = {
+	'case-studies': caseStudies,
+	pages,
+	customDevPage,
+	munkainkPage,
+	tardifyPage,
+	rolunkPage,
+	kapcsolatPage,
+	nav,
+};

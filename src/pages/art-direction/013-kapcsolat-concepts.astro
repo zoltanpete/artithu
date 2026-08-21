@@ -1,0 +1,214 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 013 exploration — three Hero compositions for /kapcsolat/. All copy
+// is the real already-approved content (Task 013's own Hero sentence, the
+// exact sitewide friction-reducing copy, and the four "useful to tell us"
+// prompts) — no lorem ipsum, per the task's own instruction. Lesson from
+// 009A-012A carried in explicitly: the Hero must be compositionally
+// intentional from this task itself, not shipped inert and fixed later.
+const eyebrow = 'Nincs szükség kész specifikációra';
+const title = 'Nem kell kész specifikációval érkeznie.';
+const lead = 'Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni.';
+const prompts = [
+	'Hogyan működik ma a folyamat?',
+	'Hol lassít, vagy hol okoz hibát?',
+	'Milyen rendszerek és eszközök érintettek?',
+	'Mit szeretne jobban csinálni?',
+];
+---
+
+<BaseLayout title="Task 013 — Kapcsolat Hero Concepts" description="Exploration prototype" noindex={true}>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 013 — KAPCSOLAT HERO CONCEPTS A / B / C — KÍSÉRLETI NÉZET, NEM VÉGLEGES" />
+
+	<main>
+		<!-- Concept A — Conversation Field / Prompt Composition -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept A — Conversation Field</p>
+				<div class="concept-a-grid">
+					<div>
+						<p class="eyebrow">{eyebrow}</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{title}</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">{lead}</p>
+					</div>
+					<ul class="prompt-field">
+						{prompts.map((p, i) => (
+							<li class:list={['prompt-field__item', `prompt-field__item--${i}`]}>{p}</li>
+						))}
+					</ul>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept B — Editorial Intake / Structured Sentence -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept B — Editorial Intake</p>
+				<div class="editorial-intake">
+					<p class="eyebrow">{eyebrow}</p>
+					<h1 class="editorial-intake__title">{title}</h1>
+					<p class="lead editorial-intake__lead">{lead}</p>
+					<div class="editorial-intake__band">
+						{prompts.map((p, i) => (
+							<>
+								{i > 0 && <span class="editorial-intake__sep" aria-hidden="true">·</span>}
+								<span class="editorial-intake__prompt">{p}</span>
+							</>
+						))}
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept C — Minimal Working Note -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept C — Minimal Working Note</p>
+				<div class="concept-a-grid">
+					<div>
+						<p class="eyebrow">{eyebrow}</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{title}</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">{lead}</p>
+					</div>
+					<div class="working-note">
+						<span class="working-note__mark" aria-hidden="true"></span>
+						<p class="meta working-note__label">KIINDULÓPONT</p>
+						<ul class="working-note__list">
+							{prompts.map((p) => <li>{p}</li>)}
+						</ul>
+					</div>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.concept-a-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		margin-block-start: var(--space-lg);
+	}
+
+	@media (min-width: 900px) {
+		.concept-a-grid {
+			grid-template-columns: 3fr 2fr;
+			align-items: start;
+			padding-block-start: var(--space-md);
+		}
+	}
+
+	/* Concept A — prompts as an irregular field, not a list. */
+	.prompt-field {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-lg);
+	}
+
+	.prompt-field__item {
+		position: relative;
+		padding-inline-start: var(--space-md);
+		font-family: var(--font-mono);
+		font-size: var(--text-small);
+		color: var(--color-text-muted);
+		max-width: 20rem;
+	}
+
+	.prompt-field__item::before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0.4em;
+		width: 10px;
+		height: 1.5px;
+		background: var(--color-accent);
+	}
+
+	.prompt-field__item--1 {
+		margin-inline-start: var(--space-xl);
+	}
+
+	.prompt-field__item--3 {
+		margin-inline-start: var(--space-lg);
+	}
+
+	/* Concept B — single-column editorial, prompts as a horizontal band. */
+	.editorial-intake {
+		margin-block-start: var(--space-lg);
+		max-width: var(--content-wide);
+	}
+
+	.editorial-intake__title {
+		margin-block-start: var(--space-sm);
+		max-width: 56rem;
+		font-size: clamp(2.75rem, 2.2rem + 3vw, 6rem);
+	}
+
+	.editorial-intake__lead {
+		max-width: 40rem;
+		margin-block-start: var(--space-lg);
+	}
+
+	.editorial-intake__band {
+		margin-block-start: var(--space-xl);
+		padding-block-start: var(--space-lg);
+		border-block-start: 1px solid var(--color-border);
+		font-family: var(--font-mono);
+		font-size: var(--text-small);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.editorial-intake__sep {
+		margin-inline: var(--space-sm);
+		opacity: 0.5;
+	}
+
+	/* Concept C — minimal bounded working-note, distinct from TardifySpecimen
+	   (no grid texture, no closed/open plate — just a margin rule). */
+	.working-note {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+		border-inline-start: 1.5px solid var(--color-accent);
+	}
+
+	.working-note__mark {
+		position: absolute;
+		left: -1px;
+		top: 0;
+		width: 14px;
+		height: 1.5px;
+		background: var(--color-accent);
+	}
+
+	.working-note__label {
+		color: var(--color-accent);
+		margin: 0;
+	}
+
+	.working-note__list {
+		list-style: none;
+		margin: var(--space-md) 0 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+		font-family: var(--font-mono);
+		font-size: var(--text-small);
+		color: var(--color-text);
+	}
+</style>

@@ -136,6 +136,10 @@ Owner review reopened Task 011's "no fourth diagram" decision specifically at th
 
 Added `src/components/rolunk/RolunkPage.astro` (see `08-COMPONENT-LIBRARY.md`), `src/pages/rolunk/index.astro`, and one consolidated exploration prototype, `src/pages/art-direction/012-rolunk-concepts.astro` (`noindex`, three concepts on one route). No new brand-face component — the selected concept (Concept C, typography-led) needed none; `rolunkPageSchema` was added; `foundation.css` gained one new Hero-typography rule block (`.rolunk-hero__*`), placed alongside the equivalent Hero blocks for the other four pages even though this one has no grid (single-column typography, not a two-column composition). Also applied the small, requested `TardifySpecimen` internal-contrast polish (Part 0) to the already-shipped component — no new file for that.
 
+### Implementation status (Task 013)
+
+Added `src/components/kapcsolat/KapcsolatPage.astro` (see `08-COMPONENT-LIBRARY.md`), `src/pages/kapcsolat/index.astro`, and one exploration prototype, `src/pages/art-direction/013-kapcsolat-concepts.astro` (`noindex`). No new brand-face component — the selected Hero concept (Conversation Field) is real content in a CSS-only staggered arrangement; `kapcsolatPageSchema` was added along with the page's first `.url()`-validated field (`contact.form.endpoint`); `foundation.css` gained three new rule blocks (`.kapcsolat-hero__grid`/`.kapcsolat-prompt-field`, `.kapcsolat-prompt-grid`, `.contact-form*`). This is also the first task to add a real, functioning `<form>` and a second genuine client-side script (after `SystemMap`'s) — see "JavaScript" below.
+
 ## Localization
 
 ARTIT is bilingual: Hungarian (primary, currently published) and English (architecture-ready, not yet published — see below).
@@ -168,6 +172,8 @@ Sitewide header/navigation chrome (`src/content/nav/content.yaml`, `nav` collect
 **Implementation status (Task 011)**: generalized to a fourth page, again with zero architecture change — `TardifyPage.astro` uses `localePath(locale, '/tardify/')`, `tardifyPageSchema` is entirely `localizedGated()`. `/en/tardify/` withheld, language switcher still not activated. No new finding for the future Localization Activation task — the pattern held on the fourth try exactly as it held on the second and third.
 
 **Implementation status (Task 012)**: generalized to a fifth page, still with zero architecture change — `RolunkPage.astro` uses `localePath(locale, '/rolunk/')`, `rolunkPageSchema` is entirely `localizedGated()` (including the two split Hero clauses, `titleLead`/`titleAccent` — splitting a headline into styled clauses is a presentational decision, not a localization one, so it required no new i18n primitive). `/en/rolunk/` withheld, language switcher still not activated (no `alternateLocalePath` passed). No structural blocker was found, and none was expected: every page-implementation task since Task 009 has confirmed the same result, and this task's own brief asked for that confirmation to be recorded again — the architecture generalizes to a fifth page for the identical reason it generalized to the second through fourth.
+
+**Implementation status (Task 013)**: generalized to a sixth page, again with zero architecture change — `KapcsolatPage.astro` uses `localePath(locale, '/kapcsolat/')`, `kapcsolatPageSchema` mixes `localizedGated()` (marketing prose) with `localizedText()` (`prompts[].label` — short categorical questions, not gated positioning copy, classified the same way `OperatingFitField`'s node labels were) and one genuinely locale-neutral field (`contact.form.endpoint`, `contact.form.subject` — technical configuration, not content, so plain `z.string()`/`z.url()`, no localization primitive at all). `/en/kapcsolat/` withheld, switcher still not activated. The one new architectural surface this task adds — the contact form's own client script — is entirely locale-neutral by construction (it reads its user-facing strings from already-localized props via `define:vars`, no hardcoded language), so it needs no changes to support a future `/en/kapcsolat/` either.
 
 ## Public assets
 
@@ -280,7 +286,9 @@ Still 0 `<script>` tags after adding `TardifySpecimen` — confirmed against the
 
 0 `<script>` tags on `/rolunk/` — confirmed against `dist/rolunk/index.html` (also 0 `<button>`, 1 `<h1>`, 0 `role="img"` SVGs — the page has no SVG of any kind). The fifth page in a row with zero client JS.
 
-## Content Collections
+### Implementation status (Task 013)
+
+`/kapcsolat/` breaks the zero-client-JS streak, deliberately and for a real reason: 1 `<script>` tag, 1 `<button>`, 1 `<form>` — confirmed against `dist/kapcsolat/index.html`. This is the site's second genuine client-side script (after `SystemMap`'s 810-byte interaction script) and is justified exactly the way the "Add islands only for real interactive requirements" rule at the top of this section anticipates: submitting a form to an external endpoint and reporting success/failure is not achievable with zero JS if the UX is to show inline idle/submitting/success/error states rather than a full-page navigation. The script is a small inline module (via `define:vars`, no external file, no bundler dependency) that progressively enhances a form which already works without it — with JS disabled, the `<form>`'s native `action`/`method` attributes still POST to Formspree and Formspree renders its own confirmation page, so the page is never actually broken without JS, only less smooth. No framework, no client-side router, no form-library dependency was added.
 
 Use Astro Content Collections for case studies.
 
@@ -323,6 +331,10 @@ Extended `tardifyPageSchema` with `hero.visual` (`{ ariaLabel: localizedText() }
 ### Implementation status (Task 012)
 
 Added `rolunkPage` — its own `file()`-loader collection with its own schema (`src/content/pages/rolunk/content.yaml`, entry id `rolunk`), same reasoning as the other four page collections. No `hero.visual` field exists in this schema at all — like `tardifyPageSchema`, `/rolunk/` has no brand-face visual, so there's nothing for such a field to describe. One schema detail specific to this page: `hero.titleLead`/`hero.titleAccent` are two separate `localizedGated` fields rather than one `hero.title` string, so the two visually-different clauses are content-authored from the start rather than split from a longer string inside the template — consistent with this project's standing rule that every visible string is its own content field. Every other field is `localizedGated`.
+
+### Implementation status (Task 013)
+
+Added `kapcsolatPage` — its own `file()`-loader collection with its own schema (`src/content/pages/kapcsolat/content.yaml`, entry id `kapcsolat`), same reasoning as the other five page collections. `prompts` (the "what's useful to tell us" list) is authored once at the top level and referenced from both the Hero template and Section 2's template — not duplicated content, just reused rendering of the same array, matching the project's standing "author once" rule. `prompts[].label` uses `localizedText` (both locales required) — short categorical questions, not gated positioning prose, classified the same way `OperatingFitField`'s node labels were in Task 009A. `contact.form.endpoint`/`contact.form.subject` are the schema's first genuinely locale-neutral content fields — plain `z.url()`/`z.string()`, no `Localized`/`LocalizedGated` wrapper at all, since a Formspree endpoint URL and an email subject line aren't content in any locale, they're configuration. Every other field is `localizedGated`.
 
 ## Images
 
@@ -429,6 +441,10 @@ No routing change — `/tardify/` is the same route, same `src/pages/tardify/ind
 
 Added `/rolunk/` (`src/pages/rolunk/index.astro`, directory form, same reasoning as the other four). Same locale-wrapper pattern (`<RolunkPage locale="hu" />`). No `/en/rolunk/`. The existing nav's "Rólunk" link (pointed at `/rolunk/` since Task 005A) now resolves — no navigation change required. One real, previously-expected-404 link now resolves as a side effect: the homepage's own "Rólunk →" (Senior/Who section CTA, Task 007) pointed at `/rolunk/` before this route existed; confirmed via a real browser request, not assumed, that it now returns the built page.
 
+### Implementation status (Task 013)
+
+Added `/kapcsolat/` (`src/pages/kapcsolat/index.astro`, directory form, same reasoning as the other five). Same locale-wrapper pattern (`<KapcsolatPage locale="hu" />`). No `/en/kapcsolat/`. This route is the destination of every "Beszéljünk"/contact CTA on the site (header CTA, every implemented page's Final CTA) — audited across all five other routes via a real browser (not assumed from the YAML), confirming every one resolves to `/kapcsolat/` and, now that the route exists, every one resolves to a real page instead of 404ing. This is the last of the six main accepted-sitemap routes; `/`, `/egyedi-fejlesztes/`, `/munkaink/`, `/tardify/`, `/rolunk/`, and `/kapcsolat/` are all now live.
+
 ### Implementation status (Task 004B)
 
 Added `/design-foundation` — an internal, `noindex` design-foundation fixture (not part of the accepted sitemap, not linked from any navigation). It exists to let the owner visually review typography/color/spacing before homepage implementation begins. Note: `src/pages/_design.astro` (the task's suggested underscore-prefixed name) was deliberately **not** used — Astro's file-based router excludes any `_`-prefixed file in `src/pages/` from routing entirely (confirmed against current official docs), so that name would silently produce no route at all. `design-foundation` was chosen instead, exactly as the task's own fallback allowed ("another clearly internal development route... with noindex").
@@ -446,6 +462,16 @@ Selection criteria:
 - deployment compatibility.
 
 Do not choose a vendor until deployment architecture is known.
+
+### Implementation status (Task 013)
+
+Chosen: **Formspree** (`https://formspree.io/f/xppabkzq`), owner-supplied and explicitly approved during this task specifically to unblock `/kapcsolat/` — no vendor comparison was performed, since the decision was made directly by the business, not derived from the criteria above. Reconciled against them anyway: reliable delivery (Formspree is a managed third-party service, not build-time infrastructure this project maintains); privacy (the form's own privacy note links to Formspree's policy — see DOC/12); minimal third-party JS (zero — the vendor is used purely as a POST target, no Formspree script/widget is loaded on the page, the only JS is this project's own small inline enhancement); spam protection (Formspree's documented honeypot convention, `_gotcha`, implemented — no reCAPTCHA/JS challenge added); deployment compatibility (a plain HTML `action`/`method` POST to an external origin needs no server adapter, so the static `output` mode in `astro.config.mjs` is unaffected — confirmed, not assumed, since this was the deciding technical constraint before the endpoint was supplied). No API key or secret is involved: Formspree endpoint ids are meant to be embedded client-side, so storing it in the committed YAML content file is the vendor's own intended usage, not a leaked credential.
+
+## Deployment
+
+TBD.
+
+Record final hosting/deployment decision here when chosen.
 
 ## Deployment
 

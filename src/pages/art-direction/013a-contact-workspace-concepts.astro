@@ -1,0 +1,246 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 013A exploration — three concepts for the /kapcsolat/ contact-
+// workspace area (the "Amire még nincs szükség." -> form transition),
+// reopening only the post-Hero visual weakness the owner flagged. The
+// approved Hero is NOT reproduced here (out of scope, locked). Real form
+// field markup/classes are reused so the comparison reflects actual
+// typography/spacing, not an approximation. Forms here are inert
+// (action="#") — this is a visual-only comparison route, not a functional
+// duplicate of the real endpoint.
+const prompts = [
+	'Hogyan működik ma a folyamat?',
+	'Hol lassít, vagy hol okoz hibát?',
+	'Milyen rendszerek és eszközök érintettek?',
+	'Mit szeretne jobban csinálni?',
+];
+---
+
+<BaseLayout title="Task 013A — Contact Workspace Concepts" description="Exploration prototype" noindex={true}>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 013A — KAPCSOLAT WORKSPACE CONCEPTS A / B / C — KÍSÉRLETI NÉZET, NEM VÉGLEGES" />
+
+	<main>
+		<!-- Concept A — Working Brief / Intake Sheet -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept A — Working Brief / Intake Sheet</p>
+				<div class="workspace-a">
+					<div class="workspace-a__rule">
+						<span class="meta workspace-a__label">MUNKAANYAG · KIINDULÓPONT</span>
+					</div>
+					<h2 style="max-width: var(--content-reading);">Írjon néhány mondatot a jelenlegi helyzetről.</h2>
+
+					<form class="contact-form workspace-a__form" action="#" style="margin-block-start: var(--space-xl);">
+						<div class="contact-form__field workspace-a__field">
+							<span class="workspace-a__tick" aria-hidden="true"></span>
+							<label for="a-name">Név</label>
+							<input type="text" id="a-name" name="name" />
+						</div>
+						<div class="contact-form__field workspace-a__field">
+							<span class="workspace-a__tick" aria-hidden="true"></span>
+							<label for="a-email">Email</label>
+							<input type="email" id="a-email" name="email" />
+						</div>
+						<div class="contact-form__field workspace-a__field">
+							<span class="workspace-a__tick" aria-hidden="true"></span>
+							<label for="a-message">A jelenlegi működés és a probléma röviden</label>
+							<textarea id="a-message" name="message" rows="6"></textarea>
+						</div>
+						<button type="submit" class="btn btn-primary">Üzenet elküldése</button>
+					</form>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept B — Conversation -> Starting Point -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept B — Conversation → Starting Point</p>
+				<div class="workspace-b">
+					<div class="workspace-b__context">
+						<h2 style="max-width: var(--content-reading);">Amiről érdemes írni</h2>
+						<ol class="workspace-b__list">
+							{prompts.map((p, i) => (
+								<li>
+									<span class="meta workspace-b__index">{String(i + 1).padStart(2, '0')}</span>
+									{p}
+								</li>
+							))}
+						</ol>
+					</div>
+					<div class="workspace-b__form-col">
+						<h2 style="max-width: var(--content-reading);">Írjon néhány mondatot a jelenlegi helyzetről.</h2>
+						<form class="contact-form" action="#" style="margin-block-start: var(--space-xl);">
+							<div class="contact-form__field">
+								<label for="b-name">Név</label>
+								<input type="text" id="b-name" name="name" />
+							</div>
+							<div class="contact-form__field">
+								<label for="b-email">Email</label>
+								<input type="email" id="b-email" name="email" />
+							</div>
+							<div class="contact-form__field">
+								<label for="b-message">A jelenlegi működés és a probléma röviden</label>
+								<textarea id="b-message" name="message" rows="6"></textarea>
+							</div>
+							<button type="submit" class="btn btn-primary">Üzenet elküldése</button>
+						</form>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept C — Editorial Form -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept C — Editorial Form</p>
+				<h2 style="max-width: var(--content-reading);">Írjon néhány mondatot a jelenlegi helyzetről.</h2>
+
+				<form class="workspace-c" action="#" style="margin-block-start: var(--space-xl);">
+					<div class="workspace-c__field">
+						<span class="meta workspace-c__index">01 / NÉV</span>
+						<input type="text" id="c-name" name="name" class="workspace-c__input" />
+					</div>
+					<div class="workspace-c__field">
+						<span class="meta workspace-c__index">02 / EMAIL</span>
+						<input type="email" id="c-email" name="email" class="workspace-c__input" />
+					</div>
+					<div class="workspace-c__field workspace-c__field--message">
+						<span class="meta workspace-c__index">03 / HELYZET</span>
+						<textarea id="c-message" name="message" class="workspace-c__textarea" rows="8"></textarea>
+					</div>
+					<button type="submit" class="btn btn-primary">Üzenet elküldése</button>
+				</form>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	/* Concept A */
+	.workspace-a {
+		margin-block-start: var(--space-lg);
+		max-width: 40rem;
+	}
+
+	.workspace-a__rule {
+		border-block-start: 1px solid var(--color-border);
+		padding-block-start: var(--space-sm);
+		margin-block-end: var(--space-lg);
+	}
+
+	.workspace-a__label {
+		color: var(--color-accent);
+	}
+
+	.workspace-a__field {
+		position: relative;
+		padding-inline-start: var(--space-lg);
+	}
+
+	.workspace-a__tick {
+		position: absolute;
+		left: 0;
+		top: 0.5em;
+		width: 10px;
+		height: 1.5px;
+		background: var(--color-accent);
+	}
+
+	/* Concept B */
+	.workspace-b {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-2xl);
+		margin-block-start: var(--space-lg);
+		padding-block-start: var(--space-lg);
+		border-block-start: 1px solid var(--color-border);
+	}
+
+	@media (min-width: 900px) {
+		.workspace-b {
+			grid-template-columns: 2fr 3fr;
+		}
+	}
+
+	.workspace-b__list {
+		list-style: none;
+		margin: var(--space-lg) 0 0 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-lg);
+	}
+
+	.workspace-b__list li {
+		max-width: 24rem;
+	}
+
+	.workspace-b__index {
+		display: block;
+		color: var(--color-accent);
+		margin-block-end: var(--space-xs);
+	}
+
+	/* Concept C */
+	.workspace-c {
+		max-width: 44rem;
+	}
+
+	.workspace-c__field {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+		padding-block: var(--space-lg);
+		border-block-end: 1px solid var(--color-border);
+	}
+
+	.workspace-c__index {
+		color: var(--color-accent);
+	}
+
+	.workspace-c__input {
+		font: inherit;
+		font-size: var(--text-lead);
+		border: none;
+		border-block-end: 1px solid var(--color-border);
+		background: transparent;
+		padding-block: var(--space-xs);
+	}
+
+	.workspace-c__input:focus-visible {
+		outline: none;
+		border-block-end-color: var(--color-accent);
+	}
+
+	.workspace-c__field--message {
+		border-block-end: none;
+	}
+
+	.workspace-c__textarea {
+		font: inherit;
+		font-size: var(--text-lead);
+		border: none;
+		background: transparent;
+		resize: vertical;
+		min-height: 12rem;
+		padding-block: var(--space-xs);
+	}
+
+	.workspace-c__textarea:focus-visible {
+		outline: none;
+	}
+
+	.workspace-c button {
+		margin-block-start: var(--space-lg);
+	}
+</style>
