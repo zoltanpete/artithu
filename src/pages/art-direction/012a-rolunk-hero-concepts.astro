@@ -1,0 +1,176 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 012A exploration — Baseline (Task 012's shipped Hero) + three
+// materially different Hero compositions for /rolunk/, reopening only the
+// Hero's visual authority at desktop width. Person/portrait gate (DOC/13)
+// re-confirmed unchanged: no name, role, biography, or photograph is
+// approved anywhere in the repository, so none of the three concepts below
+// depicts a person, silhouette, avatar, or team size. All copy reuses the
+// exact already-approved Task 012 Hero strings — nothing here states a new
+// fact.
+const eyebrow = 'Közvetlen együttműködés';
+const line1 = 'A problémán tapasztalt fejlesztő dolgozik';
+const accent = 'az első beszélgetéstől az éles rendszerig.';
+const support = 'Nem kerül más kezébe a probléma menet közben — ugyanaz a tapasztalt fejlesztő viszi végig az első beszélgetéstől az éles rendszerig.';
+---
+
+<BaseLayout title="Task 012A — Rólunk Hero Concepts" description="Exploration prototype" noindex={true}>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 012A — RÓLUNK HERO BASELINE / A / B / C — KÍSÉRLETI NÉZET, NEM VÉGLEGES" />
+
+	<main>
+		<!-- Baseline — Task 012's shipped Hero, for direct comparison. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Baseline (Task 012, shipped)</p>
+				<div style="margin-block-start: var(--space-lg); border: 1px dashed var(--color-border); padding: var(--space-lg);">
+					<p class="eyebrow">{eyebrow}</p>
+					<h1 class="rolunk-hero__heading" style="margin-block-start: var(--space-sm);">
+						<span class="rolunk-hero__lead-clause">{line1}</span>
+						<span class="rolunk-hero__accent-clause">{accent}</span>
+					</h1>
+					<p class="lead rolunk-hero__support" style="margin-block-start: var(--space-lg);">{support}</p>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept A — Shared Working Surface / Collaboration Artifact -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept A — Shared Working Surface</p>
+				<div class="concept-hero-grid">
+					<div>
+						<p class="eyebrow">{eyebrow}</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{line1} <span style="color: var(--color-accent);">{accent}</span></h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">{support}</p>
+					</div>
+					<div>
+						<svg viewBox="0 0 420 380" width="100%" style="max-width: 380px; display: block; margin-inline: auto;">
+							<line x1="0" y1="20" x2="420" y2="20" stroke="var(--color-border)" stroke-width="1.25" />
+							<line x1="0" y1="340" x2="420" y2="340" stroke="var(--color-border)" stroke-width="1.25" />
+							<path d="M20,20 L20,44" stroke="var(--color-accent)" stroke-width="1.1" opacity="0.55" />
+							<path d="M20,20 L44,20" stroke="var(--color-accent)" stroke-width="1.1" opacity="0.55" />
+							<path d="M400,340 L400,316" stroke="var(--color-accent)" stroke-width="1.1" opacity="0.55" />
+							<path d="M400,340 L376,340" stroke="var(--color-accent)" stroke-width="1.1" opacity="0.55" />
+							<line x1="70" y1="20" x2="70" y2="46" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+							<line x1="140" y1="20" x2="140" y2="34" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+							<line x1="260" y1="20" x2="260" y2="40" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+							<line x1="330" y1="20" x2="330" y2="32" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+							<text x="210" y="190" text-anchor="middle" font-family="var(--font-mono)" font-size="12" letter-spacing="0.08em" fill="var(--color-text-muted)">KÖZÖS FELÜLET</text>
+						</svg>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept B — Editorial Collaboration Composition (SVG-free) -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept B — Editorial (no SVG)</p>
+				<div class="editorial-b" style="margin-block-start: var(--space-lg);">
+					<p class="eyebrow">{eyebrow}</p>
+					<div class="editorial-b__row">
+						<h1 class="editorial-b__line1">{line1}</h1>
+						<h1 class="editorial-b__accent">{accent}</h1>
+					</div>
+					<p class="lead editorial-b__support">{support}</p>
+					<div class="editorial-b__rule"></div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept C — Direct Collaboration Marker / Shared Reference -->
+		<section class="section section--major">
+			<Container width="standard">
+				<div class="concept-hero-grid">
+					<div>
+						<p class="eyebrow">{eyebrow}</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{line1} <span style="color: var(--color-accent);">{accent}</span></h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">{support}</p>
+					</div>
+					<div>
+						<svg viewBox="0 0 400 200" width="100%" style="max-width: 360px; display: block; margin-inline: auto;">
+							<line x1="40" y1="100" x2="360" y2="100" stroke="var(--color-accent)" stroke-width="1.5" opacity="0.7" />
+							<line x1="40" y1="92" x2="40" y2="108" stroke="var(--color-accent)" stroke-width="1.25" opacity="0.7" />
+							<line x1="360" y1="92" x2="360" y2="108" stroke="var(--color-accent)" stroke-width="1.25" opacity="0.7" />
+							<line x1="150" y1="76" x2="150" y2="124" stroke="var(--color-text-muted)" stroke-width="1.25" />
+							<circle cx="150" cy="100" r="3.5" fill="var(--color-accent)" />
+							<line x1="270" y1="76" x2="270" y2="124" stroke="var(--color-text-muted)" stroke-width="1.25" />
+							<circle cx="270" cy="100" r="3.5" fill="var(--color-accent)" />
+							<text x="40" y="60" font-family="var(--font-mono)" font-size="11" letter-spacing="0.06em" fill="var(--color-text-muted)">KÖZÖS KONTEXTUS</text>
+						</svg>
+					</div>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.concept-hero-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		margin-block-start: var(--space-lg);
+	}
+
+	@media (min-width: 900px) {
+		.concept-hero-grid {
+			grid-template-columns: 3fr 2fr;
+			align-items: center;
+		}
+	}
+
+	.editorial-b__row {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-sm);
+		margin-block-start: var(--space-sm);
+	}
+
+	@media (min-width: 900px) {
+		.editorial-b__row {
+			grid-template-columns: 1fr 1.3fr;
+			align-items: start;
+			gap: var(--space-xl);
+		}
+	}
+
+	.editorial-b__line1 {
+		margin: 0;
+	}
+
+	.editorial-b__accent {
+		margin: 0;
+		color: var(--color-accent);
+		font-size: clamp(2.75rem, 2rem + 3.5vw, 6rem);
+		line-height: 1.05;
+	}
+
+	@media (min-width: 900px) {
+		.editorial-b__accent {
+			margin-block-start: var(--space-lg);
+		}
+	}
+
+	.editorial-b__support {
+		max-width: 32rem;
+		margin-block-start: var(--space-xl);
+	}
+
+	.editorial-b__rule {
+		height: 1px;
+		background: var(--color-border);
+		margin-block-start: var(--space-xl);
+	}
+</style>

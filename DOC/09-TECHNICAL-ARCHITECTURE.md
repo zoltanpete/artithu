@@ -132,6 +132,10 @@ Added `src/components/tardify/TardifyPage.astro` (see `08-COMPONENT-LIBRARY.md`)
 
 Owner review reopened Task 011's "no fourth diagram" decision specifically at the Hero (see `07-DESIGN-SYSTEM.md` "Tardify brand-face — Product Specimen Plate"). Added `src/components/tardify/TardifySpecimen.astro` (see `08-COMPONENT-LIBRARY.md`) and one consolidated exploration prototype, `src/pages/art-direction/011a-tardify-brand-face-concepts.astro` (`noindex`, three concepts on one route, matching the Task 010 efficiency precedent). `TardifyPage.astro`'s Hero markup was edited in place to add a `tardify-hero__grid` two-column composition; its four other sections are unchanged. `tardifyPageSchema` gained one field (`hero.visual.ariaLabel`); `foundation.css` gained one new Hero-grid rule block (`.tardify-hero__grid`), placed alongside the equivalent `/egyedi-fejlesztes/`/`/munkaink/` blocks.
 
+### Implementation status (Task 012)
+
+Added `src/components/rolunk/RolunkPage.astro` (see `08-COMPONENT-LIBRARY.md`), `src/pages/rolunk/index.astro`, and one consolidated exploration prototype, `src/pages/art-direction/012-rolunk-concepts.astro` (`noindex`, three concepts on one route). No new brand-face component — the selected concept (Concept C, typography-led) needed none; `rolunkPageSchema` was added; `foundation.css` gained one new Hero-typography rule block (`.rolunk-hero__*`), placed alongside the equivalent Hero blocks for the other four pages even though this one has no grid (single-column typography, not a two-column composition). Also applied the small, requested `TardifySpecimen` internal-contrast polish (Part 0) to the already-shipped component — no new file for that.
+
 ## Localization
 
 ARTIT is bilingual: Hungarian (primary, currently published) and English (architecture-ready, not yet published — see below).
@@ -162,6 +166,8 @@ Sitewide header/navigation chrome (`src/content/nav/content.yaml`, `nav` collect
 **Implementation status (Task 010)**: generalized to a third page with zero further changes — `MunkainkPage.astro` uses `localePath(locale, '/munkaink/')`, `munkainkPageSchema` uses the same `localizedGated()` primitive throughout, and `/en/munkaink/` is withheld for the identical reason. The language switcher was deliberately **not** activated (no `alternateLocalePath` passed anywhere, matching `/` and `/egyedi-fejlesztes/`) — that remains scoped to a future, separate **Localization Activation** task once approved English marketing copy exists for all three pages, not something to partially wire up per-page. Findings for that future task, recorded here as requested: the architecture needs no structural change to support it — every page already resolves its own canonical path via `localePath()`, every content schema already separates gated marketing prose from required technical vocabulary, and `SiteHeader`'s switch-link mechanism already exists and only needs `alternateLocalePath` values supplied once real `/en/*` routes exist. The activation task's real work is entirely content (translation) and route creation, not architecture.
 
 **Implementation status (Task 011)**: generalized to a fourth page, again with zero architecture change — `TardifyPage.astro` uses `localePath(locale, '/tardify/')`, `tardifyPageSchema` is entirely `localizedGated()`. `/en/tardify/` withheld, language switcher still not activated. No new finding for the future Localization Activation task — the pattern held on the fourth try exactly as it held on the second and third.
+
+**Implementation status (Task 012)**: generalized to a fifth page, still with zero architecture change — `RolunkPage.astro` uses `localePath(locale, '/rolunk/')`, `rolunkPageSchema` is entirely `localizedGated()` (including the two split Hero clauses, `titleLead`/`titleAccent` — splitting a headline into styled clauses is a presentational decision, not a localization one, so it required no new i18n primitive). `/en/rolunk/` withheld, language switcher still not activated (no `alternateLocalePath` passed). No structural blocker was found, and none was expected: every page-implementation task since Task 009 has confirmed the same result, and this task's own brief asked for that confirmation to be recorded again — the architecture generalizes to a fifth page for the identical reason it generalized to the second through fourth.
 
 ## Public assets
 
@@ -270,6 +276,10 @@ Still 0 `<script>` tags after adding `LivingSystemField` — confirmed against t
 
 Still 0 `<script>` tags after adding `TardifySpecimen` — confirmed against the rebuilt `dist/tardify/index.html` (also 0 `<button>`, 1 `<h1>`, 2 `role="img"` SVGs). Interaction was explicitly reviewed and rejected for the same reason as the other three brand-face visuals: the plate has no additional information to reveal on hover/focus.
 
+### Implementation status (Task 012)
+
+0 `<script>` tags on `/rolunk/` — confirmed against `dist/rolunk/index.html` (also 0 `<button>`, 1 `<h1>`, 0 `role="img"` SVGs — the page has no SVG of any kind). The fifth page in a row with zero client JS.
+
 ## Content Collections
 
 Use Astro Content Collections for case studies.
@@ -309,6 +319,10 @@ Added `tardifyPage` — its own `file()`-loader collection with its own schema (
 ### Implementation status (Task 011A)
 
 Extended `tardifyPageSchema` with `hero.visual` (`{ ariaLabel: localizedText() }`) — the same minimal footprint as `munkainkPageSchema`'s own `hero.visual` addition in Task 010A, `localizedText` not `localizedGated` since it's an accessibility description, not marketing prose. No `label`/`tag` field was added: `TardifySpecimen`'s one visible word, "TARDIFY," is a hardcoded literal in the component (the product's own proper noun, identical in every locale), not a content-authored decision — so, unlike `OperatingFitField`'s/`LivingSystemField`'s labels, there is nothing here for a schema field to model beyond the accessible name.
+
+### Implementation status (Task 012)
+
+Added `rolunkPage` — its own `file()`-loader collection with its own schema (`src/content/pages/rolunk/content.yaml`, entry id `rolunk`), same reasoning as the other four page collections. No `hero.visual` field exists in this schema at all — like `tardifyPageSchema`, `/rolunk/` has no brand-face visual, so there's nothing for such a field to describe. One schema detail specific to this page: `hero.titleLead`/`hero.titleAccent` are two separate `localizedGated` fields rather than one `hero.title` string, so the two visually-different clauses are content-authored from the start rather than split from a longer string inside the template — consistent with this project's standing rule that every visible string is its own content field. Every other field is `localizedGated`.
 
 ## Images
 
@@ -410,6 +424,10 @@ Added `/tardify/` (`src/pages/tardify/index.astro`, directory form, same reasoni
 ### Implementation status (Task 011A)
 
 No routing change — `/tardify/` is the same route, same `src/pages/tardify/index.astro` wrapper, same nav entry. Only the Hero's internal markup changed (see "Source structure" above).
+
+### Implementation status (Task 012)
+
+Added `/rolunk/` (`src/pages/rolunk/index.astro`, directory form, same reasoning as the other four). Same locale-wrapper pattern (`<RolunkPage locale="hu" />`). No `/en/rolunk/`. The existing nav's "Rólunk" link (pointed at `/rolunk/` since Task 005A) now resolves — no navigation change required. One real, previously-expected-404 link now resolves as a side effect: the homepage's own "Rólunk →" (Senior/Who section CTA, Task 007) pointed at `/rolunk/` before this route existed; confirmed via a real browser request, not assumed, that it now returns the built page.
 
 ### Implementation status (Task 004B)
 

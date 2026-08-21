@@ -1,0 +1,174 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import { localizeGated, localePath, type Locale } from '../../lib/i18n';
+
+/**
+ * Shared renderer for /rolunk/ (Task 012) — same locale-wrapper pattern as
+ * `Homepage.astro`/`CustomDevelopmentPage.astro`/`MunkainkPage.astro`/
+ * `TardifyPage.astro`.
+ *
+ * No brand-face SVG component — a deliberate, documented decision after a
+ * 3-concept exploration (see DOC/07-DESIGN-SYSTEM.md "Rólunk art direction
+ * (Task 012)"): "Twin Rule" read as too weak/incidental to count as a real
+ * composition, and "Working Margin" read as a miniature timeline once
+ * actually rendered — a device this page's own brief explicitly rejects,
+ * and one the homepage's Process section already owns. The selected
+ * direction ("Typography-led") makes the Hero's own structure — a two-tier
+ * H1 with the second clause offset and accent-colored — the page's focal
+ * device instead. This is also the one page where DOC/13's person/portrait
+ * gate is unconditionally hard (no name, role, biography, or photograph is
+ * approved anywhere in the repository), so a page identity that needs no
+ * person imagery, no diagram, and no invented biographical fact was the
+ * strongest fit, not merely the fallback.
+ *
+ * Hero reopened (Task 012A): owner review approved the typography-led
+ * direction but found the desktop Hero's right-hand territory functionless
+ * empty space, not deliberate restraint. Two diagram concepts ("Shared
+ * Working Surface," a quiet annotated panel; "Direct Collaboration
+ * Marker," a datum line with two reference points) were built and
+ * rejected on the same rendered-comparison evidence: both technically
+ * occupied the column but left most of their own bounding area empty too,
+ * failing the task's own desktop acceptance test. The winning direction
+ * keeps the no-diagram approach and solves the dead zone by making the
+ * `<h1>`'s own accent clause a genuine two-column grid item — larger, and
+ * positioned in the territory that was empty — rather than adding any new
+ * visual device. Still one semantic `<h1>`, natural DOM reading order; the
+ * grid placement is presentational only.
+ *
+ * `hero.titleLead`/`hero.titleAccent` are two content-authored clauses of
+ * the exact already-published homepage Senior/Who headline (Task 007),
+ * split in the YAML — not sliced from one string in this template — purely
+ * so they can be styled differently.
+ */
+interface Props {
+	locale: Locale;
+	alternateLocalePath?: string;
+}
+
+const { locale, alternateLocalePath } = Astro.props;
+
+const page = await getEntry('rolunkPage', 'rolunk');
+if (!page) throw new Error('Missing required "rolunkPage/rolunk" content entry');
+const c = page.data;
+
+const path = localePath(locale, '/rolunk/');
+---
+
+<BaseLayout
+	title={localizeGated(c.seo.title, locale) ?? ''}
+	description={localizeGated(c.seo.description, locale) ?? ''}
+	path={path}
+	locale={locale}
+>
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+
+	<main>
+		<!-- 01 — Hero. No CTA here — the page states its argument, then asks
+		     for the conversation at the end, matching /munkaink/'s rhetorical
+		     shape rather than /tardify/'s (there is no external destination
+		     this page should send a visitor to before making its case). The
+		     two-tier H1 is still the page's entire focal device — Task 012A
+		     re-selected the no-diagram direction after comparing it against
+		     two rejected diagram concepts (see DOC/07) — but the accent clause
+		     now grids into the second column at 900px+ instead of stacking
+		     indented below the first, so it claims the desktop Hero's
+		     right-hand territory as real content instead of leaving it empty. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">{localizeGated(c.hero.eyebrow, locale)}</p>
+				<h1 class="rolunk-hero__heading" style="margin-block-start: var(--space-sm);">
+					<span class="rolunk-hero__lead-clause">{localizeGated(c.hero.titleLead, locale)}</span>
+					<span class="rolunk-hero__accent-clause">{localizeGated(c.hero.titleAccent, locale)}</span>
+				</h1>
+				<p class="lead rolunk-hero__support" style="margin-block-start: var(--space-xl);">
+					{localizeGated(c.hero.lead, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 02 — What direct/senior collaboration means in practice. Fresh
+		     composition grounded in the Hero's own approved claim (continuity
+		     of the same person reduces context loss) — not a new, separately
+		     unverifiable fact. Two short cross-links per Task 012 §7: this
+		     model also applies to custom-development delivery, and its results
+		     are shown (not repeated) on /munkaink/. -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.practice.headline, locale)}
+				</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.practice.body, locale)}
+				</p>
+				<div style="margin-block-start: var(--space-lg); display: flex; gap: var(--space-xl); flex-wrap: wrap;">
+					{c.practice.links.map((link) => (
+						<a href={link.href} class="link-standalone">{localizeGated(link.label, locale)}</a>
+					))}
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 03 — Operation before technology. Reuses the homepage Decision
+		     section's own paragraph verbatim (Task 007) for the identical
+		     underlying fact — same "reuse verbatim for identical fact" pattern
+		     as Tardify's Hero copy. -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.approach.headline, locale)}
+				</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.approach.body, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 04 — Continuity/responsibility, demonstrated through Tardify.
+		     Reuses the homepage Longevity headline/statement verbatim (Task
+		     007) — no duration figure, since none is approved. The Tardify
+		     cross-link references the relationship without duplicating
+		     /tardify/'s own copy (Task 012 §7). -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.continuity.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.continuity.statement, locale)}
+				</p>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.continuity.body, locale)}
+				</p>
+				<a href={c.continuity.tardifyLink.href} class="link-standalone" style="margin-block-start: var(--space-md);">
+					{localizeGated(c.continuity.tardifyLink.label, locale)}
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 05 — Final CTA -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.finalCta.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.finalCta.copy, locale)}
+				</p>
+				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+					{localizeGated(c.finalCta.cta.label, locale)}
+				</a>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>

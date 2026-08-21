@@ -337,6 +337,54 @@ const tardifyPage = defineCollection({
 	schema: tardifyPageSchema,
 });
 
+// `rolunkPage` (Task 012) — same reasoning as the other three page
+// collections: its own `file()` collection, its own schema. No brand-face
+// visual field exists here at all — Task 012's Hero is a typography-led
+// composition (Concept C, selected over two rejected diagram concepts; see
+// DOC/07 "Rólunk art direction (Task 012)"), so `hero.titleLead`/
+// `hero.titleAccent` split the already-approved homepage Senior/Who
+// headline into two content-authored clauses (not a template-side string
+// split) purely so the two can be styled differently — the same rule this
+// project already applies everywhere: every visible string is a content
+// field, never sliced from a longer one in a component.
+const rolunkPageSchema = z.object({
+	seo: z.object({
+		title: localizedGated(),
+		description: localizedGated(),
+	}),
+	hero: z.object({
+		eyebrow: localizedGated(),
+		titleLead: localizedGated(),
+		titleAccent: localizedGated(),
+		lead: localizedGated(),
+	}),
+	practice: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+		links: z.array(ctaGated()).min(1),
+	}),
+	approach: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	continuity: z.object({
+		headline: localizedGated(),
+		statement: localizedGated(),
+		body: localizedGated(),
+		tardifyLink: ctaGated(),
+	}),
+	finalCta: z.object({
+		headline: localizedGated(),
+		copy: localizedGated(),
+		cta: ctaGated(),
+	}),
+});
+
+const rolunkPage = defineCollection({
+	loader: file('src/content/pages/rolunk/content.yaml'),
+	schema: rolunkPageSchema,
+});
+
 const navSchema = z.object({
 	logoLabel: z.string(),
 	ariaLabel: localizedText(),
@@ -355,4 +403,4 @@ const nav = defineCollection({
 	schema: navSchema,
 });
 
-export const collections = { 'case-studies': caseStudies, pages, customDevPage, munkainkPage, tardifyPage, nav };
+export const collections = { 'case-studies': caseStudies, pages, customDevPage, munkainkPage, tardifyPage, rolunkPage, nav };

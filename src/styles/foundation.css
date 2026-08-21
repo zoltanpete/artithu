@@ -763,6 +763,54 @@ a {
 	}
 }
 
+/* --- Rólunk: typography-led Hero (Task 012; regrid Task 012A) ---------------
+   No brand-face SVG on this page (see 07-DESIGN-SYSTEM.md "Rólunk art
+   direction") — the H1 itself is the focal device, still no diagram. Task
+   012's original stacked-and-indented accent clause read correct but left
+   a large functionless empty region at desktop width (owner review); two
+   diagram concepts built to fill it were rejected on rendered evidence for
+   the identical reason (see DOC/07 "Task 012A"). The fix stays inside the
+   H1 itself: at 900px+ the `<h1>` becomes a two-column grid, and the accent
+   clause — set larger, not just colored — becomes the second column's
+   content, occupying the territory that used to be empty instead of
+   indenting further into it. Single `<h1>` for correct heading semantics
+   throughout; the two spans are grid items but remain in natural DOM
+   reading order, so this is presentational only, not a heading split.
+   Single column below 900px — both clauses stack in reading order, the
+   accent clause keeping its larger scale (verified not to overflow or
+   crowd the support paragraph down at 390px). */
+
+.rolunk-hero__heading {
+	display: grid;
+	grid-template-columns: 1fr;
+	row-gap: var(--space-xs);
+}
+
+@media (min-width: 900px) {
+	.rolunk-hero__heading {
+		grid-template-columns: 1fr 1.3fr;
+		column-gap: var(--space-xl);
+		align-items: start;
+		row-gap: 0;
+	}
+}
+
+.rolunk-hero__lead-clause {
+	display: block;
+	max-width: var(--content-reading);
+}
+
+.rolunk-hero__accent-clause {
+	display: block;
+	color: var(--color-accent);
+	font-size: clamp(2.75rem, 2rem + 3.5vw, 6rem);
+	line-height: 1.05;
+}
+
+.rolunk-hero__support {
+	max-width: 32rem;
+}
+
 /* --- Custom Development pillar page: justification signals (Task 009) ------
    The "when custom development is justified" section's three conditions.
    Deliberately NOT the homepage Problem section's JEL/0X spine/dot/tonal-

@@ -552,6 +552,42 @@ Owner visual review did **not** approve Task 011's shipped page: correct on cont
 
 **Locked addition**: "no new diagram" (Task 011's own locked principle, above) does not mean "no focal visual." A page may need a strong product artifact — an engineered specimen, not an explanatory diagram — where an existing device would misrepresent the content and a diagram would over-explain it. The two are different tools for different jobs; Tardify needed the former, not a fourth instance of the latter.
 
+**Polish (Task 012 Part 0)**: owner-approved ~15–20% perceived-intensity uplift via internal contrast only, no geometry/dimension/composition change: `.specimen__grid-line` opacity 0.35→0.42 (+20%), `.specimen__tick` opacity 0.5→0.58 (+16%), `.specimen__signature` opacity 0.7→0.82 (+17%). `.specimen__reg-mark` was deliberately left untouched, since it's intentionally identical to `.tardify-proof__mark`'s own values (Task 011A's Option-2 relationship decision) — bumping one without the other would have broken that intentional equivalence. Verified in a real browser at 390/900/1440px: the plate reads visibly stronger while remaining clearly subordinate to the H1.
+
+### Rólunk art direction (Task 012)
+
+`/rolunk/` is the fifth page with a locked-visual-language decision to make, and the first where the person/portrait content gate (DOC/13) is unconditionally hard: no name, role, biography, or photograph is approved anywhere in the repository, for anyone. This ruled out any concept depicting a person, silhouette, avatar, or team size, before any concept was even sketched.
+
+**Diagnosis, stated before designing**: the page's own approved material (DOC/01's "Senior direct collaboration" statement, already published once on the homepage) is a single sentence — there was no risk of the usual heading/paragraph/whitespace monotony from too little content structure, but a real risk of the Hero defaulting to the exact `eyebrow → giant heading → paragraph → button → empty right side` shape this task's own brief explicitly names, since three prior pages had already established "Hero + right-column brand-face SVG" as the site's default expectation.
+
+**Three concepts, built as real prototypes** (`src/pages/art-direction/012-rolunk-concepts.astro`) and judged from the rendered comparison:
+
+- **Concept A — Twin Rule (Direct Collaboration).** A muted short rule meeting a longer accent rule at one shared point, no boxes, no labels. **Rejected on the rendered evidence**: too weak and incidental next to a strong H1 to read as a real composition — without its caption it could pass for accidental decoration, which is itself one of this task's named rejection patterns.
+- **Concept B — Working Margin (Technical Working Record).** A vertical accent margin rule beside two mono labels drawn from the approved headline's own two endpoints ("ELSŐ BESZÉLGETÉS" / "ÉLES RENDSZER"). **Rejected on the rendered evidence**: once actually rendered, a vertical connector joining two temporally-ordered labels reads unambiguously as a miniature timeline — a device this task's own brief explicitly rejects, and one the homepage's Process section already owns; a second, smaller instance of it here would blur which page's job that is, not add anything.
+- **Concept C — Typography-led (no Hero diagram).** No SVG at all. The already-approved headline is split into two content-authored clauses (`hero.titleLead`/`hero.titleAccent`) and set in two visual tiers: a plain first clause, then a second clause indented and set in the accent color. **Selected.**
+
+**Selected: Concept C**, implemented directly in `RolunkPage.astro`/`foundation.css` (`.rolunk-hero__*`) — no new component. It solves the diagnosed problem without a diagram: the accent-colored, indented second clause creates a genuine focal break inside the H1 itself, distinct from every other page's "H1 + separate visual" shape, and it sidesteps the person-imagery gate entirely rather than working around it. This is also the first page-implementation task this session where the winning concept was deliberately the no-diagram territory the brief asked to be seriously tested, not merely included for completeness.
+
+**Locked addition**: a page whose only approved material is a single sentence doesn't need to borrow a diagram from the site's growing visual-model family to earn a focal Hero — a genuine typographic device (splitting, scaling, or color-breaking the content that's already there) is a legitimate fourth kind of "deliberate composition," alongside flow/field/plate, not a fallback for when a diagram wasn't found in time.
+
+### Rólunk Hero regrid (Task 012A)
+
+Owner review approved Concept C's typography-led direction but not its execution: at desktop width the accent clause's stacked-and-indented treatment left a large right-hand region of the Hero with no semantic or visual job — functionless empty space, not deliberate restraint. This task reopened only the Hero composition, not the page's argument, content, or downstream sections.
+
+**Baseline, captured before designing**: the Task 012 shipped Hero at 1440px, confirming the owner's diagnosis exactly — the typography is strong enough to carry the proposition but not strong enough by itself to organize the available canvas.
+
+**Person/portrait gate re-confirmed unchanged**: still unconditionally unresolved (DOC/13) — no concept below depicts a person, silhouette, avatar, or team size.
+
+**Three concepts, built as real prototypes** (`src/pages/art-direction/012a-rolunk-hero-concepts.astro`, baseline included on the same route for direct comparison) and judged from the rendered comparison at 1440px:
+
+- **Concept A — Shared Working Surface.** A quiet annotated panel: top/bottom rules, two diagonal corner registration marks, sparse unlabeled margin ticks, one centered structural label ("KÖZÖS FELÜLET"). **Rejected on the rendered evidence**: technically occupied the column, but the device itself was too thin and sparse — most of its own bounding area was still empty, failing this task's desktop acceptance test one level down rather than solving it.
+- **Concept B — Editorial Collaboration Composition (SVG-free).** The accent clause regridded into the H1's own second column, set larger than the first clause rather than merely colored and indented. **Selected.**
+- **Concept C — Direct Collaboration Marker / Shared Reference.** A horizontal accent datum line with two independent tick-and-dot reference points (no connector drawn between the two points themselves, only each point's relationship to the shared line — deliberately not the timeline shape Task 012's own rejected "Working Margin" concept had). **Rejected on the rendered evidence**: correctly avoided reading as a timeline, but like Concept A left substantial empty space above and below the line within its own column — a real, meaningfully different device, just not one with enough presence to pass the desktop acceptance test as convincingly as B.
+
+**Selected: Concept B**, implemented by making `.rolunk-hero__heading` itself a CSS grid at 900px+ (`1fr 1.3fr`) with the accent-clause `<span>` as the second column's content, set at a larger fluid scale (`clamp(2.75rem, 2rem + 3.5vw, 6rem)`) than the base H1 size. Still one semantic `<h1>`, still natural DOM reading order (line one, then the accent clause) — the grid placement is presentational only, confirmed by inspecting the rendered accessible name, not assumed from the markup. No new component, no new SVG: the fix stays inside the H1 that was already there. Clearly beats baseline: the former dead zone now holds real, already-approved content at genuine visual weight, not a diagram invented to fill it.
+
+**Relationship to existing brand-faces**: none. No radial/satellite geometry, no ambient scatter, no specimen-plate grammar, no input/core/output logic — this isn't a device at all, it's a grid placement of existing text.
+
 ### What is NOT pixel-locked
 
 The lock above is a language/principle lock, not a pixel freeze. Explicitly implementation-responsive, not immutable: exact pixel coordinates; exact section heights; exact line lengths; exact wrapping at every viewport; exact diagram coordinates outside the System Map's own current implementation; exact spacing values where responsive composition genuinely requires adaptation; the exact number of visual marks a future page uses; future page-specific composition. Changing any of these to fix a real responsive/content problem is not reopening the visual lock.

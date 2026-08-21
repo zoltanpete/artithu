@@ -186,6 +186,20 @@ Don't:
 
 Used on: `/tardify/` Hero (Task 011A; not yet `/en/`).
 
+**Polish (Task 012 Part 0)**: owner-approved ~15–20% perceived-intensity uplift, internal contrast only — `.specimen__grid-line`/`.specimen__tick`/`.specimen__signature` opacity increased (0.35→0.42, 0.5→0.58, 0.7→0.82). No geometry, viewBox, composition, or prop-API change; `.specimen__reg-mark` untouched (stays identical to `.tardify-proof__mark`). Verified in a real browser at 390/900/1440px.
+
+#### `RolunkPage`
+
+Purpose:
+
+Shared, locale-parameterized renderer for `/rolunk/` — same route-wrapper pattern as `Homepage`/`CustomDevelopmentPage`/`MunkainkPage`/`TardifyPage`.
+
+**Implemented (Task 012)**: `src/components/rolunk/RolunkPage.astro`. Props: `locale` (`Locale`, required), `alternateLocalePath` (`string?`). Loads the `rolunkPage/rolunk` content entry and renders `BaseLayout` + `SiteHeader` + five sections: Hero (no CTA; a two-tier `<h1>` — plain clause then an indented, accent-colored clause — is the page's entire focal device, see `07-DESIGN-SYSTEM.md` "Rólunk art direction"), "what direct collaboration means in practice" (with two cross-links, to `/egyedi-fejlesztes/` and `/munkaink/`), "operation before technology" (tonal band, reuses the homepage Decision section's paragraph verbatim), "continuity/responsibility" (reuses the homepage Longevity headline/statement verbatim, plus a cross-link to `/tardify/`), and a closing CTA (tonal band). **No brand-face SVG component and no person imagery** — both explicit, documented decisions; see DOC/07 and DOC/13.
+
+Used on: `/rolunk/` (Task 012; not yet `/en/`).
+
+**Hero regrid (Task 012A)**: owner review found the Task 012 Hero's stacked-and-indented accent clause left the desktop right territory functionless empty space. `.rolunk-hero__heading` (the `<h1>`) becomes a two-column CSS grid at 900px+, with the accent-clause `<span>` as the second column's content at a larger fluid scale — see `07-DESIGN-SYSTEM.md` "Rólunk Hero regrid (Task 012A)" for the 3-concept exploration that selected this over two rejected diagram concepts. Kept in `RolunkPage.astro`/`foundation.css`, not extracted into a component (Task 012A §17's own preference for the winning "keep it in the page" outcome), since there's no reusable device here — just a grid placement of content that was already there.
+
 #### `SiteFooter`
 
 Purpose:
@@ -411,6 +425,14 @@ Task 011's brief explicitly warned against generic `ProductHero`/`BrandFace`/`Pr
 ## Componentization audit (Task 011A)
 
 Task 011A's brief explicitly named the acceptable direction as a Tardify-specific component (e.g. `TardifySpecimen`) and explicitly forbade `BrandFace`/`VisualModel`/`TechnicalDiagram`, and forbade refactoring `SystemMap`/`OperatingFitField`/`LivingSystemField` into a shared abstraction "during this task." Both were honored: `TardifySpecimen` is page-specific by name and by construction (its own file, its own geometry, its own two-prop API), and none of the other three brand-face components was touched. Four page-specific Hero-visual components now exist, each a genuinely different geometric family (flow / directional field / ambient field / bounded plate) — still not a case for a shared abstraction, for the same reason recorded in the Task 010A audit above: a shared wrapper would have to be either an empty `<svg>` shell or a configuration surface flexible enough to describe four unrelated devices, the "generic diagram schema" this project has rejected since `SystemMap`'s own Task 006 history. `TardifySpecimen` is the only new component this task added; `TardifyPage` was edited in place (Hero markup), not replaced.
+
+## Componentization audit (Task 012)
+
+Task 012's brief explicitly forbade generic `BrandFace`/`HeroVisual`/`TechnicalDiagram`/`Artifact`/generic-About-card abstractions "merely because multiple pages have Hero visuals," while explicitly allowing a page-specific editorial/visual component "if the winning concept warrants it." The winning concept (Concept C, typography-led) didn't warrant one at all — no SVG, no geometry, no prop-bearing visual model, just two content-authored H1 clauses styled differently in `foundation.css`. `RolunkPage` is the only new component this task added, and it's a route-level renderer, page-specific by construction, same as the other four. The four existing brand-face components (`SystemMap`/`OperatingFitField`/`LivingSystemField`/`TardifySpecimen`) were not touched beyond `TardifySpecimen`'s own scoped Part 0 polish (a value change, not a structural one).
+
+## Componentization audit (Task 012A)
+
+Task 012A's brief explicitly permitted a page-specific component such as `RolunkCollaborationArtifact` if a diagram concept (A or C) won, and explicitly preferred keeping the fix inside `RolunkPage.astro` if the editorial concept (B) won instead. B won, so no new component was created — the two rejected diagram concepts never reached the point of needing one. `RolunkPage.astro`'s Hero markup and `foundation.css`'s `.rolunk-hero__*` rules were edited in place, not replaced. No other component was touched.
 
 ## Possible later components
 

@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 012 exploration — three Hero art-direction concepts for /rolunk/.
+// Person/portrait gate (DOC/13) is hard: no name, role, biography, or
+// photograph is approved anywhere in the repository, so no concept below
+// depicts a person, silhouette, avatar, or implies team size. All copy
+// reuses exact already-approved homepage strings (Senior/Who eyebrow +
+// headline) or is grounded directly in DOC/01's approved differentiator
+// language — nothing here states a new fact.
+---
+
+<BaseLayout title="Task 012 — Rólunk Concepts" description="Exploration prototype" noindex={true}>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 012 — RÓLUNK CONCEPTS A / B / C — KÍSÉRLETI NÉZET, NEM VÉGLEGES" />
+
+	<main>
+		<!-- Concept A — Twin Rule (Direct Collaboration) -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept A — Twin Rule (Direct Collaboration)</p>
+				<div class="concept-grid">
+					<div class="concept-grid__main">
+						<p class="eyebrow" style="margin-block-start: var(--space-lg);">Közvetlen együttműködés</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">A problémán tapasztalt fejlesztő dolgozik az első beszélgetéstől az éles rendszerig.</h1>
+					</div>
+					<div class="concept-grid__visual">
+						<svg viewBox="0 0 300 160" width="100%" style="max-width: 260px; display: block; margin-inline: auto;">
+							<line x1="40" y1="90" x2="140" y2="90" stroke="var(--color-text-muted)" stroke-width="1.25" opacity="0.5" />
+							<line x1="140" y1="90" x2="260" y2="90" stroke="var(--color-accent)" stroke-width="2" />
+							<circle cx="140" cy="90" r="3" fill="var(--color-accent)" />
+						</svg>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept B — Working Margin (Technical Working Record) -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept B — Working Margin (Technical Working Record)</p>
+				<div class="concept-grid">
+					<div class="concept-grid__main">
+						<p class="eyebrow" style="margin-block-start: var(--space-lg);">Közvetlen együttműködés</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">A problémán tapasztalt fejlesztő dolgozik az első beszélgetéstől az éles rendszerig.</h1>
+					</div>
+					<div class="concept-grid__visual">
+						<svg viewBox="0 0 260 200" width="100%" style="max-width: 240px; display: block; margin-inline: auto;">
+							<line x1="30" y1="20" x2="30" y2="180" stroke="var(--color-accent)" stroke-width="2" opacity="0.6" />
+							<text x="48" y="44" font-family="var(--font-mono)" font-size="11" letter-spacing="0.06em" fill="var(--color-text)">ELSŐ BESZÉLGETÉS</text>
+							<text x="48" y="164" font-family="var(--font-mono)" font-size="11" letter-spacing="0.06em" fill="var(--color-text)">ÉLES RENDSZER</text>
+						</svg>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept C — Typography-led (no Hero diagram) -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept C — Typography-led (no Hero diagram)</p>
+				<div class="editorial-hero">
+					<p class="eyebrow">Közvetlen együttműködés</p>
+					<h1 class="editorial-hero__line1">A problémán tapasztalt fejlesztő dolgozik</h1>
+					<h1 class="editorial-hero__line2">az első beszélgetéstől az éles rendszerig.</h1>
+					<p class="lead editorial-hero__lead">Nincs átadás, nincs közbeiktatott réteg — ugyanaz az ember ismeri a problémát elejétől a végéig.</p>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.concept-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		margin-block-start: var(--space-lg);
+	}
+
+	@media (min-width: 900px) {
+		.concept-grid {
+			grid-template-columns: 3fr 2fr;
+			align-items: center;
+		}
+	}
+
+	.editorial-hero {
+		margin-block-start: var(--space-lg);
+		max-width: var(--content-wide);
+	}
+
+	.editorial-hero__line1 {
+		margin-block-start: var(--space-sm);
+		max-width: var(--content-reading);
+	}
+
+	.editorial-hero__line2 {
+		color: var(--color-accent);
+		max-width: 44rem;
+		margin-inline-start: clamp(0rem, 8vw, 8rem);
+	}
+
+	.editorial-hero__lead {
+		max-width: 32rem;
+		margin-inline-start: clamp(0rem, 8vw, 8rem);
+		margin-block-start: var(--space-lg);
+	}
+</style>

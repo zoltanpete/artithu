@@ -159,3 +159,11 @@ Task 010A's reopened Hero-visual decision still uses no external asset — `Livi
 ## Implementation status (Task 011A)
 
 Still no external asset of any category above, after adding the `TardifySpecimen` Hero visual — same as `OperatingFitField`/`LivingSystemField`, it's native inline SVG built from existing design tokens (`--color-accent`, `--color-border`, `--color-bg`, `--color-text-muted`, `--font-mono`), not a screenshot, image file, icon-pack asset, or 3D render. The product-evidence re-audit this task required (see `13-CONTENT-GAPS-AND-VALIDATION.md`) reconfirmed no approved Tardify screenshot exists anywhere in the repository — the specimen's blueprint-texture band is an abstract, generated pattern precisely because no real product imagery was available or approved to show instead, the same "say less, don't fabricate" discipline applied unchanged.
+
+## Implementation status (Task 012)
+
+`/rolunk/` uses no asset of any kind — no photo, no SVG, no icon. This is the strictest case yet of this document's "no approved evidence asset → say less, don't fabricate" rule: DOC/13's person/portrait gate (name, role wording, biography, photograph) is entirely unresolved, for anyone, so the page was designed from the outset to need no person-imagery placeholder at all, rather than needing one and going without. No stock photography, illustrated avatar, or silhouette was used or considered — explicitly disallowed by this task's own brief regardless of gate status. The selected Hero direction (Concept C, typography-led) also means no new inline SVG was added either, unlike every other page-implementation task this session.
+
+## Implementation status (Task 012A)
+
+Still no asset of any kind after the Hero regrid — the fix is a CSS Grid placement of the H1's existing content, not a new visual device. Two SVG-based concepts ("Shared Working Surface," "Direct Collaboration Marker") were built and compared but rejected (see `07-DESIGN-SYSTEM.md`), so `/rolunk/` remains the one page-implementation task this session that shipped with zero SVGs of any kind. Person/portrait gate re-audited per this task's own explicit requirement — unchanged, still fully unresolved; no substitute imagery was used or considered.

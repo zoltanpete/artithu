@@ -250,6 +250,48 @@ Structure:
 - real person/people;
 - CTA.
 
+### `/rolunk/` — implementation status (Task 012)
+
+```text
+Route                  /rolunk/ (src/pages/rolunk/index.astro)
+Page purpose            trust — who ARTIT is and how direct/senior collaboration actually works,
+                        not a generic agency About page
+Primary visitor question   Kikkel és hogyan fogok együtt dolgozni? (DOC/02's "Who is behind ARTIT
+                        and can I trust them with an important system?")
+Primary CTA             Beszéljünk közvetlenül → (/kapcsolat/)
+Section structure       5 sections: Hero (no CTA; already-approved homepage Senior/Who headline
+                        split into two content-authored clauses — the page's entire focal device,
+                        no diagram. Task 012A regridded the accent clause into a genuine two-column
+                        `<h1>` at 900px+ instead of stacking it indented below the first, after
+                        owner review found the original treatment left the desktop Hero's right
+                        territory functionless empty space — see 07-DESIGN-SYSTEM.md "Rólunk art
+                        direction"), what direct collaboration means in practice (with cross-
+                        links to /egyedi-fejlesztes/ and /munkaink/), operation before technology
+                        (tonal band, reuses the homepage Decision paragraph verbatim), continuity/
+                        responsibility (reuses the homepage Longevity headline/statement verbatim,
+                        cross-link to /tardify/), Final CTA. "real person/people" from this page's
+                        own Structure list above was not built — DOC/13's person/portrait gate is
+                        unconditionally unresolved (no name, role, biography, or photograph is
+                        approved), so the page was designed to work honestly without one, per this
+                        task's own explicit instruction.
+Internal links          /egyedi-fejlesztes/, /munkaink/, /tardify/, /kapcsolat/
+SEO/search intent       indexable (no noindex); title "ARTIT — Rólunk", description reuses the
+                        Hero lead verbatim (same pattern as the other three implemented pages)
+E-E-A-T role            demonstrates trustworthiness/experience through working-model specifics
+                        (continuity of the same person, operation-before-technology approach)
+                        rather than an unsupported biography or credential claim
+Structured data role    none — deferred, same as every other page (13-CONTENT-GAPS-AND-VALIDATION.md)
+Content source          01-BRAND-POSITIONING.md ("Senior direct collaboration" core statement),
+                        already-published homepage Senior/Who, Decision, and Longevity copy (Task
+                        007) reused verbatim for identical underlying facts, 02-INFORMATION-
+                        ARCHITECTURE.md (page role, visitor question)
+Implementation status    Complete, including the Task 012A Hero regrid. No `/en/` equivalent —
+                        same translation-completeness gate as the other four pages. The homepage's
+                        pre-existing "Rólunk →" link (Senior/Who CTA, previously pointing at an
+                        unbuilt route) and the site nav's "Rólunk" link now both resolve correctly
+                        — confirmed, not assumed.
+```
+
 ## `/kapcsolat/`
 
 Structure:

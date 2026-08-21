@@ -43,6 +43,12 @@
  * Page-specific by design (Task 011A §22) — not a generalized
  * `ProductSpecimen`/`BrandFace` component. Static (no JS, no hover/focus
  * state): the plate has no additional information to reveal on interaction.
+ *
+ * Polish (Task 012 Part 0): owner-approved ~15-20% perceived-intensity
+ * uplift via internal contrast only — grid-line, tick, and signature-mark
+ * opacity increased (0.35->0.42, 0.5->0.58, 0.7->0.82). No geometry,
+ * viewBox, composition, or API change. `.specimen__reg-mark` was left
+ * untouched, since it's intentionally identical to `.tardify-proof__mark`.
  */
 interface Props {
 	id: string;
@@ -167,17 +173,20 @@ const clipId = `${id}-clip`;
 	.specimen__grid-line {
 		stroke: var(--color-text-muted);
 		stroke-width: 0.5;
-		opacity: 0.35;
+		/* Task 012 Part 0: +20% (0.35 -> 0.42), internal contrast only. */
+		opacity: 0.42;
 	}
 
 	.specimen__tick {
 		stroke: var(--color-text-muted);
 		stroke-width: 1;
-		opacity: 0.5;
+		/* Task 012 Part 0: +16% (0.5 -> 0.58), internal contrast only. */
+		opacity: 0.58;
 	}
 
 	.specimen__signature {
 		fill: var(--color-accent);
-		opacity: 0.7;
+		/* Task 012 Part 0: +17% (0.7 -> 0.82), internal contrast only. */
+		opacity: 0.82;
 	}
 </style>

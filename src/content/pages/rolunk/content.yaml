@@ -1,0 +1,68 @@
+# /rolunk/ content (Task 012). Person/portrait gate (DOC/13) is unresolved —
+# no name, role wording, biography, or photograph is approved anywhere in
+# the repository — so nothing below states or implies a name, a team size,
+# a founder history, an exact years-of-experience figure, or shows any
+# person. `hero.titleLead`/`hero.titleAccent`/`hero.lead`'s underlying claim
+# and `continuity.headline`/`continuity.statement` are the exact
+# already-published homepage Senior/Who and Longevity copy (Task 007),
+# reused verbatim for the identical underlying fact — no exact longevity
+# duration ("10+ év"/"20+ év") appears anywhere, since that remains
+# unverified (DOC/01/DOC/13). `en` is absent everywhere (gated), same
+# policy as every other page.
+rolunk:
+  seo:
+    title:
+      hu: "ARTIT — Rólunk"
+    description:
+      hu: "Nem kerül más kezébe a probléma menet közben — ugyanaz a tapasztalt fejlesztő viszi végig az első beszélgetéstől az éles rendszerig."
+
+  hero:
+    eyebrow:
+      hu: "Közvetlen együttműködés"
+    titleLead:
+      hu: "A problémán tapasztalt fejlesztő dolgozik"
+    titleAccent:
+      hu: "az első beszélgetéstől az éles rendszerig."
+    lead:
+      hu: "Nem kerül más kezébe a probléma menet közben — ugyanaz a tapasztalt fejlesztő viszi végig az első beszélgetéstől az éles rendszerig."
+
+  practice:
+    headline:
+      hu: "A folytonosság csökkenti a félreértés kockázatát."
+    body:
+      hu: "Ha ugyanaz az ember vesz részt az első beszélgetésben és a fejlesztésben is, nem kell újra elmagyarázni a kontextust minden lépésnél. A korai döntések és a kompromisszumok mögötti okok nem vesznek el egy belső átadás során."
+    links:
+      - label:
+          hu: "Egyedi fejlesztés →"
+        href: /egyedi-fejlesztes/
+      - label:
+          hu: "Munkáink →"
+        href: /munkaink/
+
+  approach:
+    headline:
+      hu: "Előbb a működést ismerjük meg, utána a technológiát."
+    body:
+      hu: "Ha a jelenlegi kész szoftver jól támogatja a működést, nincs értelme újraépíteni. Előbb azt érdemes megérteni, hogyan működik ma a vállalkozás — utána dönthető el, milyen szoftverre van ténylegesen szükség."
+
+  continuity:
+    headline:
+      hu: "A hosszú táv nálunk nem marketingígéret."
+    statement:
+      hu: "A technológia eszköz. A működő rendszer a cél."
+    body:
+      hu: "Ugyanezt az elvet a saját termékünkön, a Tardifyn is számon kérjük magunkon."
+    tardifyLink:
+      label:
+        hu: "Tardify →"
+      href: /tardify/
+
+  finalCta:
+    headline:
+      hu: "Szeretne közvetlenül azzal beszélni, aki a rendszeren dolgozna?"
+    copy:
+      hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+    cta:
+      label:
+        hu: "Beszéljünk közvetlenül →"
+      href: /kapcsolat/
