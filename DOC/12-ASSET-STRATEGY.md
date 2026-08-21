@@ -151,3 +151,11 @@ Task 009A added the page's Hero brand-face visual (`OperatingFitField`) — stil
 ## Implementation status (Task 010A)
 
 Task 010A's reopened Hero-visual decision still uses no external asset — `LivingSystemField` is native inline SVG built from existing design tokens, same as `OperatingFitField`. The two case entries themselves remain unchanged and still carry no screenshot; the Hero visual is explicitly not a stand-in for one (see DOC/07's "Relationship to the case entries" — the Hero models the general proposition, the case plates remain the only actual evidence records).
+
+## Implementation status (Task 011)
+
+`/tardify/` uses no asset of any kind — no screenshot, no logo, no icon, no new SVG. This is the explicit, documented brand-face decision recorded in `07-DESIGN-SYSTEM.md`'s "Tardify page direction (Task 011)": three concepts were explored, and the selected one reuses the already-approved `.tardify-proof` mark from the homepage rather than introducing a fourth visual device or a product screenshot. No Tardify product screenshot is approved for use (DOC/13), so none was fabricated as a placeholder — consistent with this document's standing "evidence page with no approved evidence asset should say less, not fabricate one" rule, first stated for `/munkaink/` in the Task 010 note above.
+
+## Implementation status (Task 011A)
+
+Still no external asset of any category above, after adding the `TardifySpecimen` Hero visual — same as `OperatingFitField`/`LivingSystemField`, it's native inline SVG built from existing design tokens (`--color-accent`, `--color-border`, `--color-bg`, `--color-text-muted`, `--font-mono`), not a screenshot, image file, icon-pack asset, or 3D render. The product-evidence re-audit this task required (see `13-CONTENT-GAPS-AND-VALIDATION.md`) reconfirmed no approved Tardify screenshot exists anywhere in the repository — the specimen's blueprint-texture band is an abstract, generated pattern precisely because no real product imagery was available or approved to show instead, the same "say less, don't fabricate" discipline applied unchanged.

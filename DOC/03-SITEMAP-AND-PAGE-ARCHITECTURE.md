@@ -199,6 +199,45 @@ Structure:
 - real product screenshot;
 - CTA to `tardify.hu`.
 
+### `/tardify/` — implementation status (Task 011)
+
+```text
+Route                  /tardify/ (src/pages/tardify/index.astro)
+Page purpose            owned proof of ARTIT's long-term software philosophy — not a SaaS
+                        marketing page for Tardify itself
+Primary visitor question   Mi a Tardify, és mi a kapcsolata az ARTIT-tal? (DOC/02's "What is
+                        Tardify and what is its relationship to ARTIT?")
+Primary CTA             Tardify.hu → (https://tardify.hu, external) — the one page where sending
+                        the visitor to the product itself is the honest primary action
+Section structure       5 sections: Hero (reuses the exact already-published homepage Tardify
+                        copy; Task 011A adds `TardifySpecimen`, a Hero brand-face visual, in the
+                        desktop right column — see 07-DESIGN-SYSTEM.md "Tardify brand-face —
+                        Product Specimen Plate"), why ARTIT has its own product (tonal band),
+                        "same standard" — reuses `.tardify-proof` (Task 007D, second real usage,
+                        left unchanged by Task 011A — see 07-DESIGN-SYSTEM.md "Tardify page
+                        direction"), relationship to custom development (one honest cross-link to
+                        /egyedi-fejlesztes/, no diagram — Task 007D.1's route-only-if-a-route-
+                        exists rule still applies), Final CTA. No product screenshot — still no
+                        approved evidence asset exists (re-confirmed Task 011A); see
+                        07-DESIGN-SYSTEM.md and 13-CONTENT-GAPS-AND-VALIDATION.md.
+Internal links          /egyedi-fejlesztes/, /kapcsolat/; external https://tardify.hu
+SEO/search intent       indexable (no noindex); title "ARTIT — Tardify", description reuses the
+                        Hero lead verbatim (same pattern as the other three pages)
+E-E-A-T role            demonstrates product-development/UX/long-term-maintenance expertise
+                        (DOC/01's "Own product" differentiator) without inventing metrics, a
+                        release history, or a customer base for Tardify
+Structured data role    none — unchanged, still deferred (see 13-CONTENT-GAPS-AND-VALIDATION.md)
+Content source          01-BRAND-POSITIONING.md ("Own product" differentiator, shared ARTIT↔
+                        Tardify positioning logic), already-published homepage Tardify copy
+                        (Task 004/007) reused verbatim for the identical underlying facts,
+                        02-INFORMATION-ARCHITECTURE.md (page role, visitor question)
+Implementation status    Complete, including the Task 011A Hero brand-face visual. No `/en/`
+                        equivalent — same translation-completeness gate as the other three pages.
+                        The homepage's pre-existing "A Tardify története →" link, previously
+                        pointing at an unbuilt route, now resolves correctly — confirmed, not
+                        assumed.
+```
+
 ## `/rolunk/`
 
 Structure:

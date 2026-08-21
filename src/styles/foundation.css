@@ -739,6 +739,30 @@ a {
 	}
 }
 
+/* --- Tardify: Hero + brand-face visual (Task 011A) --------------------------
+   Copy column + `TardifySpecimen`. A 5fr/4fr ratio — not copied from either
+   existing Hero grid (see Task 011A's own instruction against automatically
+   reusing 3fr/2fr or 2fr/1fr): the specimen's portrait geometry needs
+   vertical room more than extra horizontal width, but as the page's one
+   focal artifact (there is no other visual anywhere on `/tardify/`) it earns
+   closer-to-equal weight than either `OperatingFitField` or
+   `LivingSystemField` get. Single column below 900px, matching
+   `TardifySpecimen`'s own desktop/mobile geometry breakpoint. */
+
+.tardify-hero__grid {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-xl);
+}
+
+@media (min-width: 900px) {
+	.tardify-hero__grid {
+		grid-template-columns: 5fr 4fr;
+		align-items: center;
+		gap: var(--space-xl);
+	}
+}
+
 /* --- Custom Development pillar page: justification signals (Task 009) ------
    The "when custom development is justified" section's three conditions.
    Deliberately NOT the homepage Problem section's JEL/0X spine/dot/tonal-
@@ -871,8 +895,8 @@ a {
 	stroke: none;
 }
 
-/* --- Homepage: Tardify owned-proof framing (Task 007C; Tardify plate
-   refinement Task 007D) -----------------------------------------------------
+/* --- Tardify owned-proof framing (Task 007C, homepage; plate refinement
+   Task 007D; reused Task 011 on /tardify/) -----------------------------------
    No approved product screenshot exists (DOC/13), so "owned proof" is
    expressed through structure instead. Task 007C first tried this via the
    shared `.panel-technical` box (same primitive as Work's evidence plate) —
@@ -887,7 +911,18 @@ a {
    edges) — "partial rather than equally dominant edge treatment" is what
    distinguishes a plate from a card. The CTA port dots from Task 007C are
    kept: reviewed against this new framing and still the section's clearest
-   "structural connection point" signal, not made redundant by it. */
+   "structural connection point" signal, not made redundant by it.
+
+   Task 011 reuses this class family as-is for `/tardify/`'s own "same
+   standard" section — the second real usage (after the homepage's brief
+   Tardify teaser) of the exact same device for the exact same underlying
+   fact (no approved screenshot, owned proof through structure), the same
+   graduation evidence `.decision-paths`/`.work-teaser__*` already went
+   through on other pages. `.tardify-proof__links`/`__link` (the port-dot CTA
+   treatment) stay homepage-specific for now — `/tardify/`'s own CTAs use
+   plain `.btn`/`.link-standalone` instead, since this page's CTAs are full
+   primary/secondary actions, not a compact inline pair the way the
+   homepage teaser's are. */
 
 .tardify-proof {
 	position: relative;

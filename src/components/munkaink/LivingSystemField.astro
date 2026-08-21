@@ -39,8 +39,11 @@ const DESKTOP_COUNT = 18;
 const desktopDots = Array.from({ length: DESKTOP_COUNT }).map((_, i) => {
 	const angle = (i / DESKTOP_COUNT) * Math.PI * 2 + (i % 2) * 0.18;
 	const r = 48 + ((i * 37) % 58);
-	const size = 1.4 + ((i * 7) % 3) * 0.5;
-	const opacity = 0.22 + (((i * 13) % 10) / 10) * 0.4;
+	// Task 011 Part 0: ~15% stronger size/opacity than the Task 010A original
+	// (1.4+*0.5 / 0.22+*0.4), per owner review — same size/opacity variation
+	// and irregular placement, no new marks, no connecting lines, no labels.
+	const size = 1.6 + ((i * 7) % 3) * 0.58;
+	const opacity = 0.26 + (((i * 13) % 10) / 10) * 0.46;
 	return {
 		x: 130 + Math.cos(angle) * r,
 		y: 130 + Math.sin(angle) * r,
@@ -56,8 +59,9 @@ const MOBILE_COUNT = 11;
 const mobileDots = Array.from({ length: MOBILE_COUNT }).map((_, i) => {
 	const angle = (i / MOBILE_COUNT) * Math.PI * 2 + (i % 2) * 0.22;
 	const r = 42 + ((i * 29) % 40);
-	const size = 1.6 + ((i * 5) % 3) * 0.5;
-	const opacity = 0.25 + (((i * 11) % 10) / 10) * 0.4;
+	// Same ~15% uplift as the desktop field, see the comment there.
+	const size = 1.85 + ((i * 5) % 3) * 0.58;
+	const opacity = 0.29 + (((i * 11) % 10) / 10) * 0.46;
 	return {
 		x: 110 + Math.cos(angle) * r,
 		y: 110 + Math.sin(angle) * r,

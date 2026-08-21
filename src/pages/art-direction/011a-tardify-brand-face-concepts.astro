@@ -1,0 +1,148 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+
+// Task 011A exploration — three Hero brand-face / product-specimen concepts
+// for /tardify/, re-opening Task 011's "no new visual" decision because
+// owner review found the shipped page visually inert (repeated heading ->
+// paragraph -> whitespace rhythm, no focal point). Product-evidence
+// re-audit (unchanged from Task 011): public/ and src/assets/ remain empty,
+// DOC/13 still gates "Approved product screenshots for ARTIT site" as
+// unresolved, so no real screenshot appears in any concept below — every
+// concept is an abstract, non-UI product-specimen device. No metric, date,
+// customer, version number, or feature fact is invented anywhere.
+//
+// Each concept is rendered at real desktop width inside a two-column mock
+// (copy column + visual column) so the "does this create a focal
+// counterweight" question can be judged from the actual render, not prose.
+---
+
+<BaseLayout title="Task 011A — Tardify Brand-Face Concepts" description="Exploration prototype" noindex={true}>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 011A — TARDIFY BRAND-FACE CONCEPTS A / B / C — KÍSÉRLETI NÉZET, NEM VÉGLEGES" />
+
+	<main>
+		<!-- Concept A — Product Specimen Plate -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept A — Product Specimen Plate</p>
+				<div class="concept-grid">
+					<div class="concept-grid__main">
+						<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">Nem csak ügyfeleinknek építünk szoftvert.</h2>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">Amit ügyfeleinknek hosszú távú fejleszthetőségről mondunk, azt a saját termékünknél magunkon is számon kérjük.</p>
+						<a href="#" class="btn btn-primary" style="margin-block-start: var(--space-xl); pointer-events: none;">Tardify.hu →</a>
+					</div>
+					<div class="concept-grid__visual">
+						<svg viewBox="0 0 360 420" width="100%" style="max-width: 340px; display: block; margin-inline: auto; overflow: visible;">
+							<defs>
+								<clipPath id="a-band2-clip"><rect x="20" y="156" width="380" height="184" /></clipPath>
+								<pattern id="a-grid" width="18" height="18" patternUnits="userSpaceOnUse">
+									<path d="M0,18 L18,18 M18,0 L18,18" stroke="var(--color-text-muted)" stroke-width="0.5" opacity="0.35" />
+								</pattern>
+							</defs>
+							<!-- Plate boundary — deliberately bleeds past the right edge of the
+							     frame (rect width exceeds viewBox), read as "the visible portion
+							     of a larger technical plate," not a closed card. -->
+							<rect x="20" y="30" width="380" height="400" fill="var(--color-bg)" stroke="var(--color-border)" stroke-width="1.25" />
+							<!-- Corner registration mark — same bracket vocabulary as
+							     .tardify-proof__mark, placed at the one fully-visible corner. -->
+							<path d="M20,52 L20,30 L42,30" fill="none" stroke="var(--color-accent)" stroke-width="1.1" opacity="0.55" />
+							<!-- Band rules -->
+							<line x1="20" y1="156" x2="400" y2="156" stroke="var(--color-border)" stroke-width="1" />
+							<line x1="20" y1="340" x2="400" y2="340" stroke="var(--color-border)" stroke-width="1" />
+							<!-- Band 1 — identity -->
+							<text x="40" y="80" font-family="var(--font-mono)" font-size="11" letter-spacing="0.08em" fill="var(--color-accent)">SAJÁT TERMÉK</text>
+							<text x="40" y="122" font-family="var(--font-mono)" font-size="30" letter-spacing="0.04em" fill="var(--color-text)">TARDIFY</text>
+							<!-- Band 2 — construction/blueprint texture, no data -->
+							<rect x="20" y="156" width="380" height="184" fill="url(#a-grid)" clip-path="url(#a-band2-clip)" />
+							<line x1="20" y1="200" x2="30" y2="200" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+							<line x1="20" y1="256" x2="30" y2="256" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+							<line x1="20" y1="300" x2="30" y2="300" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+							<!-- Band 3 — quiet signature mark -->
+							<rect x="40" y="380" width="6" height="6" fill="var(--color-accent)" opacity="0.7" />
+						</svg>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept B — Layered Product Surface -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept B — Layered Product Surface</p>
+				<div class="concept-grid">
+					<div class="concept-grid__main">
+						<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">Nem csak ügyfeleinknek építünk szoftvert.</h2>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">Amit ügyfeleinknek hosszú távú fejleszthetőségről mondunk, azt a saját termékünknél magunkon is számon kérjük.</p>
+						<a href="#" class="btn btn-primary" style="margin-block-start: var(--space-xl); pointer-events: none;">Tardify.hu →</a>
+					</div>
+					<div class="concept-grid__visual">
+						<svg viewBox="0 0 340 300" width="100%" style="max-width: 320px; display: block; margin-inline: auto;">
+							<g transform="rotate(-3 190 190)">
+								<rect x="60" y="90" width="240" height="160" fill="none" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+								<path d="M60,112 L60,90 L82,90" fill="none" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.5" />
+							</g>
+							<g transform="rotate(1.5 190 190)">
+								<rect x="46" y="76" width="240" height="160" fill="none" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.6" />
+								<path d="M286,76 L286,98 M264,76 L286,76" fill="none" stroke="var(--color-text-muted)" stroke-width="1" opacity="0.6" />
+							</g>
+							<rect x="32" y="60" width="240" height="160" fill="var(--color-bg)" stroke="var(--color-accent)" stroke-width="1.25" />
+							<path d="M32,82 L32,60 L54,60" fill="none" stroke="var(--color-accent)" stroke-width="1.1" opacity="0.7" />
+							<text x="52" y="145" font-family="var(--font-mono)" font-size="10" letter-spacing="0.08em" fill="var(--color-accent)">SAJÁT TERMÉK</text>
+							<text x="52" y="178" font-family="var(--font-mono)" font-size="22" letter-spacing="0.04em" fill="var(--color-text)">TARDIFY</text>
+						</svg>
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept C — Product Fragment / Evidence Window -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept C — Product Fragment / Evidence Window</p>
+				<div class="concept-grid">
+					<div class="concept-grid__main">
+						<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">Nem csak ügyfeleinknek építünk szoftvert.</h2>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">Amit ügyfeleinknek hosszú távú fejleszthetőségről mondunk, azt a saját termékünknél magunkon is számon kérjük.</p>
+						<a href="#" class="btn btn-primary" style="margin-block-start: var(--space-xl); pointer-events: none;">Tardify.hu →</a>
+					</div>
+					<div class="concept-grid__visual">
+						<svg viewBox="0 0 360 420" width="100%" style="max-width: 340px; display: block; margin-inline: auto;">
+							<defs>
+								<pattern id="c-grid" width="16" height="16" patternUnits="userSpaceOnUse">
+									<path d="M0,16 L16,16 M16,0 L16,16" stroke="var(--color-text-muted)" stroke-width="0.5" opacity="0.25" />
+								</pattern>
+							</defs>
+							<rect x="120" y="140" width="220" height="240" fill="url(#c-grid)" stroke="var(--color-border)" stroke-width="1.25" />
+							<path d="M120,162 L120,140 L142,140" fill="none" stroke="var(--color-accent)" stroke-width="1.1" opacity="0.6" />
+							<line x1="60" y1="60" x2="180" y2="180" stroke="var(--color-accent)" stroke-width="1" opacity="0.35" />
+							<text x="40" y="48" font-family="var(--font-mono)" font-size="11" letter-spacing="0.08em" fill="var(--color-accent)">TARDIFY</text>
+						</svg>
+					</div>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	.concept-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-xl);
+		margin-block-start: var(--space-lg);
+	}
+
+	@media (min-width: 900px) {
+		.concept-grid {
+			grid-template-columns: 3fr 2fr;
+			align-items: center;
+		}
+	}
+</style>

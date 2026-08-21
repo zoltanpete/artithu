@@ -117,6 +117,8 @@ Shared, locale-parameterized renderer for `/munkaink/`, the evidence hub — sam
 
 **Updated (Task 010A)**: the Hero now carries a page-specific brand-face visual, `LivingSystemField` (below) — Task 010's original "no Hero visual" decision was reopened after owner review and superseded; see DOC/07 "Munkáink brand face (Task 010A)" for the full 5-concept exploration and rationale. The other three sections (evidence-principle, case entries, closing CTA) are unchanged.
 
+Used on: `/munkaink/` (Task 010; not yet `/en/`).
+
 #### `LivingSystemField`
 
 Purpose:
@@ -141,6 +143,8 @@ Accessibility notes: both SVGs carry `role="img"` and the same required `ariaLab
 
 Used on: `/munkaink/` Hero (Task 010A).
 
+**Polish (Task 011 Part 0)**: ambient-mark size/opacity increased ~15% on both desktop and mobile per owner review — see DOC/07's "Polish (Task 011 Part 0)" note for the exact before/after values. Same variation/irregularity, same core geometry, no new marks, no lines, no labels, no animation.
+
 Do:
 
 - keep the label a short technical/categorical term, matching `SystemMap`/`OperatingFitField`'s own label register.
@@ -150,7 +154,37 @@ Don't:
 - add background rings or labeled satellite nodes to this component — that's specifically what would make it a variant of `OperatingFitField` instead of its own distinct device (see DOC/07);
 - add ascending/ordered visual weight to the ambient marks — an earlier concept did exactly this and it read as an invented growth chart (see DOC/07's rejected Concept A).
 
-Used on: `/munkaink/` (Task 010; not yet `/en/`).
+#### `TardifyPage`
+
+Purpose:
+
+Shared, locale-parameterized renderer for `/tardify/` — same route-wrapper pattern as `Homepage`/`CustomDevelopmentPage`/`MunkainkPage`.
+
+**Implemented (Task 011; Hero visual added Task 011A)**: `src/components/tardify/TardifyPage.astro`. Props: `locale` (`Locale`, required), `alternateLocalePath` (`string?`). Loads the `tardifyPage/tardify` content entry and renders `BaseLayout` + `SiteHeader` + five sections: Hero (product-destination CTA to `tardify.hu`, plus `TardifySpecimen` in the desktop right column at a `5fr/4fr` grid — Task 011A), "why ARTIT has its own product" (tonal band), "same standard" (reuses `.tardify-proof` unchanged — see `07-DESIGN-SYSTEM.md` "Tardify page direction"), relationship to custom development (one honest cross-link, no diagram), and a closing CTA (tonal band). **No product screenshot** — still no approved evidence asset exists, re-confirmed Task 011A; see DOC/07 and DOC/13.
+
+Used on: `/tardify/` (Task 011/011A; not yet `/en/`).
+
+#### `TardifySpecimen`
+
+Purpose:
+
+Page-specific Hero brand-face visual for `/tardify/` (Task 011A) — a "Product Specimen Plate": a bounded technical specification plate (identity band → rule → blueprint-texture band → rule → signature mark), not a system diagram. Selected from a 3-concept exploration over "Layered Product Surface" (rejected — read as stacked browser windows once rendered) and "Product Fragment / Evidence Window" (rejected — too sparse to solve the page's actual empty-Hero-territory problem, and its pointer line risked an annotation/flowchart reading). See `07-DESIGN-SYSTEM.md` "Tardify brand-face — Product Specimen Plate (Task 011A)" for the full exploration and DOC/09 for the API record.
+
+**Implemented**: `src/components/tardify/TardifySpecimen.astro`. Props: `id` (`string`, required — used to scope internal `<clipPath>`/`<pattern>` ids), `ariaLabel` (`string`, required). Desktop (viewBox `0 0 410 460`, plate open on its right edge) and mobile (viewBox `0 0 300 240`, closed plate, fewer bands, no tick marks) are separately composed, not one scaled down — same responsive philosophy as `SystemMap`/`OperatingFitField`/`LivingSystemField`. The one visible word, "TARDIFY," is a hardcoded literal (the product's own proper noun), not a prop — no schema field models it. Static (no JS, no hover/focus state): the plate has no additional information to reveal on interaction.
+
+**Relationship to `.tardify-proof`**: the corner registration-mark bracket reuses `.tardify-proof__mark`'s exact stroke color/width/opacity — the Hero specimen and the downstream `.tardify-proof` plate are members of the same product-specific grammar, not two unrelated devices. `.tardify-proof` itself is unchanged by this task.
+
+Do:
+
+- keep the plate's open-right-edge treatment fully inside its own viewBox (no CSS `overflow: visible`, no cross-viewBox clipping) — the "partial-edge" effect comes from omitting the fourth stroke of the boundary path, not from letting geometry escape its frame; this is what keeps it a zero-overflow-risk implementation at every width;
+- keep the mobile composition a genuinely separate, simplified plate (closed, fewer bands), not the desktop viewBox scaled down.
+
+Don't:
+
+- add a count, date, version, metric, or feature label to the plate — the blueprint-texture band is deliberately unlabeled construction residue, not a data display;
+- reuse this component's geometry as a template for a future page's brand face — it is Tardify-specific by design (Task 011A §22), not a generalized `ProductSpecimen`/`BrandFace` component.
+
+Used on: `/tardify/` Hero (Task 011A; not yet `/en/`).
 
 #### `SiteFooter`
 
@@ -369,6 +403,14 @@ Task 010's brief explicitly named `EvidenceCard`/`CaseCard` as abstractions not 
 ## Componentization audit (Task 010A)
 
 Task 010A's brief explicitly warned against generic `BrandFace`/`TechnicalDiagram`/`ArtitVisual` abstractions "unless genuinely justified by repeated real structure." Three page-specific Hero-visual components now exist — `SystemMap`, `OperatingFitField`, `LivingSystemField` — which is real repetition of the *pattern* (a page-specific static SVG brand-face component with a narrow prop API), but not of any *structure* worth abstracting: each has a genuinely different geometry, prop shape, and semantic model (flow / directional field / ambient field), by deliberate design — see DOC/07's "Distinction from `SystemMap` and `OperatingFitField`" note. A shared component would either have to be a lowest-common-denominator wrapper (an empty `<svg>` shell with no real behavior) or a configuration surface flexible enough to describe three unrelated diagrams — the same "generic diagram schema" antipattern this project rejected for `SystemMap` itself in Task 006. No abstraction was created. `LivingSystemField` is the only new component this task added.
+
+## Componentization audit (Task 011)
+
+Task 011's brief explicitly warned against generic `ProductHero`/`BrandFace`/`ProductEvidence`/`VisualModel` abstractions "unless real reuse now justifies them," and explicitly against refactoring `SystemMap`/`OperatingFitField`/`LivingSystemField` "just because a fourth page exists." Neither happened: `/tardify/` needed no fourth brand-face component at all (see DOC/07's "Tardify page direction" — the explicit no-new-diagram decision), and `.tardify-proof` was reused as existing CSS, not refactored into a component. `TardifyPage` is the only new component, and it's a route-level renderer, page-specific by construction, same as the other three.
+
+## Componentization audit (Task 011A)
+
+Task 011A's brief explicitly named the acceptable direction as a Tardify-specific component (e.g. `TardifySpecimen`) and explicitly forbade `BrandFace`/`VisualModel`/`TechnicalDiagram`, and forbade refactoring `SystemMap`/`OperatingFitField`/`LivingSystemField` into a shared abstraction "during this task." Both were honored: `TardifySpecimen` is page-specific by name and by construction (its own file, its own geometry, its own two-prop API), and none of the other three brand-face components was touched. Four page-specific Hero-visual components now exist, each a genuinely different geometric family (flow / directional field / ambient field / bounded plate) — still not a case for a shared abstraction, for the same reason recorded in the Task 010A audit above: a shared wrapper would have to be either an empty `<svg>` shell or a configuration surface flexible enough to describe four unrelated devices, the "generic diagram schema" this project has rejected since `SystemMap`'s own Task 006 history. `TardifySpecimen` is the only new component this task added; `TardifyPage` was edited in place (Hero markup), not replaced.
 
 ## Possible later components
 

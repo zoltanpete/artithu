@@ -124,6 +124,14 @@ Added `src/components/munkaink/MunkainkPage.astro` (see `08-COMPONENT-LIBRARY.md
 
 Added `src/components/munkaink/LivingSystemField.astro` (see `08-COMPONENT-LIBRARY.md`) and one exploration prototype file reused across two rounds, `src/pages/art-direction/010a-munkaink-brand-face-concepts.astro` (`noindex`) — overwritten in place between round 1 (3 rejected concepts) and round 2 (2 revised concepts, one selected) rather than kept as five separate files, since the round-1 rejections are fully recorded in `07-DESIGN-SYSTEM.md` and the file itself is a working exploration surface, not a permanent historical record the way the A/A2/A3 prototypes are.
 
+### Implementation status (Task 011)
+
+Added `src/components/tardify/TardifyPage.astro` (see `08-COMPONENT-LIBRARY.md`) and one exploration prototype, `src/pages/art-direction/011-tardify-concepts.astro` (`noindex`). No new brand-face component this task — the explicit decision was no fourth diagram (see `07-DESIGN-SYSTEM.md`). Also applied the small, requested `LivingSystemField` ambient-point polish (Part 0) to the already-shipped component — no new file for that.
+
+### Implementation status (Task 011A)
+
+Owner review reopened Task 011's "no fourth diagram" decision specifically at the Hero (see `07-DESIGN-SYSTEM.md` "Tardify brand-face — Product Specimen Plate"). Added `src/components/tardify/TardifySpecimen.astro` (see `08-COMPONENT-LIBRARY.md`) and one consolidated exploration prototype, `src/pages/art-direction/011a-tardify-brand-face-concepts.astro` (`noindex`, three concepts on one route, matching the Task 010 efficiency precedent). `TardifyPage.astro`'s Hero markup was edited in place to add a `tardify-hero__grid` two-column composition; its four other sections are unchanged. `tardifyPageSchema` gained one field (`hero.visual.ariaLabel`); `foundation.css` gained one new Hero-grid rule block (`.tardify-hero__grid`), placed alongside the equivalent `/egyedi-fejlesztes/`/`/munkaink/` blocks.
+
 ## Localization
 
 ARTIT is bilingual: Hungarian (primary, currently published) and English (architecture-ready, not yet published — see below).
@@ -152,6 +160,8 @@ Sitewide header/navigation chrome (`src/content/nav/content.yaml`, `nav` collect
 **Implementation status (Task 009)**: the architecture generalized to a second page with one small, genuinely-needed addition — `src/lib/i18n.ts`'s `homePath()` (hardcoded to `'/'`) was generalized into `localePath(locale, path)`, with `homePath()` now a one-line wrapper (`localePath(locale, '/')`) so existing callers didn't change. `CustomDevelopmentPage.astro` uses `localePath(locale, '/egyedi-fejlesztes/')` directly. Everything else — the `LocalizedGated` translation-completeness policy, `localizeGated()`'s no-silent-fallback behavior, the withheld-`/en/`-route pattern, the locale-wrapper component shape — required zero changes to reach a second page; `/en/egyedi-fejlesztes/` is withheld for the identical reason `/en/` is (no approved English marketing copy exists for this page either).
 
 **Implementation status (Task 010)**: generalized to a third page with zero further changes — `MunkainkPage.astro` uses `localePath(locale, '/munkaink/')`, `munkainkPageSchema` uses the same `localizedGated()` primitive throughout, and `/en/munkaink/` is withheld for the identical reason. The language switcher was deliberately **not** activated (no `alternateLocalePath` passed anywhere, matching `/` and `/egyedi-fejlesztes/`) — that remains scoped to a future, separate **Localization Activation** task once approved English marketing copy exists for all three pages, not something to partially wire up per-page. Findings for that future task, recorded here as requested: the architecture needs no structural change to support it — every page already resolves its own canonical path via `localePath()`, every content schema already separates gated marketing prose from required technical vocabulary, and `SiteHeader`'s switch-link mechanism already exists and only needs `alternateLocalePath` values supplied once real `/en/*` routes exist. The activation task's real work is entirely content (translation) and route creation, not architecture.
+
+**Implementation status (Task 011)**: generalized to a fourth page, again with zero architecture change — `TardifyPage.astro` uses `localePath(locale, '/tardify/')`, `tardifyPageSchema` is entirely `localizedGated()`. `/en/tardify/` withheld, language switcher still not activated. No new finding for the future Localization Activation task — the pattern held on the fourth try exactly as it held on the second and third.
 
 ## Public assets
 
@@ -252,6 +262,14 @@ Still 0 `<script>` tags after adding the `OperatingFitField` Hero visual — con
 
 Still 0 `<script>` tags after adding `LivingSystemField` — confirmed against the rebuilt `dist/munkaink/index.html`. Interaction was explicitly reviewed and rejected for the same reason as `OperatingFitField`: nothing in this ambient-field visual is hidden until interacted with.
 
+### Implementation status (Task 011)
+
+0 `<script>` tags on `/tardify/` — confirmed against `dist/tardify/index.html`. No diagram, no interactive element of any kind on this page.
+
+### Implementation status (Task 011A)
+
+Still 0 `<script>` tags after adding `TardifySpecimen` — confirmed against the rebuilt `dist/tardify/index.html` (also 0 `<button>`, 1 `<h1>`, 2 `role="img"` SVGs). Interaction was explicitly reviewed and rejected for the same reason as the other three brand-face visuals: the plate has no additional information to reveal on hover/focus.
+
 ## Content Collections
 
 Use Astro Content Collections for case studies.
@@ -283,6 +301,14 @@ Added `munkainkPage` — its own `file()`-loader collection with its own schema 
 ### Implementation status (Task 010A)
 
 Extended `munkainkPageSchema` with `hero.visual` (`LivingSystemField`'s `label`/`ariaLabel`) — `localizedText`, not `localizedGated`, classified the same way `OperatingFitField`'s and `SystemMap`'s own labels were: a single technical/categorical word ("RENDSZER"/"SYSTEM"), not marketing prose.
+
+### Implementation status (Task 011)
+
+Added `tardifyPage` — its own `file()`-loader collection with its own schema (`src/content/pages/tardify/content.yaml`, entry id `tardify`), same reasoning as the other three page collections. No `hero.visual` field exists in this schema at all — unlike the other three pages, `/tardify/` has no brand-face visual, so there's nothing for such a field to describe. Every field is `localizedGated`.
+
+### Implementation status (Task 011A)
+
+Extended `tardifyPageSchema` with `hero.visual` (`{ ariaLabel: localizedText() }`) — the same minimal footprint as `munkainkPageSchema`'s own `hero.visual` addition in Task 010A, `localizedText` not `localizedGated` since it's an accessibility description, not marketing prose. No `label`/`tag` field was added: `TardifySpecimen`'s one visible word, "TARDIFY," is a hardcoded literal in the component (the product's own proper noun, identical in every locale), not a content-authored decision — so, unlike `OperatingFitField`'s/`LivingSystemField`'s labels, there is nothing here for a schema field to model beyond the accessible name.
 
 ## Images
 
@@ -376,6 +402,14 @@ Added `/egyedi-fejlesztes/` (`src/pages/egyedi-fejlesztes/index.astro`, a direct
 ### Implementation status (Task 010)
 
 Added `/munkaink/` (`src/pages/munkaink/index.astro`, directory form — no real children of its own currently planned, but kept consistent with the other two page routes' directory shape rather than a flat file, for the same reasoning). Same locale-wrapper pattern (`<MunkainkPage locale="hu" />`). No `/en/munkaink/`. Confirmed the existing nav already resolved correctly to this route before this task started (`SiteHeader`'s "Munkáink" link has pointed at `/munkaink/` since Task 005A/007B) — no navigation change was required.
+
+### Implementation status (Task 011)
+
+Added `/tardify/` (`src/pages/tardify/index.astro`, directory form, same reasoning as the other three). Same locale-wrapper pattern (`<TardifyPage locale="hu" />`). No `/en/tardify/`. The existing nav's "Tardify" link (pointed at `/tardify/` since Task 005A) now resolves — no navigation change required. One real, previously-expected-404 link now resolves as a side effect: the homepage's own "A Tardify története →" (Task 007) pointed at `/tardify/` before this route existed; confirmed via a real browser request, not assumed, that it now returns the built page.
+
+### Implementation status (Task 011A)
+
+No routing change — `/tardify/` is the same route, same `src/pages/tardify/index.astro` wrapper, same nav entry. Only the Hero's internal markup changed (see "Source structure" above).
 
 ### Implementation status (Task 004B)
 

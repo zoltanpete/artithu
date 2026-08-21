@@ -288,6 +288,55 @@ const munkainkPage = defineCollection({
 	schema: munkainkPageSchema,
 });
 
+// `tardifyPage` (Task 011, Hero specimen reopened Task 011A) — same
+// reasoning as `customDevPage`/`munkainkPage`: its own collection, its own
+// schema. Task 011 shipped with no `hero.visual` field at all; Task 011A
+// reopened that decision after owner review found the page visually inert
+// and added `TardifySpecimen` (see DOC/07 "Tardify brand-face — Product
+// Specimen Plate (Task 011A)"). The specimen's one wordmark ("TARDIFY") is
+// a hardcoded literal in the component, not YAML content — it's the
+// product's own proper noun, not a locale-authored decision — so the only
+// new field is the accessible description, the same minimal footprint as
+// every other page's `hero.visual.ariaLabel`.
+const tardifyPageSchema = z.object({
+	seo: z.object({
+		title: localizedGated(),
+		description: localizedGated(),
+	}),
+	hero: z.object({
+		eyebrow: localizedGated(),
+		title: localizedGated(),
+		lead: localizedGated(),
+		cta: ctaGated(),
+		visual: z.object({
+			ariaLabel: localizedText(),
+		}),
+	}),
+	ownProduct: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	sameStandard: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	relationship: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+		link: ctaGated(),
+	}),
+	finalCta: z.object({
+		headline: localizedGated(),
+		copy: localizedGated(),
+		cta: ctaGated(),
+	}),
+});
+
+const tardifyPage = defineCollection({
+	loader: file('src/content/pages/tardify/content.yaml'),
+	schema: tardifyPageSchema,
+});
+
 const navSchema = z.object({
 	logoLabel: z.string(),
 	ariaLabel: localizedText(),
@@ -306,4 +355,4 @@ const nav = defineCollection({
 	schema: navSchema,
 });
 
-export const collections = { 'case-studies': caseStudies, pages, customDevPage, munkainkPage, nav };
+export const collections = { 'case-studies': caseStudies, pages, customDevPage, munkainkPage, tardifyPage, nav };

@@ -1,0 +1,160 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import TardifySpecimen from './TardifySpecimen.astro';
+import { localize, localizeGated, localePath, type Locale } from '../../lib/i18n';
+
+/**
+ * Shared renderer for /tardify/ (Task 011; Hero brand-face visual added
+ * Task 011A) — same locale-wrapper pattern as
+ * `Homepage.astro`/`CustomDevelopmentPage.astro`/`MunkainkPage.astro`.
+ *
+ * Task 011 shipped this page with no page-specific brand-face visual and
+ * no product screenshot: no approved screenshot exists to be honest
+ * evidence, and three concepts were built and compared before concluding a
+ * fourth diagram wasn't earning its place either. Owner review reopened
+ * that decision (Task 011A): correct on content, but visually inert —
+ * repeated heading/paragraph/whitespace rhythm with no focal point.
+ * `TardifySpecimen` is the result of a 3-concept exploration — see
+ * DOC/07-DESIGN-SYSTEM.md "Tardify brand-face — Product Specimen Plate
+ * (Task 011A)". It extends `.tardify-proof`'s own corner-mark grammar
+ * rather than inventing a new one; the downstream "same standard" section
+ * still reuses `.tardify-proof` directly, unchanged, as a quiet echo of the
+ * larger Hero artifact.
+ */
+interface Props {
+	locale: Locale;
+	alternateLocalePath?: string;
+}
+
+const { locale, alternateLocalePath } = Astro.props;
+
+const page = await getEntry('tardifyPage', 'tardify');
+if (!page) throw new Error('Missing required "tardifyPage/tardify" content entry');
+const c = page.data;
+
+const path = localePath(locale, '/tardify/');
+---
+
+<BaseLayout
+	title={localizeGated(c.seo.title, locale) ?? ''}
+	description={localizeGated(c.seo.description, locale) ?? ''}
+	path={path}
+	locale={locale}
+>
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+
+	<main>
+		<!-- 01 — Hero. Copy reuses the exact already-approved, already-published
+		     homepage Tardify copy (Task 004/007) for the identical underlying
+		     positioning fact. Primary CTA points at the product itself, since
+		     this is the one page where "go look at Tardify" is the honest
+		     primary action. `TardifySpecimen` (Task 011A) sits in the desktop
+		     right column at a 5fr/4fr copy:visual ratio — deliberately not
+		     copied from /egyedi-fejlesztes/'s 3fr/2fr or /munkaink/'s 2fr/1fr;
+		     the plate's portrait geometry needs vertical room more than extra
+		     width, but as the page's one focal artifact it earns closer-to-
+		     equal weight than either existing ratio gives its own visual. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<div class="tardify-hero__grid">
+					<div class="tardify-hero__main">
+						<p class="eyebrow">{localizeGated(c.hero.eyebrow, locale)}</p>
+						<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+							{localizeGated(c.hero.title, locale)}
+						</h1>
+						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+							{localizeGated(c.hero.lead, locale)}
+						</p>
+						<a href={c.hero.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);" rel={c.hero.cta.href.startsWith('http') ? 'noopener' : undefined}>
+							{localizeGated(c.hero.cta.label, locale)}
+						</a>
+					</div>
+					<div class="tardify-hero__visual">
+						<TardifySpecimen id="tardify-specimen" ariaLabel={localize(c.hero.visual.ariaLabel, locale)} />
+					</div>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 02 — Why ARTIT has its own product. Tonal band: a "why" principle
+		     statement, the same quiet-resolution surface role Decision/
+		     "when not justified"/the evidence principle carry elsewhere. -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.ownProduct.headline, locale)}
+				</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.ownProduct.body, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 03 — Same standard / owned proof. Reuses `.tardify-proof` (Task
+		     007D, originally homepage-only) directly — the second real usage
+		     of that exact device, the same "genuine reuse" evidence
+		     `.decision-paths`/`.work-teaser__*` already graduated on. No
+		     screenshot, no fabricated UI — the restrained plate treatment
+		     itself is what signals "this is a real, owned system," per
+		     DOC/07's locked Tardify principle. -->
+		<section class="section">
+			<Container width="standard">
+				<div class="tardify-proof">
+					<svg class="tardify-proof__mark" viewBox="0 0 22 22" aria-hidden="true">
+						<path d="M22,0 L22,8 M22,0 L14,0" />
+					</svg>
+					<h2 style="max-width: var(--content-reading);">
+						{localizeGated(c.sameStandard.headline, locale)}
+					</h2>
+					<p style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+						{localizeGated(c.sameStandard.body, locale)}
+					</p>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 04 — Relationship to custom development. Plain typography, one
+		     honest cross-link — no diagram, no fork, no implied decision tree
+		     (Task 007D.1's locked rule still applies: conceptual/organizational
+		     relationships don't automatically become branching diagrams). -->
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.relationship.headline, locale)}
+				</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+					{localizeGated(c.relationship.body, locale)}
+				</p>
+				<a href={c.relationship.link.href} class="link-standalone" style="margin-block-start: var(--space-lg);">
+					{localizeGated(c.relationship.link.label, locale)}
+				</a>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 05 — Final CTA -->
+		<section class="section section--major surface--tonal">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">
+					{localizeGated(c.finalCta.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.finalCta.copy, locale)}
+				</p>
+				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+					{localizeGated(c.finalCta.cta.label, locale)}
+				</a>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>

@@ -1,0 +1,66 @@
+# /tardify/ content (Task 011). No approved product screenshot exists for
+# this page — public/ and src/assets/ are both empty, and
+# DOC/13-CONTENT-GAPS-AND-VALIDATION.md explicitly gates "Approved product
+# screenshots for ARTIT site" and "Exact approved ARTIT ↔ Tardify origin
+# wording." Neither appears here. No metric, user count, customer fact, or
+# duration claim about Tardify appears anywhere below — only DOC/01-
+# BRAND-POSITIONING.md's already-approved differentiator language and
+# already-published homepage copy, reused for the identical underlying
+# facts. `en` is absent everywhere (gated), same policy as every other page.
+tardify:
+  seo:
+    title:
+      hu: "ARTIT — Tardify"
+    description:
+      hu: "Amit ügyfeleinknek hosszú távú fejleszthetőségről mondunk, azt a saját termékünknél magunkon is számon kérjük."
+
+  hero:
+    eyebrow:
+      hu: "Saját termékünk"
+    title:
+      hu: "Nem csak ügyfeleinknek építünk szoftvert."
+    lead:
+      hu: "Amit ügyfeleinknek hosszú távú fejleszthetőségről mondunk, azt a saját termékünknél magunkon is számon kérjük."
+    cta:
+      label:
+        hu: "Tardify.hu →"
+      href: https://tardify.hu
+    visual:
+      # Task 011A — TardifySpecimen accessible description. Describes what
+      # the plate depicts (an engineered, owned product artifact), not a
+      # product claim — no metric, date, version, or feature is described.
+      ariaLabel:
+        hu: "Sematikus ábra: a Tardify mint önálló, felépített és karbantartott szoftvertermék, technikai specifikációs lap formájában megjelenítve."
+        en: "Schematic illustration: Tardify shown as a standalone, engineered and maintained software product, in the form of a technical specification plate."
+
+  ownProduct:
+    headline:
+      hu: "Ha azt állítjuk, hogy a szoftvernek hosszú távon fejleszthetőnek kell maradnia, ennek a saját termékünkön is meg kell mutatkoznia."
+    body:
+      hu: "A Tardify fejlesztése, karbantartása és továbbfejlesztése ugyanazt a szakmai tapasztalatot építi, amit ügyfeleink egyedi rendszereinél is alkalmazunk: termékfejlesztés, felhasználói élmény, hosszú távú karbantarthatóság és valós felhasználói visszajelzések alapján történő fejlesztés."
+
+  sameStandard:
+    headline:
+      hu: "Ugyanaz a mérce vonatkozik a sajátunkra is."
+    body:
+      hu: "A Tardify nem bemutató céljából készült szoftver, hanem valós, napi használatra épített rendszer — ugyanazokkal az elvekkel tervezve és fejlesztve, amelyeket ügyfeleink egyedi rendszereinél is követünk."
+
+  relationship:
+    headline:
+      hu: "A Tardify és az egyedi fejlesztés más-más kérdésre válaszol."
+    body:
+      hu: "A Tardify egy saját termék, amelynek fejlődése az ARTIT saját döntésein múlik. Az egyedi fejlesztés egy adott vállalkozás konkrét működésére épül. A kettő nem helyettesíti egymást — mindkettő ugyanazt a szemléletet képviseli, csak más keretek között."
+    link:
+      label:
+        hu: "Egyedi fejlesztés →"
+      href: /egyedi-fejlesztes/
+
+  finalCta:
+    headline:
+      hu: "Van egy folyamat, amit ideje lenne jobban megoldani?"
+    copy:
+      hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+    cta:
+      label:
+        hu: "Beszéljünk róla →"
+      href: /kapcsolat/

@@ -1,0 +1,183 @@
+---
+/**
+ * TardifySpecimen — page-specific Hero brand-face visual for /tardify/
+ * (Task 011A). Selected from a 3-concept exploration (see
+ * src/pages/art-direction/011a-tardify-brand-face-concepts.astro) as
+ * "Concept A — Product Specimen Plate": a technical specification plate,
+ * not a system diagram — the visual family every other page's brand face
+ * belongs to (SystemMap's connected core, OperatingFitField's radial field,
+ * LivingSystemField's ambient scatter) explicitly does not apply here. This
+ * is a rectangular engineered artifact: identity band (wordmark) → rule →
+ * construction/blueprint-texture band → rule → quiet signature mark.
+ *
+ * Two other concepts were built and rejected on the same rendered
+ * comparison page: "Layered Product Surface" (2–3 offset planes) read too
+ * close to stacked browser windows/note cards once actually rendered —
+ * exactly the "fake browser" rejection test this task's brief names; and
+ * "Product Fragment / Evidence Window" (a cropped grid + pointer line to an
+ * off-box label) read as too sparse to solve the page's actual problem
+ * (empty Hero territory) and its pointer line risked an annotation/
+ * flowchart-arrow reading.
+ *
+ * Deliberately open on its right edge (three sides drawn, no right stroke)
+ * rather than a closed rectangle — "the visible portion of a larger plate"
+ * — while staying fully inside its own viewBox (no CSS overflow, no
+ * cross-viewBox clipping), so this cannot become a real overflow bug at any
+ * width, unlike a naive "let it bleed past the container" approach would
+ * risk.
+ *
+ * Extends `.tardify-proof`'s own grammar rather than inventing a new one
+ * (Task 011A §17, Option 2): the corner registration-mark bracket reuses
+ * the exact stroke color/width/opacity already established by
+ * `.tardify-proof__mark`. The downstream `.tardify-proof` section is left
+ * unchanged — a quiet echo of the same device, not a second copy of this
+ * larger Hero artifact (checked on the full rendered page, not assumed).
+ *
+ * The one visible word ("TARDIFY") is a hardcoded literal, not YAML
+ * content — it's the product's own proper noun, identical in every locale,
+ * not a content decision. Only `ariaLabel` is content-authored (both
+ * locales required, matching every other brand-face component's
+ * convention). No count, date, version, metric, or feature label appears
+ * anywhere in the geometry.
+ *
+ * Page-specific by design (Task 011A §22) — not a generalized
+ * `ProductSpecimen`/`BrandFace` component. Static (no JS, no hover/focus
+ * state): the plate has no additional information to reveal on interaction.
+ */
+interface Props {
+	id: string;
+	ariaLabel: string;
+}
+
+const { id, ariaLabel } = Astro.props;
+
+const gridId = `${id}-grid`;
+const gridIdMobile = `${id}-grid-m`;
+const clipId = `${id}-clip`;
+---
+
+<div class="specimen" id={id}>
+	<svg class="specimen__svg specimen__svg--desktop" viewBox="0 0 410 460" role="img" aria-label={ariaLabel}>
+		<defs>
+			<clipPath id={clipId}><rect x="20" y="150" width="380" height="190" /></clipPath>
+			<pattern id={gridId} width="18" height="18" patternUnits="userSpaceOnUse">
+				<path d="M0,18 L18,18 M18,0 L18,18" class="specimen__grid-line" />
+			</pattern>
+		</defs>
+
+		<!-- Plate — open on the right edge (no fourth stroke): three sides only. -->
+		<path d="M400,30 L20,30 L20,430 L400,430" class="specimen__plate" />
+		<!-- Corner registration mark — same bracket vocabulary as .tardify-proof__mark. -->
+		<path d="M20,54 L20,30 L44,30" class="specimen__reg-mark" />
+
+		<!-- Band rules -->
+		<line x1="20" y1="150" x2="400" y2="150" class="specimen__rule" />
+		<line x1="20" y1="340" x2="400" y2="340" class="specimen__rule" />
+
+		<!-- Band 1 — identity -->
+		<text x="40" y="104" class="specimen__wordmark">TARDIFY</text>
+
+		<!-- Band 2 — construction/blueprint texture, no data -->
+		<rect x="20" y="150" width="380" height="190" fill={`url(#${gridId})`} clip-path={`url(#${clipId})`} />
+		<line x1="20" y1="200" x2="30" y2="200" class="specimen__tick" />
+		<line x1="20" y1="256" x2="30" y2="256" class="specimen__tick" />
+		<line x1="20" y1="300" x2="30" y2="300" class="specimen__tick" />
+
+		<!-- Band 3 — quiet signature mark -->
+		<rect x="40" y="378" width="6" height="6" class="specimen__signature" />
+	</svg>
+
+	<svg class="specimen__svg specimen__svg--mobile" viewBox="0 0 300 240" role="img" aria-label={ariaLabel}>
+		<defs>
+			<pattern id={gridIdMobile} width="16" height="16" patternUnits="userSpaceOnUse">
+				<path d="M0,16 L16,16 M16,0 L16,16" class="specimen__grid-line" />
+			</pattern>
+		</defs>
+
+		<!-- Closed plate — a simplified mobile composition, not the desktop
+		     specimen scaled down: fewer bands, no open edge, no tick marks. -->
+		<rect x="16" y="16" width="268" height="208" class="specimen__plate" />
+		<path d="M16,38 L16,16 L38,16" class="specimen__reg-mark" />
+		<line x1="16" y1="96" x2="284" y2="96" class="specimen__rule" />
+
+		<text x="34" y="66" class="specimen__wordmark specimen__wordmark--mobile">TARDIFY</text>
+
+		<rect x="16" y="96" width="268" height="128" fill={`url(#${gridIdMobile})`} />
+		<rect x="256" y="204" width="6" height="6" class="specimen__signature" />
+	</svg>
+</div>
+
+<style>
+	.specimen__svg {
+		width: 100%;
+		height: auto;
+		display: block;
+		margin-inline: auto;
+	}
+
+	.specimen__svg--desktop {
+		display: none;
+		max-width: 380px;
+	}
+
+	.specimen__svg--mobile {
+		display: block;
+		max-width: 320px;
+	}
+
+	@media (min-width: 900px) {
+		.specimen__svg--desktop {
+			display: block;
+		}
+
+		.specimen__svg--mobile {
+			display: none;
+		}
+	}
+
+	.specimen__plate {
+		fill: var(--color-bg);
+		stroke: var(--color-border);
+		stroke-width: 1.25;
+	}
+
+	.specimen__reg-mark {
+		fill: none;
+		stroke: var(--color-accent);
+		stroke-width: 1.1;
+		opacity: 0.55;
+	}
+
+	.specimen__rule {
+		stroke: var(--color-border);
+		stroke-width: 1;
+	}
+
+	.specimen__wordmark {
+		font-family: var(--font-mono);
+		font-size: 30px;
+		letter-spacing: 0.04em;
+		fill: var(--color-text);
+	}
+
+	.specimen__wordmark--mobile {
+		font-size: 24px;
+	}
+
+	.specimen__grid-line {
+		stroke: var(--color-text-muted);
+		stroke-width: 0.5;
+		opacity: 0.35;
+	}
+
+	.specimen__tick {
+		stroke: var(--color-text-muted);
+		stroke-width: 1;
+		opacity: 0.5;
+	}
+
+	.specimen__signature {
+		fill: var(--color-accent);
+		opacity: 0.7;
+	}
+</style>
