@@ -15,14 +15,14 @@
 # directed to spend budget here), not a replacement for the per-page noindex
 # tag — see DOC/13-CONTENT-GAPS-AND-VALIDATION.md's "Task 017" note.
 #
-# No Sitemap: line yet — a sitemap needs an absolute production domain
-# (`site` in astro.config.mjs is intentionally unset until the canonical
-# ARTIT.hu domain is confirmed; see DOC/13 "Organization"). Add it here once
-# the sitemap integration ships — both locales' routes should be included as
-# a single sitemap with <xhtml:link> alternate entries (or two locale-
-# specific sitemaps referenced from one index), matching whichever shape the
-# chosen sitemap integration supports; either is a Task 019 implementation
-# detail, not a schema decision Task 018 needs to lock in.
+# Sitemap (Task 019) — `@astrojs/sitemap`, the standard Astro-supported
+# integration (see `astro.config.mjs`), generated at build time from the
+# now-wired `site: 'https://artit.hu'`. Its own `filter` option excludes the
+# same internal routes the Disallow rules below target, kept as one
+# consistent list rather than two independently-maintained ones — see that
+# config's own comment.
 User-agent: *
 Disallow: /art-direction/
 Disallow: /design-foundation/
+
+Sitemap: https://artit.hu/sitemap-index.xml

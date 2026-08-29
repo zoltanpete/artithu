@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
+import Footer from '../navigation/Footer.astro';
 import TardifySpecimen from './TardifySpecimen.astro';
 import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
 import { translateHref } from '../../lib/routes';
@@ -46,7 +47,7 @@ const path = translateHref('/tardify/', locale);
 	locale={locale}
 	alternates={alternatesFor(locale, alternateLocalePath)}
 >
-	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} currentPath={path} />
 
 	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero. Copy reuses the exact already-approved, already-published
@@ -159,4 +160,6 @@ const path = translateHref('/tardify/', locale);
 			</Container>
 		</section>
 	</main>
+
+	<Footer locale={locale} />
 </BaseLayout>

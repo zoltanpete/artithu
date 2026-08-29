@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
+import Footer from '../navigation/Footer.astro';
 import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
 import { translateHref } from '../../lib/routes';
 
@@ -36,11 +37,15 @@ const path = translateHref(`/munkaink/${c.slug}/`, locale);
 const munkainkPath = translateHref('/munkaink/', locale);
 const munkainkLabel = locale === 'hu' ? 'Munkáink' : 'Work';
 
+// Task 019: JSON-LD `item` URLs should be absolute — see CaseStudy01Page.astro's
+// own comment for the reasoning.
+const munkainkAbsoluteUrl = Astro.site ? new URL(munkainkPath, Astro.site).toString() : munkainkPath;
+
 const breadcrumbJsonLd = {
 	'@context': 'https://schema.org',
 	'@type': 'BreadcrumbList',
 	itemListElement: [
-		{ '@type': 'ListItem', position: 1, name: munkainkLabel, item: munkainkPath },
+		{ '@type': 'ListItem', position: 1, name: munkainkLabel, item: munkainkAbsoluteUrl },
 		{ '@type': 'ListItem', position: 2, name: localizeGated(c.title, locale) ?? '' },
 	],
 };
@@ -54,7 +59,7 @@ const breadcrumbJsonLd = {
 	alternates={alternatesFor(locale, alternateLocalePath)}
 >
 	<script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd)} />
-	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} currentPath={path} />
 
 	<main id="main-content" tabindex="-1">
 		<!-- 01 — Breadcrumb + Hero. States the "systems changed, the layer
@@ -216,4 +221,6 @@ const breadcrumbJsonLd = {
 			</Container>
 		</section>
 	</main>
+
+	<Footer locale={locale} />
 </BaseLayout>

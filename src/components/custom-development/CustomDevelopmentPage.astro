@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
+import Footer from '../navigation/Footer.astro';
 import OperatingFitField from './OperatingFitField.astro';
 import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
 import { translateHref } from '../../lib/routes';
@@ -45,7 +46,7 @@ const visualNodes = c.hero.visual.nodes.map((n) => ({
 	locale={locale}
 	alternates={alternatesFor(locale, alternateLocalePath)}
 >
-	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} currentPath={path} />
 
 	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero. No SystemMap, no decision-fork-style glyph: this page's
@@ -223,4 +224,6 @@ const visualNodes = c.hero.visual.nodes.map((n) => ({
 			</Container>
 		</section>
 	</main>
+
+	<Footer locale={locale} />
 </BaseLayout>

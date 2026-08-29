@@ -17,11 +17,16 @@ The site should guide the visitor through:
 │   └── [case-study]/
 ├── tardify/
 ├── rolunk/
-└── kapcsolat/
+├── kapcsolat/
+└── adatkezeles/
 
 Later:
 └── tudastar/
 ```
+
+`adatkezeles/` (the privacy notice, Task 019) is deliberately listed as a sibling leaf, not nested under any of the above — it isn't part of the recognition → understanding → solution → evidence → trust → contact journey at all, and isn't in primary navigation (reachable from the footer and from `/kapcsolat/`'s own form context instead, per that task's own instruction). It's reference content, not a journey step.
+
+**Footer (Task 019)**: the site had none before this task. A single shared `Footer.astro`, rendered on every page in both locales, carries only what the IA genuinely needs at the bottom of every journey step — company identity, a link to `/kapcsolat/` and `/adatkezeles/` (locale-aware), the public email, and a copyright line. Not a secondary navigation system, not a sitemap duplicate — the header nav remains the one real wayfinding surface.
 
 **Bilingual route map (Task 018)**: the tree above is the canonical HU shape; every real route in it now has a live English counterpart under `/en/` with a natural-English slug (not the Hungarian slug reused behind a prefix) — see `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`'s "Task 018 — Bilingual route map" for the full HU↔EN table. The IA/journey structure itself (recognition → understanding → solution → evidence → trust → contact) is identical in both locales; only the URL words differ.
 

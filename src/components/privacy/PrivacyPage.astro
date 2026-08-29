@@ -1,0 +1,187 @@
+---
+import { getEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import Footer from '../navigation/Footer.astro';
+import { localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
+import { translateHref } from '../../lib/routes';
+
+/**
+ * Shared renderer for the privacy notice — `/adatkezeles/` (HU) /
+ * `/en/privacy/` (EN), Task 019. Same locale-wrapper pattern as every other
+ * page. Deliberately plain: no brand-face SVG, no tonal-surface "resolution"
+ * moment, no evidence-record grammar — a privacy notice is reference
+ * content, not a persuasive page, and Task 019's own brief explicitly asks
+ * for "a quiet production closure," not a new visual concept. The two fact
+ * blocks (`controller`, `hosting`) reuse `.panel-technical` — the existing
+ * bordered "specification plate" primitive already used for factual/
+ * technical material elsewhere (see `07-DESIGN-SYSTEM.md`) — rather than
+ * inventing new styling for a definition-list of legal identifiers.
+ *
+ * Not linked from primary navigation (Task 019 §11) — reachable from the
+ * footer (every page) and from `/kapcsolat/`'s own privacy-note link.
+ */
+interface Props {
+	locale: Locale;
+	alternateLocalePath?: string;
+}
+
+const { locale, alternateLocalePath } = Astro.props;
+
+const page = await getEntry('privacyPage', 'privacy');
+if (!page) throw new Error('Missing required "privacyPage/privacy" content entry');
+const c = page.data;
+
+const path = translateHref('/adatkezeles/', locale);
+const kapcsolatPath = translateHref('/kapcsolat/', locale);
+const kapcsolatLabel = locale === 'hu' ? 'Kapcsolat' : 'Contact';
+---
+
+<BaseLayout
+	title={localizeGated(c.seo.title, locale) ?? ''}
+	description={localizeGated(c.seo.description, locale) ?? ''}
+	path={path}
+	locale={locale}
+	alternates={alternatesFor(locale, alternateLocalePath)}
+>
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} currentPath={path} />
+
+	<main id="main-content" tabindex="-1">
+		<section class="section section--major">
+			<Container width="standard">
+				<h1 style="max-width: var(--content-reading);">{localizeGated(c.hero.title, locale)}</h1>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.hero.lead, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">{localizeGated(c.controller.headline, locale)}</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.controller.intro, locale)}
+				</p>
+				<dl class="panel-technical privacy-facts" style="margin-block-start: var(--space-lg);">
+					<div><dt class="meta">{locale === 'hu' ? 'Cégnév' : 'Company name'}</dt><dd>{c.controller.companyName}</dd></div>
+					<div><dt class="meta">{locale === 'hu' ? 'Székhely' : 'Address'}</dt><dd>{c.controller.address}</dd></div>
+					<div><dt class="meta">{locale === 'hu' ? 'Cégjegyzékszám' : 'Company registration no.'}</dt><dd>{c.controller.registrationNumber}</dd></div>
+					<div><dt class="meta">{locale === 'hu' ? 'Adószám' : 'Tax number'}</dt><dd>{c.controller.taxNumber}</dd></div>
+					<div><dt class="meta">Email</dt><dd><a href={`mailto:${c.controller.email}`}>{c.controller.email}</a></dd></div>
+				</dl>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">{localizeGated(c.websiteOperation.headline, locale)}</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.websiteOperation.body, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">{localizeGated(c.contactForm.headline, locale)}</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.contactForm.body, locale)}
+				</p>
+				<p style="margin-block-start: var(--space-md);">
+					<a href={kapcsolatPath} class="link-standalone">{kapcsolatLabel} →</a>
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">{localizeGated(c.hosting.headline, locale)}</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.hosting.body, locale)}
+				</p>
+				<dl class="panel-technical privacy-facts" style="margin-block-start: var(--space-lg);">
+					<div><dt class="meta">{locale === 'hu' ? 'Tárhelyszolgáltató' : 'Hosting provider'}</dt><dd>{c.hosting.providerName}</dd></div>
+					<div><dt class="meta">{locale === 'hu' ? 'Székhely' : 'Address'}</dt><dd>{c.hosting.providerAddress}</dd></div>
+					<div><dt class="meta">{locale === 'hu' ? 'Cégjegyzékszám' : 'Company registration no.'}</dt><dd>{c.hosting.providerRegistrationNumber}</dd></div>
+					<div><dt class="meta">{locale === 'hu' ? 'Adószám' : 'Tax number'}</dt><dd>{c.hosting.providerTaxNumber}</dd></div>
+					<div><dt class="meta">{locale === 'hu' ? 'EU adószám' : 'EU VAT number'}</dt><dd>{c.hosting.providerVat}</dd></div>
+				</dl>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">{localizeGated(c.cookiesAnalytics.headline, locale)}</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.cookiesAnalytics.body, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<section class="section">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">{localizeGated(c.retentionRights.headline, locale)}</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.retentionRights.body, locale)}
+				</p>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<section class="section section--major">
+			<Container width="standard">
+				<h2 style="max-width: var(--content-reading);">{localizeGated(c.contact.headline, locale)}</h2>
+				<p style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.contact.body, locale)}
+				</p>
+			</Container>
+		</section>
+	</main>
+
+	<Footer locale={locale} />
+</BaseLayout>
+
+<style>
+	.privacy-facts {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-sm) var(--space-xl);
+		max-width: var(--content-reading);
+		margin-inline: 0;
+	}
+
+	.privacy-facts > div {
+		display: grid;
+		grid-template-columns: 10rem 1fr;
+		gap: var(--space-md);
+	}
+
+	.privacy-facts dt {
+		margin: 0;
+	}
+
+	.privacy-facts dd {
+		margin: 0;
+	}
+
+	@media (max-width: 480px) {
+		.privacy-facts > div {
+			grid-template-columns: 1fr;
+			gap: var(--space-xs);
+		}
+	}
+</style>

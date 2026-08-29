@@ -8,17 +8,19 @@ Do not silently fill gaps.
 
 ## Organization
 
-- [x] Legal company name — **supplied by the owner (Task 018)**: `ARTIT Multimédia Kft.` Recorded here as the internal source-of-truth fact; **not yet published anywhere on the site** — no footer/imprint exists yet, and Task 018's own scope guard explicitly excludes implementing it (that is Task 019's job — see `14-LAUNCH-READINESS.md` "Bucket A1"/"Recommended next sequence"). Do not infer a legal role (data controller, publisher, etc.) from this fact alone.
-- [x] Registered address — **supplied (Task 018)**: `2013 Pomáz, Árvalányhaj u. 37.` Same not-yet-published status as above.
-- [x] Public email — **supplied (Task 018)**: `pete.zoltan@gmail.com`. Same not-yet-published status as above.
-- [ ] Public telephone — still not supplied.
-- [ ] Organization logo source — still not supplied; no favicon/logo asset exists anywhere in the repository (see `14-LAUNCH-READINESS.md` "Bucket B7").
-- [ ] Relevant social/profile URLs — still not supplied.
-- [x] Tax number — **supplied (Task 018)**: `23552986-2-13`.
-- [x] Company registration number — **supplied (Task 018)**: `13-09-150805`.
-- [x] Hosting provider — **supplied (Task 018)**: FORPSI / BlazeArts Kft., `1096 Budapest, Thaly Kálmán utca 39.`, registration no. `01-09-389087`, tax no. `12539833-2-43`, EU VAT `HU12539833`. Recorded for a future imprint/hosting-disclosure section; not published anywhere yet.
-- [ ] Privacy/legal page requirements — **still launch-blocking pending owner/legal confirmation**, unchanged by Task 018: the company/contact facts above are now known internally, but the actual privacy-notice *wording* and any legal determination of whether/what disclosure is required remain unresolved and explicitly out of Task 018's scope (§2, §33) — this is Task 019's job. See `14-LAUNCH-READINESS.md` "Bucket A1".
-- [x] Current ARTIT domain canonical format — **supplied (Task 018)**: `artit.hu` (production domain confirmed as `https://artit.hu`). **Not yet wired into `astro.config.mjs`'s `site`** — Task 018 deliberately left this to Task 019 ("final host wiring," per Task 018's own §2/§19), while architecting every canonical/hreflang/OG code path so setting `site` later requires no further code change (see `09-TECHNICAL-ARCHITECTURE.md`'s Task 018 note).
+- [x] Legal company name — supplied (Task 018): `ARTIT Multimédia Kft.` **Published (Task 019)**: `/adatkezeles/`+`/en/privacy/`'s "Controller" fact block and the sitewide footer.
+- [x] Registered address — supplied (Task 018): `2013 Pomáz, Árvalányhaj u. 37.` **Published (Task 019)**: privacy notice only (not repeated in the footer — Task 019's own brief explicitly doesn't require it there once it's on the privacy page).
+- [x] Public email — supplied (Task 018): `pete.zoltan@gmail.com`. **Published (Task 019)**: privacy notice and sitewide footer.
+- [ ] Public telephone — still not supplied. Not required — the privacy notice and footer function correctly with email only.
+- [ ] Organization logo source — still not supplied; a small geometric favicon mark was created instead (Task 019, see `12-ASSET-STRATEGY.md`) — deliberately not treated as equivalent to a full logo, and not used as the `Organization` JSON-LD's `logo` property for that reason (see below).
+- [ ] Relevant social/profile URLs — still not supplied; no `sameAs` added to structured data.
+- [x] Tax number — supplied (Task 018): `23552986-2-13`. **Published (Task 019)**: privacy notice's "Controller" fact block.
+- [x] Company registration number — supplied (Task 018): `13-09-150805`. **Published (Task 019)**: same block.
+- [x] Hosting provider — supplied (Task 018): FORPSI / BlazeArts Kft., `1096 Budapest, Thaly Kálmán utca 39.`, registration no. `01-09-389087`, tax no. `12539833-2-43`, EU VAT `HU12539833`. **Published (Task 019)**: privacy notice's "Hosting" fact block, both locales.
+- [x] Privacy/legal page requirements — **implemented (Task 019)**: `/adatkezeles/` (HU) and `/en/privacy/` (EN), a factual notice covering the controller's identity, how the website operates, the contact form's data flow (name/email/message → Formspree → ARTIT, no marketing/newsletter use, honeypot explained), hosting, cookies/analytics (none exist, stated plainly), and retention/rights. **`LEGAL REVIEW RECOMMENDED`**: the notice explicitly states its own limits — no fixed retention period is claimed, no specific legal basis (e.g. a GDPR Article 6 ground) is cited, and the notice's own closing sentence in the "Retention, deletion, and rights" section states outright that it "is not a legal guarantee or a statement of regulatory compliance." This is a deliberate, transparent boundary per Task 019 §14, not an oversight — see `14-LAUNCH-READINESS.md`'s Task 019 section for the full reasoning.
+- [x] Current ARTIT domain canonical format — supplied (Task 018): `artit.hu`. **Wired (Task 019)**: `astro.config.mjs`'s `site: 'https://artit.hu'` — every canonical/hreflang/OG/JSON-LD URL sitewide is now absolute, verified against the production build.
+
+**Organization structured data — implemented (Task 019)**, homepage only (both locales' canonical page, not repeated sitewide): `name`, `url`, `email`, and a `PostalAddress` — every property a verified fact from this section, nothing else. No `logo` (see above), no `sameAs`, `telephone`, or founding date — none of those facts exist yet, and none were invented to fill the schema out.
 
 ## Brand / people
 
@@ -85,16 +87,16 @@ Substantially resolved by Task 015's validated evidence pass — see `06-CASE-ST
 - [x] Form destination — Formspree endpoint `https://formspree.io/f/xppabkzq`, owner-supplied and approved (Task 013); see `09-TECHNICAL-ARCHITECTURE.md` "Forms" and the Task 013 gate note below
 - [x] Hosting/deployment environment — resolved as a non-issue by the chosen approach: a static-site-compatible external POST target needs no server adapter, so this was never actually blocking (Task 013)
 - [x] Spam protection approach — basic honeypot (`_gotcha`, Formspree's own convention), implemented (Task 013); a stronger mechanism (e.g. reCAPTCHA) remains a future option, not currently needed
-- [ ] Privacy notice wording — no ARTIT-authored privacy policy exists yet; the form links directly to Formspree's own policy in the interim (Task 013)
-- [ ] Analytics/consent requirements — unresolved, unrelated to the form's own function
+- [x] Privacy notice wording — **implemented (Task 019)**: `/adatkezeles/`/`/en/privacy/`, linked directly from both the HU and EN contact form's privacy note (alongside the existing Formspree link, not replacing it — the form still discloses Formspree's own role directly).
+- [x] Analytics/consent requirements — **resolved as "none exist" (Task 019)**: confirmed by source inspection (no analytics, tag managers, pixels, session recording, or non-essential cookies anywhere in the codebase) and stated plainly in the privacy notice's "Cookies / analytics" section; no cookie-consent banner was added, since none is needed for a site with nothing to consent to.
 
 ## SEO
 
-- [ ] Final organization structured data values
-- [ ] Production canonical URL
-- [ ] Default OG asset
-- [ ] Search Console setup owner/process
-- [ ] Analytics decision
+- [x] Final organization structured data values — **resolved (Task 019)**: see "Organization" above.
+- [x] Production canonical URL — **resolved (Task 019)**: `https://artit.hu`, wired into `astro.config.mjs`.
+- [x] Default OG asset — resolved (Task 017): `public/og-default.png`.
+- [ ] Search Console setup owner/process — post-launch, out of Task 019's own explicit scope.
+- [x] Analytics decision — **resolved as "none, intentionally" (Task 019)**: see "Contact" above.
 
 ## Publication gate
 
@@ -225,6 +227,22 @@ Full site-wide launch-readiness audit and matrix now live at `14-LAUNCH-READINES
 **Evidence parity maintained on both case studies** — every EN sentence in `src/content/case-studies/*.md` was checked against the same DOC/06 evidence matrix the Hungarian was built from; no claim was strengthened, no qualification dropped, no date/count changed, no GATED/DO_NOT_PUBLISH fact (ERP vendor names, exact ERP-replacement count, an unbroken-exact-decade claim, Tardify lineage) crossed into the English. Verified by grep against the built EN output, not assumed from the source alone.
 
 **No content gate was resolved by inventing a fact.** The English adaptation work is translation/copywriting against already-approved Hungarian meaning, not new claims — the same discipline every previous content task in this file applied.
+
+## Task 019 — final pre-launch implementation, gate compliance
+
+Full findings live at `14-LAUNCH-READINESS.md`'s Task 019 update; this section records how the implementation intersects this file's own gates.
+
+**Privacy/legal identification gap (Task 017's Bucket A1) — resolved.** `/adatkezeles/` and `/en/privacy/` publish the owner-supplied company/hosting facts factually, plus a description of the real data flow (contact form → Formspree → ARTIT) verified against the actual implementation, not assumed. See "Organization" and "Contact" above for exactly what's published where, and the `LEGAL REVIEW RECOMMENDED` note on the retention/legal-basis wording.
+
+**Production domain wired.** `astro.config.mjs`'s `site: 'https://artit.hu'` — every previously-relative canonical/hreflang/OG/JSON-LD URL sitewide is now absolute, verified in the production build (not assumed from the config change alone).
+
+**Sitemap and favicon resolved** — see "SEO" above and `12-ASSET-STRATEGY.md`'s Task 019 favicon note.
+
+**A new, real bug found and fixed during this task's own QA, unrelated to any specific §-numbered scope item**: two plain `<h2>` headings on the new privacy page (`Tárhelyszolgáltatás`, `Kapcsolatfelvételi űrlap`) overflowed at 320px — long unbreakable Hungarian compound words at the fluid `h2` clamp's size, the same failure class as Task 017's `/rolunk/` fix but sitting latent in the *plain sitewide* `h1`/`h2`/`h3` rules themselves rather than a custom class. Fixed with a sitewide `overflow-wrap: break-word` on all three heading levels — verified as a true no-op everywhere else via a 108-check sweep before/after (0 issues both times except this one, now fixed) and a direct screenshot comparison against `/rolunk/`'s own locked Hero. See `11-ACCESSIBILITY-AND-PERFORMANCE.md`'s Task 019 entry.
+
+**No content gate was resolved by inventing a fact** — every new fact published (company identity, hosting identity, domain) was owner-supplied in Task 019 §3, not derived or guessed.
+
+**Still open, intentionally**: public telephone, organization logo, social profile URLs, Search Console — all Bucket C/post-launch, none blocking.
 
 ## Task 008 — visual lock reconciliation
 

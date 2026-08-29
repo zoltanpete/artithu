@@ -1,0 +1,54 @@
+---
+import Container from '../layout/Container.astro';
+import { getEntry } from 'astro:content';
+import { localize, type Locale } from '../../lib/i18n';
+import { translateHref } from '../../lib/routes';
+
+/**
+ * Sitewide footer (Task 019) — the site had none before this task (see
+ * `14-LAUNCH-READINESS.md`'s Bucket A1/legal note). Deliberately small: a
+ * company identity line, a handful of locale-aware links, and a copyright
+ * line — not a sitemap, not a newsletter signup, not social icons (no
+ * approved profiles exist to link — see DOC/13). Rendered once per page
+ * from a shared component, matching `SiteHeader.astro`'s own pattern, so
+ * every page (HU and EN, including the privacy pages) gets the identical
+ * footer with zero duplication.
+ *
+ * No public email here (removed at the owner's request after Task 019) —
+ * it stays published once, on the privacy notice, where it serves a real
+ * role as the controller/contact address, rather than a second,
+ * less-contextualized copy repeated in the footer.
+ */
+interface Props {
+	locale?: Locale;
+}
+
+const { locale = 'hu' } = Astro.props;
+
+const entry = await getEntry('footer', 'main');
+if (!entry) throw new Error('Missing required "footer/main" content entry');
+const f = entry.data;
+
+const year = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+	<Container width="wide" as="div">
+		<div class="site-footer__inner">
+			<div class="site-footer__identity">
+				<p class="site-footer__company">{f.companyName}</p>
+				<p class="text-small">{localize(f.tagline, locale)}</p>
+			</div>
+
+			<nav class="site-footer__nav" aria-label={locale === 'hu' ? 'Lábléc navigáció' : 'Footer navigation'}>
+				<ul class="site-footer__links">
+					{f.links.map((link) => (
+						<li><a href={translateHref(link.href, locale)}>{localize(link.label, locale)}</a></li>
+					))}
+				</ul>
+			</nav>
+		</div>
+
+		<p class="meta site-footer__copyright">© {year} {f.companyName} — {localize(f.rightsReservedLabel, locale)}</p>
+	</Container>
+</footer>

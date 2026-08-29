@@ -1,0 +1,28 @@
+# Sitewide footer (Task 019; email removed post-Task-019 per owner request).
+# Same classification as src/content/nav/content.yaml (Task 007B):
+# wayfinding/identity chrome, not marketing prose, so both locales are
+# fully populated. `tagline` reuses the already-approved, already-published
+# homepage positioning line (`home.seo.title`) verbatim for the identical
+# underlying fact — not new copy. `links[].href` stores the HU-canonical
+# path, same convention as every other content-authored href on this site;
+# `Footer.astro` resolves it per-locale via `translateHref()` at render
+# time. No public email here — it remains published once, on the privacy
+# notice (`src/content/pages/privacy/content.yaml`), where it serves a real
+# role as the controller/contact address.
+main:
+  companyName: "ARTIT Multimédia Kft."
+  tagline:
+    hu: "Egyedi üzleti szoftverfejlesztés senior tapasztalattal."
+    en: "Custom business software development, senior-built."
+  links:
+    - label:
+        hu: "Kapcsolat"
+        en: "Contact"
+      href: /kapcsolat/
+    - label:
+        hu: "Adatkezelés"
+        en: "Privacy"
+      href: /adatkezeles/
+  rightsReservedLabel:
+    hu: "Minden jog fenntartva."
+    en: "All rights reserved."

@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
+import Footer from '../navigation/Footer.astro';
 import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
 import { translateHref } from '../../lib/routes';
 
@@ -74,6 +75,9 @@ const submitLabel = localize(form.submitLabel, locale);
 const submittingLabel = localize(form.submittingLabel, locale);
 const successMessage = localize(form.successMessage, locale);
 const errorMessage = localize(form.errorMessage, locale);
+// Task 019 §17 — the privacy notice's own title, reused as this link's
+// label rather than a second, independently-authored string.
+const privacyLinkLabel = locale === 'hu' ? 'Adatkezelés' : 'Privacy';
 ---
 
 <BaseLayout
@@ -83,7 +87,7 @@ const errorMessage = localize(form.errorMessage, locale);
 	locale={locale}
 	alternates={alternatesFor(locale, alternateLocalePath)}
 >
-	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} currentPath={path} />
 
 	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero. No CTA button here — the real action is the Section 04
@@ -197,6 +201,8 @@ const errorMessage = localize(form.errorMessage, locale);
 								{localizeGated(c.contact.privacyNote, locale)}
 								{' '}
 								<a href="https://formspree.io/legal/privacy-policy" target="_blank" rel="noopener">Formspree</a>
+								{' — '}
+								<a href={translateHref('/adatkezeles/', locale)}>{privacyLinkLabel}</a>
 							</p>
 						</form>
 
@@ -224,6 +230,8 @@ const errorMessage = localize(form.errorMessage, locale);
 			</Container>
 		</section>
 	</main>
+
+	<Footer locale={locale} />
 </BaseLayout>
 
 <script define:vars={{ endpoint: form.endpoint, submitLabel, submittingLabel, successMessage, errorMessage }}>

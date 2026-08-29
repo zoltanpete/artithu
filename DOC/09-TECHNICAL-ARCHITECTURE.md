@@ -196,6 +196,29 @@ Every page component's own canonical `path` computation (previously `localePath(
 
 **Production domain deliberately not wired**: the owner supplied the confirmed production domain (`artit.hu`) this task, but `astro.config.mjs`'s `site` was **not** set — Task 018's own brief explicitly reserves "final host wiring" for Task 019 (see `13-CONTENT-GAPS-AND-VALIDATION.md` "Organization"). Every canonical/hreflang/OG code path above already resolves through the existing `Astro.site &&` conditional pattern (unchanged from Task 017), so setting `site: 'https://artit.hu'` in a future task requires zero further code change — every relative path already emitted becomes correctly absolute automatically.
 
+### Implementation status (Task 019) — production domain, sitemap, privacy/footer collections, current-nav state
+
+**Production domain wired**: `astro.config.mjs` now sets `site: 'https://artit.hu'`, exactly the config point every canonical/hreflang/OG/JSON-LD URL already resolved through — confirmed in the production build that every one of those is now a real absolute URL, zero further code changes required, exactly as Task 018 anticipated.
+
+**Sitemap**: `@astrojs/sitemap` (the standard Astro-supported integration, not custom code) added to `integrations`. Its `filter` option excludes `/art-direction/*`, `/design-foundation`, and `/404` — the same route set `public/robots.txt`'s `Disallow` rules already target, read from one mental model instead of two independently-maintained lists. Output: `sitemap-index.xml` → `sitemap-0.xml`, 18 URLs (9 HU + 9 EN production routes), confirmed by direct inspection of the built XML.
+
+**Two new content collections** (`src/content.config.ts`), following the exact pattern every prior page-type/chrome collection in this file established:
+
+- `privacyPage` (`src/content/pages/privacy/content.yaml`) — one schema object per notice section (`controller`, `websiteOperation`, `contactForm`, `hosting`, `cookiesAnalytics`, `retentionRights`, `contact`), matching `06-CASE-STUDY-ARCHITECTURE.md`'s own "narrow schema over generic sections list" discipline — there is exactly one real entry, so a flexible/looped shape would be speculative generality. Facts identical regardless of locale (company/hosting-provider identity — name, address, registration/tax numbers) are plain `z.string()`, not `localizedGated()`, the same classification already used for `kapcsolatPage.contact.form.endpoint`.
+- `footer` — the site's first shared cross-page chrome collection besides `nav`; same `localizedText`/plain-fact classification as `nav`, since footer content is wayfinding/identity, not marketing prose.
+
+**`SiteHeader.astro` current-page/current-section state** (Task 019 §24): a new optional `currentPath` prop, threaded through every page component (all 8 existing `<BaseLayout>`-wrapping components plus the new `PrivacyPage.astro`). `aria-current="page"` only when a nav link's target (fragment stripped) exactly equals the current page; `aria-current="true"` — WAI-ARIA's own generic "current item in a set" token — when the current page sits *underneath* a nav link's target (e.g. the "Munkáink"/"Our work" link while actually on a case-study detail page), deliberately never `"page"` in that case per the task's own explicit instruction not to falsely mark a parent as the exact current page. Visual treatment (`foundation.css`): an underline, not color alone, on `[aria-current]` — satisfies the "no information by color alone" rule the same way every other stateful indicator on this site already does.
+
+**`Footer.astro`** — one shared component (`src/components/navigation/`, alongside `SiteHeader.astro`), rendered on every page. Reuses `translateHref()` for its links, so it's automatically locale-correct with zero special-casing. No new brand-face SVG, no new surface token — a thin top border and the existing `--color-bg`, matching the task's own "quiet production closure" instruction.
+
+**`PrivacyPage.astro`** — the ninth page-type component, same locale-wrapper pattern as every other page (`interface Props { locale; alternateLocalePath }`, `getEntry()`, `translateHref()` for its own canonical path). Not linked from primary navigation (only the footer and `/kapcsolat/`'s own form context link to it), per the task's own instruction.
+
+**Homepage-only `Organization` JSON-LD**: `name`, `url`, `email`, `address` (a `PostalAddress`), each a verified owner-supplied fact — no `logo`/`sameAs`/`telephone`/founding date, none of which exist yet. Resolved via `Astro.site` the same way canonical URLs are.
+
+**A sitewide CSS fix, not scoped to Task 019's own feature list**: `overflow-wrap: break-word` added to the base `h1`/`h2`/`h3` rules after the new privacy page's own `<h2>Tárhelyszolgáltatás</h2>` overflowed at 320px — see `11-ACCESSIBILITY-AND-PERFORMANCE.md`'s Task 019 entry for the full root-cause note and the verification that it changes nothing on any page where no heading currently overflows.
+
+**Runtime cost**: still zero new client JS. The sitemap integration and `Organization` JSON-LD both resolve entirely at build time.
+
 ## Public assets
 
 Use `public/` only for assets that should bypass Astro processing or need fixed public paths.

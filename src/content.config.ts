@@ -527,6 +527,95 @@ const kapcsolatPage = defineCollection({
 	schema: kapcsolatPageSchema,
 });
 
+// `privacyPage` (Task 019) — same reasoning as the other six page
+// collections: its own `file()` collection, its own schema. Split into one
+// object per notice section (matching DOC/13's §12 structure exactly) so
+// the component can render each as its own plain section without any
+// generic "sections list" abstraction — there is exactly one real entry,
+// so a flexible/looped shape would be speculative generality, the same
+// judgment already applied throughout this file. Facts that are identical
+// regardless of locale (the company/hosting-provider identity block) are
+// plain `z.string()`, not `localizedGated()` — a registration number or a
+// street address is not marketing prose to translate, the same
+// classification already used for `kapcsolatPage.contact.form.endpoint`.
+const privacyPageSchema = z.object({
+	seo: z.object({
+		title: localizedGated(),
+		description: localizedGated(),
+	}),
+	hero: z.object({
+		title: localizedGated(),
+		lead: localizedGated(),
+	}),
+	controller: z.object({
+		headline: localizedGated(),
+		intro: localizedGated(),
+		companyName: z.string(),
+		address: z.string(),
+		registrationNumber: z.string(),
+		taxNumber: z.string(),
+		email: z.string(),
+	}),
+	websiteOperation: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	contactForm: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	hosting: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+		providerName: z.string(),
+		providerAddress: z.string(),
+		providerRegistrationNumber: z.string(),
+		providerTaxNumber: z.string(),
+		providerVat: z.string(),
+	}),
+	cookiesAnalytics: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	retentionRights: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+	contact: z.object({
+		headline: localizedGated(),
+		body: localizedGated(),
+	}),
+});
+
+const privacyPage = defineCollection({
+	loader: file('src/content/pages/privacy/content.yaml'),
+	schema: privacyPageSchema,
+});
+
+// `footer` (Task 019) — the site's first shared cross-page chrome
+// collection besides `nav`, same reasoning: pure wayfinding/identity text,
+// not marketing prose, so `localizedText`/plain facts throughout, no
+// `localizedGated`. One entry, rendered identically (locale-parameterized)
+// on every page via a shared `Footer.astro` component.
+const footerSchema = z.object({
+	companyName: z.string(),
+	tagline: localizedText(),
+	links: z.array(z.object({ label: localizedText(), href: z.string() })).min(1),
+	// No public email here (removed post-Task-019 at the owner's request) —
+	// the address stays published once, on the privacy notice, where it
+	// serves a real role as the controller/contact address
+	// (`privacyPage.controller.email`/`.contact.email`), rather than
+	// repeated as a second, less contextualized copy in the footer.
+	// The year itself is computed at render time (`new Date().getFullYear()`),
+	// not stored as content — a hardcoded year would silently go stale.
+	rightsReservedLabel: localizedText(),
+});
+
+const footer = defineCollection({
+	loader: file('src/content/footer/content.yaml'),
+	schema: footerSchema,
+});
+
 const navSchema = z.object({
 	logoLabel: z.string(),
 	ariaLabel: localizedText(),
@@ -553,5 +642,7 @@ export const collections = {
 	tardifyPage,
 	rolunkPage,
 	kapcsolatPage,
+	privacyPage,
 	nav,
+	footer,
 };

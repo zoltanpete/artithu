@@ -1,0 +1,95 @@
+# /adatkezeles/ (HU) — /en/privacy/ (EN) content (Task 019). Every fact
+# below (company name, address, registration/tax numbers, hosting-provider
+# identity) is exactly what the owner supplied in TASK/019's own §3 — none
+# is normalized, reformatted, or "corrected." Every prose sentence is a
+# restrained, factual description of what this repository's own
+# implementation actually does (confirmed by inspecting the real contact
+# form/data flow before writing a word of this file — see
+# DOC/13-CONTENT-GAPS-AND-VALIDATION.md's Task 019 note for the exact
+# source facts) — no invented legal basis, no invented retention period, no
+# claim that this notice constitutes legal certification or guarantees
+# compliance (`retentionRights.body` says so explicitly, in both locales).
+# `en` is a natural-English adaptation of the same facts, not a mechanical
+# translation of Hungarian legal phrasing — see TASK/019 §13.
+privacy:
+  seo:
+    title:
+      hu: "Adatkezelés | ARTIT"
+      en: "Privacy | ARTIT"
+    description:
+      hu: "Tájékoztató arról, hogyan kezeli az ARTIT a weboldalon és a kapcsolatfelvételi űrlapon keresztül megadott adatokat."
+      en: "An explanation of how ARTIT handles information submitted through the website and its contact form."
+
+  hero:
+    title:
+      hu: "Adatkezelési tájékoztató"
+      en: "Privacy notice"
+    lead:
+      hu: "Ez az oldal összefoglalja, milyen adatokat kezel az ARTIT.hu weboldal, és hogyan."
+      en: "This page explains what information the ARTIT.hu website processes, and how."
+
+  controller:
+    headline:
+      hu: "Adatkezelő / üzemeltető"
+      en: "Data controller / site operator"
+    intro:
+      hu: "A weboldalt az ARTIT Multimédia Kft. üzemelteti."
+      en: "This website is operated by ARTIT Multimédia Kft."
+    companyName: "ARTIT Multimédia Kft."
+    address: "2013 Pomáz, Árvalányhaj u. 37."
+    registrationNumber: "13-09-150805"
+    taxNumber: "23552986-2-13"
+    email: pete.zoltan@gmail.com
+
+  websiteOperation:
+    headline:
+      hu: "A weboldal működése"
+      en: "How the website works"
+    body:
+      hu: "A weboldal statikus oldalakból áll: nincs saját adatbázis, és nincs ARTIT által üzemeltetett háttérrendszer, amely a látogatók adatait tárolná. A kapcsolatfelvételi űrlap kivételével a weboldal nem gyűjt és nem tárol személyes adatot."
+      en: "This website consists of static pages: there is no ARTIT-operated database or backend system that stores visitor data. Aside from the contact form, the website does not collect or store personal data."
+
+  contactForm:
+    headline:
+      hu: "Kapcsolatfelvételi űrlap"
+      en: "Contact form"
+    body:
+      hu: "A Kapcsolat oldal űrlapján megadott nevet, e-mail címet és üzenetet a Formspree — egy harmadik fél által üzemeltetett szolgáltatás — továbbítja az ARTIT felé, kizárólag a beérkező megkeresés megválaszolása céljából. Az űrlap nem használja fel az elküldött adatokat marketing célra, és nem iratkoztat fel hírlevélre. Az űrlap egy rejtett, a látogató számára nem látható mezőt is tartalmaz, amely kizárólag az automatizált kéretlen küldések kiszűrésére szolgál, és nem gyűjt valódi látogatói adatot."
+      en: "The name, email address, and message submitted through the Contact page's form are delivered to ARTIT via Formspree — a third-party service — solely to respond to the inquiry received. The form does not use submitted data for marketing purposes and does not subscribe anyone to a newsletter. The form also includes a hidden field, invisible to visitors, used only to filter out automated spam submissions — it does not collect any real visitor data."
+
+  hosting:
+    headline:
+      hu: "Tárhelyszolgáltatás"
+      en: "Hosting"
+    body:
+      hu: "A weboldal a FORPSI szolgáltatásán keresztül érhető el, üzemeltetője a BlazeArts Kft. A tárhelyszolgáltatás jellegéből adódóan technikai jellegű kérésadatokat — például az oldal elérésével összefüggő szervernaplókat — a tárhelyszolgáltató infrastruktúrája kezelhet."
+      en: "The website is served through FORPSI, operated by BlazeArts Kft. Due to the nature of web hosting, technical request data — such as server logs related to accessing the site — may be processed by the hosting provider's infrastructure."
+    providerName: "BlazeArts Kft."
+    providerAddress: "1096 Budapest, Thaly Kálmán utca 39."
+    providerRegistrationNumber: "01-09-389087"
+    providerTaxNumber: "12539833-2-43"
+    providerVat: HU12539833
+
+  cookiesAnalytics:
+    headline:
+      hu: "Sütik / analitika"
+      en: "Cookies / analytics"
+    body:
+      hu: "A weboldal jelenleg nem használ látogatottságmérő (analitikai) szolgáltatást, marketing célú követőkódot, sem munkamenetrögzítést, és nem helyez el a működéshez nem feltétlenül szükséges sütit a látogató eszközén. Emiatt a weboldal jelenleg nem használ sütikezelési hozzájárulási sávot."
+      en: "The website currently does not use any analytics service, marketing tracking code, or session recording, and does not place any non-essential cookies on a visitor's device. For this reason, the website does not currently use a cookie-consent banner."
+
+  retentionRights:
+    headline:
+      hu: "Megőrzés, törlés és jogok"
+      en: "Retention, deletion, and rights"
+    body:
+      hu: "A megkeresések a Formspree szolgáltatáson és az ARTIT e-mail postafiókján keresztül érkeznek meg, és a kapcsolatfelvétel lezárásáig, illetve amíg az ARTIT-nak indokolt oka van azok megőrzésére, elérhetők maradnak. Rögzített, előre meghatározott megőrzési határidő jelenleg nincs kialakítva. A látogató bármikor kérheti a megadott adatai törlését, helyesbítését, vagy az azokról szóló tájékoztatást a lenti e-mail címen. Az adatkezelés pontos jogi alapjának és a megőrzési gyakorlat végleges, jogi szempontból is ellenőrzött szabályozása felülvizsgálat alatt áll — ez a tájékoztató a jelenlegi tényleges gyakorlatot írja le, és nem minősül jogi garanciának vagy jogszabályi megfelelőségi nyilatkozatnak."
+      en: "Inquiries arrive through Formspree and ARTIT's email inbox, and remain accessible until the inquiry is resolved, or for as long as ARTIT has a legitimate reason to retain them. No fixed, predetermined retention period is currently defined. A visitor may request the deletion, correction, or disclosure of their submitted data at any time via the email address below. The exact legal basis for this processing, and a final, legally reviewed retention policy, remain under review — this notice describes current actual practice and is not a legal guarantee or a statement of regulatory compliance."
+
+  contact:
+    headline:
+      hu: "Kapcsolat"
+      en: "Contact"
+    body:
+      hu: "Adatkezeléssel kapcsolatos kérdés, kérés vagy észrevétel esetén az ARTIT a pete.zoltan@gmail.com e-mail címen érhető el."
+      en: "For any question, request, or concern about data handling, ARTIT can be reached at pete.zoltan@gmail.com."

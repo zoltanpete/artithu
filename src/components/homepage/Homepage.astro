@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
+import Footer from '../navigation/Footer.astro';
 import SystemMap from '../system-map/SystemMap.astro';
 import type { SystemMapSource, SystemMapOutput } from '../system-map/SystemMap.astro';
 import { localize, localizeGated, homePath, alternatesFor, type Locale } from '../../lib/i18n';
@@ -10,11 +11,8 @@ import { translateHref } from '../../lib/routes';
 
 /**
  * Shared homepage renderer (Task 007B). One implementation for every
- * locale — route files (`src/pages/index.astro`, and a future
- * `src/pages/en/index.astro` once English copy is approved) are thin
- * wrappers that just pick a `locale`. See DOC/09-TECHNICAL-ARCHITECTURE.md
- * "Localization" for why `/en/` isn't wired up as a real route yet even
- * though this component already renders correctly for `locale="en"`.
+ * locale — `src/pages/index.astro` and `src/pages/en/index.astro` (Task
+ * 018) are both thin wrappers that just pick a `locale`.
  */
 interface Props {
 	locale: Locale;
@@ -26,6 +24,28 @@ const { locale, alternateLocalePath } = Astro.props;
 const page = await getEntry('pages', 'home');
 if (!page) throw new Error('Missing required "pages/home" content entry');
 const c = page.data;
+
+// Task 019 §28 — minimal, factual `Organization` JSON-LD, homepage only
+// (the canonical entity-defining page, not repeated sitewide). Every
+// property is a verified owner-supplied fact (see
+// DOC/13-CONTENT-GAPS-AND-VALIDATION.md "Organization") — no `logo` (the
+// new favicon is an icon-scale mark, not a suitable Organization logo
+// asset; see `12-ASSET-STRATEGY.md`), no `sameAs`/social profiles, no
+// `telephone`, no founding date — none of those facts exist yet.
+const organizationJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'Organization',
+	name: 'ARTIT Multimédia Kft.',
+	url: Astro.site ? Astro.site.toString() : '/',
+	email: 'pete.zoltan@gmail.com',
+	address: {
+		'@type': 'PostalAddress',
+		streetAddress: 'Árvalányhaj u. 37.',
+		postalCode: '2013',
+		addressLocality: 'Pomáz',
+		addressCountry: 'HU',
+	},
+};
 
 const heroSources: SystemMapSource[] = c.hero.systemMap.sources.map((s) => ({
 	id: s.id,
@@ -46,7 +66,8 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 	locale={locale}
 	alternates={alternatesFor(locale, alternateLocalePath)}
 >
-	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+	<script type="application/ld+json" is:inline set:html={JSON.stringify(organizationJsonLd)} />
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} currentPath={homePath(locale)} />
 
 	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero -->
@@ -329,4 +350,6 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 			</Container>
 		</section>
 	</main>
+
+	<Footer locale={locale} />
 </BaseLayout>

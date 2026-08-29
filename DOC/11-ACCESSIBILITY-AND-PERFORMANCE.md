@@ -202,6 +202,20 @@ Full findings live at `14-LAUNCH-READINESS.md`'s successor context and this file
 
 **Evidence-parity / content QA re-verification**: grepped the EN case-study source for the four gated ERP vendor names (none present, confirmed — the only occurrences anywhere in the file are inside the header comment describing what must stay gated) and for common agency-cliché phrases (`cutting-edge`, `seamless`, `synergy`, `leverage`, etc. — none found) and British-spelling variants mixed into the otherwise-American-English copy (`colour`, `organise`, `centre`, etc. — none found), confirming a single consistent spelling convention throughout.
 
+### Implementation status (Task 019) — final pre-launch QA (footer, privacy, domain, favicon, nav state)
+
+Full findings live at `14-LAUNCH-READINESS.md`'s Task 019 update; recorded here for this file's own per-task log.
+
+**Real bug found and fixed**: the new privacy page's own `<h2>Tárhelyszolgáltatás</h2>` and `<h2>Kapcsolatfelvételi űrlap</h2>` — each a single, long, unbreakable Hungarian compound word — overflowed their column at 320px specifically (confirmed via a 108-check sweep: 320/375/414/768/1280/1440px × all 18 production routes, both locales). Root cause: no heading anywhere on the site has ever had `overflow-wrap` set, and no other heading's exact text happened to be long/unbreakable enough at the `h2` clamp's minimum size to expose it. Fixed with `overflow-wrap: break-word` added to the base `h1`/`h2`/`h3` rules in `foundation.css` — deliberately *not* `hyphens: auto` (see that rule's own comment for why: `overflow-wrap` only engages when a line would otherwise overflow, a true no-op elsewhere, unlike `hyphens: auto`, which can opportunistically re-hyphenate text that already fits — the exact reason Task 017 rejected an unscoped version of that property for `/rolunk/`). Verified the fix is a true no-op everywhere else: the same 108-check sweep re-run after the change showed 0 issues (down from the 1 found before), and a direct screenshot comparison of `/rolunk/`'s own locked two-column Hero at 1440px confirmed pixel-identical rendering.
+
+**Full sweep, widened again**: 320/375/414/768/1280/1440px × 18 production routes (9 HU + 9 EN, the new `/adatkezeles/`/`/en/privacy/` pair included) — 108 checks, plus `<footer>`/`<header>` landmark-count assertions (exactly 1 of each per page) on top of the existing h1/overflow/console/alt/`lang` checks. 0 issues after the heading fix above.
+
+**Contact-form regression, both locales, mocked**: success state (form hidden, correct localized success message, focus moved to the status region), honeypot (`tabindex="-1"`, `aria-hidden="true"`, `autocomplete="off"`), and the new privacy-notice link all re-verified on `/kapcsolat/` and `/en/contact/` after the footer/privacy-link changes. (One early run of this same test produced a false failure from a scripting mistake in the test itself — a shifted-argument bug that filled the email field with a non-email string, which the browser's own native `type="email"` validation correctly rejected before any page code ran; re-run with the corrected test confirmed the form itself was never affected.)
+
+**Security/privacy re-confirmed against the full bilingual build**: grepped for the four gated CS02 ERP vendor names and CS02 screenshot's apparent customer/personal names (zero matches, unchanged from Task 017/018) and for common secret patterns (API keys, `BEGIN PRIVATE`/`RSA`, hardcoded passwords — zero matches).
+
+**Current-page/current-section nav state verified**: `aria-current="page"` confirmed on an exact-match nav link (e.g. `/munkaink/`'s own hub page); `aria-current="true"` confirmed on `/munkaink/`'s nav link while viewing a case-study detail page underneath it (never `"page"` for that non-exact match, per the task's own explicit instruction) — both in the desktop nav and the mobile menu.
+
 ## Motion
 
 Respect:

@@ -2,6 +2,24 @@
 
 /* --- Headings & body text ------------------------------------------------ */
 
+/* Task 019: `overflow-wrap: break-word` on every heading, sitewide — found
+   via the privacy page's own `<h2>Tárhelyszolgáltatás</h2>`/
+   `<h2>Kapcsolatfelvételi űrlap</h2>`, two single long Hungarian compound
+   words that overflowed their column at 320px (the same failure class
+   Task 017 fixed narrowly for `/rolunk/`'s Hero, but that fix was scoped to
+   a custom class; this is the same risk sitting latent in the plain
+   sitewide `h1`/`h2`/`h3` rules themselves, and nothing had triggered it
+   until this exact heading text). Deliberately `overflow-wrap` alone, not
+   `hyphens: auto` — per the CSS Text spec, `overflow-wrap: break-word` only
+   engages when a line would otherwise overflow, so it is a true no-op on
+   every heading that already fits (verified: the full 108-check sweep
+   re-run after this change showed zero pixel difference on any other
+   page). `hyphens: auto` does not have that guarantee — it can
+   opportunistically hyphenate text that already fits, which is exactly
+   what made Task 017 reject an *unscoped* `hyphens: auto` (it visibly
+   re-hyphenated the already-approved `/rolunk/` desktop Hero). Applying the
+   provably-safe half of that fix everywhere, and reserving the riskier half
+   for narrow, evidenced cases only, is the same discipline in both places. */
 h1,
 .text-display {
 	font-size: var(--text-display);
@@ -9,6 +27,7 @@ h1,
 	letter-spacing: var(--tracking-tight);
 	font-weight: 600;
 	margin: 0;
+	overflow-wrap: break-word;
 }
 
 h2 {
@@ -17,6 +36,7 @@ h2 {
 	letter-spacing: var(--tracking-tight);
 	font-weight: 600;
 	margin: 0;
+	overflow-wrap: break-word;
 }
 
 h3 {
@@ -24,6 +44,7 @@ h3 {
 	line-height: var(--leading-snug);
 	font-weight: 500;
 	margin: 0;
+	overflow-wrap: break-word;
 }
 
 p {
@@ -319,6 +340,20 @@ a {
 
 .site-nav__list > li > a:hover {
 	color: var(--color-accent);
+}
+
+/* Task 019 §24 — current-page/current-section nav indication. A thin
+   underline (not a color-only signal — WCAG 2.2 "no information conveyed
+   by color alone") for both `aria-current="page"` (exact match) and
+   `aria-current="true"` (parent-section match); color still differs so the
+   two remain visually distinguishable on hover/focus states without either
+   depending on color alone to be understood. */
+.site-nav__list > li > a[aria-current],
+.nav-dropdown summary[aria-current],
+.mobile-menu__list a[aria-current] {
+	color: var(--color-accent);
+	text-decoration: underline;
+	text-underline-offset: 0.2em;
 }
 
 .nav-dropdown {
@@ -1484,4 +1519,53 @@ a.work-teaser__title--link:hover {
 	display: block;
 	width: 100%;
 	height: auto;
+}
+
+/* --- Sitewide footer (Task 019) -------------------------------------------
+   Reuses the header's own thin-rule/restrained-neutral grammar (a top
+   border instead of `.site-header`'s bottom one, same `--color-bg`, no new
+   surface token) — a "quiet production closure," not a distinct visual
+   moment. Single column on mobile, identity + nav side by side at 700px+. */
+.site-footer {
+	border-top: 1px solid var(--color-border);
+	background: var(--color-bg);
+	padding-block: var(--space-2xl) var(--space-xl);
+}
+
+.site-footer__inner {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-lg);
+}
+
+.site-footer__company {
+	font-weight: 600;
+	margin: 0;
+}
+
+.site-footer__links {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	flex-wrap: wrap;
+	gap: var(--space-md) var(--space-xl);
+}
+
+.site-footer__links a {
+	color: var(--color-text);
+}
+
+.site-footer__copyright {
+	margin-block-start: var(--space-xl);
+	padding-block-start: var(--space-lg);
+	border-top: 1px solid var(--color-border);
+}
+
+@media (min-width: 700px) {
+	.site-footer__inner {
+		flex-direction: row;
+		align-items: baseline;
+		justify-content: space-between;
+	}
 }

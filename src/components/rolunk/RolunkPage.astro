@@ -3,6 +3,7 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
+import Footer from '../navigation/Footer.astro';
 import { localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
 import { translateHref } from '../../lib/routes';
 
@@ -65,7 +66,7 @@ const path = translateHref('/rolunk/', locale);
 	locale={locale}
 	alternates={alternatesFor(locale, alternateLocalePath)}
 >
-	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} currentPath={path} />
 
 	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero. No CTA here — the page states its argument, then asks
@@ -173,4 +174,6 @@ const path = translateHref('/rolunk/', locale);
 			</Container>
 		</section>
 	</main>
+
+	<Footer locale={locale} />
 </BaseLayout>

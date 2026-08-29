@@ -34,6 +34,11 @@ const ROUTE_PAIRS: [hu: string, en: string][] = [
 	['/tardify/', '/en/tardify/'],
 	['/rolunk/', '/en/about/'],
 	['/kapcsolat/', '/en/contact/'],
+	// Task 019 — privacy notice. `/adatkezeles/` ("data handling/processing")
+	// rather than a literal "adatvédelem" (data protection) — matches the
+	// task's own preferred route pattern (§11) and reads as the more
+	// commonly used real-world term for this exact page type on HU sites.
+	['/adatkezeles/', '/en/privacy/'],
 ];
 
 const HU_TO_EN = new Map(ROUTE_PAIRS);

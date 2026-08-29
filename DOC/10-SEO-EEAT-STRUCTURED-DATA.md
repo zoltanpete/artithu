@@ -35,6 +35,8 @@ Every production page now emits a complete, self-consistent `hreflang` set: the 
 
 Canonical URLs and `hreflang` `href` values are still emitted as relative paths, not absolute URLs — the same `Astro.site`-gated conditional as every other canonical/OG URL on the site, unchanged by this task (the production domain, `artit.hu`, was confirmed by the owner in Task 018 but deliberately not wired into `astro.config.mjs`'s `site` — see "Organization" in `13-CONTENT-GAPS-AND-VALIDATION.md`). Relative `hreflang` values are non-standard per the strict spec (Google's own guidance prefers absolute URLs) but are commonly tolerated in practice; treat this as accurate-but-incomplete until `site` is set in a future task, at which point every `hreflang`/canonical/OG URL on the site becomes absolute automatically, with no further code change.
 
+**Implementation status (Task 019)**: `site` is now set (`https://artit.hu`) — every canonical, `hreflang` (including `x-default`), `og:url`, `og:image`, and JSON-LD URL sitewide is now a real absolute URL, verified directly against the production build (self canonical, HU alternate, EN alternate, and `x-default` all checked on a homepage pair and a case-study pair, where the two locales' slugs genuinely differ — the exact case a naive fix could get wrong). The new `/adatkezeles/`/`/en/privacy/` pair is handled identically to every other route — no special-casing was needed. Sitemap: `@astrojs/sitemap` now generates 18 URLs from this same absolute origin; see `09-TECHNICAL-ARCHITECTURE.md`'s Task 019 section for the integration detail.
+
 ## E-E-A-T
 
 Treat E-E-A-T as a content quality/trust framework, not a single ranking factor.
@@ -106,6 +108,8 @@ Potential properties:
 - telephone;
 - address;
 - sameAs.
+
+**Implementation status (Task 019)**: implemented, homepage only (both locales), using only the properties with a verified fact behind them — `name`, `url`, `email`, `address` (a `PostalAddress` built from the owner-supplied street/postal code/city). `logo` was deliberately omitted: the new favicon (see `12-ASSET-STRATEGY.md`) is a small icon-scale mark, not a suitable Organization logo asset for rich-result display, and using it anyway would be exactly the "invent a logo URL" this document's own instruction warns against. `telephone` and `sameAs` remain omitted for the same reason — no verified fact exists yet.
 
 Do not invent or publish incomplete guesses.
 

@@ -48,12 +48,11 @@ const hreflangEntries: [string, string | undefined][] = [
 // restrained ARTIT card (wordmark + the already-published homepage SEO
 // tagline, see `public/og-default.png`'s own generation note in
 // `DOC/12-ASSET-STRATEGY.md`), not an unset `og:image` sitewide. Resolved to
-// an absolute URL the same way `canonicalURL` is, since `og:image` is only
-// spec-correct as absolute; while `Astro.site` remains unset (the
-// production domain isn't chosen yet — see `13-CONTENT-GAPS-AND-VALIDATION.md`
-// "Organization"), this still emits the best-effort relative path rather
-// than silently omitting the tag, since most real-world crawlers resolve it
-// against the page URL in practice.
+// an absolute URL the same way `canonicalURL` is (this fallback to a
+// relative path only still matters for local `astro dev`/`preview`, where
+// `Astro.site` is set but a request may still hit a non-canonical host —
+// the production build always has `Astro.site` available since Task 019
+// wired `site: 'https://artit.hu'` in `astro.config.mjs`).
 const ogImageURL = Astro.site ? new URL(ogImage, Astro.site) : ogImage;
 ---
 
@@ -86,6 +85,20 @@ const ogImageURL = Astro.site ? new URL(ogImage, Astro.site) : ogImage;
 		     Space Mono is metadata-only and far lower-usage, so it is not preloaded. -->
 		<link rel="preload" href={workSansLatin} as="font" type="font/woff2" crossorigin />
 		<link rel="preload" href={workSansLatinExt} as="font" type="font/woff2" crossorigin />
+
+		<!-- Favicon (Task 019) — a simple geometric "A" mark, hand-drawn as
+		     vector strokes (not rendered text, so it never depends on a font
+		     being available to the browser's own icon rasterizer), in the
+		     locked accent color on a solid square background (so it reads
+		     identically regardless of the browser tab's own light/dark theme —
+		     see `12-ASSET-STRATEGY.md`'s Task 019 note). SVG primary (modern
+		     browsers); PNG fallback for the few that don't support SVG
+		     favicons; a separate, larger PNG for iOS/iPadOS home-screen icons.
+		     No `.ico`, no PWA manifest — neither is genuinely needed here. -->
+		<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+		<link rel="icon" href="/favicon-32x32.png" type="image/png" sizes="32x32" />
+		<link rel="icon" href="/favicon-16x16.png" type="image/png" sizes="16x16" />
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 	</head>
 	<body>
 		<slot />

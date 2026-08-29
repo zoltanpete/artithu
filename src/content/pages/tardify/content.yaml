@@ -69,9 +69,17 @@ tardify:
       href: /egyedi-fejlesztes/
 
   finalCta:
+    # Task 019 §25 — previously word-for-word identical to the homepage's
+    # own Final CTA headline (see DOC/03's Task 014 note), a real redundancy
+    # for a visitor who sees both pages in one session. Rewritten to tie
+    # directly to this page's own argument ("the same standard applies to
+    # our own product") instead of restating the homepage's — the
+    # destination (/kapcsolat/) and role ("contact ARTIT about your own
+    # need") stay unchanged, since that CTA's job was never the redundant
+    # part; only its wording was.
     headline:
-      hu: "Van egy folyamat, amit ideje lenne jobban megoldani?"
-      en: "Is there a process that's overdue for a better solution?"
+      hu: "Szeretne egy hasonlóan megbízható rendszert a saját működéséhez?"
+      en: "Want a system for your own business that's just as reliable?"
     copy:
       hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
       en: "You don't need to arrive with a finished specification. It's enough to describe how things work now, what's causing the problem, and what you'd like to do better."

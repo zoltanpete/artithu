@@ -41,10 +41,10 @@ Visit `/design-foundation` in dev/preview to review the implemented typography/c
 
 ## Status
 
-Eight production HU pages are implemented and content-complete: `/`, `/egyedi-fejlesztes/`, `/munkaink/` (plus its two case-study detail pages), `/tardify/`, `/rolunk/`, `/kapcsolat/` (with a working Formspree contact form). `/en/` is intentionally not published yet — see `DOC/09-TECHNICAL-ARCHITECTURE.md` "Localization" and `DOC/13-CONTENT-GAPS-AND-VALIDATION.md`. There is no footer component (never built; not currently required by any confirmed content). See `DOC/14-LAUNCH-READINESS.md` for the current pre-launch audit and what remains before public launch, and `TASK/` for full task history.
+`READY TO DEPLOY` (Task 019). 9 production pages, each with a live English counterpart under `/en/*` (18 production routes total): `/`, `/egyedi-fejlesztes/`, `/munkaink/` (plus its two case-study detail pages), `/tardify/`, `/rolunk/`, `/kapcsolat/` (working Formspree contact form), `/adatkezeles/` (privacy notice). A shared footer (identity, contact/privacy links, email, copyright) renders on every page in both locales. See `DOC/14-LAUNCH-READINESS.md` for the full pre-launch audit trail and `TASK/` for full task history.
 
 No legacy WordPress implementation is to be migrated. Existing ARTIT content/assets may be reused only after explicit review.
 
 ## Deployment
 
-Static output only (`npm run build` → `dist/`) — any static host works, no server runtime or adapter required. The production domain (`site` in `astro.config.mjs`) is intentionally unset until the canonical ARTIT.hu domain is confirmed; setting it enables canonical URLs, absolute Open Graph URLs and a sitemap. See `DOC/14-LAUNCH-READINESS.md` for the full launch checklist.
+Static output only (`npm run build` → `dist/`) — any static host works, no server runtime or adapter required. Production origin: `https://artit.hu` (`site` in `astro.config.mjs`); every canonical/hreflang/OG/JSON-LD URL resolves through it. A sitemap (`@astrojs/sitemap`) is generated at `sitemap-index.xml`. Owner-supplied hosting: FORPSI / BlazeArts Kft. See `DOC/14-LAUNCH-READINESS.md` for the full launch checklist.

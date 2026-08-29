@@ -436,10 +436,32 @@ A route/navigation-level summary; see `07-DESIGN-SYSTEM.md`'s "Task 014 — Site
 | `/tardify/` | `/en/tardify/` (proper noun, same in both locales) |
 | `/rolunk/` | `/en/about/` |
 | `/kapcsolat/` | `/en/contact/` |
+| `/adatkezeles/` (Task 019) | `/en/privacy/` (Task 019) |
 
 `/egyedi-fejlesztes/uzleti-alkalmazasok/` and `/egyedi-fejlesztes/rendszerintegracio/` — still unbuilt (see the "Task 014" cross-link-graph note above and `14-LAUNCH-READINESS.md`'s "A2") — have no EN counterpart either, for the identical reason: nothing to translate until the HU route itself exists. `/art-direction/*` and `/design-foundation` are explicitly not translated (Task 018 §31) and stay HU-only exploration fixtures, unlinked from any production page in either locale.
 
 **Language switch**: every one of the 8 pairs above links to its *exact* counterpart (verified via Playwright click-through on a sample, and via a full-build grep confirming no EN page ever links back to an untranslated HU-canonical path except the intentional language-switch link itself) — never a fallback to the locale homepage. See `09-TECHNICAL-ARCHITECTURE.md` for the `alternates`/`hreflang` implementation this shares its data with.
+
+## Task 019 — final production route inventory
+
+18 production routes total (9 HU + 9 EN), all indexable, all with a real unique title/description, all canonical URLs now absolute (`https://artit.hu/...`), all present in the generated sitemap:
+
+| Locale | Route | Alternate counterpart |
+|---|---|---|
+| HU | `/` | `/en/` |
+| HU | `/egyedi-fejlesztes/` | `/en/custom-development/` |
+| HU | `/munkaink/` | `/en/work/` |
+| HU | `/munkaink/uzemi-rendszer/` | `/en/work/operational-system/` |
+| HU | `/munkaink/erp-integracio/` | `/en/work/erp-integration/` |
+| HU | `/tardify/` | `/en/tardify/` |
+| HU | `/rolunk/` | `/en/about/` |
+| HU | `/kapcsolat/` | `/en/contact/` |
+| HU | `/adatkezeles/` | `/en/privacy/` |
+| EN | (mirror of each HU row above) | — |
+
+Internal-only routes (28 `/art-direction/*` + `/design-foundation`, individually `noindex`, `robots.txt`-disallowed, sitemap-excluded via the same integration `filter`) and `/404` (`noindex`, sitemap-excluded) are unchanged from Task 017/018 — see that task's own inventory, still accurate.
+
+Every route above now also carries: a footer (identity, `/kapcsolat/` + `/adatkezeles/` links, email, copyright — locale-aware); `aria-current` on its own nav entry where applicable (`"page"` for an exact match, `"true"` for a parent-section match, e.g. `/munkaink/`'s nav link while reading a case-study detail page); the sitewide favicon.
 
 ## SEO and structured data
 
