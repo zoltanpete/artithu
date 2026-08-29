@@ -688,6 +688,20 @@ a {
 	margin-block-end: var(--space-xs);
 }
 
+/* Task 016: once a direction's case evidence has a canonical detail page,
+   its title becomes a link — same treatment as `.work-teaser__title--link`. */
+.decision-paths__evidence-link {
+	display: block;
+	color: var(--color-text);
+	text-decoration: none;
+}
+
+.decision-paths__evidence-link:hover {
+	color: var(--color-accent);
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
 @media (min-width: 768px) {
 	.decision-paths {
 		grid-template-columns: 1fr 1fr;
@@ -805,6 +819,26 @@ a {
 	color: var(--color-accent);
 	font-size: clamp(2.75rem, 2rem + 3.5vw, 6rem);
 	line-height: 1.05;
+}
+
+/* Task 017: a 15px horizontal-overflow bug found at 320px specifically (375/
+   390/414px and the 900px+ two-column layout all measured clean, so it went
+   unnoticed by Task 012A's own verification at 390px). Root cause: grid
+   items default to `min-width: auto`, so the widest unbreakable Hungarian
+   compound word in each clause ("beszélgetéstől") refuses to shrink below
+   its own intrinsic width, blowing out of the `1fr` track. Scoped to
+   `max-width: 374px` deliberately — narrow enough that it cannot touch the
+   375px+/900px+ states this task's own baseline explicitly protects; a
+   sitewide (unscoped) `hyphens: auto` was tried first and rejected because
+   it visibly re-hyphenated the locked desktop Hero at 1440px, where there
+   was no overflow and no need for it. */
+@media (max-width: 374px) {
+	.rolunk-hero__lead-clause,
+	.rolunk-hero__accent-clause {
+		min-width: 0;
+		overflow-wrap: break-word;
+		hyphens: auto;
+	}
 }
 
 .rolunk-hero__support {
@@ -1097,6 +1131,23 @@ a {
 	margin: 0;
 }
 
+/* Task 016: once a case has a canonical detail page, its title becomes a
+   link — same size/weight as the plain `<p>` version above so the presence
+   of a link doesn't change the section's rhythm, with underline-on-hover
+   rather than a permanent underline (the title reads as a heading first,
+   a link second). */
+a.work-teaser__title--link {
+	display: block;
+	color: var(--color-text);
+	text-decoration: none;
+}
+
+a.work-teaser__title--link:hover {
+	color: var(--color-accent);
+	text-decoration: underline;
+	text-underline-offset: 0.15em;
+}
+
 .work-teaser__direction {
 	display: block;
 	margin-block-start: var(--space-md);
@@ -1354,4 +1405,83 @@ a {
 	.process-steps__step::before {
 		top: calc(-1 * var(--space-lg) - 4px);
 	}
+}
+
+/* --- Case-study detail pages (Task 016) -------------------------------------
+   "System Record" — the concept selected from a 3-concept exploration (see
+   DOC/07-DESIGN-SYSTEM.md "Case-study art direction (Task 016)"), over a
+   denser "Evidence Dossier" (panelled/plated, too close to a spec-sheet
+   showcase) and a plain "Operational Narrative" (no metadata at all, read as
+   generic editorial and lost the sitewide evidence-record register). Numbered
+   ledger rows plus thin-border-only screenshot frames — deliberately no
+   padded plate/background around the image, so the real screenshot reads as
+   the artifact itself, not a decorated exhibit (DOC/06's "do not turn either
+   story into a tech-stack showcase" / "real screenshots already are strong
+   evidence material" rules). Shared here (not per-page component `<style>`)
+   because both CS01 and CS02 use the identical grammar, only different
+   section content — the same "promote once proven stable" rule already
+   applied to `.surface--tonal`/`.work-teaser__*`/`.panel-technical`. */
+
+.case-breadcrumb {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--space-xs);
+	margin: 0;
+}
+
+.case-breadcrumb__sep {
+	opacity: 0.5;
+}
+
+.case-hero__badge {
+	display: inline-block;
+	margin-block-start: var(--space-md);
+	padding: 0.35em 0.75em;
+	border: 1px solid var(--color-border);
+	border-radius: var(--radius-sm);
+}
+
+.case-before-after {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-md);
+	margin-block-start: var(--space-md);
+	max-width: var(--content-reading);
+}
+
+@media (min-width: 700px) {
+	.case-before-after {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+.case-record__row {
+	display: grid;
+	grid-template-columns: 1fr;
+	gap: var(--space-sm);
+	padding-block-start: var(--space-lg);
+	border-block-start: 1px solid var(--color-border);
+}
+
+@media (min-width: 900px) {
+	.case-record__row {
+		grid-template-columns: 3rem 1fr;
+	}
+}
+
+.case-record__label {
+	color: var(--color-accent);
+}
+
+.case-frame {
+	margin: var(--space-md) 0 0 0;
+	border: 1px solid var(--color-border);
+	max-width: 720px;
+}
+
+.case-frame img {
+	display: block;
+	width: 100%;
+	height: auto;
 }

@@ -1,5 +1,6 @@
 ---
 import RolunkPage from '../../components/rolunk/RolunkPage.astro';
+import { enEquivalentOf } from '../../lib/routes';
 ---
 
-<RolunkPage locale="hu" />
+<RolunkPage locale="hu" alternateLocalePath={enEquivalentOf('/rolunk/')} />

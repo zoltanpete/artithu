@@ -29,11 +29,11 @@ main:
       - label:
           hu: Üzleti alkalmazások
           en: Business applications
-        href: /egyedi-fejlesztes/uzleti-alkalmazasok/
+        href: /egyedi-fejlesztes/#custom-applications
       - label:
           hu: Rendszerintegráció
           en: System integration
-        href: /egyedi-fejlesztes/rendszerintegracio/
+        href: /egyedi-fejlesztes/#systems-integration
 
   links:
     - label:

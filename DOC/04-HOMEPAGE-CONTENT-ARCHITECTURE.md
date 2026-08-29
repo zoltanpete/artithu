@@ -16,7 +16,7 @@ Section 03's "Key copy" (packaged-software/understand-the-business-first directi
 
 **Sections implemented with a factual gap** (per this document's own sections below and `13-CONTENT-GAPS-AND-VALIDATION.md` — omitted rather than fabricated, per Task 007 §28):
 
-- **04 — Work**: shows the two documented working titles only (`Egy üzleti rendszer, amely együtt nőtt a vállalkozással.` / `A rendszer, amely több ERP-t is túlélt.`), styled as an editorial "CASE / 0X" pair, each linking to `/munkaink/` (the hub, not a specific case-study detail page — none exists yet). No screenshot, no year, no customer name, no outcome claim — none is publication-safe yet.
+- **04 — Work**: shows the two documented working titles only (`Egy üzemi rendszer, amely egy évtizede teszi a dolgát.` — updated Task 016, owner-approved / `A rendszer, amely több ERP-t is túlélt.` — audited Task 016, kept unchanged), styled as an editorial "CASE / 0X" pair, each linking to `/munkaink/` (the hub — case-study detail pages remain a future task; see `06-CASE-STUDY-ARCHITECTURE.md`). No screenshot, no year, no customer name, no outcome claim — none is publication-safe yet.
 - **05 — Longevity**: publishes only the headline/principle (`A hosszú táv nálunk nem marketingígéret.` / `A technológia eszköz. A működő rendszer a cél.`), exactly as Task 007 §14 explicitly allows — no `20+ év` or `10+ év` figure, since those remain unverified.
 - **06 — Tardify**: full approved copy published (it's positioning language, not a customer-specific claim); no product screenshot, since none exists in the repository yet (verified: `public/`, `src/assets/` both empty).
 - **08 — Senior/Who**: full approved copy published; no name, role wording, biography or portrait — none is verified yet, and no stock-photo substitute was used (explicitly disallowed).
@@ -178,7 +178,9 @@ Headline:
 
 Featured Case 01:
 
-> Egy üzleti rendszer, amely együtt nőtt a vállalkozással.
+> Egy üzemi rendszer, amely egy évtizede teszi a dolgát.
+>
+> (Updated Task 016 — owner-approved; the previous "...amely együtt nőtt a vállalkozással." conflicted with Task 015's validated evidence.)
 
 Featured Case 02:
 

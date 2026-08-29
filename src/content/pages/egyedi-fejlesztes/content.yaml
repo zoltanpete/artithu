@@ -4,27 +4,38 @@
 # verbatim-approved quote (DOC/01-BRAND-POSITIONING.md, or already-published
 # homepage copy in ../home/content.yaml reused for the same underlying fact)
 # or a faithful synthesis of DOC/01's documented "main problem areas" /
-# DOC/02's page role — never an invented claim. `en` is absent everywhere
-# (gated) for the same reason as the homepage: no approved English
-# translation of ARTIT marketing copy exists in this repository yet — see
-# DOC/09-TECHNICAL-ARCHITECTURE.md "Localization".
+# DOC/02's page role — never an invented claim.
+#
+# `en` fields (Task 018): a natural-English adaptation. Every sentence that
+# recurs verbatim in the Hungarian (the "not every problem needs custom
+# software" paragraph, the "first we understand, then the technology"
+# statement, the friction-reducing closing sentence) reuses the exact same
+# English translation already established in `../home/content.yaml`, for
+# the same reason the Hungarian reuses itself — one underlying fact, one
+# wording, not independently retranslated each place it appears.
 egyedi-fejlesztes:
   seo:
     title:
       hu: "ARTIT — Mikor indokolt egyedi szoftvert fejleszteni?"
+      en: "ARTIT — When is custom software development justified?"
     description:
       hu: "Nem minden problémára kell egyedi szoftver. Amire viszont igen, arra pontosan illeszkedőt építünk."
+      en: "Not every problem needs custom software. For the ones that do, we build something that fits exactly."
 
   hero:
     eyebrow:
       hu: "Kinőtte a kész megoldásokat?"
+      en: "Outgrown off-the-shelf solutions?"
     title:
       hu: "Mikor indokolt egyedi szoftvert fejleszteni — és mikor nem?"
+      en: "When is custom software development justified — and when isn't it?"
     lead:
       hu: "Nem minden problémára kell egyedi szoftver. Amire viszont igen, arra pontosan illeszkedőt építünk."
+      en: "Not every problem needs custom software. For the ones that do, we build something that fits exactly."
     cta:
       label:
         hu: "Beszéljük át a problémát →"
+        en: "Let's talk about your problem →"
       href: /kapcsolat/
     # Task 009A brand-face visual ("Fit / Friction Field", OperatingFitField.astro).
     # Technical/categorical vocabulary, not marketing copy — both locales
@@ -71,81 +82,107 @@ egyedi-fejlesztes:
   justified:
     headline:
       hu: "Ezek azok a helyzetek, amikor egyedi fejlesztés indokolt lehet."
+      en: "These are the situations where custom development can be justified."
     signals:
       - id: outgrown-solution
         order: 1
         title:
           hu: "A jelenlegi megoldást kinőtték"
+          en: "You've outgrown your current solution"
         body:
           hu: "Excel, Access, egy régebbi asztali vagy webes alkalmazás, papíralapú vagy kézi adminisztráció, esetleg egy merev, kompromisszumokra kényszerítő kész szoftver — ha ezek már nem bírják a működést, két irány van: a folyamat digitalizálása, vagy egy egyedi üzleti alkalmazás."
+          en: "Excel, Access, an older desktop or web application, paper-based or manual administration, or a rigid off-the-shelf system that forces compromises — when these can no longer keep up with how the business runs, there are two directions: digitalizing the process, or a custom business application."
       - id: special-process
         order: 2
         title:
           hu: "A működés speciális"
+          en: "Your operations are specific"
         body:
           hu: "Ha egy általános ERP, CRM vagy SaaS rendszer nem tudja jól kiszolgálni a folyamatot, a szoftvernek kell alkalmazkodnia a vállalkozáshoz — nem fordítva."
+          en: "When a general-purpose ERP, CRM, or SaaS system can't serve the process well, the software needs to adapt to the business — not the other way around."
       - id: fragmented-systems
         order: 3
         title:
           hu: "A rendszerek nem kommunikálnak egymással"
+          en: "Your systems don't talk to each other"
         body:
           hu: "CRM, ERP, számlázás, webshop és egyéb, egymástól függetlenül működő eszközök között sok a kézi, ismétlődő munka — ilyenkor a megoldás gyakran integráció és automatizáció, nem egy vadonatúj rendszer."
+          en: "CRM, ERP, invoicing, a webshop, and other tools running independently of each other often mean a lot of manual, repetitive work — the solution here is usually integration and automation, not a brand-new system."
 
   notJustified:
     headline:
       hu: "Nem minden problémára kell egyedi szoftver."
+      en: "Not every problem needs custom software."
     body:
       hu: "Ha a jelenlegi kész szoftver jól támogatja a működést, nincs értelme újraépíteni. Előbb azt érdemes megérteni, hogyan működik ma a vállalkozás — utána dönthető el, milyen szoftverre van ténylegesen szükség."
+      en: "If your current off-the-shelf software supports your operations well, there's no reason to rebuild it. The first step is understanding how the business actually runs today — only then can you decide what software is really needed."
 
   directions:
     headline:
       hu: "Ha egyedi fejlesztés indokolt, két fő irány van."
+      en: "If custom development is justified, there are two main directions."
     paths:
       - id: custom-applications
         title:
           hu: "Egyedi üzleti alkalmazások"
+          en: "Custom business applications"
         description:
           hu: "Ha a folyamat különleges, és a kész rendszerek kompromisszumra kényszerítik a működést."
+          en: "When your process is specific enough that off-the-shelf systems force your operations into compromise."
         link:
           label:
             hu: "Egyedi üzleti alkalmazások →"
-          href: /egyedi-fejlesztes/uzleti-alkalmazasok/
+            en: "Custom business applications →"
+          href: /munkaink/
         evidence:
           caseId: case-01
           order: 1
           title:
-            hu: "Egy üzleti rendszer, amely együtt nőtt a vállalkozással."
+            hu: "Egy üzemi rendszer, amely egy évtizede teszi a dolgát."
+            en: "An operational system that has been doing its job for a decade."
+          href: /munkaink/uzemi-rendszer/
       - id: systems-integration
         title:
           hu: "Rendszerintegráció és automatizáció"
+          en: "Systems integration and automation"
         description:
           hu: "Ha a rendszerek külön-külön már megvannak, csak éppen nem kommunikálnak egymással."
+          en: "When the systems themselves already exist — they just don't talk to each other."
         link:
           label:
             hu: "Rendszerintegráció és automatizáció →"
-          href: /egyedi-fejlesztes/rendszerintegracio/
+            en: "Systems integration and automation →"
+          href: /munkaink/
         evidence:
           caseId: case-02
           order: 2
           title:
             hu: "A rendszer, amely több ERP-t is túlélt."
+            en: "The system that outlasted several ERP generations."
+          href: /munkaink/erp-integracio/
     evidenceLink:
       label:
         hu: "Munkáink megtekintése →"
+        en: "See our work →"
       href: /munkaink/
 
   approach:
     headline:
       hu: "Először a működést értjük meg. A technológia utána jön."
+      en: "First we understand how it works. The technology comes after."
     statement:
       hu: "A problémán tapasztalt fejlesztő dolgozik az első beszélgetéstől az éles rendszerig."
+      en: "An experienced developer works on your problem from the first conversation to the live system."
 
   finalCta:
     headline:
       hu: "Még nem biztos benne, melyik irány illik a helyzetéhez?"
+      en: "Not sure yet which direction fits your situation?"
     copy:
       hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+      en: "You don't need to arrive with a finished specification. It's enough to describe how things work now, what's causing the problem, and what you'd like to do better."
     cta:
       label:
         hu: "Beszéljük át a problémát →"
+        en: "Let's talk about your problem →"
       href: /kapcsolat/

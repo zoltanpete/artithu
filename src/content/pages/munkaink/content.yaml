@@ -9,22 +9,31 @@
 # verbatim-approved quote already published elsewhere on the site (reused
 # for the identical underlying fact, not duplicated for its own sake) or a
 # fresh but tightly source-grounded composition — see the Task 010
-# completion report for exactly which is which. `en` is absent everywhere
-# (gated), same policy as every other page.
+# completion report for exactly which is which.
+#
+# `en` fields (Task 018): natural-English adaptation; case titles and
+# direction labels reuse the exact same EN wording already established in
+# `../home/content.yaml`/`../egyedi-fejlesztes/content.yaml` for the
+# identical underlying facts.
 munkaink:
   seo:
     title:
       hu: "ARTIT — Munkáink"
+      en: "ARTIT — Our Work"
     description:
       hu: "Olyan szoftvereket építünk, amelyek hosszú távon a vállalkozás működésének részévé válnak."
+      en: "We build software that becomes part of how a business runs — for the long term."
 
   hero:
     eyebrow:
       hu: "Tényleg megcsinálták már?"
+      en: "Have they actually done this before?"
     title:
       hu: "Bizonyíték, nem bemutató."
+      en: "Evidence, not a showcase."
     lead:
       hu: "Olyan szoftvereket építünk, amelyek hosszú távon a vállalkozás működésének részévé válnak."
+      en: "We build software that becomes part of how a business runs — for the long term."
     # Task 010A brand-face visual (LivingSystemField.astro — "Ambient
     # Operating Field"). Technical/categorical vocabulary, not marketing
     # copy — both locales populated, matching the SystemMap/OperatingFitField
@@ -40,33 +49,44 @@ munkaink:
   principle:
     headline:
       hu: "A valódi bizonyíték nem egy bemutató pillanat, hanem a folyamatos üzemeltetés."
+      en: "Real evidence isn't a demo moment — it's continuous operation."
     body:
-      hu: "Az alábbi rendszerek nem esettanulmányok, hanem valós, ügyfél számára tervezett és megépített rendszerek jelzései. A teljes történetük fokozatosan válik publikálhatóvá — addig azt mutatjuk meg, ami már ma is megalapozott: milyen probléma miatt épültek, és melyik egyedi fejlesztési irányhoz tartoznak."
+      hu: "Az alábbi rendszerek nem esettanulmány-vázlatok, hanem valós, ügyfelek számára tervezett és megépített rendszerek — a teljes történettel, valódi felületekkel és dokumentált nyomokkal."
+      en: "The systems below aren't case-study sketches — they're real systems, designed and built for real clients, shown with their full story, real interfaces, and documented evidence."
 
   cases:
     - id: case-01
       order: 1
       title:
-        hu: "Egy üzleti rendszer, amely együtt nőtt a vállalkozással."
+        hu: "Egy üzemi rendszer, amely egy évtizede teszi a dolgát."
+        en: "An operational system that has been doing its job for a decade."
+      href: /munkaink/uzemi-rendszer/
       direction:
         label:
           hu: "Egyedi üzleti alkalmazások"
-        href: /egyedi-fejlesztes/uzleti-alkalmazasok/
+          en: "Custom business applications"
+        href: /egyedi-fejlesztes/#custom-applications
     - id: case-02
       order: 2
       title:
         hu: "A rendszer, amely több ERP-t is túlélt."
+        en: "The system that outlasted several ERP generations."
+      href: /munkaink/erp-integracio/
       direction:
         label:
           hu: "Rendszerintegráció és automatizáció"
-        href: /egyedi-fejlesztes/rendszerintegracio/
+          en: "Systems integration and automation"
+        href: /egyedi-fejlesztes/#systems-integration
 
   finalCta:
     headline:
       hu: "Van hasonló problémája?"
+      en: "Facing a similar problem?"
     copy:
       hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+      en: "You don't need to arrive with a finished specification. It's enough to describe how things work now, what's causing the problem, and what you'd like to do better."
     cta:
       label:
         hu: "Beszéljünk róla →"
+        en: "Let's talk about it →"
       href: /kapcsolat/

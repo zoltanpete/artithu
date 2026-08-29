@@ -29,6 +29,12 @@ Site-level:
 
 Homepage (`/`): title "ARTIT — Egyedi üzleti szoftverfejlesztés senior tapasztalattal" and meta description reuse the approved Hero lead copy verbatim — neither was invented. Canonical/OG-URL remain unrendered (same conditional logic since Task 003 — `Astro.site` is still unset, production domain still unresolved per `13-CONTENT-GAPS-AND-VALIDATION.md`). Heading hierarchy verified in a real browser: exactly one `<h1>`, sequential `<h2>`/`<h3>`, no skipped levels. No structured data (JSON-LD) was added — no verified Organization/entity facts exist yet to populate it correctly, consistent with this document's "do not invent or publish incomplete guesses" rule.
 
+## Multilingual SEO / `hreflang` (Task 018)
+
+Every production page now emits a complete, self-consistent `hreflang` set: the page's own locale, its real counterpart in the other locale, and `x-default` (pointing at the HU version, since HU is the default unprefixed locale). All three were previously either entirely absent (no `/en/*` route existed to alternate to) or, when the underlying `alternates` mechanism is used generically, an easy place to under-emit (a bare "other locale" link with no self-referencing entry is a common real mistake this implementation deliberately avoids) — see `09-TECHNICAL-ARCHITECTURE.md`'s Task 018 section for the `BaseLayout.astro`/`alternatesFor()` implementation.
+
+Canonical URLs and `hreflang` `href` values are still emitted as relative paths, not absolute URLs — the same `Astro.site`-gated conditional as every other canonical/OG URL on the site, unchanged by this task (the production domain, `artit.hu`, was confirmed by the owner in Task 018 but deliberately not wired into `astro.config.mjs`'s `site` — see "Organization" in `13-CONTENT-GAPS-AND-VALIDATION.md`). Relative `hreflang` values are non-standard per the strict spec (Google's own guidance prefers absolute URLs) but are commonly tolerated in practice; treat this as accurate-but-incomplete until `site` is set in a future task, at which point every `hreflang`/canonical/OG URL on the site becomes absolute automatically, with no further code change.
+
 ## E-E-A-T
 
 Treat E-E-A-T as a content quality/trust framework, not a single ranking factor.
@@ -107,6 +113,8 @@ Do not invent or publish incomplete guesses.
 
 Use on hierarchical internal pages.
 
+**Implementation status (Task 018)**: the two case-study pages' existing `BreadcrumbList` (Task 016) is now locale-aware — the hub label ("Munkáink"/"Work") and its `item` URL (`/munkaink/`/`/en/work/`) resolve per-locale rather than the Task 016 hardcoded Hungarian literal. Verified valid JSON and correct URLs on both locales in the production build.
+
 ### WebSite / WebPage
 
 Use only where semantically useful.
@@ -124,6 +132,10 @@ Before using a type verify:
 1. semantic correctness;
 2. search engine relevance/support;
 3. visible content matches markup.
+
+**Planning note (Task 015)**: schema.org has no `CaseStudy` type — do not invent one. Once the canonical case-detail pages (`/munkaink/[case-study]/`, see `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`) exist, the conservative options are plain `WebPage` (always valid, lowest risk) or `Article` if the page's own editorial framing genuinely reads as an article rather than a service/proof page — decide once real content exists, not now. A `BreadcrumbList` reflecting the actual route hierarchy (`/munkaink/` → case) is low-risk and can be added once the routes exist. **Do not** attempt an `Organization`/`Person` entity inside case-study structured data while the customer remains anonymous and ARTIT's own Organization facts (legal name, address, phone) remain gated (`13-CONTENT-GAPS-AND-VALIDATION.md`) — any structured data must match only what's already safe in visible copy (the evidence-matrix `GATED`/`DO_NOT_PUBLISH` items in `06-CASE-STUDY-ARCHITECTURE.md` apply identically to JSON-LD; a fact too sensitive for body copy is equally too sensitive to leak through markup). No structured-data implementation was made this task — planning only, per this task's own scope guard.
+
+**Implementation status (Task 016)**: `BreadcrumbList` implemented on both canonical case pages (`Munkáink → [case title]`, matching the real route hierarchy) — the only structured data added, per this note's own conservative recommendation. No `WebPage`/`Article` type was added (neither was judged necessary once real content existed; the visible `<title>`/meta description already carry that role, and adding a schema type not clearly load-bearing would be exactly the "force a type merely because schema.org contains one" anti-pattern this section warns against above). No `Organization`/`Person` entity data — confirmed by grepping the built output for the gated ERP vendor names and the CS02 screenshot's apparent customer/personal names, zero matches anywhere in either page's markup, including the JSON-LD block itself.
 
 ## AI search
 

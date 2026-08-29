@@ -1,5 +1,6 @@
 ---
 import Homepage from '../components/homepage/Homepage.astro';
+import { enEquivalentOf } from '../lib/routes';
 ---
 
-<Homepage locale="hu" />
+<Homepage locale="hu" alternateLocalePath={enEquivalentOf('/')} />

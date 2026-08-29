@@ -67,3 +67,18 @@ export function localePath(locale: Locale, path: string): string {
 export function homePath(locale: Locale): string {
 	return localePath(locale, '/');
 }
+
+/**
+ * Build `BaseLayout`'s `alternates` prop (Task 018) from the one value
+ * every page component already computes for its own language-switch link
+ * (`alternateLocalePath`) — the other locale's real path, or `undefined`
+ * when no equivalent page exists yet. Centralized so `hreflang` generation
+ * and the visible language switch always agree; a page can never show a
+ * working switch link while silently omitting (or mismatching) its own
+ * `hreflang` alternate.
+ */
+export function alternatesFor(locale: Locale, alternateLocalePath: string | undefined): Partial<Record<Locale, string>> {
+	if (!alternateLocalePath) return {};
+	const otherLocale: Locale = locale === 'hu' ? 'en' : 'hu';
+	return { [otherLocale]: alternateLocalePath };
+}

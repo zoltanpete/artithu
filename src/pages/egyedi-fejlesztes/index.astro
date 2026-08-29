@@ -1,5 +1,6 @@
 ---
 import CustomDevelopmentPage from '../../components/custom-development/CustomDevelopmentPage.astro';
+import { enEquivalentOf } from '../../lib/routes';
 ---
 
-<CustomDevelopmentPage locale="hu" />
+<CustomDevelopmentPage locale="hu" alternateLocalePath={enEquivalentOf('/egyedi-fejlesztes/')} />

@@ -1,5 +1,6 @@
 ---
 import MunkainkPage from '../../components/munkaink/MunkainkPage.astro';
+import { enEquivalentOf } from '../../lib/routes';
 ---
 
-<MunkainkPage locale="hu" />
+<MunkainkPage locale="hu" alternateLocalePath={enEquivalentOf('/munkaink/')} />

@@ -1,0 +1,314 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../../components/layout/Container.astro';
+import SiteHeader from '../../components/navigation/SiteHeader.astro';
+import ExperimentalBanner from '../../components/experimental/ExperimentalBanner.astro';
+import maintenanceScheduling from '../../assets/case-studies/case-01-maintenance-scheduling.png';
+import quotationManagement from '../../assets/case-studies/case-01-quotation-management.png';
+
+// Task 016 exploration — three case-study detail-page compositions, using
+// CS01's real, already-written content (src/content/case-studies/
+// uzemi-rendszer.md) and the real, anonymization-confirmed screenshot
+// assets — no placeholders, no lorem ipsum, per this task's own instruction
+// (§10) and the established art-direction workflow (Tasks 009A–013A). Each
+// concept renders Hero → "How it works in practice" (primary screenshot) →
+// "Concrete example" (second screenshot) → Longevity, since screenshot
+// framing and evidence-metadata treatment are this exploration's real
+// question — the remaining sections (starting situation, what this
+// demonstrates, CTA) reuse plain existing sitewide grammar regardless of
+// which concept wins, so they're not re-explored here.
+const eyebrow = 'Egyedi üzleti alkalmazás';
+const title = 'Egy üzemi rendszer, amely egy évtizede teszi a dolgát.';
+const heroStatement =
+	'Egy jól illeszkedő rendszer nem azért marad hasznos egy évtizeden át, mert újra és újra újraépítik — hanem mert eleve jól illeszkedett a működéshez.';
+const evidenceBadge = 'Használatban — kb. egy évtizede';
+const practiceHeadline = 'Karbantartás-ütemezés a napi működésben';
+const practiceBody =
+	'A bevezetés után elsősorban kisebb finomításokra volt szükség, nagyobb funkcionális újrafejlesztésre nem — a rendszer illeszkedett a működéshez, nem fordítva.';
+const exampleHeadline = 'Ajánlatkezelés — mielőtt és miután';
+const before = 'Korábban az ajánlatok követése nehézkes, áttekinthetetlen volt.';
+const after =
+	'Ma a kollégák egy közös rendszert használnak: az ügyfelekhez és cégekhez tartozó ajánlat- és értékesítési előzmények visszakereshetők, és nyomon követhető, mit ajánlottak, és hogyan alakult egy adott lehetőség.';
+const longevityHeadline = 'Egy évtizede — dokumentált nyomokkal';
+const longevityBody =
+	'A rendszer 2017-es használatát rendszeradatok igazolják, és azóta — a tulajdonos elmondása szerint — folyamatosan, körülbelül egy évtizede használatban van, más rendszer bevonása nélkül ezekre a funkciókra.';
+const maintenanceAlt =
+	'Képernyőkép egy ütemezési nézetről, amely gépcsaládonkénti és tevékenységenkénti karbantartási feladatokat listáz egy táblázatos kezelőfelületen.';
+const quotationAlt =
+	"Képernyőkép egy ajánlatkezelő nézetről, amely egy munkaszámhoz tartozó ajánlat részleteit és az ajánlatkérő adatait mutatja egy listás kezelőfelületen.";
+---
+
+<BaseLayout title="Task 016 — Case Study Concepts" description="Exploration prototype" noindex={true}>
+	<SiteHeader />
+	<ExperimentalBanner label="TASK 016 — CASE STUDY CONCEPTS A / B / C — KÍSÉRLETI NÉZET, NEM VÉGLEGES" />
+
+	<main>
+		<!-- Concept A — Evidence Dossier: dense, spec-sheet grammar. Reuses
+		     .panel-technical/.work-teaser's evidence-record vocabulary directly;
+		     screenshots sit inside bordered "exhibit" plates with a meta caption
+		     strip, closest in spirit to a technical appendix. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept A — Evidence Dossier</p>
+				<div class="dossier-hero">
+					<p class="eyebrow">{eyebrow}</p>
+					<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{title}</h1>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">{heroStatement}</p>
+					<span class="meta dossier-badge">{evidenceBadge}</span>
+				</div>
+
+				<div class="dossier-exhibit">
+					<span class="meta dossier-exhibit__index">EXHIBIT / 01 — HOW IT WORKS IN PRACTICE</span>
+					<h3 style="margin-block-start: var(--space-md);">{practiceHeadline}</h3>
+					<p style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{practiceBody}</p>
+					<figure class="dossier-frame">
+						<Image src={maintenanceScheduling} alt={maintenanceAlt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 800px, 100vw" />
+						<figcaption class="meta">Karbantartás-ütemezés a napi működésben.</figcaption>
+					</figure>
+				</div>
+
+				<div class="dossier-exhibit">
+					<span class="meta dossier-exhibit__index">EXHIBIT / 02 — CONCRETE EXAMPLE</span>
+					<h3 style="margin-block-start: var(--space-md);">{exampleHeadline}</h3>
+					<div class="dossier-before-after">
+						<p><span class="meta">ELŐTTE</span><br />{before}</p>
+						<p><span class="meta">UTÁNA</span><br />{after}</p>
+					</div>
+					<figure class="dossier-frame">
+						<Image src={quotationManagement} alt={quotationAlt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 800px, 100vw" />
+						<figcaption class="meta">Ajánlatkezelés — visszakereshető ajánlat- és értékesítési előzményekkel.</figcaption>
+					</figure>
+				</div>
+
+				<div class="dossier-exhibit panel-technical">
+					<span class="meta dossier-exhibit__index">EXHIBIT / 03 — LONGEVITY</span>
+					<h3 style="margin-block-start: var(--space-md);">{longevityHeadline}</h3>
+					<p style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{longevityBody}</p>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept B — Operational Narrative: editorial long-form. Screenshots
+		     run full-bleed within the reading column, minimal chrome, headline
+		     typography leads — closer to a magazine feature than a spec sheet.
+		     No meta/mono annotation at all in this concept, deliberately, to
+		     test the opposite end of the range from Concept A. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept B — Operational Narrative</p>
+				<div class="narrative">
+					<p class="eyebrow">{eyebrow}</p>
+					<h1 class="narrative__title">{title}</h1>
+					<p class="lead narrative__lead">{heroStatement}</p>
+
+					<h2 class="narrative__section-head">{practiceHeadline}</h2>
+					<p class="narrative__body">{practiceBody}</p>
+					<figure class="narrative-frame">
+						<Image src={maintenanceScheduling} alt={maintenanceAlt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 720px, 100vw" />
+					</figure>
+
+					<h2 class="narrative__section-head">{exampleHeadline}</h2>
+					<p class="narrative__body">{before} {after}</p>
+					<figure class="narrative-frame">
+						<Image src={quotationManagement} alt={quotationAlt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 720px, 100vw" />
+					</figure>
+
+					<h2 class="narrative__section-head">{longevityHeadline}</h2>
+					<p class="narrative__body">{longevityBody} <span class="narrative__badge">{evidenceBadge}</span></p>
+				</div>
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- Concept C — System Record: quiet ledger grammar. Two-column at
+		     desktop (narrow meta sidebar + content), screenshots plainly framed
+		     with a thin border only, no plate/background — the restrained
+		     middle ground between A's density and B's editorial openness. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p class="eyebrow">Concept C — System Record</p>
+				<div class="record">
+					<p class="eyebrow">{eyebrow}</p>
+					<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{title}</h1>
+					<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">{heroStatement}</p>
+					<span class="meta record__badge">{evidenceBadge}</span>
+
+					<div class="record__row">
+						<span class="meta record__label">01</span>
+						<div>
+							<h3>{practiceHeadline}</h3>
+							<p style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{practiceBody}</p>
+							<figure class="record-frame">
+								<Image src={maintenanceScheduling} alt={maintenanceAlt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 640px, 100vw" />
+							</figure>
+						</div>
+					</div>
+
+					<div class="record__row">
+						<span class="meta record__label">02</span>
+						<div>
+							<h3>{exampleHeadline}</h3>
+							<div class="dossier-before-after" style="margin-block-start: var(--space-sm);">
+								<p><span class="meta">ELŐTTE</span><br />{before}</p>
+								<p><span class="meta">UTÁNA</span><br />{after}</p>
+							</div>
+							<figure class="record-frame">
+								<Image src={quotationManagement} alt={quotationAlt} widths={[480, 800, 1200]} sizes="(min-width: 900px) 640px, 100vw" />
+							</figure>
+						</div>
+					</div>
+
+					<div class="record__row">
+						<span class="meta record__label">03</span>
+						<div>
+							<h3>{longevityHeadline}</h3>
+							<p style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">{longevityBody}</p>
+						</div>
+					</div>
+				</div>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>
+
+<style>
+	/* --- Concept A — Evidence Dossier ---------------------------------------*/
+	.dossier-hero {
+		padding-block-end: var(--space-lg);
+		border-block-end: 1px solid var(--color-border);
+		margin-block-end: var(--space-xl);
+	}
+
+	.dossier-badge {
+		display: inline-block;
+		margin-block-start: var(--space-md);
+		padding: 0.35em 0.75em;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+	}
+
+	.dossier-exhibit {
+		margin-block-end: var(--space-2xl);
+		padding: var(--space-lg);
+	}
+
+	.dossier-exhibit__index {
+		color: var(--color-accent);
+	}
+
+	.dossier-before-after {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-md);
+		margin-block-start: var(--space-md);
+		max-width: var(--content-reading);
+	}
+
+	@media (min-width: 700px) {
+		.dossier-before-after {
+			grid-template-columns: 1fr 1fr;
+		}
+	}
+
+	.dossier-frame {
+		margin: var(--space-lg) 0 0 0;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		background: var(--color-surface);
+		padding: var(--space-sm);
+		max-width: 800px;
+	}
+
+	.dossier-frame img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: calc(var(--radius-md) - 4px);
+	}
+
+	.dossier-frame figcaption {
+		margin-block-start: var(--space-sm);
+	}
+
+	/* --- Concept B — Operational Narrative ----------------------------------*/
+	.narrative {
+		max-width: var(--content-reading);
+	}
+
+	.narrative__title {
+		margin-block-start: var(--space-sm);
+		font-size: clamp(2.75rem, 2.2rem + 3vw, 6rem);
+	}
+
+	.narrative__lead {
+		margin-block-start: var(--space-lg);
+	}
+
+	.narrative__section-head {
+		margin-block-start: var(--space-2xl);
+	}
+
+	.narrative__body {
+		margin-block-start: var(--space-md);
+	}
+
+	.narrative__badge {
+		font-family: var(--font-mono);
+		font-size: var(--text-meta);
+		letter-spacing: var(--tracking-wide);
+		text-transform: uppercase;
+		color: var(--color-text-muted);
+	}
+
+	.narrative-frame {
+		margin: var(--space-lg) 0 0 0;
+	}
+
+	.narrative-frame img {
+		display: block;
+		width: 100%;
+		height: auto;
+		border-radius: var(--radius-md);
+	}
+
+	/* --- Concept C — System Record -------------------------------------------*/
+	.record__badge {
+		display: inline-block;
+		margin-block-start: var(--space-md);
+	}
+
+	.record__row {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: var(--space-sm);
+		margin-block-start: var(--space-2xl);
+		padding-block-start: var(--space-lg);
+		border-block-start: 1px solid var(--color-border);
+	}
+
+	@media (min-width: 900px) {
+		.record__row {
+			grid-template-columns: 3rem 1fr;
+		}
+	}
+
+	.record__label {
+		color: var(--color-accent);
+	}
+
+	.record-frame {
+		margin: var(--space-md) 0 0 0;
+		border: 1px solid var(--color-border);
+		max-width: 640px;
+	}
+
+	.record-frame img {
+		display: block;
+		width: 100%;
+		height: auto;
+	}
+</style>

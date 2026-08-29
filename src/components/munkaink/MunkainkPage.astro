@@ -4,7 +4,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
 import LivingSystemField from './LivingSystemField.astro';
-import { localize, localizeGated, localePath, type Locale } from '../../lib/i18n';
+import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
+import { translateHref } from '../../lib/routes';
 
 /**
  * Shared renderer for the /munkaink/ evidence hub (Task 010, Hero visual
@@ -34,7 +35,7 @@ const page = await getEntry('munkainkPage', 'munkaink');
 if (!page) throw new Error('Missing required "munkainkPage/munkaink" content entry');
 const c = page.data;
 
-const path = localePath(locale, '/munkaink/');
+const path = translateHref('/munkaink/', locale);
 ---
 
 <BaseLayout
@@ -42,10 +43,11 @@ const path = localePath(locale, '/munkaink/');
 	description={localizeGated(c.seo.description, locale) ?? ''}
 	path={path}
 	locale={locale}
+	alternates={alternatesFor(locale, alternateLocalePath)}
 >
 	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
 
-	<main>
+	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero. No CTA here — the page's rhetorical structure states the
 		     thesis, shows the evidence, then asks for the conversation at the
 		     end, not before. `LivingSystemField` (Task 010A) sits in the
@@ -98,20 +100,27 @@ const path = localePath(locale, '/munkaink/');
 		     `.work-teaser__list/__index/__title` evidence-record device
 		     directly (second real usage — see foundation.css). No connecting
 		     line between the two cases: explored and rejected, see the
-		     component header comment. Each case links to its related custom-
-		     development direction (the approved Case Study ↔ direction
-		     mapping — DOC/02), not to a case-study detail page, since none
-		     exists yet. -->
+		     component header comment. Each case's title now links to its own
+		     canonical detail page (Task 016); the related custom-development
+		     direction (the approved Case Study ↔ direction mapping — DOC/02)
+		     stays as the secondary link below it — DOC/03's two distinct
+		     cross-link directions, not a duplicate of the same link. -->
 		<section class="section">
 			<Container width="standard">
 				<ol class="work-teaser__list">
 					{c.cases.map((item) => (
 						<li class="work-teaser__item panel-technical" data-case={item.id}>
 							<span class="meta work-teaser__index">CASE / {String(item.order).padStart(2, '0')}</span>
-							<p class="work-teaser__title">
-								{localizeGated(item.title, locale)}
-							</p>
-							<a href={item.direction.href} class="meta work-teaser__direction">
+							{item.href ? (
+								<a href={translateHref(item.href, locale)} class="work-teaser__title work-teaser__title--link">
+									{localizeGated(item.title, locale)}
+								</a>
+							) : (
+								<p class="work-teaser__title">
+									{localizeGated(item.title, locale)}
+								</p>
+							)}
+							<a href={translateHref(item.direction.href, locale)} class="meta work-teaser__direction">
 								→ {localizeGated(item.direction.label, locale)}
 							</a>
 						</li>
@@ -131,7 +140,7 @@ const path = localePath(locale, '/munkaink/');
 				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
 					{localizeGated(c.finalCta.copy, locale)}
 				</p>
-				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+				<a href={translateHref(c.finalCta.cta.href, locale)} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
 					{localizeGated(c.finalCta.cta.label, locale)}
 				</a>
 			</Container>

@@ -4,7 +4,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
 import OperatingFitField from './OperatingFitField.astro';
-import { localize, localizeGated, localePath, type Locale } from '../../lib/i18n';
+import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
+import { translateHref } from '../../lib/routes';
 
 /**
  * Shared renderer for the Custom Development pillar page (`/egyedi-fejlesztes/`,
@@ -23,7 +24,7 @@ const page = await getEntry('customDevPage', 'egyedi-fejlesztes');
 if (!page) throw new Error('Missing required "customDevPage/egyedi-fejlesztes" content entry');
 const c = page.data;
 
-const path = localePath(locale, '/egyedi-fejlesztes/');
+const path = translateHref('/egyedi-fejlesztes/', locale);
 
 const visualNodes = c.hero.visual.nodes.map((n) => ({
 	id: n.id,
@@ -42,10 +43,11 @@ const visualNodes = c.hero.visual.nodes.map((n) => ({
 	description={localizeGated(c.seo.description, locale) ?? ''}
 	path={path}
 	locale={locale}
+	alternates={alternatesFor(locale, alternateLocalePath)}
 >
 	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
 
-	<main>
+	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero. No SystemMap, no decision-fork-style glyph: this page's
 		     "decision before development" argument is still typography-led,
 		     not a flow/branch diagram (Task 007D.1's locked rule — conceptual
@@ -69,7 +71,7 @@ const visualNodes = c.hero.visual.nodes.map((n) => ({
 						<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
 							{localizeGated(c.hero.lead, locale)}
 						</p>
-						<a href={c.hero.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+						<a href={translateHref(c.hero.cta.href, locale)} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
 							{localizeGated(c.hero.cta.label, locale)}
 						</a>
 					</div>
@@ -135,13 +137,17 @@ const visualNodes = c.hero.visual.nodes.map((n) => ({
 		<hr class="divider" />
 
 		<!-- 04 — Two directions. Reuses `.decision-paths` (originally homepage-
-		     only, now genuinely reused — see foundation.css). Each direction
-		     carries its own approved case-study working title as evidence
-		     (plain text, not a link, matching the homepage Work section's own
-		     case items); one shared link to /munkaink/ below, rather than a
-		     link per item. Neither child route exists yet — linked per this
-		     project's established "approved future routes may be linked"
-		     convention (see DOC/03). -->
+		     only, now genuinely reused — see foundation.css). Each direction's
+		     evidence block links to its case's canonical detail page (Task
+		     016). `dir.link` (Task 017 fix) now points at this same page's own
+		     `id={dir.id}` anchor rather than the still-unbuilt
+		     `/egyedi-fejlesztes/uzleti-alkalmazasok/`/`.../rendszerintegracio/`
+		     child routes — every other reference to those two paths sitewide
+		     (nav dropdown, homepage Decision section, `/munkaink/`'s direction
+		     links, both case pages' directionLink) was a genuine dead link,
+		     reachable from primary navigation on every page; see
+		     DOC/13-CONTENT-GAPS-AND-VALIDATION.md's "Task 017" note. One
+		     shared link to /munkaink/ below, rather than a link per item. -->
 		<section class="section">
 			<Container width="standard">
 				<h2 style="max-width: var(--content-reading);">
@@ -150,13 +156,13 @@ const visualNodes = c.hero.visual.nodes.map((n) => ({
 
 				<div class="decision-paths">
 					{c.directions.paths.map((dir) => (
-						<div class="decision-paths__path" data-direction={dir.id}>
+						<div class="decision-paths__path" id={dir.id} data-direction={dir.id}>
 							<h3>{localizeGated(dir.title, locale)}</h3>
 							<p style="margin-block-start: var(--space-sm);">
 								{localizeGated(dir.description, locale)}
 							</p>
 							<a
-								href={dir.link.href}
+								href={translateHref(dir.link.href, locale)}
 								class="link-standalone"
 								style="margin-block-start: var(--space-md);"
 							>
@@ -164,13 +170,19 @@ const visualNodes = c.hero.visual.nodes.map((n) => ({
 							</a>
 							<div class="decision-paths__evidence">
 								<span class="meta decision-paths__evidence-index">CASE / {String(dir.evidence.order).padStart(2, '0')}</span>
-								<p>{localizeGated(dir.evidence.title, locale)}</p>
+								{dir.evidence.href ? (
+									<a href={translateHref(dir.evidence.href, locale)} class="decision-paths__evidence-link">
+										{localizeGated(dir.evidence.title, locale)}
+									</a>
+								) : (
+									<p>{localizeGated(dir.evidence.title, locale)}</p>
+								)}
 							</div>
 						</div>
 					))}
 				</div>
 
-				<a href={c.directions.evidenceLink.href} class="link-standalone" style="margin-block-start: var(--space-xl);">
+				<a href={translateHref(c.directions.evidenceLink.href, locale)} class="link-standalone" style="margin-block-start: var(--space-xl);">
 					{localizeGated(c.directions.evidenceLink.label, locale)}
 				</a>
 			</Container>
@@ -205,7 +217,7 @@ const visualNodes = c.hero.visual.nodes.map((n) => ({
 				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
 					{localizeGated(c.finalCta.copy, locale)}
 				</p>
-				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+				<a href={translateHref(c.finalCta.cta.href, locale)} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
 					{localizeGated(c.finalCta.cta.label, locale)}
 				</a>
 			</Container>

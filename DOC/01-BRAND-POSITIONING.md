@@ -139,7 +139,7 @@ Proof inventory includes:
 - systems in operation for 20+ years;
 - a custom application that survived multiple surrounding ERP generations.
 
-All longevity and long-term-use claims in this inventory — including exact durations, the continuous-daily-use claim, and the ERP-survival claim — must be verified before publication. See `13-CONTENT-GAPS-AND-VALIDATION.md`.
+**Updated status (Task 015)**: this inventory is now substantially — not fully — verified. See `06-CASE-STUDY-ARCHITECTURE.md` for the full evidence matrix behind each bullet: the "~10+ years" claim maps to Case Study 01 (hard 2017 records + the owner's own decade estimate — a round/approximate framing is supported, an exact "pontosan 10 éve" is not); the "20+ years" and ERP-survival claims map to Case Study 02 (hard 2002/2003 records + confirmed multi-ERP integration evidence — the specific ERP count, names, and any "unchanged since 2002" framing remain unsupported). None of the three bullets should still be treated as fully ungated boilerplate, but none should be published as a precise, unqualified number either — use each case's own documented allowed/prohibited wording, not this summary list, as the actual publication reference.
 
 ### Own product
 

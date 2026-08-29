@@ -2,38 +2,39 @@
 # (Task 007), which itself implemented the approved copy recorded in
 # DOC/04-HOMEPAGE-CONTENT-ARCHITECTURE.md.
 #
-# Every `hu` value below is the existing approved Hungarian copy. `en` is
-# populated ONLY where DOC/09-TECHNICAL-ARCHITECTURE.md's "Localization"
-# section classifies the field as safely structural (System Map technical/
-# business vocabulary, accessibility descriptions of the diagram mechanism) —
-# never for marketing/positioning prose. Every other field's `en` is simply
-# absent: this is the gated state Task 007B's translation-completeness
-# policy requires (see src/lib/i18n.ts and src/content.config.ts's
-# `localizedGated` schema) — not a placeholder string, not an invented
-# translation, and not something a template should fall back to Hungarian
-# for. It is a real content-authoring gap awaiting an approved English
-# translation pass, tracked in DOC/13-CONTENT-GAPS-AND-VALIDATION.md.
+# `en` fields (Task 018): a full, natural-English adaptation, not a literal
+# translation — same evidence boundaries, same restraint, same hierarchy as
+# the Hungarian. See DOC/09-TECHNICAL-ARCHITECTURE.md "Localization" for the
+# schema policy this fulfils, and TASK/018-english-production-locale.md for
+# the terminology map and voice target this was written against.
 home:
   seo:
     title:
       hu: "ARTIT — Egyedi üzleti szoftverfejlesztés senior tapasztalattal"
+      en: "ARTIT — Custom business software development, senior-built"
     description:
       hu: "Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy egy kompromisszumos kész rendszerhez."
+      en: "We design and build custom web business applications for companies whose operations have outgrown Excel or a compromise-heavy off-the-shelf system."
 
   hero:
     eyebrow:
       hu: "Amikor a kész szoftver már nem elég."
+      en: "When off-the-shelf software isn't enough."
     title:
       hu: "A szoftver alkalmazkodjon a vállalkozásához. Ne fordítva."
+      en: "Software should adapt to your business. Not the other way around."
     lead:
       hu: "Egyedi webes üzleti alkalmazásokat tervezünk és fejlesztünk olyan vállalkozásoknak, amelyek működése már túl speciális az Excelhez vagy egy kompromisszumos kész rendszerhez."
+      en: "We design and build custom web business applications for companies whose operations have outgrown Excel or a compromise-heavy off-the-shelf system."
     primaryCta:
       label:
         hu: "Beszéljünk a projektről →"
+        en: "Talk about your project →"
       href: /kapcsolat/
     secondaryCta:
       label:
-        hu: "Munkáink megtekintése"
+        hu: "Munkáink megtekintése →"
+        en: "See our work →"
       href: /munkaink/
     systemMap:
       # Technical/business vocabulary labelling the diagram itself — not a
@@ -45,11 +46,12 @@ home:
         hu: "BEMENETEK → FOLYAMAT → KIMENETEK"
         en: "INPUTS → PROCESS → OUTPUTS"
       # The three-word stylistic signature line is brand voice, not a
-      # technical label — gated like other marketing copy, not translated
-      # here (translating a tagline is a copywriting decision, out of
-      # scope for Task 007B per its own brief).
+      # technical label — gated like other marketing copy through Task
+      # 007B; localized now (Task 018) with an equally restrained three-word
+      # EN line, not a literal word-for-word rendering.
       captionSub:
         hu: "TISZTA. KAPCSOLÓDÓ. ÁTLÁTHATÓ."
+        en: "CLEAR. CONNECTED. TRACEABLE."
       ariaLabel:
         hu: "Élő rendszertérkép: Excel, e-mail, külön rendszer, kézi adat, API és egyéb szétszórt üzleti bemenetek egy közös FOLYAMAT csomóponton keresztül két rendezett kimenetté, jóváhagyássá és számlázássá alakulnak, balról jobbra haladó folyamatként. Minden bemenet és mindkét kimenet a diagram alatti vezérlőkkel kiemelhető."
         en: "Live system map: Excel, email, a separate system, manual data, API and other scattered business inputs are transformed through one shared PROCESS node into two ordered outputs, approval and invoicing, flowing left to right. Every input and both outputs can be highlighted using the controls below the diagram."
@@ -102,140 +104,185 @@ home:
   problem:
     eyebrow:
       hu: "Ismerős helyzet?"
+      en: "Sound familiar?"
     headline:
       hu: "A legtöbb egyedi rendszer nem azzal kezdődik, hogy „egyedi szoftvert szeretnénk”."
+      en: "Most custom systems don't start with wanting custom software."
     signals:
       - id: excel-tracking
         quote:
           hu: "„Ezt Excelben vezetjük.”"
+          en: "“We run this in Excel.”"
       - id: manual-copy
         quote:
           hu: "„Innen kézzel átmásoljuk oda.”"
+          en: "“We copy it over by hand.”"
       - id: separate-system
         quote:
           hu: "„Erre van egy külön rendszerünk.”"
+          en: "“We have a separate system just for this.”"
       - id: tribal-knowledge
         quote:
           hu: "„Ezt csak egy ember tudja, hogyan működik.”"
+          en: "“Only one person actually knows how this works.”"
       - id: packaged-mismatch
         quote:
           hu: "„Megnéztünk több kész rendszert, de egyik sem kezeli jól a folyamatunkat.”"
+          en: "“We looked at several off-the-shelf systems, but none of them handle our process well.”"
       - id: disconnected-systems
         quote:
           hu: "„A rendszereink működnek, csak éppen nem kommunikálnak egymással.”"
+          en: "“Our systems work fine — they just don't talk to each other.”"
     closing:
       hu: "Ezek önmagukban még nem jelentik azt, hogy egyedi szoftverre van szükség. Azt viszont gyakran jelzik, hogy a vállalkozás működése és az azt támogató eszközök már nincsenek összhangban."
+      en: "None of these, on its own, means you need custom software. But together, they often mean your operations and the tools supporting them have drifted out of sync."
     link:
       label:
         hu: "Mikor érdemes egyedi fejlesztésben gondolkodni? →"
+        en: "When is custom development worth considering? →"
       href: /egyedi-fejlesztes/
 
   decision:
     headline:
       hu: "Nem minden problémára kell egyedi szoftver."
+      en: "Not every problem needs custom software."
     supporting:
       hu: "Amire viszont igen, arra pontosan illeszkedőt építünk."
+      en: "For the ones that do, we build something that fits exactly."
     paragraph:
       hu: "Ha a jelenlegi kész szoftver jól támogatja a működést, nincs értelme újraépíteni. Előbb azt érdemes megérteni, hogyan működik ma a vállalkozás — utána dönthető el, milyen szoftverre van ténylegesen szükség."
+      en: "If your current off-the-shelf software supports your operations well, there's no reason to rebuild it. The first step is understanding how the business actually runs today — only then can you decide what software is really needed."
     paths:
       - id: custom-applications
         title:
           hu: "Egyedi üzleti alkalmazások"
+          en: "Custom business applications"
         description:
           hu: "Ha a folyamat különleges, és a kész rendszerek kompromisszumra kényszerítik a működést."
+          en: "When your process is specific enough that off-the-shelf systems force your operations into compromise."
         link:
           label:
             hu: "Egyedi üzleti alkalmazások →"
-          href: /egyedi-fejlesztes/uzleti-alkalmazasok/
+            en: "Custom business applications →"
+          href: /egyedi-fejlesztes/#custom-applications
       - id: systems-integration
         title:
           hu: "Rendszerintegráció és automatizáció"
+          en: "Systems integration and automation"
         description:
           hu: "Ha a rendszerek külön-külön már megvannak, csak éppen nem kommunikálnak egymással."
+          en: "When the systems themselves already exist — they just don't talk to each other."
         link:
           label:
             hu: "Rendszerintegráció és automatizáció →"
-          href: /egyedi-fejlesztes/rendszerintegracio/
+            en: "Systems integration and automation →"
+          href: /egyedi-fejlesztes/#systems-integration
 
   work:
     eyebrow:
       hu: "Valódi rendszerek. Valódi működésben."
+      en: "Real systems. In real operation."
     headline:
       hu: "Olyan szoftvereket építünk, amelyek hosszú távon a vállalkozás működésének részévé válnak."
+      en: "We build software that becomes part of how a business runs — for the long term."
     cases:
       - id: case-01
         order: 1
         title:
-          hu: "Egy üzleti rendszer, amely együtt nőtt a vállalkozással."
+          hu: "Egy üzemi rendszer, amely egy évtizede teszi a dolgát."
+          en: "An operational system that has been doing its job for a decade."
+        href: /munkaink/uzemi-rendszer/
       - id: case-02
         order: 2
         title:
           hu: "A rendszer, amely több ERP-t is túlélt."
+          en: "The system that outlasted several ERP generations."
+        href: /munkaink/erp-integracio/
     cta:
       label:
         hu: "Munkáink megtekintése →"
+        en: "See our work →"
       href: /munkaink/
 
   longevity:
     headline:
       hu: "A hosszú táv nálunk nem marketingígéret."
+      en: "Longevity isn't a marketing promise here."
     statement:
       hu: "A technológia eszköz. A működő rendszer a cél."
+      en: "Technology is a tool. A working system is the goal."
 
   tardify:
     eyebrow:
       hu: "Saját termékünk"
+      en: "Our own product"
     headline:
       hu: "Nem csak ügyfeleinknek építünk szoftvert."
+      en: "We don't only build software for clients."
     lead:
       hu: "Amit ügyfeleinknek hosszú távú fejleszthetőségről mondunk, azt a saját termékünknél magunkon is számon kérjük."
+      en: "What we tell clients about long-term maintainability, we hold ourselves to on our own product too."
     links:
       - label:
           hu: "A Tardify története →"
+          en: "The Tardify story →"
         href: /tardify/
       - label:
           hu: "Tardify.hu →"
+          en: "Tardify.hu →"
         href: https://tardify.hu
 
   process:
     eyebrow:
       hu: "Nem a technológiával kezdjük."
+      en: "We don't start with the technology."
     headline:
       hu: "Először a működést értjük meg. A technológia utána jön."
+      en: "First we understand how it works. The technology comes after."
     steps:
       - id: understand
         order: 1
         label:
           hu: Megértjük
+          en: Understand
       - id: design
         order: 2
         label:
           hu: Megtervezzük
+          en: Design
       - id: build
         order: 3
         label:
           hu: Megépítjük
+          en: Build
       - id: evolve
         order: 4
         label:
           hu: Továbbfejlesztjük
+          en: Evolve
 
   seniorWho:
     eyebrow:
       hu: "Közvetlen együttműködés"
+      en: "Direct collaboration"
     headline:
       hu: "A problémán tapasztalt fejlesztő dolgozik az első beszélgetéstől az éles rendszerig."
+      en: "An experienced developer works on your problem from the first conversation to the live system."
     cta:
       label:
         hu: "Rólunk →"
+        en: "About →"
       href: /rolunk/
 
   finalCta:
     headline:
       hu: "Van egy folyamat, amit ideje lenne jobban megoldani?"
+      en: "Is there a process that's overdue for a better solution?"
     copy:
       hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+      en: "You don't need to arrive with a finished specification. It's enough to describe how things work now, what's causing the problem, and what you'd like to do better."
     cta:
       label:
         hu: "Beszéljünk róla →"
+        en: "Let's talk about it →"
       href: /kapcsolat/

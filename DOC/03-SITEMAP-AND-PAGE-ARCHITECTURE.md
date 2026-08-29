@@ -189,6 +189,20 @@ Implementation status    Complete. Task 010A added the Hero brand-face visual (`
                         equivalent — same translation-completeness gate as `/` and `/egyedi-fejlesztes/`.
 ```
 
+### Case-study canonical route architecture — implemented (Task 016, recommended Task 015)
+
+See `06-CASE-STUDY-ARCHITECTURE.md` for the underlying evidence.
+
+**Canonical detail pages**: `/munkaink/[case-study]/`, confirming — not inventing — `02-INFORMATION-ARCHITECTURE.md`'s existing site-tree entry for this exact shape. This is where the full evidence-led narrative (both cases' proposed content architecture, `06-CASE-STUDY-ARCHITECTURE.md`) lives. Final slugs, decided alongside each case's approved title as recommended below: `/munkaink/uzemi-rendszer/` (CS01, from "…egy **üzemi rendszer**…") and `/munkaink/erp-integracio/` (CS02, evoking the ERP-continuity story without naming a vendor or an exact count) — both descriptive Hungarian words, matching every other route on this site, neither leaking the internal `case-01`/`case-02` ids into the URL. Implemented as two static routes (`src/pages/munkaink/uzemi-rendszer/index.astro`, `.../erp-integracio/index.astro`), each a thin wrapper around its own dedicated component (`CaseStudy01Page.astro`/`CaseStudy02Page.astro`) — not a dynamic `src/pages/munkaink/[slug].astro` template, since the two cases' real section sets genuinely differ (see `06-CASE-STUDY-ARCHITECTURE.md`'s "Proposed content architecture"); forcing both through one loop-driven template would have meant padding CS01 or flattening CS02's real integration story.
+
+**Supporting service routes**: `/egyedi-fejlesztes/uzleti-alkalmazasok/` (CS01) and `/egyedi-fejlesztes/rendszerintegracio/` (CS02) — already the documented "Primary proof" mapping in `02-INFORMATION-ARCHITECTURE.md`. Neither child route is built yet (only the `/egyedi-fejlesztes/` pillar page itself exists); `directions.paths[].evidence` there still carries only a short working title and order index, not a duplicated case narrative — now additionally a link to the canonical case page (`evidence.href`, Task 016). This pattern is confirmed sound and should continue once the child pages themselves are built — embed a short excerpt/pointer to the relevant case, cross-link to the canonical `/munkaink/[case-study]/` page for the full story, never re-tell it in full on the service page.
+
+**Cross-link direction — implemented (Task 016)**: canonical case page → its supporting service route (which "direction" does this case belong to) and → `/munkaink/` (the hub); service route (currently the `/egyedi-fejlesztes/` pillar page's own evidence block, pending the two child pages themselves) and `/munkaink/`'s own case list and the homepage's own Work section → canonical case page (its proof). All three content shapes (`home.work.cases[]`, `munkainkPage.cases[]`, `customDevPage.directions.paths[].evidence`) gained an optional `href` field carrying this link without breaking the case where a future case has no detail page yet.
+
+**Breadcrumbs — implemented (Task 016)**: `<nav aria-label="Breadcrumb">` on both canonical case pages, following the route hierarchy (`/munkaink/` → case) as recommended, paired with a matching `BreadcrumbList` JSON-LD block — see "Structured-data recommendation" in `10-SEO-EEAT-STRUCTURED-DATA.md`. Not added anywhere else on the site; no other route is nested deep enough to need one yet.
+
+**Avoid** (Task 015 §17's own explicit list, reaffirmed, honored in the Task 016 implementation): duplicate case content between the canonical page and either service route; competing canonical pages (only `/munkaink/[case-study]/` is canonical); service pages that quietly become full case studies; case pages that regress into generic service landing pages.
+
 ## `/tardify/`
 
 Structure:
@@ -393,6 +407,39 @@ Implementation status    All nine sections complete (Task 007). Hero's numeric "
 ```
 
 Production header/navigation (`src/components/navigation/SiteHeader.astro`) implemented alongside the homepage (Task 005A) — see `09-TECHNICAL-ARCHITECTURE.md`. Task 007 fixed a real pre-existing bug in it: the mobile-menu `<ul>` had an unconditional `display: flex` that defeated the browser's native content-hiding for a closed `<details>`, causing ~6px of horizontal overflow at 768px even while visually collapsed — see `11-ACCESSIBILITY-AND-PERFORMANCE.md` for the fix and verification. No footer: no footer content (legal/contact/social) is defined anywhere in `DOC/`, and inventing it is explicitly disallowed — the page ends after Section 09.
+
+## Task 014 — Site-wide cohesion & journey audit
+
+A route/navigation-level summary; see `07-DESIGN-SYSTEM.md`'s "Task 014 — Site-wide cohesion audit" for the full visual-cohesion findings and `11-ACCESSIBILITY-AND-PERFORMANCE.md` for the accessibility/responsive sweep results.
+
+**Cross-link graph, audited live** (not from source inspection alone): every one of the six primary routes is reachable from the header nav on every page. `/kapcsolat/` is a genuine internal-content dead end (its only in-body link is the external Formspree privacy policy) — confirmed intentional: it's the funnel's terminal page, and header-level reachability already covers it (Bucket C, protected). `/munkaink/`'s two case entries link only to their specific custom-development direction, not to `/egyedi-fejlesztes/` or `/rolunk/` themselves — the already-documented Case Study ↔ direction mapping (DOC/02), not an omission (Bucket C). The two custom-development child routes (`/egyedi-fejlesztes/uzleti-alkalmazasok/`, `/egyedi-fejlesztes/rendszerintegracio/`) still 404 when linked from `/`, `/egyedi-fejlesztes/`, and `/munkaink/` — re-confirmed still the existing, documented "approved future routes may be linked" convention (Task 005A/009), not a new defect (Bucket C).
+
+**Fix (Bucket A) — homepage secondary CTA arrow**: `hero.secondaryCta.label` ("Munkáink megtekintése") was missing the trailing "→" every other `.link-standalone`-styled label on the site carries (confirmed via a site-wide grep of all 38 `.link-standalone` usages) — a typo-class inconsistency, not a content decision. Fixed to "Munkáink megtekintése →" in `src/content/pages/home/content.yaml`.
+
+**Fix (Bucket A) — `/404` had no site navigation**: `src/pages/404.astro` rendered no `SiteHeader` and no `Container`/`.section` wrapper at all — the one route on the site a visitor can land on unintentionally (broken/mistyped link) offered exactly one way back in ("Vissza a kezdőlapra") instead of full navigation, and its content sat flush against the top divider instead of the standard section spacing every other page uses. Both added, matching the established structural pattern exactly — no new copy, no art-direction decision. Re-verified: zero overflow at 390–1920px, `<header>` count now 1 (confirmed against the built `dist/404.html`, not the dev server, which — per the established caveat in `11-ACCESSIBILITY-AND-PERFORMANCE.md` — inflates element counts via Astro's own dev-toolbar injection).
+
+**Bucket B (recommended, not implemented) — `/tardify/`'s Final CTA duplicates the homepage's verbatim**: for a visitor whose session includes both `/` and `/tardify/` (a plausible path via the homepage's "A Tardify története →" link), seeing the identical Final CTA headline and label twice reads as redundant repetition, not reinforcement — unlike `/egyedi-fejlesztes/`, `/munkaink/`, and `/rolunk/`, which each already have their own distinct Final CTA headline over the same sitewide friction-reducing body copy. Recommend a future task write `/tardify/`'s own Final CTA headline (content decision, needs owner approval per this project's own discipline for even short headline sentences); scope small, risk low once approved.
+
+**Bucket B (recommended, not implemented) — no current-page indication in `SiteHeader`**: confirmed no `aria-current`/active-state treatment exists anywhere in the nav. Not implemented, since the task's own brief explicitly withholds this unless it's a demonstrated real usability problem, and no such evidence was found this audit — noted for owner consideration; an `aria-current="page"`-only addition (no visual change) would be the lowest-risk variant if pursued later.
+
+## Task 018 — Bilingual route map (HU ↔ EN)
+
+`/en/*` is now live — 8 real, indexable production routes, one per real HU production page. English slugs are natural English words, not the Hungarian slug reused verbatim behind an `/en/` prefix (decided per-route alongside each page's final EN title, the same discipline `06-CASE-STUDY-ARCHITECTURE.md` already applied to the HU case-study slugs in Task 016) — see `09-TECHNICAL-ARCHITECTURE.md`'s Task 018 section for why this needed a dedicated route-mapping module (`src/lib/routes.ts`) rather than Astro's native locale-prefix helper alone.
+
+| HU route | EN route |
+|---|---|
+| `/` | `/en/` |
+| `/egyedi-fejlesztes/` | `/en/custom-development/` |
+| `/munkaink/` | `/en/work/` |
+| `/munkaink/uzemi-rendszer/` | `/en/work/operational-system/` |
+| `/munkaink/erp-integracio/` | `/en/work/erp-integration/` |
+| `/tardify/` | `/en/tardify/` (proper noun, same in both locales) |
+| `/rolunk/` | `/en/about/` |
+| `/kapcsolat/` | `/en/contact/` |
+
+`/egyedi-fejlesztes/uzleti-alkalmazasok/` and `/egyedi-fejlesztes/rendszerintegracio/` — still unbuilt (see the "Task 014" cross-link-graph note above and `14-LAUNCH-READINESS.md`'s "A2") — have no EN counterpart either, for the identical reason: nothing to translate until the HU route itself exists. `/art-direction/*` and `/design-foundation` are explicitly not translated (Task 018 §31) and stay HU-only exploration fixtures, unlinked from any production page in either locale.
+
+**Language switch**: every one of the 8 pairs above links to its *exact* counterpart (verified via Playwright click-through on a sample, and via a full-build grep confirming no EN page ever links back to an untranslated HU-canonical path except the intentional language-switch link itself) — never a fallback to the locale homepage. See `09-TECHNICAL-ARCHITECTURE.md` for the `alternates`/`hreflang` implementation this shares its data with.
 
 ## SEO and structured data
 

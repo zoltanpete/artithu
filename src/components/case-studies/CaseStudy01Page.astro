@@ -1,0 +1,219 @@
+---
+import { getEntry } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Container from '../layout/Container.astro';
+import SiteHeader from '../navigation/SiteHeader.astro';
+import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
+import { translateHref } from '../../lib/routes';
+
+/**
+ * Case Study 01 canonical detail page — `/munkaink/uzemi-rendszer/` (Task
+ * 016). A dedicated component, not a generic `[slug].astro` template shared
+ * with CS02: the two cases genuinely sequence different evidence (see
+ * DOC/06-CASE-STUDY-ARCHITECTURE.md's "Proposed content architecture" — CS01
+ * omits "why not enough"/"integrations" as too thin for this case's real
+ * evidence, CS02 gives integrations real weight), so forcing both through
+ * one loop-driven template would mean either padding CS01 with filler
+ * sections or hiding CS02's real integration story behind an
+ * over-generalized shape. Same reasoning already applied to the six
+ * page-type collections (see `content.config.ts`'s comment on
+ * `customDevPage`). Visual grammar ("System Record") is shared with CS02 via
+ * `foundation.css`'s `.case-*` classes — only the section content differs.
+ */
+interface Props {
+	locale: Locale;
+	alternateLocalePath?: string;
+}
+
+const { locale, alternateLocalePath } = Astro.props;
+
+const entry = await getEntry('case-studies', 'uzemi-rendszer');
+if (!entry) throw new Error('Missing required "case-studies/uzemi-rendszer" content entry');
+const c = entry.data;
+
+const shot = (id: string) => c.screenshots.find((s) => s.id === id);
+const practiceShot = c.sections.practice?.screenshotId ? shot(c.sections.practice.screenshotId) : undefined;
+const exampleShot = c.sections.concreteExample?.screenshotId ? shot(c.sections.concreteExample.screenshotId) : undefined;
+
+const path = translateHref(`/munkaink/${c.slug}/`, locale);
+const munkainkPath = translateHref('/munkaink/', locale);
+const munkainkLabel = locale === 'hu' ? 'Munkáink' : 'Work';
+const beforeLabel = locale === 'hu' ? 'ELŐTTE' : 'BEFORE';
+const afterLabel = locale === 'hu' ? 'UTÁNA' : 'AFTER';
+
+const breadcrumbJsonLd = {
+	'@context': 'https://schema.org',
+	'@type': 'BreadcrumbList',
+	itemListElement: [
+		{ '@type': 'ListItem', position: 1, name: munkainkLabel, item: munkainkPath },
+		{ '@type': 'ListItem', position: 2, name: localizeGated(c.title, locale) ?? '' },
+	],
+};
+---
+
+<BaseLayout
+	title={localizeGated(c.seo.title, locale) ?? ''}
+	description={localizeGated(c.seo.description, locale) ?? ''}
+	path={path}
+	locale={locale}
+	alternates={alternatesFor(locale, alternateLocalePath)}
+>
+	<script type="application/ld+json" is:inline set:html={JSON.stringify(breadcrumbJsonLd)} />
+	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
+
+	<main id="main-content" tabindex="-1">
+		<!-- 01 — Breadcrumb + Hero. States the fit thesis directly (DOC/06's
+		     own instruction), not a "meet our client" opener. The evidence
+		     badge is a restrained verified-duration label (DOC/12's "Legacy
+		     screenshots" rule), not a decorative status pill. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<nav aria-label="Breadcrumb">
+					<p class="meta case-breadcrumb">
+						<a href={munkainkPath} class="meta">{munkainkLabel}</a>
+						<span class="case-breadcrumb__sep" aria-hidden="true">/</span>
+						<span>{localizeGated(c.title, locale)}</span>
+					</p>
+				</nav>
+				<p class="eyebrow" style="margin-block-start: var(--space-lg);">
+					{localizeGated(c.sections.hero.eyebrow ?? { hu: '' }, locale)}
+				</p>
+				<h1 style="margin-block-start: var(--space-sm); max-width: var(--content-wide);">
+					{localizeGated(c.title, locale)}
+				</h1>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.sections.hero.statement, locale)}
+				</p>
+				{c.evidenceBadge && <span class="meta case-hero__badge">{localizeGated(c.evidenceBadge, locale)}</span>}
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 02 — Starting situation (folds in the described operational
+		     coverage — DOC/06 asks for this as processes, not a feature list). -->
+		{c.sections.startingSituation && (
+			<section class="section">
+				<Container width="standard">
+					<h2 style="max-width: var(--content-reading);">{localizeGated(c.sections.startingSituation.headline, locale)}</h2>
+					<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+						{localizeGated(c.sections.startingSituation.body, locale)}
+					</p>
+				</Container>
+			</section>
+		)}
+
+		<hr class="divider" />
+
+		<!-- 03 — Evidence record: how it works in practice, concrete example. -->
+		<section class="section section--major">
+			<Container width="standard">
+				{c.sections.practice && (
+					<div class="case-record__row" style="border-block-start: none; padding-block-start: 0;">
+						<span class="meta case-record__label">01</span>
+						<div>
+							<h3>{localizeGated(c.sections.practice.headline, locale)}</h3>
+							<p style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+								{localizeGated(c.sections.practice.body, locale)}
+							</p>
+							{practiceShot && (
+								<figure class="case-frame">
+									<Image
+										src={practiceShot.image}
+										alt={localize(practiceShot.alt, locale)}
+										widths={[480, 800, 1200]}
+										sizes="(min-width: 900px) 720px, 100vw"
+									/>
+									{practiceShot.caption && (
+										<figcaption class="meta" style="margin-block-start: var(--space-sm);">
+											{localizeGated(practiceShot.caption, locale)}
+										</figcaption>
+									)}
+								</figure>
+							)}
+						</div>
+					</div>
+				)}
+
+				{c.sections.concreteExample && (
+					<div class="case-record__row">
+						<span class="meta case-record__label">02</span>
+						<div>
+							<h3>{localizeGated(c.sections.concreteExample.headline, locale)}</h3>
+							<div class="case-before-after">
+								<p><span class="meta">{beforeLabel}</span><br />{localizeGated(c.sections.concreteExample.before, locale)}</p>
+								<p><span class="meta">{afterLabel}</span><br />{localizeGated(c.sections.concreteExample.after, locale)}</p>
+							</div>
+							{exampleShot && (
+								<figure class="case-frame">
+									<Image
+										src={exampleShot.image}
+										alt={localize(exampleShot.alt, locale)}
+										widths={[480, 800, 1200]}
+										sizes="(min-width: 900px) 720px, 100vw"
+									/>
+									{exampleShot.caption && (
+										<figcaption class="meta" style="margin-block-start: var(--space-sm);">
+											{localizeGated(exampleShot.caption, locale)}
+										</figcaption>
+									)}
+								</figure>
+							)}
+						</div>
+					</div>
+				)}
+
+				{c.sections.longTerm && (
+					<div class="case-record__row">
+						<span class="meta case-record__label">03</span>
+						<div>
+							<h3>{localizeGated(c.sections.longTerm.headline, locale)}</h3>
+							<p style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
+								{localizeGated(c.sections.longTerm.body, locale)}
+							</p>
+						</div>
+					</div>
+				)}
+			</Container>
+		</section>
+
+		<hr class="divider" />
+
+		<!-- 04 — What this demonstrates. Tonal band: the same quiet-resolution
+		     surface role Decision/Munkáink's "principle" carry elsewhere. Ties
+		     to /rolunk/'s "operation before technology" principle without
+		     repeating its copy (DOC/06's own instruction). -->
+		{c.sections.learned && (
+			<section class="section section--major surface--tonal">
+				<Container width="standard">
+					<h2 style="max-width: var(--content-reading);">{localizeGated(c.sections.learned.headline, locale)}</h2>
+					<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
+						{localizeGated(c.sections.learned.body, locale)}
+					</p>
+				</Container>
+			</section>
+		)}
+
+		<hr class="divider" />
+
+		<!-- 05 — Cross-links (DOC/03's "cross-link direction": canonical page →
+		     supporting service route → hub) + final CTA. -->
+		<section class="section section--major">
+			<Container width="standard">
+				<p>
+					<a href={translateHref(c.directionLink.href, locale)} class="link-standalone">{localizeGated(c.directionLink.label, locale)}</a>
+				</p>
+				<h2 style="max-width: var(--content-reading); margin-block-start: var(--space-xl);">
+					{localizeGated(c.finalCta.headline, locale)}
+				</h2>
+				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
+					{localizeGated(c.finalCta.copy, locale)}
+				</p>
+				<a href={translateHref(c.finalCta.cta.href, locale)} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+					{localizeGated(c.finalCta.cta.label, locale)}
+				</a>
+			</Container>
+		</section>
+	</main>
+</BaseLayout>

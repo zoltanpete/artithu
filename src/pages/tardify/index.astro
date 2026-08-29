@@ -1,5 +1,6 @@
 ---
 import TardifyPage from '../../components/tardify/TardifyPage.astro';
+import { enEquivalentOf } from '../../lib/routes';
 ---
 
-<TardifyPage locale="hu" />
+<TardifyPage locale="hu" alternateLocalePath={enEquivalentOf('/tardify/')} />

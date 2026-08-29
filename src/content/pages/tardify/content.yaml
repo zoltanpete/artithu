@@ -6,29 +6,35 @@
 # duration claim about Tardify appears anywhere below — only DOC/01-
 # BRAND-POSITIONING.md's already-approved differentiator language and
 # already-published homepage copy, reused for the identical underlying
-# facts. `en` is absent everywhere (gated), same policy as every other page.
+# facts.
+#
+# `en` fields (Task 018): natural-English adaptation, no origin/lineage
+# claim added or implied — same gate as the Hungarian.
 tardify:
   seo:
     title:
       hu: "ARTIT — Tardify"
+      en: "ARTIT — Tardify"
     description:
       hu: "Amit ügyfeleinknek hosszú távú fejleszthetőségről mondunk, azt a saját termékünknél magunkon is számon kérjük."
+      en: "What we tell clients about long-term maintainability, we hold ourselves to on our own product too."
 
   hero:
     eyebrow:
       hu: "Saját termékünk"
+      en: "Our own product"
     title:
       hu: "Nem csak ügyfeleinknek építünk szoftvert."
+      en: "We don't only build software for clients."
     lead:
       hu: "Amit ügyfeleinknek hosszú távú fejleszthetőségről mondunk, azt a saját termékünknél magunkon is számon kérjük."
+      en: "What we tell clients about long-term maintainability, we hold ourselves to on our own product too."
     cta:
       label:
         hu: "Tardify.hu →"
+        en: "Tardify.hu →"
       href: https://tardify.hu
     visual:
-      # Task 011A — TardifySpecimen accessible description. Describes what
-      # the plate depicts (an engineered, owned product artifact), not a
-      # product claim — no metric, date, version, or feature is described.
       ariaLabel:
         hu: "Sematikus ábra: a Tardify mint önálló, felépített és karbantartott szoftvertermék, technikai specifikációs lap formájában megjelenítve."
         en: "Schematic illustration: Tardify shown as a standalone, engineered and maintained software product, in the form of a technical specification plate."
@@ -36,31 +42,41 @@ tardify:
   ownProduct:
     headline:
       hu: "Ha azt állítjuk, hogy a szoftvernek hosszú távon fejleszthetőnek kell maradnia, ennek a saját termékünkön is meg kell mutatkoznia."
+      en: "If we tell clients software needs to stay maintainable and extensible over the long term, that has to show in our own product too."
     body:
       hu: "A Tardify fejlesztése, karbantartása és továbbfejlesztése ugyanazt a szakmai tapasztalatot építi, amit ügyfeleink egyedi rendszereinél is alkalmazunk: termékfejlesztés, felhasználói élmény, hosszú távú karbantarthatóság és valós felhasználói visszajelzések alapján történő fejlesztés."
+      en: "Developing, maintaining, and extending Tardify draws on the same professional experience we apply to our clients' custom systems: product development, user experience, long-term maintainability, and development driven by real user feedback."
 
   sameStandard:
     headline:
       hu: "Ugyanaz a mérce vonatkozik a sajátunkra is."
+      en: "The same standard applies to our own work."
     body:
       hu: "A Tardify nem bemutató céljából készült szoftver, hanem valós, napi használatra épített rendszer — ugyanazokkal az elvekkel tervezve és fejlesztve, amelyeket ügyfeleink egyedi rendszereinél is követünk."
+      en: "Tardify wasn't built as a demo — it's a real system, built for daily use, designed and developed with the same principles we follow for our clients' custom systems."
 
   relationship:
     headline:
       hu: "A Tardify és az egyedi fejlesztés más-más kérdésre válaszol."
+      en: "Tardify and custom development answer different questions."
     body:
       hu: "A Tardify egy saját termék, amelynek fejlődése az ARTIT saját döntésein múlik. Az egyedi fejlesztés egy adott vállalkozás konkrét működésére épül. A kettő nem helyettesíti egymást — mindkettő ugyanazt a szemléletet képviseli, csak más keretek között."
+      en: "Tardify is our own product, and its direction is ARTIT's own decision to make. Custom development is built around one specific business's actual operations. Neither replaces the other — both express the same approach, just within different frameworks."
     link:
       label:
         hu: "Egyedi fejlesztés →"
+        en: "Custom development →"
       href: /egyedi-fejlesztes/
 
   finalCta:
     headline:
       hu: "Van egy folyamat, amit ideje lenne jobban megoldani?"
+      en: "Is there a process that's overdue for a better solution?"
     copy:
       hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+      en: "You don't need to arrive with a finished specification. It's enough to describe how things work now, what's causing the problem, and what you'd like to do better."
     cta:
       label:
         hu: "Beszéljünk róla →"
+        en: "Let's talk about it →"
       href: /kapcsolat/

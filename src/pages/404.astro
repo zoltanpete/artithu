@@ -1,15 +1,31 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/navigation/SiteHeader.astro';
+import Container from '../components/layout/Container.astro';
 ---
 
+<!--
+	Task 014 site-wide audit: previously had no SiteHeader and no
+	Container/section wrapper at all, so a visitor landing here from a
+	broken/mistyped link had exactly one way back into the site ("Vissza a
+	kezdőlapra") and content sitting flush against the top divider —
+	every other page already renders SiteHeader inside the standard
+	`.section`/`Container` structure. Small, structural, zero-content-risk
+	fix; matches the established pattern exactly, no new copy.
+-->
 <BaseLayout
 	title="404 — Oldal nem található"
 	description="A keresett oldal nem található."
 	noindex={true}
 >
-	<main>
-		<h1>404</h1>
-		<p>A keresett oldal nem található.</p>
-		<p><a href="/">Vissza a kezdőlapra</a></p>
+	<SiteHeader locale="hu" />
+	<main id="main-content" tabindex="-1">
+		<section class="section section--major">
+			<Container width="standard">
+				<h1>404</h1>
+				<p style="margin-block-start: var(--space-md);">A keresett oldal nem található.</p>
+				<p style="margin-block-start: var(--space-md);"><a href="/" class="link-standalone">Vissza a kezdőlapra →</a></p>
+			</Container>
+		</section>
 	</main>
 </BaseLayout>

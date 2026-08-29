@@ -620,6 +620,42 @@ Task 013's Hero was approved outright — locked, not reopened. Owner review fou
 
 **Section count**: reduced from Task 013's five sections to four (Hero, "what you don't need yet," Conversation Workspace, quiet close) — Task 013A's own brief explicitly permitted this, and the standalone prompt section had no remaining job once its content moved into the workspace.
 
+## Task 014 — Site-wide cohesion audit
+
+Tasks 004–013A built and repeatedly polished six individually-approved pages. Task 014 is the first task to inspect them as one connected system — walking the five defined visitor journeys, comparing all six Heroes side by side, and reviewing full-page rhythm — rather than one page at a time. Audit-first: page-level art direction was treated as frozen baseline (Part 0 of the task) and reopened only where the audit found a concrete, evidenced cross-page problem, never for taste alone.
+
+### Hero rhythm — compared at 1440px and 390px
+
+All six Heroes share the same top spacing below the header, the same eyebrow/H1/lead typographic scale, and the same general composition grammar (copy column, optional visual counterweight) — they read as one family. Real, deliberate variation, confirmed healthy and protected (Bucket C):
+
+- **Hero CTA presence**: `/`, `/egyedi-fejlesztes/`, and `/tardify/` have one; `/munkaink/`, `/rolunk/`, and `/kapcsolat/` don't. Not inconsistency — a coherent rule already documented per-page: pages that are entry points to a broader argument (or, for Tardify, point outward to `tardify.hu`) get a Hero CTA; pages that build toward one clear action further down the page withhold it so the Hero doesn't compete with that action.
+- **Brand-face "loudness" gradient**: `SystemMap` (richest — 6 inputs, a core, 2 outputs, a legend) down through `OperatingFitField`, `TardifySpecimen`, the deliberately quiet `LivingSystemField`, to `/rolunk/` and `/kapcsolat/` carrying no diagram at all. Each point on this gradient has its own independently-explored, independently-documented rationale (see each page's own "brand-face"/"art direction" section above) — none reads as the page that "ran out of budget." The flagship homepage is allowed to be the richest; that is not the same as the others feeling cheap.
+- **Hero vertical height**: the homepage's is tallest (extra secondary CTA row, the largest diagram plus its legend) — expected variance for the flagship, not accidental drift.
+
+No accidental weakness was found in the Hero family. Nothing here was changed.
+
+### Full-page rhythm
+
+Full-page screenshots of all six routes were reviewed at desktop. The homepage genuinely varies its surface treatment (light → light → tonal → light → a real **dark** band for Longevity → light ×3 → tonal) — true editorial variety, matching its role as the richest page. All five secondary pages instead rely on a single, strict light/tonal-band alternation for their entire section rhythm, with no dark band or second surface treatment anywhere.
+
+Evaluated deliberately rather than assumed monotonous: this alternation is not accidental homogeneity, it is a specific, repeatedly-documented device — every tonal band on every secondary page was built citing the *same* stated role ("the same quiet-resolution surface role Decision/'when not justified' carries elsewhere"), which is exactly the kind of sitewide-recognizable grammar this document's own principle asks for. Each secondary page is also short (4–6 sections), well short of the length where strict alternation would start to read as mechanical. **Classified as Bucket C — protected**, not flagged for change. If a future page grows substantially longer than the current five, this conclusion should be re-checked rather than assumed to still hold.
+
+### Brand-face family — reviewed together
+
+`SystemMap`, `OperatingFitField`, `LivingSystemField`, `TardifySpecimen`, `/rolunk/`'s editorial H1 regrid, and `/kapcsolat/`'s Conversation Field/Workspace grammar were reviewed side by side. Confirmed: recognizable shared vocabulary (mono labels, the accent-as-structure rule, thin construction rules, corner/margin registration marks) applied to six genuinely different semantic jobs; no accidental chart/timeline/fake-UI/org-chart reading anywhere (each was explicitly rejection-tested against exactly these patterns during its own exploration); consistent restraint; no one page louder or cheaper than its role justifies. **No shared `BrandFace` abstraction was created** — six real implementations is real repetition of the *pattern* (a page-specific static device with a narrow API), not of any *structure* worth abstracting, the same conclusion each individual task already reached independently; a shared component would still have to be either an empty shell or a configuration surface flexible enough to describe six unrelated devices, the "generic diagram schema" this project has rejected since `SystemMap`'s own Task 006 history.
+
+### Typography / micro-layout
+
+Reviewed H1/H2 hierarchy, paragraph measure, mono-label sizes, eyebrow tracking, standalone-link and button sizing, and rule strength across all six pages: consistent, token-driven throughout — no accidental one-off pixel values found that should have used an existing token. The one real inconsistency found was content, not typography: see "CTA-language findings" below.
+
+### CTA-language / cross-link findings
+
+See `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`'s "Task 014 — Site-wide cohesion & journey audit" section for the full cross-link graph, the arrow-consistency fix (homepage secondary CTA), the `/404` navigability fix, and the two Bucket B recommendations (Tardify's duplicated Final CTA; no current-page nav indication).
+
+### Journeys walked
+
+All five defined visitor journeys (custom-development prospect, proof-seeking, trust/working-model, Tardify/owned-product, ready-to-talk) were walked in a real browser via the actual rendered cross-link graph, not assumed from documentation. Findings: the homepage makes the next step obvious via both the SystemMap-adjacent CTA and the Decision-section fork; `/egyedi-fejlesztes/` deepens rather than repeats the homepage (confirmed — its justification-signals/decision-paths content is genuinely new, not a restatement); `/munkaink/` and `/rolunk/` have distinct, non-overlapping jobs (client evidence vs. working-model trust) with no case-entry cross-contamination; `/tardify/`'s external handoff to `tardify.hu` is clearly differentiated from ARTIT's own `/kapcsolat/` CTA (different button, different destination, `rel="noopener"` throughout, no `target="_blank"` surprise); `/kapcsolat/` clearly states what's useful to send and removes the specification barrier before presenting the actual form. No journey was found to promise more than the site currently delivers, and no journey dead-ends before reaching `/kapcsolat/`.
+
 ### What is NOT pixel-locked
 
 The lock above is a language/principle lock, not a pixel freeze. Explicitly implementation-responsive, not immutable: exact pixel coordinates; exact section heights; exact line lengths; exact wrapping at every viewport; exact diagram coordinates outside the System Map's own current implementation; exact spacing values where responsive composition genuinely requires adaptation; the exact number of visual marks a future page uses; future page-specific composition. Changing any of these to fix a real responsive/content problem is not reopening the visual lock.
@@ -639,6 +675,20 @@ Everything in this section locks **meaning and visual behaviour**, not geometry.
 - exact dark-section artwork or content.
 
 (See "What is NOT locked" under "System Map — ARTIT brand asset" above for the equivalent list scoped to the System Map component itself.)
+
+---
+
+## Case-study art direction (Task 016)
+
+Three concepts explored at `src/pages/art-direction/016-case-study-concepts.astro`, using CS01's real, already-written content (`src/content/case-studies/uzemi-rendszer.md`) and both of its real, anonymization-confirmed screenshots — no placeholders, matching this task's own instruction and the established art-direction workflow (Tasks 009A–013A). Each concept rendered Hero → "How it works in practice" (primary screenshot) → "Concrete example" (second screenshot) → Longevity, since screenshot framing and evidence-metadata treatment were the real open question; the remaining sections reuse plain sitewide grammar regardless of which concept won, so they weren't re-explored.
+
+**Concept A — Evidence Dossier.** Dense spec-sheet grammar: `EXHIBIT / 01` mono index labels, screenshots mounted inside a padded, bordered `.panel-technical`-style plate with an in-plate caption, a tonal-background panel for the longevity claim. **Rejected**: too close to a produced technical showcase — DOC/06's own "do not turn either story into a tech-stack showcase" rule reads as a warning against exactly this register, and the padded plate treatment risked competing with `OperatingFitField`'s own spec-sheet visual vocabulary on `/egyedi-fejlesztes/` rather than reading as a distinct page.
+
+**Concept B — Operational Narrative.** Plain editorial long-form: large serif-scale headline, screenshots run full-bleed in the reading column with zero metadata anywhere — no mono labels, no index numbers, no evidence badge. **Rejected**: lost the sitewide evidence-record register entirely (every other production page uses `.meta`/mono index treatment somewhere); read as generic case-study-blog content despite the real screenshots, under-differentiated from a template any company could use, and worked against DOC/06's own framing of case studies as "evidence, not portfolio decoration."
+
+**Concept C — System Record — selected.** Numbered ledger rows (`01`/`02`/`03`, plain mono index, matching `.work-teaser__index`'s existing accent-index treatment) with screenshots in a thin-border-only frame — no padding, no background plate, no caption chrome beyond an optional `<figcaption>`. Chosen as the middle register between A's over-produced density and B's under-differentiated plainness: enough metadata to keep the evidence-record voice consistent with `/munkaink/`'s `work-teaser` device and `/egyedi-fejlesztes/`'s `decision-paths__evidence` device, while the unpadded frame lets each real screenshot read as the artifact itself rather than a decorated exhibit — directly serving DOC/06's "real screenshots already are strong visual/evidence material" principle. Promoted to `foundation.css` as `.case-breadcrumb`/`.case-hero__badge`/`.case-before-after`/`.case-record__row`/`.case-record__label`/`.case-frame`, shared identically by both `CaseStudy01Page.astro` and `CaseStudy02Page.astro` — only section content differs between the two pages, not the grammar.
+
+No new SVG brand-face was added for either case page, confirming rather than reopening DOC/06's own instruction ("do not assume either case needs a decorative SVG brand-face merely because the other four pages each have one") — the real screenshots and the numbered-record typography carry the page's visual identity.
 
 ---
 
@@ -1157,9 +1207,9 @@ Example structure:
 ```text
 CASE / 01
 
-Egy üzleti rendszer,
-amely együtt nőtt
-a vállalkozással.
+Egy üzemi rendszer,
+amely egy évtizede
+teszi a dolgát.
 
 XX+ YEARS
 ACTIVE

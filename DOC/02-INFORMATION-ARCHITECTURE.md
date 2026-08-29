@@ -23,6 +23,8 @@ Later:
 └── tudastar/
 ```
 
+**Bilingual route map (Task 018)**: the tree above is the canonical HU shape; every real route in it now has a live English counterpart under `/en/` with a natural-English slug (not the Hungarian slug reused behind a prefix) — see `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`'s "Task 018 — Bilingual route map" for the full HU↔EN table. The IA/journey structure itself (recognition → understanding → solution → evidence → trust → contact) is identical in both locales; only the URL words differ.
+
 ## Key IA decision
 
 There is no dedicated `/folyamatdigitalizalas/` page in v1.
@@ -126,6 +128,8 @@ Provide deep first-hand evidence.
 Narrative:
 
 problem → context → decision → system → result → long-term evolution.
+
+**Implementation status (Task 016)**: implemented as `/munkaink/uzemi-rendszer/` (Case Study 01) and `/munkaink/erp-integracio/` (Case Study 02) — two static routes, not a dynamic `[case-study]` route (the bracket notation above described the *shape*, not literally a dynamic-route filename; see `03-SITEMAP-AND-PAGE-ARCHITECTURE.md`'s "Case-study canonical route architecture" for the reasoning). See `06-CASE-STUDY-ARCHITECTURE.md` for the full content and evidence basis.
 
 ### `/tardify/`
 

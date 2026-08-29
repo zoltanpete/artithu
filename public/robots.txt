@@ -1,0 +1,28 @@
+# ARTIT.hu — robots.txt (Task 017; EN routes confirmed Task 018)
+#
+# Production HU and EN pages are indexable by default; every production
+# route already carries no <meta name="robots"> tag (see BaseLayout.astro),
+# so no Allow rules are needed for them — this applies unchanged to the
+# `/en/*` routes added in Task 018, since the Disallow rules below are
+# path-prefix rules that never matched anything under `/en/` in the first
+# place (no art-direction/design-foundation route has an EN counterpart —
+# see DOC/03's Task 018 route map). The only routes intentionally excluded
+# from crawling are internal art-direction/dev-only routes — each of those
+# already carries <meta name="robots" content="noindex"> individually (see
+# ExperimentalBanner-using pages under src/pages/art-direction/ and
+# src/pages/design-foundation.astro); the Disallow rules below are a second,
+# independent layer (a crawler that ignores robots meta still won't be
+# directed to spend budget here), not a replacement for the per-page noindex
+# tag — see DOC/13-CONTENT-GAPS-AND-VALIDATION.md's "Task 017" note.
+#
+# No Sitemap: line yet — a sitemap needs an absolute production domain
+# (`site` in astro.config.mjs is intentionally unset until the canonical
+# ARTIT.hu domain is confirmed; see DOC/13 "Organization"). Add it here once
+# the sitemap integration ships — both locales' routes should be included as
+# a single sitemap with <xhtml:link> alternate entries (or two locale-
+# specific sitemaps referenced from one index), matching whichever shape the
+# chosen sitemap integration supports; either is a Task 019 implementation
+# detail, not a schema decision Task 018 needs to lock in.
+User-agent: *
+Disallow: /art-direction/
+Disallow: /design-foundation/

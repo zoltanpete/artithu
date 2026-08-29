@@ -7,62 +7,86 @@
 # already-published homepage Senior/Who and Longevity copy (Task 007),
 # reused verbatim for the identical underlying fact — no exact longevity
 # duration ("10+ év"/"20+ év") appears anywhere, since that remains
-# unverified (DOC/01/DOC/13). `en` is absent everywhere (gated), same
-# policy as every other page.
+# unverified (DOC/01/DOC/13).
+#
+# `en` fields (Task 018): natural-English adaptation, same no-invented-
+# person-identity discipline as the Hungarian. `hero.titleLead`/
+# `titleAccent` split at the same clause boundary as the Hungarian, so the
+# Task 012A two-column Hero grid still receives two real, independently
+# meaningful clauses rather than a string sliced in the template.
 rolunk:
   seo:
     title:
       hu: "ARTIT — Rólunk"
+      en: "ARTIT — About"
     description:
       hu: "Nem kerül más kezébe a probléma menet közben — ugyanaz a tapasztalt fejlesztő viszi végig az első beszélgetéstől az éles rendszerig."
+      en: "The problem doesn't change hands along the way — the same experienced developer carries it through, from the first conversation to the live system."
 
   hero:
     eyebrow:
       hu: "Közvetlen együttműködés"
+      en: "Direct collaboration"
     titleLead:
       hu: "A problémán tapasztalt fejlesztő dolgozik"
+      en: "An experienced developer works on your problem"
     titleAccent:
       hu: "az első beszélgetéstől az éles rendszerig."
+      en: "from the first conversation to the live system."
     lead:
       hu: "Nem kerül más kezébe a probléma menet közben — ugyanaz a tapasztalt fejlesztő viszi végig az első beszélgetéstől az éles rendszerig."
+      en: "The problem doesn't change hands along the way — the same experienced developer carries it through, from the first conversation to the live system."
 
   practice:
     headline:
       hu: "A folytonosság csökkenti a félreértés kockázatát."
+      en: "Continuity reduces the risk of misunderstanding."
     body:
       hu: "Ha ugyanaz az ember vesz részt az első beszélgetésben és a fejlesztésben is, nem kell újra elmagyarázni a kontextust minden lépésnél. A korai döntések és a kompromisszumok mögötti okok nem vesznek el egy belső átadás során."
+      en: "When the same person is involved in both the first conversation and the development itself, the context doesn't need to be re-explained at every step. The reasoning behind early decisions and trade-offs isn't lost in an internal handover."
     links:
       - label:
           hu: "Egyedi fejlesztés →"
+          en: "Custom development →"
         href: /egyedi-fejlesztes/
       - label:
           hu: "Munkáink →"
+          en: "Our work →"
         href: /munkaink/
 
   approach:
     headline:
       hu: "Előbb a működést ismerjük meg, utána a technológiát."
+      en: "We get to know how the business works first. The technology comes after."
     body:
       hu: "Ha a jelenlegi kész szoftver jól támogatja a működést, nincs értelme újraépíteni. Előbb azt érdemes megérteni, hogyan működik ma a vállalkozás — utána dönthető el, milyen szoftverre van ténylegesen szükség."
+      en: "If your current off-the-shelf software supports your operations well, there's no reason to rebuild it. The first step is understanding how the business actually runs today — only then can you decide what software is really needed."
 
   continuity:
     headline:
       hu: "A hosszú táv nálunk nem marketingígéret."
+      en: "Longevity isn't a marketing promise here."
     statement:
       hu: "A technológia eszköz. A működő rendszer a cél."
+      en: "Technology is a tool. A working system is the goal."
     body:
       hu: "Ugyanezt az elvet a saját termékünkön, a Tardifyn is számon kérjük magunkon."
+      en: "We hold ourselves to the same principle on our own product, Tardify."
     tardifyLink:
       label:
         hu: "Tardify →"
+        en: "Tardify →"
       href: /tardify/
 
   finalCta:
     headline:
       hu: "Szeretne közvetlenül azzal beszélni, aki a rendszeren dolgozna?"
+      en: "Want to talk directly to the person who'd actually work on your system?"
     copy:
       hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+      en: "You don't need to arrive with a finished specification. It's enough to describe how things work now, what's causing the problem, and what you'd like to do better."
     cta:
       label:
         hu: "Beszéljünk közvetlenül →"
+        en: "Let's talk directly →"
       href: /kapcsolat/

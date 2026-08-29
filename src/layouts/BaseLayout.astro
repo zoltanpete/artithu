@@ -24,10 +24,37 @@ interface Props {
 	alternates?: Partial<Record<Locale, string>>;
 }
 
-const { title, description, path, ogImage, noindex = false, locale = 'hu', alternates = {} } = Astro.props;
+const { title, description, path, ogImage = '/og-default.png', noindex = false, locale = 'hu', alternates = {} } = Astro.props;
 
 const canonicalURL = Astro.site && path ? new URL(path, Astro.site) : undefined;
 const alternateEntries = Object.entries(alternates) as [Locale, string][];
+
+// Task 018: proper `hreflang` needs a self-referencing entry for the
+// current page too, not just the other locale (a bare "hu → en" link with
+// no "hu → hu" entry is a common, search-engine-flagged mistake) — resolved
+// here once rather than requiring every page to remember it. `x-default`
+// points at the HU version, since HU is the default, unprefixed locale
+// (`astro.config.mjs`); only emitted once a real HU path is known (always
+// true here — `path` is this page's own path, and the HU version either
+// *is* this page or is the one entry `alternates` carries).
+const huPath = locale === 'hu' ? path : alternates.hu;
+const hreflangEntries: [string, string | undefined][] = [
+	[locale, path],
+	...alternateEntries,
+	...(huPath ? ([['x-default', huPath]] as [string, string][]) : []),
+];
+
+// Task 017: every page now gets a real share-preview image by default — one
+// restrained ARTIT card (wordmark + the already-published homepage SEO
+// tagline, see `public/og-default.png`'s own generation note in
+// `DOC/12-ASSET-STRATEGY.md`), not an unset `og:image` sitewide. Resolved to
+// an absolute URL the same way `canonicalURL` is, since `og:image` is only
+// spec-correct as absolute; while `Astro.site` remains unset (the
+// production domain isn't chosen yet — see `13-CONTENT-GAPS-AND-VALIDATION.md`
+// "Organization"), this still emits the best-effort relative path rather
+// than silently omitting the tag, since most real-world crawlers resolve it
+// against the page URL in practice.
+const ogImageURL = Astro.site ? new URL(ogImage, Astro.site) : ogImage;
 ---
 
 <!doctype html>
@@ -39,8 +66,8 @@ const alternateEntries = Object.entries(alternates) as [Locale, string][];
 		<meta name="description" content={description} />
 		{canonicalURL && <link rel="canonical" href={canonicalURL} />}
 		{noindex && <meta name="robots" content="noindex" />}
-		{alternateEntries.map(([altLocale, altPath]) => (
-			<link rel="alternate" hreflang={altLocale} href={Astro.site ? new URL(altPath, Astro.site) : altPath} />
+		{!noindex && hreflangEntries.map(([hreflang, altPath]) => (
+			<link rel="alternate" hreflang={hreflang} href={Astro.site ? new URL(altPath!, Astro.site) : altPath} />
 		))}
 
 		<meta property="og:title" content={title} />
@@ -51,7 +78,8 @@ const alternateEntries = Object.entries(alternates) as [Locale, string][];
 			<meta property="og:locale:alternate" content={OG_LOCALE[altLocale]} />
 		))}
 		{canonicalURL && <meta property="og:url" content={canonicalURL} />}
-		{ogImage && <meta property="og:image" content={ogImage} />}
+		<meta property="og:image" content={ogImageURL} />
+		<meta name="twitter:card" content="summary_large_image" />
 
 		<!-- Work Sans carries almost all page text on a Hungarian-first site, so both
 		     glyph subsets (basic Latin + Latin Extended-A for Ő/ő/Ű/ű) are preloaded.

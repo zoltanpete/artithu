@@ -42,6 +42,27 @@ a {
 	outline-offset: 2px;
 }
 
+/* Task 017 — skip link. Off-canvas until keyboard-focused, then docked at
+   the top-left corner above everything else; every page renders it as the
+   very first focusable element via SiteHeader.astro, targeting each page's
+   own `#main-content` (added to every `<main>`). */
+.skip-link {
+	position: absolute;
+	top: 0;
+	left: 0;
+	transform: translateY(-100%);
+	z-index: 100;
+	background: var(--color-accent);
+	color: #ffffff;
+	padding: var(--space-sm) var(--space-md);
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.skip-link:focus-visible {
+	transform: translateY(0);
+}
+
 @media (prefers-reduced-motion: reduce) {
 	*,
 	*::before,

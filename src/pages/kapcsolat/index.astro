@@ -1,5 +1,6 @@
 ---
 import KapcsolatPage from '../../components/kapcsolat/KapcsolatPage.astro';
+import { enEquivalentOf } from '../../lib/routes';
 ---
 
-<KapcsolatPage locale="hu" />
+<KapcsolatPage locale="hu" alternateLocalePath={enEquivalentOf('/kapcsolat/')} />

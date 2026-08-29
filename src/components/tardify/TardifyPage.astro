@@ -4,7 +4,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
 import TardifySpecimen from './TardifySpecimen.astro';
-import { localize, localizeGated, localePath, type Locale } from '../../lib/i18n';
+import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
+import { translateHref } from '../../lib/routes';
 
 /**
  * Shared renderer for /tardify/ (Task 011; Hero brand-face visual added
@@ -35,7 +36,7 @@ const page = await getEntry('tardifyPage', 'tardify');
 if (!page) throw new Error('Missing required "tardifyPage/tardify" content entry');
 const c = page.data;
 
-const path = localePath(locale, '/tardify/');
+const path = translateHref('/tardify/', locale);
 ---
 
 <BaseLayout
@@ -43,10 +44,11 @@ const path = localePath(locale, '/tardify/');
 	description={localizeGated(c.seo.description, locale) ?? ''}
 	path={path}
 	locale={locale}
+	alternates={alternatesFor(locale, alternateLocalePath)}
 >
 	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
 
-	<main>
+	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero. Copy reuses the exact already-approved, already-published
 		     homepage Tardify copy (Task 004/007) for the identical underlying
 		     positioning fact. Primary CTA points at the product itself, since
@@ -134,7 +136,7 @@ const path = localePath(locale, '/tardify/');
 				<p style="max-width: var(--content-reading); margin-block-start: var(--space-lg);">
 					{localizeGated(c.relationship.body, locale)}
 				</p>
-				<a href={c.relationship.link.href} class="link-standalone" style="margin-block-start: var(--space-lg);">
+				<a href={translateHref(c.relationship.link.href, locale)} class="link-standalone" style="margin-block-start: var(--space-lg);">
 					{localizeGated(c.relationship.link.label, locale)}
 				</a>
 			</Container>
@@ -151,7 +153,7 @@ const path = localePath(locale, '/tardify/');
 				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
 					{localizeGated(c.finalCta.copy, locale)}
 				</p>
-				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+				<a href={translateHref(c.finalCta.cta.href, locale)} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
 					{localizeGated(c.finalCta.cta.label, locale)}
 				</a>
 			</Container>

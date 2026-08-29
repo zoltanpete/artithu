@@ -7,22 +7,35 @@
 # this task introduces. `hero.title`/`hero.lead` are the exact
 # already-published, sitewide-reused friction-reducing sentence (Task 007's
 # finalCta.copy, split into two content-authored fields, same pattern as
-# Rólunk's split Hero headline) — not a new promise. `en` is absent
-# everywhere (gated), same policy as every other page.
+# Rólunk's split Hero headline) — not a new promise.
+#
+# `en` fields (Task 018): the form's own field labels/states already had
+# `en` from Task 013 (technical/functional strings, `localizedText`, not
+# gated marketing copy). This pass fills in the remaining gated marketing
+# fields — Hero, section headlines, the privacy note, the closing statement
+# — with natural-English adaptations. `contact.form.subject` stays a single
+# shared, locale-neutral value (an internal email-subject convenience for
+# the owner, not visitor-facing content) rather than a second localized
+# field — avoids over-engineering a distinction with no real reader.
 kapcsolat:
   seo:
     title:
       hu: "ARTIT — Kapcsolat"
+      en: "ARTIT — Contact"
     description:
       hu: "Nem kell kész specifikációval érkeznie. Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+      en: "You don't need to arrive with a finished specification. It's enough to describe how things work now, what's causing the problem, and what you'd like to do better."
 
   hero:
     eyebrow:
       hu: "Nincs szükség kész specifikációra"
+      en: "No need for a finished specification"
     title:
       hu: "Nem kell kész specifikációval érkeznie."
+      en: "You don't need to arrive with a finished specification."
     lead:
       hu: "Elég, ha elmondja, hogyan működik most, mi okozza a problémát, és mit szeretne jobban csinálni."
+      en: "It's enough to describe how things work now, what's causing the problem, and what you'd like to do better."
 
   # Section 2's own content — also reused by the Hero visual (see
   # KapcsolatPage.astro's header comment for which concept won and why).
@@ -47,16 +60,20 @@ kapcsolat:
   useful:
     headline:
       hu: "Ez segít elindítani a beszélgetést."
+      en: "This helps get the conversation started."
 
   notNeeded:
     headline:
       hu: "Amire még nincs szükség."
+      en: "What you don't need yet."
     body:
       hu: "Nem kell kész specifikáció, kidolgozott technikai megoldás vagy pontosan meghatározott projektkör. Elég, ha a jelenlegi működésről és a problémáról beszélünk — a technológiai döntés ezután következik."
+      en: "You don't need a finished specification, a worked-out technical solution, or a precisely defined project scope. It's enough to talk about how things currently work and what the problem is — the technology decision comes after that."
 
   contact:
     headline:
       hu: "Írjon néhány mondatot a jelenlegi helyzetről."
+      en: "Write a few sentences about your current situation."
     form:
       # Owner-approved (Task 013) Formspree endpoint — a static-site-
       # compatible form backend, no server adapter required. Not a secret
@@ -87,7 +104,9 @@ kapcsolat:
         en: "Something went wrong while sending. Please try again."
     privacyNote:
       hu: "Az üzenetet a Formspree szolgáltatás továbbítja."
+      en: "Your message is delivered through the Formspree service."
 
   closing:
     statement:
       hu: "Nem kell tökéletes leírás — elég az őszinte kép a jelenlegi helyzetről."
+      en: "You don't need a perfect description — an honest picture of the current situation is enough."

@@ -3,7 +3,8 @@ import { getEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
-import { localize, localizeGated, localePath, type Locale } from '../../lib/i18n';
+import { localize, localizeGated, alternatesFor, type Locale } from '../../lib/i18n';
+import { translateHref } from '../../lib/routes';
 
 /**
  * Shared renderer for /kapcsolat/ (Task 013) — same locale-wrapper pattern
@@ -63,7 +64,7 @@ const page = await getEntry('kapcsolatPage', 'kapcsolat');
 if (!page) throw new Error('Missing required "kapcsolatPage/kapcsolat" content entry');
 const c = page.data;
 
-const path = localePath(locale, '/kapcsolat/');
+const path = translateHref('/kapcsolat/', locale);
 
 const form = c.contact.form;
 const nameLabel = localize(form.nameLabel, locale);
@@ -80,10 +81,11 @@ const errorMessage = localize(form.errorMessage, locale);
 	description={localizeGated(c.seo.description, locale) ?? ''}
 	path={path}
 	locale={locale}
+	alternates={alternatesFor(locale, alternateLocalePath)}
 >
 	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
 
-	<main>
+	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero. No CTA button here — the real action is the Section 04
 		     form; a Hero CTA would just be a second, earlier "scroll down"
 		     instruction. "Conversation Field" (Concept A): the four prompts

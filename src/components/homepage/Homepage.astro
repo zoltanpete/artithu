@@ -5,7 +5,8 @@ import Container from '../layout/Container.astro';
 import SiteHeader from '../navigation/SiteHeader.astro';
 import SystemMap from '../system-map/SystemMap.astro';
 import type { SystemMapSource, SystemMapOutput } from '../system-map/SystemMap.astro';
-import { localize, localizeGated, homePath, type Locale } from '../../lib/i18n';
+import { localize, localizeGated, homePath, alternatesFor, type Locale } from '../../lib/i18n';
+import { translateHref } from '../../lib/routes';
 
 /**
  * Shared homepage renderer (Task 007B). One implementation for every
@@ -43,10 +44,11 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 	description={localizeGated(c.seo.description, locale) ?? ''}
 	path={homePath(locale)}
 	locale={locale}
+	alternates={alternatesFor(locale, alternateLocalePath)}
 >
 	<SiteHeader locale={locale} alternateLocalePath={alternateLocalePath} />
 
-	<main>
+	<main id="main-content" tabindex="-1">
 		<!-- 01 — Hero -->
 		<section class="hero-map">
 			<Container width="wide" as="div">
@@ -60,8 +62,8 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 							{localizeGated(c.hero.lead, locale)}
 						</p>
 						<div class="meta-row hero-map__cta">
-							<a href={c.hero.primaryCta.href} class="btn btn-primary">{localizeGated(c.hero.primaryCta.label, locale)}</a>
-							<a href={c.hero.secondaryCta.href} class="link-standalone">{localizeGated(c.hero.secondaryCta.label, locale)}</a>
+							<a href={translateHref(c.hero.primaryCta.href, locale)} class="btn btn-primary">{localizeGated(c.hero.primaryCta.label, locale)}</a>
+							<a href={translateHref(c.hero.secondaryCta.href, locale)} class="link-standalone">{localizeGated(c.hero.secondaryCta.label, locale)}</a>
 						</div>
 					</div>
 
@@ -120,7 +122,7 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 				</p>
 
 				<a
-					href={c.problem.link.href}
+					href={translateHref(c.problem.link.href, locale)}
 					class="link-standalone"
 					style="margin-block-start: var(--space-lg);"
 				>
@@ -163,7 +165,7 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 								{localizeGated(path.description, locale)}
 							</p>
 							<a
-								href={path.link.href}
+								href={translateHref(path.link.href, locale)}
 								class="link-standalone"
 								style="margin-block-start: var(--space-md);"
 							>
@@ -177,13 +179,11 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 
 		<hr class="divider" />
 
-		<!-- 04 — Work. Real case-study facts (customer names, exact years,
-		     screenshots) are not publication-safe yet — see
-		     DOC/13-CONTENT-GAPS-AND-VALIDATION.md — so this section shows only
-		     the documented working titles, with no invented specifics and no
-		     placeholder screenshot standing in for evidence that doesn't exist
-		     yet. All cases link to /munkaink/ (the hub), not a specific
-		     case-study detail page, since none exists yet. -->
+		<!-- 04 — Work. Case-study evidence (real, anonymization-confirmed
+		     screenshots and validated facts — see
+		     DOC/06-CASE-STUDY-ARCHITECTURE.md) now has a canonical detail page
+		     per case (Task 016); each item links directly there when `href` is
+		     set, falling back to the /munkaink/ hub link below otherwise. -->
 		<section class="section work-teaser">
 			<Container width="standard">
 				<p class="eyebrow">{localizeGated(c.work.eyebrow, locale)}</p>
@@ -195,14 +195,20 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 					{c.work.cases.map((item) => (
 						<li class="work-teaser__item panel-technical" data-case={item.id}>
 							<span class="meta work-teaser__index">CASE / {String(item.order).padStart(2, '0')}</span>
-							<p class="work-teaser__title">
-								{localizeGated(item.title, locale)}
-							</p>
+							{item.href ? (
+								<a href={translateHref(item.href, locale)} class="work-teaser__title work-teaser__title--link">
+									{localizeGated(item.title, locale)}
+								</a>
+							) : (
+								<p class="work-teaser__title">
+									{localizeGated(item.title, locale)}
+								</p>
+							)}
 						</li>
 					))}
 				</ol>
 
-				<a href={c.work.cta.href} class="link-standalone" style="margin-block-start: var(--space-lg);">
+				<a href={translateHref(c.work.cta.href, locale)} class="link-standalone" style="margin-block-start: var(--space-lg);">
 					{localizeGated(c.work.cta.label, locale)}
 				</a>
 			</Container>
@@ -300,7 +306,7 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 				<h2 style="margin-block-start: var(--space-sm); max-width: var(--content-reading);">
 					{localizeGated(c.seniorWho.headline, locale)}
 				</h2>
-				<a href={c.seniorWho.cta.href} class="link-standalone" style="margin-block-start: var(--space-lg);">
+				<a href={translateHref(c.seniorWho.cta.href, locale)} class="link-standalone" style="margin-block-start: var(--space-lg);">
 					{localizeGated(c.seniorWho.cta.label, locale)}
 				</a>
 			</Container>
@@ -317,7 +323,7 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 				<p class="lead" style="max-width: var(--content-reading); margin-block-start: var(--space-md);">
 					{localizeGated(c.finalCta.copy, locale)}
 				</p>
-				<a href={c.finalCta.cta.href} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
+				<a href={translateHref(c.finalCta.cta.href, locale)} class="btn btn-primary" style="margin-block-start: var(--space-xl);">
 					{localizeGated(c.finalCta.cta.label, locale)}
 				</a>
 			</Container>

@@ -2,29 +2,6 @@ import { defineCollection } from 'astro:content';
 import { glob, file } from 'astro/loaders';
 import { z } from 'astro/zod';
 
-const caseStudies = defineCollection({
-	loader: glob({ pattern: '**/*.md', base: './src/content/case-studies' }),
-	schema: ({ image }) =>
-		z.object({
-			title: z.string(),
-			summary: z.string(),
-			industry: z.string().optional(),
-			companySize: z.string().optional(),
-			status: z.string().optional(),
-			lifecycle: z.string().optional(),
-			featured: z.boolean().default(false),
-			services: z.array(z.string()).default([]),
-			heroImage: image().optional(),
-			seo: z
-				.object({
-					title: z.string().optional(),
-					description: z.string().optional(),
-					noindex: z.boolean().default(false),
-				})
-				.optional(),
-		}),
-});
-
 // --- Localization primitives (Task 007B) ------------------------------------
 // See DOC/09-TECHNICAL-ARCHITECTURE.md "Localization" and src/lib/i18n.ts.
 //
@@ -42,6 +19,96 @@ const localizedText = () => z.object({ hu: z.string(), en: z.string() });
 const localizedGated = () => z.object({ hu: z.string(), en: z.string().optional() });
 
 const ctaGated = () => z.object({ label: localizedGated(), href: z.string() });
+
+// `caseStudies` (Task 003, schema extended Task 016) — the canonical
+// `/munkaink/[case-study]/` detail-page content, one Markdown entry per case.
+// Kept as the existing `glob()` collection rather than folded into a new
+// page-type collection, per DOC/09-TECHNICAL-ARCHITECTURE.md's Task 015
+// planning note: this genuinely is multiple *entries within one page type*
+// (unlike `pages`/`customDevPage`/etc., which each model one distinct page),
+// so one shared schema across CS01/CS02 entries is the right shape — not a
+// parallel collection per case.
+//
+// `caseId` is the stable cross-page linking key already used in
+// home/munkaink/egyedi-fejlesztes content YAML (`case-01`/`case-02`); `slug`
+// is the separate, descriptive-Hungarian-word URL segment — the two are
+// deliberately different fields because the site's own routing convention
+// (every route is a descriptive word, never a technical id) rules out
+// reusing `caseId` directly in the URL (see DOC/03's "Case-study canonical
+// route architecture" note).
+//
+// `sections` mirrors DOC/06-CASE-STUDY-ARCHITECTURE.md's "shared structure"
+// vocabulary (hero → starting situation → why packaged software was not
+// enough → solution logic → how it works in practice → integrations →
+// business result → long term → what we learned → CTA), but every section
+// past `hero` is optional: DOC/06's own "Proposed content architecture"
+// deliberately sequences and weights CS01 and CS02 differently (e.g. CS01
+// omits "why not enough"/"integrations" as too thin; CS02 gives
+// "integrations" real weight) — one schema, two genuinely different real
+// entries, not a forced-identical template. `screenshotId` on a section
+// cross-references `screenshots[].id` rather than duplicating image data.
+//
+// No `heroImage` (single-image) field — the old Task 003 placeholder shape —
+// since DOC/06's screenshot-placement strategy calls for a per-case array,
+// now `screenshots[]`. Fields with no confirmed real content yet (`industry`
+// unconfirmed for CS02, `companySize` gated, `featured`/`services` with no
+// current consumer) are deliberately omitted rather than carried forward
+// speculatively — see Task 016's own "do not over-generalize" instruction.
+const caseStudySectionCore = () => z.object({ headline: localizedGated(), body: localizedGated(), screenshotId: z.string().optional() });
+
+const caseStudies = defineCollection({
+	loader: glob({ pattern: '**/*.md', base: './src/content/case-studies' }),
+	schema: ({ image }) =>
+		z.object({
+			caseId: z.string(),
+			slug: z.string(),
+			title: localizedGated(),
+			// The one-sentence editorial-essence statement from DOC/06's "Case
+			// Study 01 vs. 02 — editorial distinction" — the thesis the Hero
+			// states directly, not a generic "meet our client" opener.
+			essence: localizedGated(),
+			summary: localizedGated(),
+			// A restrained, verified-duration badge (DOC/12-ASSET-STRATEGY.md's
+			// "Legacy screenshots" rule: "IN USE / [verified duration]", not a
+			// placeholder-style status label) — optional since the exact
+			// wording is a per-case editorial decision, not every case needs one.
+			evidenceBadge: localizedGated().optional(),
+			screenshots: z
+				.array(
+					z.object({
+						id: z.string(),
+						image: image(),
+						alt: localizedText(),
+						caption: localizedGated().optional(),
+					}),
+				)
+				.default([]),
+			sections: z.object({
+				hero: z.object({ eyebrow: localizedGated().optional(), statement: localizedGated() }),
+				startingSituation: caseStudySectionCore().optional(),
+				whyNotEnough: caseStudySectionCore().optional(),
+				solutionLogic: caseStudySectionCore().optional(),
+				practice: caseStudySectionCore().optional(),
+				concreteExample: z
+					.object({ headline: localizedGated(), before: localizedGated(), after: localizedGated(), screenshotId: z.string().optional() })
+					.optional(),
+				integrations: caseStudySectionCore().optional(),
+				businessResult: caseStudySectionCore().optional(),
+				longTerm: caseStudySectionCore().optional(),
+				learned: caseStudySectionCore().optional(),
+			}),
+			// Canonical page → supporting service route (DOC/03's "Cross-link
+			// direction"): which `/egyedi-fejlesztes/...` direction this case
+			// belongs to.
+			directionLink: ctaGated(),
+			finalCta: z.object({ headline: localizedGated(), copy: localizedGated(), cta: ctaGated() }),
+			seo: z.object({
+				title: localizedGated(),
+				description: localizedGated(),
+				noindex: z.boolean().default(false),
+			}),
+		}),
+});
 
 const systemMapNodeIcon = z.enum(['table', 'mail', 'system', 'manual', 'api', 'dots', 'check', 'document']);
 
@@ -103,7 +170,19 @@ const homeSchema = z.object({
 	work: z.object({
 		eyebrow: localizedGated(),
 		headline: localizedGated(),
-		cases: z.array(z.object({ id: z.string(), order: z.number().int().positive(), title: localizedGated() })).min(1),
+		cases: z
+			.array(
+				z.object({
+					id: z.string(),
+					order: z.number().int().positive(),
+					title: localizedGated(),
+					// Canonical case-detail route (Task 016). Optional: a case may be
+					// listed here before its own detail page exists — see the
+					// homepage Work section's own header comment.
+					href: z.string().optional(),
+				}),
+			)
+			.min(1),
 		cta: ctaGated(),
 	}),
 	longevity: z.object({
@@ -210,6 +289,9 @@ const customDevPageSchema = z.object({
 						caseId: z.string(),
 						order: z.number().int().positive(),
 						title: localizedGated(),
+						// Canonical case-detail route (Task 016) — same optional-href
+						// reasoning as `munkainkPage.cases[].href`.
+						href: z.string().optional(),
 					}),
 				}),
 			)
@@ -272,6 +354,11 @@ const munkainkPageSchema = z.object({
 				id: z.string(),
 				order: z.number().int().positive(),
 				title: localizedGated(),
+				// Canonical case-detail route (Task 016), separate from `direction`
+				// below (the supporting service route) — DOC/03's two distinct
+				// cross-link directions. Optional for the same reason as the
+				// homepage's own `work.cases[].href`.
+				href: z.string().optional(),
 				direction: z.object({ label: localizedGated(), href: z.string() }),
 			}),
 		)
