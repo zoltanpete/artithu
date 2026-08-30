@@ -52,7 +52,8 @@ const hreflangEntries: [string, string | undefined][] = [
 // relative path only still matters for local `astro dev`/`preview`, where
 // `Astro.site` is set but a request may still hit a non-canonical host —
 // the production build always has `Astro.site` available since Task 019
-// wired `site: 'https://artit.hu'` in `astro.config.mjs`).
+// wired `site` in `astro.config.mjs`, currently `https://www.artit.hu` —
+// see that file's own comment for why `www`, not the bare domain).
 const ogImageURL = Astro.site ? new URL(ogImage, Astro.site) : ogImage;
 ---
 

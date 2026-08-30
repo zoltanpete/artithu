@@ -82,6 +82,22 @@ const NODE_HIGHLIGHT_LABEL: Record<Locale, (label: string) => string> = {
 };
 const nodeHighlightLabel = NODE_HIGHLIGHT_LABEL[locale];
 
+/**
+ * The legend's three route-type labels — hardcoded Hungarian literals until
+ * now (a real gap: every other user-facing string in this component already
+ * arrives via a prop or `NODE_HIGHLIGHT_LABEL`'s own locale map, but these
+ * three were written directly into the markup back when only a HU render
+ * existed and were never revisited once `/en/` shipped). Same "tiny
+ * internal map, not a prop per string" pattern as `NODE_HIGHLIGHT_LABEL`
+ * above, for the identical reason: short, categorical, technical-diagram
+ * vocabulary, not content a page author should be templating per call site.
+ */
+const LEGEND_LABEL: Record<Locale, { primary: string; secondary: string; exception: string }> = {
+	hu: { primary: 'PRIMER ÚTVONAL', secondary: 'SZEKUNDER ÚTVONAL', exception: 'KIVÉTEL / ALTERNATÍV' },
+	en: { primary: 'PRIMARY PATH', secondary: 'SECONDARY PATH', exception: 'EXCEPTION / ALTERNATIVE' },
+};
+const legendLabel = LEGEND_LABEL[locale];
+
 // --- Desktop geometry (viewBox 0 0 970 600) ------------------------------
 // CORE_CX/CORE_CY/VIEWBOX_H are the exact verified A4.3.3 constants, kept
 // fixed rather than derived — an earlier draft computed CORE_CY from
@@ -433,15 +449,15 @@ const uid = id;
 			<div class="system-map__legend">
 				<span class="system-map__legend-item">
 					<svg class="system-map__legend-swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="system-map__legend-stroke system-map__legend-stroke--primary" /></svg>
-					PRIMER ÚTVONAL
+					{legendLabel.primary}
 				</span>
 				<span class="system-map__legend-item">
 					<svg class="system-map__legend-swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="system-map__legend-stroke system-map__legend-stroke--secondary" /></svg>
-					SZEKUNDER ÚTVONAL
+					{legendLabel.secondary}
 				</span>
 				<span class="system-map__legend-item">
 					<svg class="system-map__legend-swatch" width="26" height="6" viewBox="0 0 26 6" aria-hidden="true"><line x1="1" y1="3" x2="25" y2="3" class="system-map__legend-stroke system-map__legend-stroke--exception" /></svg>
-					KIVÉTEL / ALTERNATÍV
+					{legendLabel.exception}
 				</span>
 			</div>
 			{(caption || captionSub) && (

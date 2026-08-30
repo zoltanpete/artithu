@@ -25,6 +25,17 @@ const page = await getEntry('pages', 'home');
 if (!page) throw new Error('Missing required "pages/home" content entry');
 const c = page.data;
 
+// Post-launch fix: the Problem section's "JEL / 0X" diagnostic-signal index
+// label was a hardcoded Hungarian literal (a real gap — every other
+// user-facing string on this page already comes from `c` via
+// `localize()`/`localizeGated()`, but this one was written directly into
+// the template back when only a HU render existed). Same "tiny internal
+// map, not a new content field" treatment as `SystemMap.astro`'s own
+// `NODE_HIGHLIGHT_LABEL`/`LEGEND_LABEL` — short, categorical, technical-
+// diagram vocabulary, not marketing prose that belongs in `content.yaml`.
+const SIGNAL_LABEL: Record<Locale, string> = { hu: 'JEL', en: 'SIGNAL' };
+const signalLabel = SIGNAL_LABEL[locale];
+
 // Task 019 §28 — minimal, factual `Organization` JSON-LD, homepage only
 // (the canonical entity-defining page, not repeated sitewide). Every
 // property is a verified owner-supplied fact (see
@@ -123,7 +134,7 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 					<div class="problem-signals__dense surface--tonal">
 						{c.problem.signals.slice(0, 4).map((signal, i) => (
 							<p class="problem-signals__item" data-signal={signal.id}>
-								<span class="meta problem-signals__index">JEL / {String(i + 1).padStart(2, '0')}</span>
+								<span class="meta problem-signals__index">{signalLabel} / {String(i + 1).padStart(2, '0')}</span>
 								{localizeGated(signal.quote, locale)}
 							</p>
 						))}
@@ -131,7 +142,7 @@ const heroOutputs: [SystemMapOutput, SystemMapOutput] = [
 					<div class="problem-signals__open">
 						{c.problem.signals.slice(4).map((signal, i) => (
 							<p class="problem-signals__item" data-signal={signal.id}>
-								<span class="meta problem-signals__index">JEL / {String(i + 5).padStart(2, '0')}</span>
+								<span class="meta problem-signals__index">{signalLabel} / {String(i + 5).padStart(2, '0')}</span>
 								{localizeGated(signal.quote, locale)}
 							</p>
 						))}

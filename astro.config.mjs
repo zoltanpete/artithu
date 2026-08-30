@@ -2,14 +2,19 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
-// Production domain (Task 019) — owner-confirmed canonical origin. Every
-// canonical/hreflang/OG/JSON-LD URL in `BaseLayout.astro` and the two
-// case-study pages was already built (Task 017/018) to resolve through this
-// one `Astro.site` value via `new URL(path, Astro.site)`, so wiring it here
-// is the only change needed to turn every one of those from a relative path
-// into a correct absolute production URL — see DOC/09-TECHNICAL-ARCHITECTURE.md
-// "Localization"/"Task 019" for the full before/after verification.
-const site = 'https://artit.hu';
+// Production domain (Task 019; corrected post-deployment). Originally wired
+// as `https://artit.hu`, but the live FORPSI host redirects that origin to
+// `https://www.artit.hu` — the actual canonical host, confirmed after
+// deployment. A `site` value that redirects elsewhere would make every
+// canonical/hreflang/OG/JSON-LD/sitemap URL on the site point at a
+// non-canonical, redirecting origin, which is exactly the outcome those
+// tags exist to prevent — so `site` now matches the host that actually
+// serves the content. Every one of those URL kinds resolves through this
+// one `Astro.site` value via `new URL(path, Astro.site)` (see
+// `BaseLayout.astro` and the two case-study pages), so changing it here is
+// the only change needed — see DOC/09-TECHNICAL-ARCHITECTURE.md
+// "Localization"/"Task 019" for the full verification.
+const site = 'https://www.artit.hu';
 
 export default defineConfig({
 	site,

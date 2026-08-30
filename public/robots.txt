@@ -15,14 +15,17 @@
 # directed to spend budget here), not a replacement for the per-page noindex
 # tag — see DOC/13-CONTENT-GAPS-AND-VALIDATION.md's "Task 017" note.
 #
-# Sitemap (Task 019) — `@astrojs/sitemap`, the standard Astro-supported
-# integration (see `astro.config.mjs`), generated at build time from the
-# now-wired `site: 'https://artit.hu'`. Its own `filter` option excludes the
-# same internal routes the Disallow rules below target, kept as one
+# Sitemap (Task 019; host corrected post-deployment) — `@astrojs/sitemap`,
+# the standard Astro-supported integration (see `astro.config.mjs`),
+# generated at build time from the wired `site`. The live FORPSI host
+# redirects `artit.hu` to `www.artit.hu`, so `site` (and the URL below) use
+# the `www` host that actually serves the content, not the one that
+# redirects away from it. The integration's own `filter` option excludes
+# the same internal routes the Disallow rules below target, kept as one
 # consistent list rather than two independently-maintained ones — see that
 # config's own comment.
 User-agent: *
 Disallow: /art-direction/
 Disallow: /design-foundation/
 
-Sitemap: https://artit.hu/sitemap-index.xml
+Sitemap: https://www.artit.hu/sitemap-index.xml
